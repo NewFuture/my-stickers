@@ -1,0 +1,43 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://3640d9d7.ngrok.io/web/",
+  "proxy": "http://localhost:3007/",
+  "dependencies": {
+    "@microsoft/teams-js": "^1.5.2",
+    "@stardust-ui/react": "^0.40.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-intl": "^3.4.0",
+    "typescript": "3.6.4"
+  },
+  "devDependencies": {
+    "@types/jest": "24.0.20",
+    "@types/node": "12.11.7",
+    "@types/react": "16.9.11",
+    "@types/react-dom": "16.9.3",
+    "react-scripts": "^3.2.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

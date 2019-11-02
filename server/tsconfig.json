@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "moduleResolution": "node",
+        "jsx": "react",
+        "noImplicitAny": false,
+        "strictNullChecks": true,
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "resolveJsonModule": true,
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

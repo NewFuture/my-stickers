@@ -1,0 +1,14 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.Localization.schema.json",
+  "name.short": "表情",
+  "name.full": "自定义表情包",
+  "description.short": "收藏和管理自定义表情",
+  "description.full": "你可以收藏和管理自定义表情",
+  "composeExtensions[0].commands[0].title": "我的收藏",
+  "composeExtensions[0].commands[0].description": "我收藏的所有表情包",
+  "composeExtensions[0].commands[0].parameters[0].title": "搜索",
+  "composeExtensions[0].commands[0].parameters[0].description": "选择表情包",
+  "composeExtensions[0].commands[1].title": "收藏表情",
+  "composeExtensions[0].commands[1].description": "收藏消息中的图片作为表情",
+  "composeExtensions[0].commands[1].taskInfo.title": "正在保存图片"
+}

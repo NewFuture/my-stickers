@@ -1,0 +1,88 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
+  "id": "46fae4d0-faf5-11e9-80f3-53ad33b77bce",
+  "version": "0.0.1",
+  "packageName": "stickers",
+  "developer": {
+    "name": "New Future",
+    "websiteUrl": "https://newfuture.cc",
+    "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
+    "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
+  },
+  "name": {
+    "short": "Sticker",
+    "full": "Custom Stickers"
+  },
+  "description": {
+    "short": "Add Custom Stickers in Teams ❤",
+    "full": "Add custom stickers to teams. so you can upload ,collect and send your stickers in teams chat."
+  },
+  "icons": {
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
+  },
+  "accentColor": "#FFFFFF",
+  "configurableTabs": [],
+  "bots": [],
+  "composeExtensions": [
+    {
+      "botId": "963a3218-68a8-4a64-bd82-988a02788cfb",
+      "canUpdateConfiguration": true,
+      "commands": [
+        {
+          "id": "mycollection",
+          "title": "my collections",
+          "description": "Add a clever description here",
+          "initialRun": true,
+          "parameters": [
+            {
+              "name": "query",
+              "description": "filter by name",
+              "title": "search"
+            }
+          ],
+          "type": "query",
+          "context": [
+            "compose"
+          ]
+        },
+        {
+          "id": "collect",
+          "description": "收藏消息中的图片表情",
+          "title": "收藏表情",
+          "type": "action",
+          "fetchTask": true,
+          "context": [
+            "message"
+          ],
+          "taskInfo": {
+            "title": "正在保存图片",
+            "height": "small",
+            "width": "small",
+            "url": "https://{{HOSTNAME}}/collect"
+          }
+        }
+      ]
+    }
+  ],
+  "permissions": [
+    "identity"
+  ],
+  "validDomains": [
+    "{{HOSTNAME}}"
+  ],
+  "localizationInfo": {
+    "defaultLanguageTag": "en-us",
+    "additionalLanguages": [
+      {
+        "languageTag": "zh-cn",
+        "file": "zh-cn.json"
+      },
+      {
+        "languageTag": "zh",
+        "file": "zh-cn.json"
+      }
+    ]
+  }
+}
