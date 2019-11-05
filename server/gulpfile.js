@@ -26,9 +26,6 @@ const zip = require('gulp-zip'),
     del = require('del');
 
 
-// Web Servers
-const ngrok = require('ngrok');
-
 // load references
 const
     nodemon = require('nodemon'),
@@ -77,9 +74,13 @@ task('nodemon', (callback) => {
     var started = false;
     var debug = argv.debug !== undefined;
 
+    console.log(debug,process.env.NODE_ENV)
     return nodemon({
         script: 'dist/index.js',
         watch: ['dist/index.js'],
+        env: {
+            "NODE_ENV": debug ? "development" : "production"
+        },
         nodeArgs: debug ? ['--inspect'] : []
     }).on('start', function () {
         if (!started) {
@@ -235,7 +236,7 @@ task('start-ngrok', (cb) => {
     };
 
 
-    ngrok.connect(conf).then((url) => {
+    require('ngrok').connect(conf).then((url) => {
         log('[NGROK] Url: ' + url);
         if (!conf.authtoken) {
             log("[NGROK] You have been assigned a random ngrok URL that will only be available for this session. You wil need to re-upload the Teams manifest next time you run this command.");
@@ -275,4 +276,4 @@ task('build', parallel('webpack', 'manifest'));
 
 task('serve', series('nuke', 'build', 'nodemon', 'watch'));
 
-task('ngrok-serve', series('start-ngrok', 'manifest', 'serve'));
+// task('ngrok-serve', series('start-ngrok', 'manifest', 'serve'));

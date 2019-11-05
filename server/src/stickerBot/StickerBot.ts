@@ -1,23 +1,22 @@
+import * as debug from "debug";
 import { BotDeclaration, MessageExtensionDeclaration, IBot } from "express-msteams-host";
 import { TurnContext, MemoryStorage, ConversationState } from "botbuilder";
 import MyCollectionComposeExtension from "../messageExtension/MyCollection";
 import { TeamsActivityProcessor } from "botbuilder-teams";
 import CollectMessageExtension from "../messageExtension/Collect";
-import * as debug from "debug";
 import { Config } from "../config";
 
 // Initialize debug logging module
-const log = debug("msteams");
+const log = debug("StickerBot");
 
 /**
  * Implementation for mycollection Bot
  */
 @BotDeclaration(
-    "/api/messages",
+    Config.BOT_API_ENDPONT,
     new MemoryStorage(),
     Config.MICROSOFT_APP_ID,
     Config.MICROSOFT_APP_PASSWORD)
-
 export class StickerBot implements IBot {
     private readonly conversationState: ConversationState;
     /**
@@ -48,7 +47,7 @@ export class StickerBot implements IBot {
      * which is configured in the constructor of this sample
      */
     public async onTurn(context: TurnContext): Promise<any> {
-        log("onTurn", context.activity.action);
+        log("onTurn", context);
         // transfer the activity to the TeamsActivityProcessor
         await this.activityProc.processIncomingActivity(context);
     }
