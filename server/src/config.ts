@@ -3,9 +3,10 @@
  */
 export const Config = {
     PORT: process.env.PORT || process.env.port || 3007,
+
     HOSTNAME: process.env.HOSTNAME,
-    STATIC_SITE: process.env.STATIC_SITE,
-    CONFIG_PATH: process.env.CONFIG_PATH,
+    WEB_HOST: process.env.WEB_HOST,
+    WEB_CONFIG_PATH: process.env.WEB_CONFIG_PATH,
 
     TOKEN_ENCRYPT_KEY: process.env.TOKEN_ENCRYPT_KEY,
 
