@@ -1,7 +1,21 @@
-import { TurnContext } from "botbuilder";
+/**
+ * 配置
+ */
+export const Config = {
+    PORT: process.env.PORT || process.env.port || 3007,
+    HOSTNAME: process.env.HOSTNAME,
+    STATIC_SITE: process.env.STATIC_SITE,
+    CONFIG_PATH: process.env.CONFIG_PATH,
 
-const ConfigURL = `https://${process.env.HOSTNAME}/index.html`;
+    TOKEN_ENCRYPT_KEY: process.env.TOKEN_ENCRYPT_KEY,
 
-export function getConfigUrl(context: TurnContext) {
-    return `${ConfigURL}?token=${context.activity.from.id}`;
-}
+    MICROSOFT_APP_ID: process.env.MICROSOFT_APP_ID,
+    MICROSOFT_APP_PASSWORD: process.env.MICROSOFT_APP_PASSWORD,
+
+    AZURE_STORAGE_ACCOUNT_NAME: process.env.AZURE_STORAGE_ACCOUNT_NAME,
+    AZURE_STORAGE_ACCOUNT_ACCESS_KEY: process.env.AZURE_STORAGE_ACCOUNT_ACCESS_KEY,
+    AZURE_STORAGE_CDN: process.env.AZURE_STORAGE_CDN,
+    AZURE_STORAGE_CONTAINER: process.env.AZURE_STORAGE_CONTAINER || "stickers",
+
+    APPINSIGHTS_INSTRUMENTATIONKEY: process.env.APPINSIGHTS_INSTRUMENTATIONKEY,
+} as const;

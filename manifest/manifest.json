@@ -6,9 +6,9 @@
   "packageName": "stickers",
   "developer": {
     "name": "New Future",
-    "websiteUrl": "https://newfuture.cc",
-    "privacyUrl": "https://{{HOSTNAME}}/privacy.html",
-    "termsOfUseUrl": "https://{{HOSTNAME}}/tou.html"
+    "websiteUrl": "https://{{STATIC_SITE}}",
+    "privacyUrl": "https://{{STATIC_SITE}}/privacy.html",
+    "termsOfUseUrl": "https://{{STATIC_SITE}}/tou.html"
   },
   "name": {
     "short": "Sticker",
@@ -70,7 +70,9 @@
     "identity"
   ],
   "validDomains": [
-    "{{HOSTNAME}}"
+    "{{STATIC_SITE}}",
+    "{{HOSTNAME}}",
+    "{{AZURE_STORAGE_CDN}}"
   ],
   "localizationInfo": {
     "defaultLanguageTag": "en-us",

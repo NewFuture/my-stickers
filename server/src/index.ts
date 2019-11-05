@@ -7,6 +7,7 @@ import * as Express from "express";
 import { MsTeamsApiRouter } from "express-msteams-host";
 import router from "./router";
 import * as allComponents from "./TeamsAppsComponents";
+import { Config } from "./config";
 
 // import * as appInsights from "applicationinsights";
 
@@ -69,7 +70,7 @@ express.get("/ping", (res, req, next) => {
 });
 
 // Set the port
-const port = process.env.port || process.env.PORT || 3007;
+const port = Config.PORT;
 express.set("port", port);
 
 // Start the webserver

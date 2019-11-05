@@ -4,6 +4,7 @@ import MyCollectionComposeExtension from "../messageExtension/MyCollection";
 import { TeamsActivityProcessor } from "botbuilder-teams";
 import CollectMessageExtension from "../messageExtension/Collect";
 import * as debug from "debug";
+import { Config } from "../config";
 
 // Initialize debug logging module
 const log = debug("msteams");
@@ -14,8 +15,8 @@ const log = debug("msteams");
 @BotDeclaration(
     "/api/messages",
     new MemoryStorage(),
-    process.env.MICROSOFT_APP_ID,
-    process.env.MICROSOFT_APP_PASSWORD)
+    Config.MICROSOFT_APP_ID,
+    Config.MICROSOFT_APP_PASSWORD)
 
 export class StickerBot implements IBot {
     private readonly conversationState: ConversationState;

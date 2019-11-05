@@ -1,11 +1,10 @@
 import * as debug from "debug";
-import { PreventIframe } from "express-msteams-host";
 import { TurnContext, CardFactory } from "botbuilder";
 import { MessagingExtensionQuery, MessagingExtensionResult, MessagingExtensionAttachment, MessagingExtensionSuggestedAction } from "botbuilder-teams";
 import { IMessagingExtensionMiddlewareProcessor } from "botbuilder-teams-messagingextensions";
 import { Sticker, getUserStickers } from "../services/sticker";
-import { getConfigUrl } from "../config";
 import { getUserId } from "../util";
+import { getConfigUrl } from "./getConfigUrl";
 
 // Initialize debug logging module
 const log = debug("msteams");
