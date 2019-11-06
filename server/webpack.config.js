@@ -76,12 +76,12 @@ fs.readdirSync('./node_modules')
 
 
 module.exports = {
-    entry: './src/index.ts',
+    entry: './src/app.ts',
     target: 'node',
     watch: !isProd,
     mode: isProd ? 'production' : 'development',
     output: {
-        filename: 'index.js',
+        filename: 'app.js',
         path: path.resolve(__dirname, './dist')
     },
     devtool: 'source-map',

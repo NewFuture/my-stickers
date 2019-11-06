@@ -76,8 +76,8 @@ task('nodemon', (callback) => {
 
     console.log(debug,process.env.NODE_ENV)
     return nodemon({
-        script: 'dist/index.js',
-        watch: ['dist/index.js'],
+        script: 'dist/app.js',
+        watch: ['dist/app.js'],
         env: {
             "NODE_ENV": debug ? "development" : "production"
         },

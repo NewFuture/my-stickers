@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import * as debug from "debug";
 
-import { Strings } from "../locale";
+import { Locale } from "../config";
 
 const log = debug("router:ping");
 
@@ -13,6 +13,6 @@ const log = debug("router:ping");
  */
 export function pingHandler(req: Request, res: Response, next?: any) {
     log("called", req.query);
-    res.status(200).send(res.__(Strings.pong)).end();
+    res.status(200).send(res.__(Locale.pong)).end();
     next && next();
 }

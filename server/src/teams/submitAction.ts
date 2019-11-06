@@ -1,6 +1,6 @@
 import * as debug from "debug";
 import { TurnContext, MessagingExtensionResult, TaskModuleRequest } from "botbuilder";
-import { Strings } from "../locale";
+import { Locale } from "../config/";
 
 const log = debug("onSubmit");
 /**

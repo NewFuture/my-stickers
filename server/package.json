@@ -5,7 +5,7 @@
   "license": "MS-PL",
   "private": true,
   "scripts": {
-    "start": "node dist/server.js",
+    "start": "node dist/app.js",
     "build": "gulp build",
     "debug": "gulp serve --debug",
     "webpack": "webpack --config server/webpack.config.js",

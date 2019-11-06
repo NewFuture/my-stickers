@@ -1,7 +1,7 @@
 /**
  * 配置
  */
-export const Config = {
+export const ENV = {
     PORT: process.env.PORT || process.env.port || 3007,
 
     HOSTNAME: process.env.HOSTNAME,

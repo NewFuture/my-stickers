@@ -3,7 +3,7 @@ import * as debug from "debug";
 import * as Express from "express";
 // import * as appInsights from "applicationinsights";
 
-import { Config } from "./config";
+import { ENV } from "./config";
 import { i18nMiddleware } from "./middleware/i18n";
 
 import { apiRouter, botRouter, pong } from "./router";
@@ -34,12 +34,12 @@ express.use(Express.urlencoded({ extended: true }));
 express.use(i18nMiddleware);
 
 // routing
-express.use(Config.BOT_API_ENDPONT, botRouter);
+express.use(ENV.BOT_API_ENDPONT, botRouter);
 express.use("/api", apiRouter);
 express.get("/ping", pong);
 
 // Set the port
-const port = Config.PORT;
+const port = ENV.PORT;
 express.set("port", port);
 // Start the webserver
 http.createServer(express).listen(port, () => {

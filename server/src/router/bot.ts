@@ -3,15 +3,15 @@ import * as debug from "debug";
 import { Router } from "express";
 import { BotFrameworkAdapter, MessagingExtensionActionResponse } from "botbuilder";
 
-import { Config } from "../config";
+import { ENV } from "../config";
 import { querySettingsUrl, submitAction, queryMyCollection, fetchTaskCollect } from "../teams";
 
 const log = debug("router:bot");
 const botRouter = Router();
 
 const adapter = new BotFrameworkAdapter({
-    appId: Config.MICROSOFT_APP_ID,
-    appPassword: Config.MICROSOFT_APP_PASSWORD,
+    appId: ENV.MICROSOFT_APP_ID,
+    appPassword: ENV.MICROSOFT_APP_PASSWORD,
 });
 
 // generic error handler

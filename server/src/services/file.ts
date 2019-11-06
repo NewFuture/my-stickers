@@ -1,10 +1,10 @@
 import * as azure from "azure-storage";
 import * as uuid from "uuid/v5";
 import { Base64 } from "js-base64";
-import { Config } from "../config";
+import { ENV } from "../config";
 
 
-const blobService = azure.createBlobService(Config.AZURE_STORAGE_ACCOUNT_NAME!, Config.AZURE_STORAGE_ACCOUNT_ACCESS_KEY!);
+const blobService = azure.createBlobService(ENV.AZURE_STORAGE_ACCOUNT_NAME!, ENV.AZURE_STORAGE_ACCOUNT_ACCESS_KEY!);
 
 export interface SasInfo {
     id: string;
@@ -30,7 +30,7 @@ export function getSasToken(name: string, ext: string): SasInfo {
 
     const id: string = uuid(name, uuid.URL);
     const fileName = `${name}/${id}.${ext}`;
-    const token = blobService.generateSharedAccessSignature(Config.AZURE_STORAGE_CONTAINER, fileName, sharedAccessPolicy);
-    const url = blobService.getUrl(Config.AZURE_STORAGE_CONTAINER, fileName, token, true);
+    const token = blobService.generateSharedAccessSignature(ENV.AZURE_STORAGE_CONTAINER, fileName, sharedAccessPolicy);
+    const url = blobService.getUrl(ENV.AZURE_STORAGE_CONTAINER, fileName, token, true);
     return { token, url, id, base64: Base64.encode(id) };
 }

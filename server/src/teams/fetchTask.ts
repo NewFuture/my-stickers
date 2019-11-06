@@ -2,7 +2,7 @@ import * as debug from "debug";
 import { TurnContext, CardFactory, CardImage, MessagingExtensionAttachment, TaskModuleResponse, MessagingExtensionAction, MessageActionsPayloadAttachment, TaskModuleContinueResponse } from "botbuilder";
 import { addUserStickers } from "../services/sticker";
 import { getUserId } from "../util";
-import { Strings } from "../locale";
+import { Locale } from "../config/";
 
 // Initialize debug logging module
 const log = debug("collect");
@@ -81,7 +81,7 @@ export async function fetchTaskCollect(context: TurnContext, value: MessagingExt
     const result: TaskModuleContinueResponse = {
         type: "continue",
         value: {
-            title: Strings.collect_save_success,
+            title: Locale.collect_save_success,
             height: "small",
             width: "small",
             card,
