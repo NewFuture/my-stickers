@@ -18,12 +18,13 @@ steps:
 - script: |
     npm install
     npm run build
+  workingDirectory: ./web
   displayName: 'npm install and build'
 
 - task: AzureFileCopy@3
   displayName: 'AzureBlob File Copy'
   inputs:
-    SourcePath: './server/dist'
+    SourcePath: './web/dist'
     azureSubscription: 'Visual Studio Enterprise (087cc3e0-4650-424c-a20f-76e018064603)'
     Destination: AzureBlob
     storage: customstickers
