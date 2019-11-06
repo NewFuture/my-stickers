@@ -2,7 +2,8 @@
   "name": "sticker",
   "version": "0.0.1",
   "description": "Microsoft Teams Custom Stickers Extension Server",
-  "license": "private",
+  "license": "MS-PL",
+  "private": true,
   "scripts": {
     "start": "node dist/server.js",
     "build": "gulp build",
@@ -14,7 +15,7 @@
   "repository": {
     "directory": "server",
     "type": "git",
-    "url": "git@github.com:NewFuture/custom-stickers-teams-extension.git"
+    "url": "git+https://github.com/NewFuture/custom-stickers-teams-extension.git"
   },
   "dependencies": {
     "azure-storage": "^2.10.3",

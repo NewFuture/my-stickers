@@ -2,6 +2,7 @@
   "name": "app",
   "version": "0.1.0",
   "private": true,
+  "license": "MS-PL",
   "homepage": "https://3640d9d7.ngrok.io/web/",
   "proxy": "http://localhost:3007/",
   "dependencies": {
@@ -24,6 +25,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "repository": {
+    "directory": "web",
+    "type": "git",
+    "url": "git+https://github.com/NewFuture/custom-stickers-teams-extension.git"
   },
   "eslintConfig": {
     "extends": "react-app"
