@@ -1,7 +1,7 @@
 import * as debug from "debug";
 import { TurnContext, CardFactory } from "botbuilder";
 import { MessagingExtensionQuery, MessagingExtensionResult, MessagingExtensionAttachment, MessagingExtensionSuggestedAction } from "botbuilder-teams";
-import { IMessagingExtensionMiddlewareProcessor } from "botbuilder-teams-messagingextensions";
+import { IMessagingExtensionMiddlewareProcessor } from "./MessageExtensionMiddleware";
 import { Sticker, getUserStickers } from "../services/sticker";
 import { getUserId } from "../util";
 import { getConfigUrl } from "./getConfigUrl";

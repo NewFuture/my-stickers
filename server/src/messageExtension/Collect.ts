@@ -1,10 +1,11 @@
 import { TurnContext, CardFactory, CardImage } from "botbuilder";
-import { IMessagingExtensionMiddlewareProcessor, IMessagingExtensionActionRequest, ITaskModuleResult } from "botbuilder-teams-messagingextensions";
-import { MessagingExtensionResult, TeamsAttachment, MessagingExtensionAttachment } from "botbuilder-teams";
+import { MessagingExtensionResult, MessagingExtensionAttachment } from "botbuilder-teams";
+import { IMessagingExtensionMiddlewareProcessor, IMessagingExtensionActionRequest, ITaskModuleResult } from "./MessageExtensionMiddleware";
 
 import * as debug from "debug";
 import { addUserStickers } from "../services/sticker";
 import { getUserId } from "../util";
+import { Strings } from "../locale";
 
 // Initialize debug logging module
 const log = debug("msteams");
@@ -92,7 +93,7 @@ export default class CollectMessageExtension implements IMessagingExtensionMiddl
         const result: ITaskModuleResult = {
             type: "continue",
             value: {
-                title: "saved",
+                title: Strings.collect_save_success,
                 height: "small",
                 width: "small",
                 card,
