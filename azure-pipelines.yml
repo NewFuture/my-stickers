@@ -69,4 +69,6 @@ jobs:
                         appType: webAppLinux
                         appName: 'custom-stickers'
                         runtimeStack: 'NODE|lts'
+                        package: '$(System.ArtifactsDirectory)/**/*.zip'
                         startUpCommand: 'npm start'
+                        
