@@ -46,3 +46,27 @@ jobs:
             displayName: "Publish Artifact: drop"
             inputs:
                 PathtoPublish: '$(Build.ArtifactStagingDirectory)\ArtifactsToBePublished'
+
+    - deployment: stciker_server_deployment # name of the deployment job, A-Z, a-z, 0-9, and underscore
+      displayName: Deploy server API to azure # friendly name to display in the UI
+      pool: # see pool schema
+          vmImage: "ubuntu-18.04"
+      dependsOn: stciker_server_build
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      continueOnError: false # 'true' if future jobs should run even if this job fails; defaults to 'false'
+      timeoutInMinutes: 5 # how long to run the job before automatically cancelling
+      cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
+      variables: { NODE_ENV: production }
+      # environment: string  # target environment name and optionally a resource-name to record the deployment history; format: <environment-name>.<resource-name>
+      strategy:
+          runOnce:
+              deploy:
+                  steps:
+                    - task: AzureWebApp@1
+                      displayName: 'Azure Web App Deploy: custom-stickers'
+                      inputs:
+                        azureSubscription: 'custom-stickers - Azure'
+                        appType: webAppLinux
+                        appName: 'custom-stickers'
+                        runtimeStack: 'NODE|lts'
+                        startUpCommand: 'npm start'
