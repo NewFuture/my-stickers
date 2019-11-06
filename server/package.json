@@ -8,8 +8,6 @@
     "start": "node dist/app.js",
     "build": "gulp build",
     "debug": "gulp serve --debug",
-    "webpack": "webpack --config server/webpack.config.js",
-    "build:web": "npm run build --prefix web",
     "pack": "gulp manifest"
   },
   "repository": {
@@ -20,6 +18,7 @@
   "dependencies": {
     "azure-storage": "^2.10.3",
     "botbuilder": "^4.6.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "i18n": "^0.8.4",
     "js-base64": "^2.5.1",
