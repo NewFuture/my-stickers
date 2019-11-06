@@ -57,7 +57,7 @@ jobs:
       timeoutInMinutes: 5 # how long to run the job before automatically cancelling
       cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
       variables: { NODE_ENV: production }
-      # environment: string  # target environment name and optionally a resource-name to record the deployment history; format: <environment-name>.<resource-name>
+      environment: custom-stickers-api  # target environment name and optionally a resource-name to record the deployment history; format: <environment-name>.<resource-name>
       strategy:
           runOnce:
               deploy:
