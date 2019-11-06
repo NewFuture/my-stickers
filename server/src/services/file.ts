@@ -5,7 +5,6 @@ import { Config } from "../config";
 
 
 const blobService = azure.createBlobService(Config.AZURE_STORAGE_ACCOUNT_NAME!, Config.AZURE_STORAGE_ACCOUNT_ACCESS_KEY!);
-const containerName = "stickers";
 
 export interface SasInfo {
     id: string;

@@ -1,18 +1,16 @@
 import * as debug from "debug";
-import { TurnContext, CardFactory } from "botbuilder";
-import { MessagingExtensionQuery, MessagingExtensionResult, MessagingExtensionAttachment, MessagingExtensionSuggestedAction } from "botbuilder-teams";
-import { IMessagingExtensionMiddlewareProcessor } from "./MessageExtensionMiddleware";
+import { TurnContext, CardFactory , MessagingExtensionQuery, MessagingExtensionResult, MessagingExtensionAttachment, MessagingExtensionSuggestedAction } from "botbuilder";
 import { Sticker, getUserStickers } from "../services/sticker";
 import { getUserId } from "../util";
 import { getConfigUrl } from "./getConfigUrl";
 
 // Initialize debug logging module
-const log = debug("msteams");
+const log = debug("mycollection");
 
 
 /**
  * 表情数据转成卡片资源
- * @param sticker 
+ * @param sticker
  */
 function stickerToCard(sticker: Sticker): MessagingExtensionAttachment {
     const card: MessagingExtensionAttachment = CardFactory.adaptiveCard({
@@ -26,18 +24,16 @@ function stickerToCard(sticker: Sticker): MessagingExtensionAttachment {
             horizontalAlignment: "center",
         }]
     });
-    card.preview = CardFactory.thumbnailCard(sticker.name || '', [sticker.src]);
+    card.preview = CardFactory.thumbnailCard(sticker.name || "", [sticker.src]);
     return card;
 }
 
-export default class MyCollectionComposeExtension implements IMessagingExtensionMiddlewareProcessor {
-
-    /**
-     * 表情选择款弹出或者搜索
-     * @param context 
-     * @param query 
-     */
-    public async onQuery(context: TurnContext, query: MessagingExtensionQuery): Promise<MessagingExtensionResult> {
+/**
+ * 表情选择款弹出或者搜索
+ * @param context
+ * @param query
+ */
+export async function queryMyCollection(context: TurnContext, query: MessagingExtensionQuery): Promise<MessagingExtensionResult> {
         const id = getUserId(context);
         log("onQuery", id, query);
         try {
@@ -61,24 +57,6 @@ export default class MyCollectionComposeExtension implements IMessagingExtension
                         value: getConfigUrl(context)
                     }]
                 } as MessagingExtensionSuggestedAction,
-            }
+            };
         }
     }
-
-    // this is used when canUpdateConfiguration is set to true
-    public async onQuerySettingsUrl(context: TurnContext): Promise<{ title: string, value: string }> {
-        // const id = context.activity.from.id;
-        return Promise.resolve({
-            title: "mycollection Configuration",
-            value: getConfigUrl(context)
-        });
-    }
-
-    public async onSettings(context: TurnContext): Promise<void> {
-        // take care of the setting returned from the dialog, with the value stored in state
-        const setting = context.activity.value.state;
-        log(`New setting: ${setting}`);
-        return Promise.resolve();
-    }
-
-}

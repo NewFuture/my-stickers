@@ -1,14 +1,12 @@
 import * as http from "http";
 import * as debug from "debug";
 import * as Express from "express";
-
 // import * as appInsights from "applicationinsights";
 
-import router from "./router";
 import { Config } from "./config";
 import { i18nMiddleware } from "./middleware/i18n";
-import { botRouter } from "./router/bot";
-import pong from "./router/pong";
+
+import { apiRouter, botRouter, pong } from "./router";
 
 // Initialize debug logging module
 const log = debug("stickers");
@@ -35,9 +33,9 @@ express.use(Express.json({
 express.use(Express.urlencoded({ extended: true }));
 express.use(i18nMiddleware);
 
-// routing for bots
-express.use(Config.BOT_API_ENDPONT, botRouter(Config.MICROSOFT_APP_ID, Config.MICROSOFT_APP_PASSWORD!));
-express.use("/api", router);
+// routing
+express.use(Config.BOT_API_ENDPONT, botRouter);
+express.use("/api", apiRouter);
 express.get("/ping", pong);
 
 // Set the port

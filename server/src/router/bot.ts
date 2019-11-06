@@ -1,50 +1,71 @@
 
-import { Router } from "express";
 import * as debug from "debug";
-import { TeamsMiddleware, TeamsAdapter, TeamsActivityProcessor } from "botbuilder-teams";
-import { MessagingExtensionMiddleware } from "../messageExtension/MessageExtensionMiddleware";
-import MyCollectionComposeExtension from "../messageExtension/MyCollection";
-import CollectMessageExtension from "../messageExtension/Collect";
+import { Router } from "express";
+import { BotFrameworkAdapter, MessagingExtensionActionResponse } from "botbuilder";
 
-const log = debug("stickers:bot");
+import { Config } from "../config";
+import { querySettingsUrl, submitAction, queryMyCollection, fetchTaskCollect } from "../teams";
 
-export function botRouter(appId: string, appPassword: string) {
-    const router = Router();
-    const adapter = new TeamsAdapter({
-        appId,
-        appPassword,
-    });
+const log = debug("router:bot");
+const botRouter = Router();
 
-    // Create the conversation state
-    // const conversationState = new ConversationState(botSettings.storage, botSettings.namespace);
+const adapter = new BotFrameworkAdapter({
+    appId: Config.MICROSOFT_APP_ID,
+    appPassword: Config.MICROSOFT_APP_PASSWORD,
+});
 
-    // generic error handler
-    adapter.onTurnError = async (context, error) => {
-        log(`[onTurnError]: ${error}`);
-        await context.sendActivity(`Oops. Something went wrong!`);
-        // await conversationState.delete(context);
-    };
-    // Create the Bot
-    // const bot: IBot = new component(conversationState, adapter);
-    // const bot = new UniversalBot();
-    // add the Microsoft Teams middleware
-    adapter.use(new TeamsMiddleware());
-    // add the Messaging Extension Middleware
-    adapter.use(new MessagingExtensionMiddleware("mycollection", new MyCollectionComposeExtension()));
-    adapter.use(new MessagingExtensionMiddleware("collect", new CollectMessageExtension()));
+// generic error handler
+adapter.onTurnError = async (context, error) => {
+    log(`[onTurnError]: ${error}`);
+    await context.sendActivity(`Oops. Something went wrong!`);
+};
 
-    // const bot = new bot.
-    const activityProc = new TeamsActivityProcessor();
-    router.use((req, res, next) => {
-        adapter.processActivity(req, res, async (turnContext): Promise<any> => {
-            turnContext.turnState.set('req', req)
-            try {
-                await activityProc.processIncomingActivity(turnContext);
-                if (next) { next(); }
-            } catch (err) {
-                adapter.onTurnError(turnContext, err);
+botRouter.post("/", (req, res, next) => {
+    log("message recieved");
+    adapter.processActivity(req, res, async (turnContext): Promise<any> => {
+        try {
+            let body: MessagingExtensionActionResponse = {};
+            switch (turnContext.activity.name) {
+                case "composeExtension/query":
+                    body = {
+                        composeExtension: await queryMyCollection(turnContext, turnContext.activity.value),
+                    }
+                    break;
+                case "composeExtension/querySettingUrl":
+                    body = {
+                        composeExtension: await querySettingsUrl(turnContext),
+                    }
+                    break;
+                case "composeExtension/setting":
+                    body = {};
+                    break;
+                case "composeExtension/submitAction":
+                    body = {
+                        composeExtension: await submitAction(turnContext, turnContext.activity.value),
+                    }
+                    break;
+                case "composeExtension/fetchTask":
+                    body = await fetchTaskCollect(turnContext, turnContext.activity.value);
+                    break;
+                case "composeExtension/onCardButtonClicked":
+                case "composeExtension/selectItem":
+                default:
+                    log(turnContext.activity.name, "no handler");
+                    break;
             }
-        });
+            turnContext.sendActivity({
+                type: "invokeResponse",
+                value: {
+                    body,
+                    status: 200,
+                }
+            });
+            next();
+        } catch (err) {
+            log("err", err);
+            if (next) { next(err); }
+        }
     });
-    return router;
-}
+});
+
+export { botRouter };
