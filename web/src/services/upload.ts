@@ -1,6 +1,5 @@
-import { getUserId } from "./teams";
-import { API } from "../lib/http";
 import Axios from "axios";
+import { API } from "../lib/http";
 
 const blob = Axios.create();
 export interface SasInfo {
