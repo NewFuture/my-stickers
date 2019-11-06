@@ -8,8 +8,10 @@ function sha256(data: string): string {
 
 /**
  * 生成token
+ * @param id 用户ID
+ * @param ttl 有效期 默认 30分钟
  */
-export function generateToken(id: string, ttl = 15 * 60 * 1000): string {
+export function generateToken(id: string, ttl = 30 * 60 * 1000): string {
     const expireDate = (Date.now() + ttl).toString();
     return `${expireDate}-${sha256(ENV.TOKEN_ENCRYPT_KEY + id + expireDate)}`;
 }
@@ -18,12 +20,10 @@ export function generateToken(id: string, ttl = 15 * 60 * 1000): string {
  * 校验token
  * 返回剩余有效期
  */
-export function validateToken(id: string, token: string): number {
+export function validateToken(id: string, token: string): number | false {
     const [expireDate, hash] = token.split("-");
     if (hash !== sha256(ENV.TOKEN_ENCRYPT_KEY + id + expireDate)) {
-        throw Error("token invalidate");
-    } else if (+expireDate < Date.now()) {
-        throw Error("token expired");
+        return false;
     } else {
         return +expireDate - Date.now();
     }

@@ -5,9 +5,12 @@ import { BotFrameworkAdapter, MessagingExtensionActionResponse } from "botbuilde
 
 import { ENV } from "../config";
 import { querySettingsUrl, submitAction, queryMyCollection, fetchTaskCollect } from "../teams";
+import { temasMessage } from "../middleware/temasMessage";
 
 const log = debug("router:bot");
 const botRouter = Router();
+
+botRouter.use(temasMessage);
 
 const adapter = new BotFrameworkAdapter({
     appId: ENV.MICROSOFT_APP_ID,

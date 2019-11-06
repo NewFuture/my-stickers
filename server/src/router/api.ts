@@ -3,15 +3,13 @@ import * as debug from "debug";
 import { Router } from "express";
 import { getSasToken } from "../services/file";
 import { Sticker, addUserStickers } from "../services/sticker";
+import { authorize } from "../middleware/authorize";
 
 const log = debug("router:api");
 
 const apiRouter = Router();
 // middleware that is specific to this router
-apiRouter.use((req, res, next) => {
-    log("Time: ", Date.now(), req.path, req.body);
-    next();
-});
+apiRouter.use(authorize);
 
 interface UploadRequest {
     user: string;
@@ -21,7 +19,7 @@ interface UploadRequest {
 
 apiRouter.post("/upload", (req, res, next) => {
     const body: UploadRequest = req.body;
-    const allSAS = body.exts.map(ext => getSasToken(body.user, ext));
+    const allSAS = body.exts.map(ext => getSasToken(req.userId, ext));
     res.send(allSAS);
     next();
 });
@@ -36,14 +34,13 @@ interface PostStickerRequest {
 apiRouter.post("/me/stickers", async (req, res, next) => {
     const body: PostStickerRequest = req.body;
     try {
-        const info = await addUserStickers(body.user, [body.sticker]);
+        const info = await addUserStickers(req.userId, [body.sticker]);
         res.send(info[0]);
         next();
     } catch (error) {
-        console.error("add error", error);
+        log("add fail", error);
         res.statusCode = 500;
         res.send(error);
-        next(error);
     }
 });
 

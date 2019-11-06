@@ -1,5 +1,8 @@
 import { getUserId } from "./teams";
+import { API } from "../lib/http";
+import Axios from "axios";
 
+const blob = Axios.create();
 export interface SasInfo {
     id: string;
     base64: string;
@@ -8,24 +11,17 @@ export interface SasInfo {
 }
 
 export interface UploadRequest {
-    user: string,
-    token: string,
+    // user: string,
+    // token: string,
     exts: string[],
 }
 
 export async function getUploadSAS(request: UploadRequest): Promise<SasInfo[]> {
     // TODO: You need to implement this
     // return "?newSAS";
-    const result = await fetch('/api/upload', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(request)
-    })
+    const result = await API.post('/api/upload', request)
     // const json = ;
-    return await result.json();
+    return result.data;
 }
 
 /**
@@ -48,35 +44,17 @@ async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
 
 export async function upload(file: File, sas: SasInfo) {
     const contentType = file.type;
-    await fetch(`${sas.url}&comp=block&blockid=${sas.base64}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": contentType
-        },
-        body: await blobToArrayBuffer(file),
-    })
-    await fetch(`${sas.url}&comp=blocklist`, {
-        method: 'PUT',
+    await blob.put(`${sas.url}&comp=block&blockid=${sas.base64}`, await blobToArrayBuffer(file))
+    await blob.put(`${sas.url}&comp=blocklist`, `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><BlockList><Latest>${sas.base64}</Latest></BlockList>`, {
         headers: {
             "x-ms-blob-content-type": contentType
-        },
-        body: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><BlockList><Latest>${sas.base64}</Latest></BlockList>`
+        }
     })
-
-    return await fetch("/api/me/stickers", {
-        method: "POST",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            user: await getUserId(),
-            token: '',
-            sticker: {
-                id: sas.id,
-                src: sas.url.split('?').shift(),
-                name: file.name.replace(/\..*$/, ""),
-            }
-        })
+    return await API.post("/api/me/stickers", {
+        sticker: {
+            id: sas.id,
+            src: sas.url.split('?').shift(),
+            name: file.name.replace(/\..*$/, ""),
+        }
     })
 }

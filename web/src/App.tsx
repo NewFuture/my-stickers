@@ -6,15 +6,13 @@ import UploadButton from "./components/upload-button";
 import { Sticker, getStickers } from "./services/get-stickers";
 import { FormattedMessage } from "react-intl";
 import { Messages } from "./locales";
-import { init, exit, getUserId } from "./services/teams";
+import { init, exit } from "./services/teams";
 import { upload, getUploadSAS } from "./services/upload";
 
 const App: React.FC = () => {
     const [stickes, setStickes] = useState<Sticker[]>(getStickers());
 
     init();
-    const token = "";
-    const user = getUserId();
     /**
      * @todo 限制文件大小
      * @param e
@@ -22,8 +20,6 @@ const App: React.FC = () => {
     async function ImageUploadHandler(e: ChangeEvent<HTMLInputElement>) {
         const files = [...e.target.files];
         const sasInfos = await getUploadSAS({
-            user: await user,
-            token,
             exts: files.map(f => f.name.split(".").pop()!),
         });
         const newFiles = files.map(
