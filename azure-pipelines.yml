@@ -50,7 +50,7 @@ jobs:
     - deployment: stciker_server_deployment # name of the deployment job, A-Z, a-z, 0-9, and underscore
       displayName: Deploy server API to azure # friendly name to display in the UI
       pool: # see pool schema
-          vmImage: "ubuntu-18.04"
+          vmImage: "windows-2019"
       dependsOn: stciker_server_build
       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
       continueOnError: false # 'true' if future jobs should run even if this job fails; defaults to 'false'
