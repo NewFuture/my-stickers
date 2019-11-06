@@ -1,8 +1,9 @@
 import * as debug from "debug";
-import { TurnContext, CardFactory , MessagingExtensionQuery, MessagingExtensionResult, MessagingExtensionAttachment, MessagingExtensionSuggestedAction } from "botbuilder";
+import { CardFactory, MessagingExtensionQuery, MessagingExtensionResult, MessagingExtensionAttachment, MessagingExtensionSuggestedAction } from "botbuilder";
+import { Request } from "express";
 import { Sticker, getUserStickers } from "../services/sticker";
-import { getUserId } from "../util";
 import { getConfigUrl } from "./getConfigUrl";
+import { Locale } from "../config";
 
 // Initialize debug logging module
 const log = debug("mycollection");
@@ -33,30 +34,30 @@ function stickerToCard(sticker: Sticker): MessagingExtensionAttachment {
  * @param context
  * @param query
  */
-export async function queryMyCollection(context: TurnContext, query: MessagingExtensionQuery): Promise<MessagingExtensionResult> {
-        const id = getUserId(context);
-        log("onQuery", id, query);
-        try {
-            const stickers = await getUserStickers(id);
-            return {
-                type: "result",
-                attachmentLayout: "grid",
-                attachments: stickers.map(stickerToCard)
-            };
-        } catch (error) {
-            return {
-                type: "config",
-                text: "upload",
-                suggestedActions: {
-                    actions: [{
-                        type: "openUrl",
-                        displayText: "上传",
-                        title: "upload stickers",
-                        image: "https://cataas.com/cat/gif",
-                        text: "UPLOAD",
-                        value: getConfigUrl(context)
-                    }]
-                } as MessagingExtensionSuggestedAction,
-            };
-        }
+export async function queryMyCollection(req: Request, query: MessagingExtensionQuery): Promise<MessagingExtensionResult> {
+    const id = req.userId;
+    log("onQuery", id, query);
+    try {
+        const stickers = await getUserStickers(id);
+        return {
+            type: "result",
+            attachmentLayout: "grid",
+            attachments: stickers.map(stickerToCard)
+        };
+    } catch (error) {
+        return {
+            type: "config",
+            text: req.__(Locale.initial_run_upload_stickers),
+            suggestedActions: {
+                actions: [{
+                    type: "openUrl",
+                    title: req.__(Locale.initial_run_upload_stickers),
+                    // image: "https://cataas.com/cat/gif",
+                    // text: "UPLOAD",
+                    // displayText: "上传",
+                    value: getConfigUrl(id)
+                }]
+            } as MessagingExtensionSuggestedAction,
+        };
     }
+}

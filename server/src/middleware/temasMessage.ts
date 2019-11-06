@@ -20,10 +20,10 @@ export function temasMessage(req: Request, res: Response, next: () => void) {
     if (!body || !body.from) {
         sendError(res, "invalidate message");
     } else if (!body.from.aadObjectId) {
-        sendError(res, `ivalidate user:${body.from}`);
+        sendError(res, `ivalidate user: ${body.from}`);
     } else {
         req.userId = body.from.aadObjectId;
         req.setLocale(body.locale || req.locale);
-        next()
+        next();
     }
 }

@@ -31,12 +31,12 @@ botRouter.post("/", (req, res, next) => {
             switch (turnContext.activity.name) {
                 case "composeExtension/query":
                     body = {
-                        composeExtension: await queryMyCollection(turnContext, turnContext.activity.value),
+                        composeExtension: await queryMyCollection(req, turnContext.activity.value),
                     }
                     break;
                 case "composeExtension/querySettingUrl":
                     body = {
-                        composeExtension: await querySettingsUrl(turnContext),
+                        composeExtension: await querySettingsUrl(req, turnContext),
                     }
                     break;
                 case "composeExtension/setting":
@@ -44,11 +44,11 @@ botRouter.post("/", (req, res, next) => {
                     break;
                 case "composeExtension/submitAction":
                     body = {
-                        composeExtension: await submitAction(turnContext, turnContext.activity.value),
+                        composeExtension: await submitAction(req, turnContext.activity.value),
                     }
                     break;
                 case "composeExtension/fetchTask":
-                    body = await fetchTaskCollect(turnContext, turnContext.activity.value);
+                    body = await fetchTaskCollect(req, turnContext.activity.value);
                     break;
                 case "composeExtension/onCardButtonClicked":
                 case "composeExtension/selectItem":

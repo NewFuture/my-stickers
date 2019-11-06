@@ -1,7 +1,7 @@
 import * as debug from "debug";
-import { TurnContext, CardFactory, CardImage, MessagingExtensionAttachment, TaskModuleResponse, MessagingExtensionAction, MessageActionsPayloadAttachment, TaskModuleContinueResponse } from "botbuilder";
+import { CardFactory, CardImage, MessagingExtensionAttachment, TaskModuleResponse, MessagingExtensionAction, MessageActionsPayloadAttachment, TaskModuleContinueResponse } from "botbuilder";
+import { Request } from "express";
 import { addUserStickers } from "../services/sticker";
-import { getUserId } from "../util";
 import { Locale } from "../config/";
 
 // Initialize debug logging module
@@ -34,8 +34,8 @@ function getImageFromAttachment(a: MessagingExtensionAttachment): Img[] {
     return [];
 }
 
-export async function fetchTaskCollect(context: TurnContext, value: MessagingExtensionAction): Promise<TaskModuleResponse> {
-    const id = getUserId(context);
+export async function fetchTaskCollect(req: Request, value: MessagingExtensionAction): Promise<TaskModuleResponse> {
+    const id = req.userId;
     log("onFetchTask", id);
     const payload = value.messagePayload || {};
     const imgs = getImages(payload.body!.content!);
@@ -81,7 +81,7 @@ export async function fetchTaskCollect(context: TurnContext, value: MessagingExt
     const result: TaskModuleContinueResponse = {
         type: "continue",
         value: {
-            title: Locale.collect_save_success,
+            title: req.__(Locale.collect_save_success),
             height: "small",
             width: "small",
             card,

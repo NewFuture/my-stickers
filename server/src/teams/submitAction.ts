@@ -1,6 +1,6 @@
 import * as debug from "debug";
-import { TurnContext, MessagingExtensionResult, TaskModuleRequest } from "botbuilder";
-import { Locale } from "../config/";
+import { MessagingExtensionResult, TaskModuleRequest } from "botbuilder";
+import { Request } from "express";
 
 const log = debug("onSubmit");
 /**
@@ -8,7 +8,7 @@ const log = debug("onSubmit");
  * @param context 
  * @param value 
  */
-export async function submitAction(context: TurnContext, value: TaskModuleRequest): Promise<MessagingExtensionResult> {
+export async function submitAction(req: Request, value: TaskModuleRequest): Promise<MessagingExtensionResult> {
     // Handle the Action.Submit action on the adaptive card
     log(value);
     const result: MessagingExtensionResult = {
