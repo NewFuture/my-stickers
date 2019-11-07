@@ -21,26 +21,25 @@ jobs:
       pool:
           vmImage: "ubuntu-latest"
       steps:
-          - task: UseNode@1
-            displayName: "Use Node version"
+        - task: NodeTool@0
+          inputs:
+            versionSpec: '10.x'
+          displayName: 'Install Node.js'
 
-          - script: |
-              npm install
-              npm run build
-            workingDirectory: ./web
-            displayName: 'npm install and build'
+        - script: |
+            npm install
+            npm run build
+          workingDirectory: ./web
+          displayName: 'npm install and build'
 
-          - task: Npm@1
-            displayName: "Test"
-            inputs:
-                command: custom
-                workingDir: web
-                customCommand: "test"
+        - script: npm test
+          workingDirectory: ./web
+          displayName: 'TEST'
 
-          - task: PublishBuildArtifacts@1
-            displayName: "Publish Artifact: drop"
-            inputs:
-                PathtoPublish: "web/build"
+        - task: PublishBuildArtifacts@1
+          displayName: "Publish Artifact: drop"
+          inputs:
+              PathtoPublish: "web/build"
 
     - deployment: stciker_web_deployment # name of the deployment job, A-Z, a-z, 0-9, and underscore
       displayName: Deploy server API to azure # friendly name to display in the UI
