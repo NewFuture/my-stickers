@@ -17,7 +17,6 @@ trigger:
 jobs:
     - job: stciker_web_build # name of the deployment job, A-Z, a-z, 0-9, and underscore
       displayName: Build Sticker Server API # friendly name to display in the UI
-      variables: { NODE_ENV: production }
       pool:
           vmImage: "ubuntu-latest"
       steps:
