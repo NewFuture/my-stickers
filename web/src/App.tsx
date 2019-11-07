@@ -1,11 +1,11 @@
 import React, { ChangeEvent, useState } from "react";
-import { Button, List } from "@stardust-ui/react";
+import { Button, List, Provider, themes } from "@stardust-ui/react";
 import "./App.css";
 import ImageList from "./components/image-list";
 import UploadButton from "./components/upload-button";
 import { Sticker, getStickers } from "./services/get-stickers";
-import { FormattedMessage } from "react-intl";
-import { Messages } from "./locales";
+import { FormattedMessage, IntlProvider } from "react-intl";
+import { Messages, getLocale, getMessages } from "./locales";
 import { init, exit } from "./services/teams";
 import { upload, getUploadSAS } from "./services/upload";
 
@@ -37,25 +37,29 @@ const App: React.FC = () => {
         newFiles.forEach((f, index) => upload(f.file, sasInfos[index]));
     }
     return (
-        <div className="App">
-            <header className="App-header">
-                <List
-                    items={[
-                        <UploadButton onChange={ImageUploadHandler} key="upload" multiple />,
-                        <Button
-                            icon="trash-can"
-                            iconPosition="before"
-                            secondary
-                            key="delete"
-                            content={<FormattedMessage id={Messages.delete} />}
-                        />,
-                        <Button icon="accept" primary iconOnly circular onClick={() => exit()} />,
-                    ]}
-                    horizontal
-                />
-                <ImageList items={stickes} />
-            </header>
-        </div>
+        <Provider theme={themes.teams}>
+            <IntlProvider locale={getLocale()} messages={getMessages()}>
+                <div className="App">
+                    <header className="App-header">
+                        <List
+                            items={[
+                                <UploadButton onChange={ImageUploadHandler} key="upload" multiple />,
+                                <Button
+                                    icon="trash-can"
+                                    iconPosition="before"
+                                    secondary
+                                    key="delete"
+                                    content={<FormattedMessage id={Messages.delete} />}
+                                />,
+                                <Button icon="accept" key="exit" primary iconOnly circular onClick={() => exit()} />,
+                            ]}
+                            horizontal
+                        />
+                        <ImageList items={stickes} />
+                    </header>
+                </div>
+            </IntlProvider>
+        </Provider>
     );
 };
 
