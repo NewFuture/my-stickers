@@ -12,11 +12,12 @@ trigger:
     #   include: [ string ] # tag names which will trigger a build
     #   exclude: [ string ] # tag names which will not
     paths:
-        include: [web, azure-pipelines.web.yml] # file paths which must match to trigger a build
+        include: [web] # file paths which must match to trigger a build
         # exclude: [ string ] # file paths which will not trigger a build
 jobs:
     - job: stciker_web_build # name of the deployment job, A-Z, a-z, 0-9, and underscore
-      displayName: Build Sticker Server API # friendly name to display in the UI
+      displayName: Build Sticker Website # friendly name to display in the UI
+      variables: { CI: true } # react-scripts test need CI to be true
       pool:
           vmImage: "ubuntu-latest"
       steps:
@@ -41,7 +42,7 @@ jobs:
               PathtoPublish: "web/build"
 
     - deployment: stciker_web_deployment # name of the deployment job, A-Z, a-z, 0-9, and underscore
-      displayName: Deploy server API to azure # friendly name to display in the UI
+      displayName: Deploy web site to azure blob CDN # friendly name to display in the UI
       pool: # see pool schema
           vmImage: "windows-2019"
       dependsOn: stciker_web_build
