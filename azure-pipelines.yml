@@ -21,6 +21,7 @@ jobs:
           - task: Npm@1
             displayName: "npm install"
             inputs:
+                command: install
                 workingDir: server
                 verbose: false
 
