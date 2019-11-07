@@ -24,18 +24,11 @@ jobs:
           - task: UseNode@1
             displayName: "Use Node version"
 
-          - task: Npm@1
-            displayName: "npm install"
-            inputs:
-                workingDir: web
-                verbose: false
-
-          - task: Npm@1
-            displayName: "Build"
-            inputs:
-                command: custom
-                workingDir: web
-                customCommand: "run build"
+          - script: |
+              npm install
+              npm run build
+            workingDirectory: ./web
+            displayName: 'npm install and build'
 
           - task: Npm@1
             displayName: "Test"
