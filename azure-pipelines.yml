@@ -1,3 +1,14 @@
+trigger:
+  batch: true # batch changes if true (the default); start a new build for every push if false
+  branches:
+    include: [ master ] # branch names which will trigger a build
+    # exclude: [ string ] # branch names which will not
+  # tags:
+  #   include: [ string ] # tag names which will trigger a build
+  #   exclude: [ string ] # tag names which will not
+  paths:
+    include: [ server, azure-pipelines.yml ] # file paths which must match to trigger a build
+    # exclude: [ string ] # file paths which will not trigger a build
 jobs:
     - job: stciker_server_build # name of the deployment job, A-Z, a-z, 0-9, and underscore
       displayName: Build Sticker Server API # friendly name to display in the UI
@@ -69,6 +80,4 @@ jobs:
                         appType: webAppLinux
                         appName: 'custom-stickers'
                         runtimeStack: 'NODE|lts'
-                        package: '$(System.WorkFolder)/**/*.zip'
                         startUpCommand: 'npm start'
-                        
