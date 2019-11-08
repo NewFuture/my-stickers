@@ -36,7 +36,7 @@ jobs:
       - task: PublishBuildArtifacts@1
         displayName: "Publish Artifact: drop"
         inputs:
-          PathtoPublish: "package/*.zip"
+          PathtoPublish: "package"
 
   - deployment: stciker_manifest_deployment # name of the deployment job, A-Z, a-z, 0-9, and underscore
     displayName: Upload package to CDN # friendly name to display in the UI
