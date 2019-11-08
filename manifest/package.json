@@ -2,22 +2,21 @@
   "name": "manifest",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/manifest.json",
   "scripts": {
     "build": "gulp manifest"
   },
   "repository": {
-    "directory": "server",
+    "directory": "manifest",
     "type": "git",
     "url": "git+https://github.com/NewFuture/custom-stickers-teams-extension.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "New Future",
+  "license": "MS-PL",
   "dependencies": {
     "del": "^5.1.0",
     "dotenv": "^8.2.0",
     "gulp": "4.0.2",
-    "gulp-sourcemaps": "^2.6.5",
     "gulp-token-replace": "1.1.5",
     "gulp-zip": "4.2.0",
     "request": "^2.88.0",

@@ -132,7 +132,7 @@ task('validate-manifest', series('generate-manifest', 'schema-validation'));
  */
 task('zip', () => {
     return src([
-        ".src/**/*.*",
+        "./src/**/*.*",
         '!**/manifest.json'
     ])
         .pipe(src('./temp/manifest.json'))
