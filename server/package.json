@@ -7,8 +7,7 @@
   "scripts": {
     "start": "node dist/app.js",
     "build": "gulp build",
-    "debug": "gulp serve --debug",
-    "pack": "gulp manifest"
+    "debug": "gulp serve --debug"
   },
   "repository": {
     "directory": "server",
@@ -18,7 +17,6 @@
   "dependencies": {
     "azure-storage": "^2.10.3",
     "botbuilder": "^4.6.0",
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "i18n": "^0.8.4",
     "js-base64": "^2.5.1",
@@ -28,18 +26,15 @@
     "@types/debug": "^4.1.5",
     "@types/express": "^4.17.1",
     "@types/i18n": "^0.8.6",
-    "del": "^5.1.0",
+    "dotenv": "^8.2.0",
     "gulp": "4.0.2",
     "gulp-sourcemaps": "^2.6.5",
-    "gulp-token-replace": "1.1.5",
-    "gulp-zip": "4.2.0",
     "nodemon": "^1.19.4",
     "ts-loader": "^4.5.0",
     "tslint": "^5.11.0",
     "tslint-loader": "^3.6.0",
     "tslint-webpack-plugin": "^1.2.2",
     "typescript": "^3.7.2",
-    "webpack": "^4.41.2",
-    "z-schema": "^4.2.1"
+    "webpack": "^4.41.2"
   }
 }

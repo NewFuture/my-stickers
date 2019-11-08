@@ -20,21 +20,13 @@ const {
 } = require('gulp');
 
 // gulp plugins
-const zip = require('gulp-zip'),
-    replace = require('gulp-token-replace'),
-    PluginError = require('plugin-error'),
-    del = require('del');
+// const PluginError = require('plugin-error');
 
 
 // load references
-const
-    nodemon = require('nodemon'),
-    argv = require('yargs').argv,
-    // autoprefixer = require('autoprefixer'),
-    log = require('fancy-log'),
-    ZSchema = require('z-schema'),
-    request = require('request');
-
+const nodemon = require('nodemon');
+const argv = require('yargs').argv;
+const log = require('fancy-log');
 const webpack = require('webpack');
 
 require('dotenv').config();
@@ -65,16 +57,11 @@ const watches = () => {
 
 task('watch', watches);
 
-// TASK: nuke
-task('nuke', () => {
-    return del(['temp', 'dist']);
-});
-
 task('nodemon', (callback) => {
     var started = false;
     var debug = argv.debug !== undefined;
 
-    console.log(debug,process.env.NODE_ENV)
+    // console.log(debug, process.env.NODE_ENV)
     return nodemon({
         script: 'dist/app.js',
         watch: ['dist/app.js'],
@@ -99,7 +86,7 @@ const _webpack = (config, callback) => {
 
     webpack(webpackConfig, (err, stats) => {
 
-        if (err) throw new PluginError("webpack", err);
+        if (err) throw new Error("webpack", err);
 
         var jsonStats = stats.toJson();
 
@@ -109,7 +96,7 @@ const _webpack = (config, callback) => {
                 log('[Webpack error] ' + e);
             });
 
-            throw new PluginError("webpack", "Webpack errors, see log");
+            throw new Error("webpack", "Webpack errors, see log");
         }
         if (jsonStats.warnings.length > 0) {
             jsonStats.warnings.map(function (e) {
@@ -127,99 +114,6 @@ task('webpack', (callback) => {
 
 
 
-
-
-/**
- * Replace parameters in the manifest
- */
-task('generate-manifest', (cb) => {
-    return src('../manifest/manifest.json')
-        .pipe(replace({
-            tokens: {
-                ...process.env
-            }
-        }))
-        .pipe(dest('temp'));
-});
-
-/**
- * Schema validation
- */
-task('schema-validation', (callback) => {
-
-    let filePath = path.join(__dirname, 'temp/manifest.json');
-
-    if (fs.existsSync(filePath)) {
-
-        let manifest = fs.readFileSync(filePath, {
-            encoding: 'UTF-8'
-        }),
-            manifestJson;
-
-        try {
-
-            manifestJson = JSON.parse(manifest);
-
-        } catch (error) {
-
-            callback(
-                new PluginError(error.message)
-            );
-            return;
-
-        }
-
-        log('Using manifest schema ' + manifestJson.manifestVersion);
-
-        let definition = {
-            version: "1.5",
-            schema: "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json"
-        };
-
-        if (definition === undefined) {
-            callback(new PluginError("validate-manifest", "Unable to locate schema"));
-            return;
-        }
-
-        if (manifestJson["$schema"] !== definition.schema) {
-            log("Note: the defined schema in your manifest does not correspond to the manifestVersion");
-        }
-
-        let requiredUrl = definition.schema;
-        let validator = new ZSchema();
-
-        let schema = {
-            "$ref": requiredUrl
-        };
-
-        request(requiredUrl, {
-            gzip: true
-        }, (err, res, body) => {
-            if (!err) {
-                validator.setRemoteReference(requiredUrl, JSON.parse(body));
-
-                var valid = validator.validate(manifestJson, schema);
-                var errors = validator.getLastErrors();
-                if (!valid) {
-                    callback(new PluginError("validate-manifest", errors.map((e) => {
-                        return e.message;
-                    }).join('\n')));
-                } else {
-                    callback();
-                }
-            } else {
-                log.warn("WARNING: unable to download and validate schema: " + err.code);
-                callback();
-            }
-        })
-
-    } else {
-        console.log('Manifest doesn\'t exist');
-    }
-
-});
-
-task('validate-manifest', series('generate-manifest', 'schema-validation'));
 
 /**
  * Task for starting ngrok and replacing the HOSTNAME with ngrok tunnel url.
@@ -256,24 +150,10 @@ task('start-ngrok', (cb) => {
 });
 
 /**
- * Creates the tab manifest
- */
-task('zip', () => {
-    return src([
-        "../manifest/**/*.*",
-        '!**/manifest.json'
-    ])
-        .pipe(src('./temp/manifest.json'))
-        .pipe(zip("custom-stickers.zip"))
-        .pipe(dest('../package'));
-});
-
-task('manifest', series('validate-manifest', 'zip'));
-/**
  * Build task, that uses webpack and injects scripts into pages
  */
-task('build', parallel('webpack', 'manifest'));
+task('build', parallel('webpack'));
 
-task('serve', series('nuke', 'build', 'nodemon', 'watch'));
+task('serve', series('build', 'nodemon', 'watch'));
 
 // task('ngrok-serve', series('start-ngrok', 'manifest', 'serve'));

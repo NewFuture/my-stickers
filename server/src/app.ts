@@ -15,7 +15,7 @@ log(`Initializing Microsoft Teams Express hosted App...`);
 
 // Initialize dotenv, to use .env file settings if existing
 // tslint:disable-next-line:no-var-requires
-require("dotenv").config();
+// require("dotenv").config();
 
 
 // Set up app insights

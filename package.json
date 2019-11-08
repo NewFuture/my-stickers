@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "server": "npm run debug --prefix server",
-    "web": "npm run start --prefix web"
+    "web": "npm run start --prefix web",
+    "package": "npm run build --prefix manifest"
   },
   "repository": {
     "type": "git",
