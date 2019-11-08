@@ -43,9 +43,7 @@ task('nuke', () => {
 task('generate-manifest', (cb) => {
     return src('./src/manifest.json')
         .pipe(replace({
-            tokens: {
-                ...process.env
-            }
+            tokens: process.env
         }))
         .pipe(dest('temp'));
 });
