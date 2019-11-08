@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
   "id": "46fae4d0-faf5-11e9-80f3-53ad33b77bce",
-  "version": "0.0.1",
+  "version": "{{npm_package_version}}",
   "packageName": "stickers",
   "developer": {
     "name": "New Future",
@@ -43,9 +43,7 @@
             }
           ],
           "type": "query",
-          "context": [
-            "compose"
-          ]
+          "context": ["compose"]
         },
         {
           "id": "collect",
@@ -53,9 +51,7 @@
           "title": "收藏表情",
           "type": "action",
           "fetchTask": true,
-          "context": [
-            "message"
-          ],
+          "context": ["message"],
           "taskInfo": {
             "title": "正在保存图片",
             "height": "small",
@@ -66,14 +62,8 @@
       ]
     }
   ],
-  "permissions": [
-    "identity"
-  ],
-  "validDomains": [
-    "{{WEB_HOST}}",
-    "{{HOSTNAME}}",
-    "{{AZURE_STORAGE_CDN}}"
-  ],
+  "permissions": ["identity"],
+  "validDomains": ["{{WEB_HOST}}", "{{HOSTNAME}}", "{{AZURE_STORAGE_CDN}}"],
   "localizationInfo": {
     "defaultLanguageTag": "en-us",
     "additionalLanguages": [

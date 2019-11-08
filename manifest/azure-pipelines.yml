@@ -42,7 +42,7 @@ jobs:
     displayName: Upload package to CDN # friendly name to display in the UI
     pool: # see pool schema
       vmImage: "windows-2019"
-    dependsOn: stciker_web_build
+    dependsOn: stciker_manifest_build
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     continueOnError: false # 'true' if future jobs should run even if this job fails; defaults to 'false'
     timeoutInMinutes: 5 # how long to run the job before automatically cancelling
