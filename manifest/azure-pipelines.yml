@@ -18,9 +18,9 @@ jobs:
   - job: stciker_manifest_build # name of the deployment job, A-Z, a-z, 0-9, and underscore
     displayName: Build Sticker manifest # friendly name to display in the UI
     variables:
-      WEB_HOST: stickers-api.newfuture.cc,
-      HOSTNAME: sticker.newfuture.cc,
-      AZURE_STORAGE_CDN: stickers.newfuture.cc,
+      HOSTNAME: stickers-api.newfuture.cc
+      AZURE_STORAGE_CDN: stickers.newfuture.cc
+      WEB_HOST: sticker.newfuture.cc
     pool:
       vmImage: "ubuntu-latest"
     steps:
