@@ -17,29 +17,31 @@ trigger:
 jobs:
     - job: stciker_web_build # name of the deployment job, A-Z, a-z, 0-9, and underscore
       displayName: Build Sticker Website # friendly name to display in the UI
-      variables: { CI: true } # react-scripts test need CI to be true
+      variables:
+          CI: true # react-scripts test need CI to be true
+          REACT_APP_API_ROOT: "https://stickers-api.newfuture.cc/"
       pool:
           vmImage: "ubuntu-latest"
       steps:
-        - task: NodeTool@0
-          inputs:
-            versionSpec: '10.x'
-          displayName: 'Install Node.js'
+          - task: NodeTool@0
+            inputs:
+                versionSpec: "10.x"
+            displayName: "Install Node.js"
 
-        - script: |
-            npm install
-            npm run build
-          workingDirectory: ./web
-          displayName: 'npm install and build'
+          - script: |
+                npm install
+                npm run build
+            workingDirectory: ./web
+            displayName: "npm install and build"
 
-        - script: npm test
-          workingDirectory: ./web
-          displayName: 'TEST'
+          - script: npm test
+            workingDirectory: ./web
+            displayName: "TEST"
 
-        - task: PublishBuildArtifacts@1
-          displayName: "Publish Artifact: drop"
-          inputs:
-              PathtoPublish: "web/build"
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Artifact: drop"
+            inputs:
+                PathtoPublish: "web/build"
 
     - deployment: stciker_web_deployment # name of the deployment job, A-Z, a-z, 0-9, and underscore
       displayName: Deploy web site to azure blob CDN # friendly name to display in the UI
