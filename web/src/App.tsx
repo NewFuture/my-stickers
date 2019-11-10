@@ -1,14 +1,16 @@
 import React from "react";
 import { BrowserRouter as Router, RouteProps, Route, Switch } from 'react-router-dom'
-// import Helmet from 'react-helmet';
 import { Provider, themes } from "@stardust-ui/react";
-import "./App.scss";
 
 import { IntlProvider } from "react-intl";
 import { getLocale, getMessages } from "./locales";
 import Config from "./pages/config";
 import Home from "./pages/home";
 import NotFound from "./pages/notfound";
+import PrivacyPage from "./pages/privacy";
+
+import "./App.scss";
+import TermsPage from "./pages/terms";
 
 const routes: RouteProps[] = [
     {
@@ -21,6 +23,14 @@ const routes: RouteProps[] = [
         path: ['/config', '/config.html'],
         component: Config,
         exact: false,
+    },
+    {
+        path: ['/privacy', '/privacy.html'],
+        component: PrivacyPage,
+    },
+    {
+        path: ['/terms', '/terms.html'],
+        component: TermsPage,
     }
 ]
 
