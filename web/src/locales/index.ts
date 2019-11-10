@@ -4,6 +4,7 @@ import en from './en';
 export enum Messages {
     title = "title",
     description = "description",
+    not_found ="not_found",
     upload = 'upload',
     delete = 'delete',
 }

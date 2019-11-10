@@ -1,9 +1,8 @@
 {
-  "name": "app",
+  "name": "sticker",
   "version": "0.1.0",
   "private": true,
   "license": "MS-PL",
-  "homepage": "/",
   "proxy": "http://localhost:3007/",
   "dependencies": {
     "@microsoft/teams-js": "^1.5.2",
@@ -29,8 +28,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "postbuild": "react-snap",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test"
   },
   "repository": {
     "directory": "web",
@@ -39,6 +37,15 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "reactSnap": {
+    "skipThirdPartyRequests": true,
+    "inlineCss": true,
+    "cacheAjaxRequests": false,
+    "include": [
+      "/",
+      "/config.html"
+    ]
   },
   "browserslist": {
     "production": [

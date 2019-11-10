@@ -8,17 +8,19 @@ import { IntlProvider } from "react-intl";
 import { getLocale, getMessages } from "./locales";
 import Config from "./pages/config";
 import Home from "./pages/home";
+import NotFound from "./pages/notfound";
 
 const routes: RouteProps[] = [
     {
         // title: 'Home',
-        path: '/',
+        path: ['/', 'index', 'index.html'],
         component: Home,
         exact: true
     }, {
-        // title: 'About',
-        path: '/config',
-        component: Config
+        // title: 'Config',
+        path: ['/config', '/config.html'],
+        component: Config,
+        exact: false,
     }
 ]
 
@@ -28,10 +30,11 @@ const App: React.FC = () => {
             <IntlProvider locale={getLocale()} messages={getMessages()}>
                 <Router>
                     <Switch>
+                        {/* <Link to='/config' /> */}
                         {routes.map((route, i) => (
                             <Route key={i}  {...route} />
                         ))}
-                        <Route component={Home} />
+                        <Route component={NotFound} />
                     </Switch>
                 </Router>
             </IntlProvider>
