@@ -1,63 +1,39 @@
-import React, { ChangeEvent, useState } from "react";
-import { Button, List, Provider, themes } from "@stardust-ui/react";
-import "./App.css";
-import ImageList from "./components/image-list";
-import UploadButton from "./components/upload-button";
-import { Sticker, getStickers } from "./services/get-stickers";
-import { FormattedMessage, IntlProvider } from "react-intl";
-import { Messages, getLocale, getMessages } from "./locales";
-import { init, exit } from "./services/teams";
-import { upload, getUploadSAS } from "./services/upload";
+import React from "react";
+import { BrowserRouter as Router, RouteProps, Route, Switch } from 'react-router-dom'
+// import Helmet from 'react-helmet';
+import { Provider, themes } from "@stardust-ui/react";
+import "./App.scss";
+
+import { IntlProvider } from "react-intl";
+import { getLocale, getMessages } from "./locales";
+import Config from "./pages/config";
+import Home from "./pages/home";
+
+const routes: RouteProps[] = [
+    {
+        // title: 'Home',
+        path: '/',
+        component: Home,
+        exact: true
+    }, {
+        // title: 'About',
+        path: '/config',
+        component: Config
+    }
+]
 
 const App: React.FC = () => {
-    const [stickes, setStickes] = useState<Sticker[]>(getStickers());
-
-    init();
-    /**
-     * @todo 限制文件大小
-     * @param e
-     */
-    async function ImageUploadHandler(e: ChangeEvent<HTMLInputElement>) {
-        const files = [...e.target.files];
-        const sasInfos = await getUploadSAS({
-            exts: files.map(f => f.name.split(".").pop()!),
-        });
-        const newFiles = files.map(
-            (f, index) =>
-                ({
-                    src: URL.createObjectURL(f),
-                    name: f.name.replace(/\..*$/, ""),
-                    id: sasInfos[index].id,
-                    status: "pending",
-                    file: f,
-                } as Sticker & { file: File }),
-        );
-        setStickes([...newFiles, ...stickes]);
-
-        newFiles.forEach((f, index) => upload(f.file, sasInfos[index]));
-    }
     return (
         <Provider theme={themes.teams}>
             <IntlProvider locale={getLocale()} messages={getMessages()}>
-                <div className="App">
-                    <header className="App-header">
-                        <List
-                            items={[
-                                <UploadButton onChange={ImageUploadHandler} key="upload" multiple />,
-                                <Button
-                                    icon="trash-can"
-                                    iconPosition="before"
-                                    secondary
-                                    key="delete"
-                                    content={<FormattedMessage id={Messages.delete} />}
-                                />,
-                                <Button icon="accept" key="exit" primary iconOnly circular onClick={() => exit()} />,
-                            ]}
-                            horizontal
-                        />
-                        <ImageList items={stickes} />
-                    </header>
-                </div>
+                <Router>
+                    <Switch>
+                        {routes.map((route, i) => (
+                            <Route key={i}  {...route} />
+                        ))}
+                        <Route component={Home} />
+                    </Switch>
+                </Router>
             </IntlProvider>
         </Provider>
     );
