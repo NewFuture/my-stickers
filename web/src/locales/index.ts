@@ -5,6 +5,7 @@ export enum Messages {
     title = "title",
     description = "description",
     not_found ="not_found",
+    home_downloadExtension = "home_downloadExtension",
     upload = 'upload',
     delete = 'delete',
 }

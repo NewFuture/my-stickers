@@ -13,8 +13,8 @@ interface ComponentPrototypeProps extends PrototypeSectionProps {
 export const PrototypeSection: React.FunctionComponent<ComponentPrototypeProps> = props => {
   const { title, children, styles, ...rest } = props
   return (
-    <Box styles={{ padding: '1em', ...styles }} {...rest}>
-      {title && <Header align="center" as="h1">{title}</Header>}
+    <Box styles={{ padding: '1em', margin: "1em", borderTop: "1px solid #ddd", ...styles, }} {...rest}>
+      {title && <Header align="center" as="h2">{title}</Header>}
       {children}
     </Box>
   )
