@@ -28,7 +28,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "postbuild": "react-snap",
+    "postbuild": "react-snap && rm -rf build/custom-stickers.zip",
     "test": "react-scripts test"
   },
   "repository": {
@@ -48,6 +48,9 @@
       "/config.html",
       "/privacy.html",
       "/terms.html"
+    ],
+    "exclude": [
+      "/custom-stickers.zip"
     ]
   },
   "browserslist": {

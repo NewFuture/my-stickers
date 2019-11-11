@@ -21,6 +21,6 @@ export default function Home() {
             <Button styles={{ textDecoration: "none" }} as="a" href={process.env.PUBLIC_URL + '/custom-stickers.zip'} download icon="download" content={<FormattedMessage id={Messages.home_downloadExtension} />} size="largest" primary></Button>
         </Flex>
         <ChatWithPopover />
-        <Compose/>
+        <Compose />
     </>
 }

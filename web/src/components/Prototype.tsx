@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Box, Header, Segment, Flex } from '@stardust-ui/react'
+import { Box, Header, Segment } from '@stardust-ui/react'
 
 interface PrototypeSectionProps {
   title?: React.ReactNode

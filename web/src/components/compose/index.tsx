@@ -1,7 +1,7 @@
 import BottomMenu from './BottomMenu';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { ComponentPrototype, PrototypeSection } from '../Prototype';
-import { Chat, Provider, Input, TextArea, Box } from '@stardust-ui/react';
+import { Chat, Provider, TextArea, Box } from '@stardust-ui/react';
 import gutter from '../gutter';
 // import Chat from '../chat';
 
@@ -54,9 +54,9 @@ export default function Compose(props: any) {
                                     timestamp="Yesterday, 11:11 PM"
                                 />,
                             }
-                    ]} />
+                        ]} />
                     <Box >
-                        <TextArea disabled styles={{border:"1px solid #eee",margin:"0.5em 0"}} defaultValue="using compose extensions to send messages" fluid/>
+                        <TextArea disabled styles={{ border: "1px solid #eee", margin: "0.5em 0" }} defaultValue="using compose extensions to send messages" fluid />
                     </Box>
                     <BottomMenu />
                 </Provider>

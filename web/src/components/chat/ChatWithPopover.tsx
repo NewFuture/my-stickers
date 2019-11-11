@@ -1,7 +1,6 @@
 import {
     Chat,
     Provider,
-    Avatar,
     ChatMessageProps,
     ShorthandCollection,
     ReactionProps,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Popup, Icon, Button } from "@stardust-ui/react";
+import { Menu, Popup, Button } from "@stardust-ui/react";
 import SearchBox from "./SearchBox";
 
 const BottomMenu: React.FC = () => {
