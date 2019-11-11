@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState, useEffect } from "react";
-import { Button, List } from "@stardust-ui/react";
+import { Button, List, Header } from "@stardust-ui/react";
 import ImageList from "../components/image-list";
 import UploadButton from "../components/upload-button";
 import { Sticker, getStickers } from "../services/get-stickers";
@@ -14,7 +14,7 @@ export default function Config() {
         init()
             .then(getStickers)
             .then(setStickes);
-    },[]);
+    }, []);
 
     /**
      * @todo 限制文件大小
@@ -40,7 +40,8 @@ export default function Config() {
         newFiles.forEach((f, index) => upload(f.file, sasInfos[index]));
     }
     return (
-        <header className="App-header">
+        <>
+            <Header align="center">
             <List
                 items={[
                     <UploadButton onChange={ImageUploadHandler} key="upload" multiple />,
@@ -55,7 +56,8 @@ export default function Config() {
                 ]}
                 horizontal
             />
+            </Header>
             <ImageList items={stickes} />
-        </header>
+        </>
     );
 }
