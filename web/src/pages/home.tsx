@@ -3,6 +3,7 @@ import { Header, Button, Flex } from "@stardust-ui/react";
 import { FormattedMessage } from "react-intl";
 import { Messages } from "../locales";
 import ChatWithPopover from "../components/chat";
+import Compose from "../components/compose";
 
 export default function Home() {
     return <>
@@ -20,5 +21,6 @@ export default function Home() {
             <Button styles={{ textDecoration: "none" }} as="a" href={process.env.PUBLIC_URL + '/custom-stickers.zip'} download icon="download" content={<FormattedMessage id={Messages.home_downloadExtension} />} size="largest" primary></Button>
         </Flex>
         <ChatWithPopover />
+        <Compose/>
     </>
 }

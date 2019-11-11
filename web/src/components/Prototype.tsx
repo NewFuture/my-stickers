@@ -14,7 +14,7 @@ export const PrototypeSection: React.FunctionComponent<ComponentPrototypeProps> 
   const { title, children, styles, ...rest } = props
   return (
     <Box styles={{ padding: '1em', margin: "1em", borderTop: "1px solid #ddd", ...styles, }} {...rest}>
-      {title && <Header align="center" as="h2">{title}</Header>}
+      {title && <Header color="green" align="center" as="h2">{title}</Header>}
       {children}
     </Box>
   )

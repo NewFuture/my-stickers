@@ -1,8 +1,8 @@
 import ChatWithPopover from './ChatWithPopover';
 import React from 'react';
-import { ComponentPrototype, PrototypeSection } from './Prototype';
+import { ComponentPrototype, PrototypeSection } from '../Prototype';
 
-export default function Chat(props: any) {
+export default function ChatMessage(props: any) {
     return (
         <PrototypeSection {...props} title="Save Images as Stickers from chat messages">
             <ComponentPrototype

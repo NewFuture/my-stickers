@@ -13,6 +13,7 @@ import React from 'react'
 import Popover from './Popover'
 // import ReactionPopup from './ReactionPopup'
 import { Ref } from '@stardust-ui/react-component-ref'
+import gutter from '../gutter';
 
 const helloSticker = process.env.PUBLIC_URL + '/hello.gif';
 
@@ -33,11 +34,6 @@ const reactions: ShorthandCollection<ReactionProps> = [
 const reactionsWithPopup = reactions.map(reaction => (render: any) =>
     render(reaction, (_: any, props: any) => <Reaction {...props} />),
 )
-
-const janeAvatar = {
-    image: 'https://avatars1.githubusercontent.com/u/6290356?s=64',
-    status: { color: 'green', icon: 'check' },
-}
 
 const ChatWithPopover: React.FC = () => {
     return (
@@ -110,7 +106,7 @@ const ChatWithPopover: React.FC = () => {
                                 timestamp="Yesterday, 10:15 PM"
                             />
                         ),
-                        gutter: <Avatar {...janeAvatar} />,
+                        gutter,
                     },
                     {
                         key: 'b',
@@ -127,7 +123,7 @@ const ChatWithPopover: React.FC = () => {
                             />
 
                         ),
-                        gutter: <Avatar {...janeAvatar} />,
+                        gutter,
                     },
                 ]}
             />
