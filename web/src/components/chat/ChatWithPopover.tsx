@@ -15,6 +15,7 @@ import Popover from './Popover'
 import { Ref } from '@stardust-ui/react-component-ref'
 
 const helloSticker = process.env.PUBLIC_URL + '/hello.gif';
+
 const reactions: ShorthandCollection<ReactionProps> = [
     {
         icon: 'like',
@@ -45,6 +46,7 @@ const ChatWithPopover: React.FC = () => {
                 componentStyles: {
                     ChatMessage: {
                         root: (opts: any) => ({
+                            marginBottom: "2em",
                             '& a': {
                                 color: opts.theme.siteVariables.colors.brand[600],
                             },
@@ -87,6 +89,12 @@ const ChatWithPopover: React.FC = () => {
             }}
         >
             <Chat
+                styles={{
+                    margin: "auto",
+                    padding: "1em",
+                    width: "90%",
+                    maxWidth: '1366px'
+                }}
                 items={[
                     {
                         key: 'a',
@@ -94,10 +102,10 @@ const ChatWithPopover: React.FC = () => {
                             <Chat.Message
                                 author="New Future"
                                 content={<ol>
-                                    <li>Hover or tap the next message</li>
-                                    <li>Click the <Icon name="more" />(the right one of the reaction list)</li>
-                                    <li>Click <code>More Actions ></code>(the last one in the menu list)</li>
-                                    <li>Click <code>♥ Save Stickers</code></li>
+                                    <li>Click or hover on the next message</li>
+                                    <li>Click the <Icon name="more" /> (the right one of the reaction list)</li>
+                                    <li>Click <b>More actions > </b> (the last one in the menu list)</li>
+                                    <li>Click <b>♥ Save Stickers</b></li>
                                 </ol>}
                                 timestamp="Yesterday, 10:15 PM"
                             />
@@ -110,14 +118,14 @@ const ChatWithPopover: React.FC = () => {
                             <TeamsChatMessage
                                 author="New Future"
                                 data-is-focusable
-                                content={
-                                    <Image src={helloSticker} />
-                                }
+                                content={<Image src={helloSticker} />}
+                                dialogContent={<Image src={helloSticker} />}
                                 reactionGroup={{
                                     items: reactionsWithPopup,
                                 }}
                                 timestamp="Yesterday, 10:16 PM"
                             />
+
                         ),
                         gutter: <Avatar {...janeAvatar} />,
                     },
@@ -127,12 +135,13 @@ const ChatWithPopover: React.FC = () => {
     )
 }
 
-const TeamsChatMessage: React.FC<ChatMessageProps> = (props: ChatMessageProps) => {
+const TeamsChatMessage: React.FC<ChatMessageProps & { dialogContent: JSX.Element }> = (props) => {
     const [showActionMenu, setShowActionMenu] = React.useState(false)
     const [forceShowActionMenu, setForceShowActionMenu] = React.useState(false)
     const [chatMessageElement, setChatMessageElement] = React.useState<HTMLElement>()
 
     const handleBlur = (e: any) => !e.currentTarget.contains(e.relatedTarget) && setShowActionMenu(false)
+    const { dialogContent } = props;
 
     return (
         <Ref innerRef={setChatMessageElement}>
@@ -145,6 +154,7 @@ const TeamsChatMessage: React.FC<ChatMessageProps> = (props: ChatMessageProps) =
                             chatMessageElement={chatMessageElement}
                             onForceShowActionMenuChange={setForceShowActionMenu}
                             onShowActionMenuChange={setShowActionMenu}
+                            dialogContent={dialogContent}
                             {...props}
                         />
                     ))

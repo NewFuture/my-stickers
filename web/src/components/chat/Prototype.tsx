@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Box, Header, Segment } from '@stardust-ui/react'
+import { Box, Header, Segment, Flex } from '@stardust-ui/react'
 
 interface PrototypeSectionProps {
   title?: React.ReactNode
@@ -30,7 +30,9 @@ export const ComponentPrototype: React.FunctionComponent<ComponentPrototypeProps
           {description && <p>{description}</p>}
         </Segment>
       )}
-      <Segment>{children}</Segment>
+      <Segment>
+        {children}
+      </Segment>
     </Box>
   )
 }
