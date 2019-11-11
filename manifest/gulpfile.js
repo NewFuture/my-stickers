@@ -30,7 +30,10 @@ const
     ZSchema = require('z-schema'),
     request = require('request');
 
-require('dotenv').config();
+const dotenv = require('dotenv');
+
+dotenv.config({path: '../.env'})
+dotenv.config();
 
 // TASK: nuke
 task('nuke', () => {

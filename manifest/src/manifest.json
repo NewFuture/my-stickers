@@ -27,7 +27,7 @@
   "bots": [],
   "composeExtensions": [
     {
-      "botId": "963a3218-68a8-4a64-bd82-988a02788cfb",
+      "botId": "{{MICROSOFT_APP_ID}}",
       "canUpdateConfiguration": true,
       "commands": [
         {
@@ -43,7 +43,9 @@
             }
           ],
           "type": "query",
-          "context": ["compose"]
+          "context": [
+            "compose"
+          ]
         },
         {
           "id": "collect",
@@ -51,7 +53,9 @@
           "title": "收藏表情",
           "type": "action",
           "fetchTask": true,
-          "context": ["message"],
+          "context": [
+            "message"
+          ],
           "taskInfo": {
             "title": "正在保存图片",
             "height": "small",
@@ -62,8 +66,12 @@
       ]
     }
   ],
-  "permissions": ["identity"],
-  "validDomains": ["{{WEB_HOST}}", "{{HOSTNAME}}", "{{AZURE_STORAGE_CDN}}"],
+  "permissions": [],
+  "validDomains": [
+    "{{WEB_HOST}}",
+    "{{HOSTNAME}}",
+    "{{AZURE_STORAGE_CDN}}"
+  ],
   "localizationInfo": {
     "defaultLanguageTag": "en-us",
     "additionalLanguages": [
