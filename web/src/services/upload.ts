@@ -4,7 +4,7 @@ import { API } from "../lib/http";
 const blob = Axios.create();
 export interface SasInfo {
     id: string;
-    base64: string;
+    // base64: string;
     token: string;
     url: string;
 }
@@ -18,7 +18,7 @@ export interface UploadRequest {
 export async function getUploadSAS(request: UploadRequest): Promise<SasInfo[]> {
     // TODO: You need to implement this
     // return "?newSAS";
-    const result = await API.post('/api/upload', request)
+    const result = await API.post('/upload', request)
     // const json = ;
     return result.data;
 }
@@ -43,17 +43,15 @@ async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
 
 export async function upload(file: File, sas: SasInfo) {
     const contentType = file.type;
-    await blob.put(`${sas.url}&comp=block&blockid=${sas.base64}`, await blobToArrayBuffer(file))
-    await blob.put(`${sas.url}&comp=blocklist`, `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><BlockList><Latest>${sas.base64}</Latest></BlockList>`, {
-        headers: {
-            "x-ms-blob-content-type": contentType
-        }
-    })
-    return await API.post("/api/me/stickers", {
-        sticker: {
-            id: sas.id,
-            src: sas.url.split('?').shift(),
-            name: file.name.replace(/\..*$/, ""),
-        }
+    await blob.put(`${sas.url}&comp=block&blockid=${btoa(sas.id)}`, await blobToArrayBuffer(file))
+    // await blob.put(`${sas.url}&comp=blocklist`, `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><BlockList><Latest>${btoa(sas.id)}</Latest></BlockList>`, {
+    //     headers: {
+    //         "x-ms-blob-content-type": contentType
+    //     }
+    // })
+    return await API.post("/stickers/commit", {
+        id: sas.id,
+        name: file.name,
+        contentType,
     })
 }

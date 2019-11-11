@@ -1,20 +1,28 @@
 import * as azure from "azure-storage";
-import * as uuid from "uuid/v5";
-import { Base64 } from "js-base64";
 import { ENV } from "../config";
+import { uuidUrlSafeEncode } from "../util/base64";
+import { generateUuid } from "../util/uuid";
 
 
+const container = ENV.AZURE_STORAGE_CONTAINER;
 const blobService = azure.createBlobService(ENV.AZURE_STORAGE_ACCOUNT_NAME!, ENV.AZURE_STORAGE_ACCOUNT_ACCESS_KEY!);
 
 export interface SasInfo {
+    /**
+     * Base64编码的ID
+     */
     id: string;
-    base64: string;
+    // base64?: string;
     token: string;
     url: string;
 }
 
-export function getSasToken(name: string, ext: string): SasInfo {
-
+/**
+ * 生成长传的SAS token和文件
+ * @param userId
+ * @param ext 不带点后缀名
+ */
+export function getSasToken(userId: string, ext: string): SasInfo {
     const startDate = new Date();
     const expiryDate = new Date(startDate);
     expiryDate.setMinutes(startDate.getMinutes() + 10);
@@ -27,10 +35,33 @@ export function getSasToken(name: string, ext: string): SasInfo {
             Expiry: expiryDate
         }
     };
+    const id = generateUuid();
+    // const id: string = base64EncodeUUID();
+    const fileName = `${uuidUrlSafeEncode(userId)}/${uuidUrlSafeEncode(id)}.${ext}`;
+    const token = blobService.generateSharedAccessSignature(container, fileName, sharedAccessPolicy);
+    const url = blobService.getUrl(container, fileName, token, true);
+    return { token, url, id };
+}
 
-    const id: string = uuid(name, uuid.URL);
-    const fileName = `${name}/${id}.${ext}`;
-    const token = blobService.generateSharedAccessSignature(ENV.AZURE_STORAGE_CONTAINER, fileName, sharedAccessPolicy);
-    const url = blobService.getUrl(ENV.AZURE_STORAGE_CONTAINER, fileName, token, true);
-    return { token, url, id, base64: Base64.encode(id) };
+/**
+ * 确认上传
+ * @param userId
+ * @param id
+ * @param extWithDot 带.后缀
+ * @param contentType
+ */
+export function commitBlocks(userId: string, id: string, extWithDot: string, contentType: string): Promise<string> {
+    const fileName = `${uuidUrlSafeEncode(userId)}/${uuidUrlSafeEncode(id)}${extWithDot}`;
+    return new Promise((resolve, reject) => blobService.commitBlocks(
+        container,
+        fileName,
+        { LatestBlocks: [id] },
+        { contentSettings: { contentType } },
+        (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(`https://${ENV.AZURE_STORAGE_CDN}/${container}/${fileName}`);
+            }
+        }));
 }

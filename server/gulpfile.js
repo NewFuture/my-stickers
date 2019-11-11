@@ -28,8 +28,10 @@ const nodemon = require('nodemon');
 const argv = require('yargs').argv;
 const log = require('fancy-log');
 const webpack = require('webpack');
+const dotenv = require('dotenv');
 
-require('dotenv').config();
+dotenv.config({ path: "../.env" })
+dotenv.config();
 
 /**
  * Setting up environments

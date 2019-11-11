@@ -19,7 +19,7 @@ jobs:
       displayName: Build Sticker Website # friendly name to display in the UI
       variables:
           CI: true # react-scripts test need CI to be true
-          REACT_APP_API_ROOT: "https://stickers-api.newfuture.cc/"
+          REACT_APP_API_ROOT: "https://stickers-api.newfuture.cc/api/"
       pool:
           vmImage: "ubuntu-latest"
       steps:
