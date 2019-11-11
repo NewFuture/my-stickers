@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useState } from "react";
-import { Button, List, } from "@stardust-ui/react";
+import React, { ChangeEvent, useState, useEffect } from "react";
+import { Button, List } from "@stardust-ui/react";
 import ImageList from "../components/image-list";
 import UploadButton from "../components/upload-button";
 import { Sticker, getStickers } from "../services/get-stickers";
@@ -9,8 +9,13 @@ import { init, exit } from "../services/teams";
 import { upload, getUploadSAS } from "../services/upload";
 
 export default function Config() {
-    const [stickes, setStickes] = useState<Sticker[]>(getStickers());
-    init();
+    const [stickes, setStickes] = useState<Sticker[]>([]);
+    useEffect(() => {
+        init()
+            .then(getStickers)
+            .then(setStickes);
+    },[]);
+
     /**
      * @todo 限制文件大小
      * @param e
@@ -53,4 +58,4 @@ export default function Config() {
             <ImageList items={stickes} />
         </header>
     );
-};
+}

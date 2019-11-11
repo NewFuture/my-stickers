@@ -13,7 +13,7 @@
  */
 export function base64ToUrlSafe(base64: string) {
     // const encoded = encode(unencoded);
-    return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+    return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
 /**

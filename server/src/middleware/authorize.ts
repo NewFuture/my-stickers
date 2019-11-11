@@ -6,7 +6,7 @@ import { validateToken } from "../services/token";
 const log = debug("middle:authorize");
 
 function sendError(res: Response, error: string) {
-    log(error);
+    // log(error);
     res.status(StatusCodes.UNAUTHORIZED).send({ error });
 }
 
@@ -18,6 +18,8 @@ function sendError(res: Response, error: string) {
  */
 export function authorize(req: Request, res: Response, next?: () => void) {
     const authorization = req.headers.authorization;
+    log(authorization)
+
     if (!authorization) {
         sendError(res, "authorization not found");
         return;
@@ -29,9 +31,8 @@ export function authorize(req: Request, res: Response, next?: () => void) {
         return;
     }
     const result = validateToken(id, token);
-    log(id, result);
     if (result === false) {
-        sendError(res, "invalidate token " + id);
+        sendError(res, "invalidate token for" + id);
     } else if (!(result > 0)) {
         sendError(res, "token expired");
     } else {

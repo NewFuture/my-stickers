@@ -1,12 +1,12 @@
 import * as teams from "@microsoft/teams-js";
-const token = new URLSearchParams(window.location.search).get('token');
 
 export function init() {
     return new Promise((resolve, reject) => {
+        auth.token = new URLSearchParams(window.location.search).get('token')!;
         try {
             teams.initialize(async () => {
-                resolve();
                 auth.id = await getUserId();
+                resolve();
             })
         } catch (error) {
             reject(error)
@@ -24,5 +24,5 @@ export function getUserId(): Promise<string> {
 
 export const auth = {
     id: '',
-    token,
+    token: '',
 }

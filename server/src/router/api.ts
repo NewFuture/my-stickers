@@ -5,7 +5,7 @@ import { Router } from "express";
 import * as debug from "debug";
 
 import { getSasToken, commitBlocks } from "../services/file";
-import { addUserStickers } from "../services/sticker";
+import { addUserStickers, getUserStickers } from "../services/sticker";
 import { authorize } from "../middleware/authorize";
 
 const log = debug("router:api");
@@ -42,12 +42,13 @@ interface PostStickerBlobRequest {
  */
 apiRouter.post("/stickers/commit", async (req, res, next) => {
     const { name, id, contentType }: PostStickerBlobRequest = req.body;
+    const ext = path.extname(name);
     try {
-        const src = await commitBlocks(req.userId, id, path.extname(name), contentType);
+        const src = await commitBlocks(req.userId, id, ext, contentType);
         const info = await addUserStickers(req.userId, [{
             id,
             src,
-            name: path.basename(name)
+            name: path.basename(name, ext)
         }]);
         res.send(info[0]);
         next();
@@ -58,6 +59,23 @@ apiRouter.post("/stickers/commit", async (req, res, next) => {
     }
 });
 
+apiRouter.get("/me/stickers", async (req, res, next) => {
+    try {
+        log(req.userId, req.path)
+        const stickers = await getUserStickers(req.userId);
+        res.send({ values: stickers });
+        next();
+    } catch (error) {
+        if (error === "not found") {
+            res.send({ values: [] });
+            next();
+        } else {
+            log("load stickers fail", error);
+            res.statusCode = 500;
+            res.send(error);
+        }
+    }
+});
 
 export { apiRouter };
 
