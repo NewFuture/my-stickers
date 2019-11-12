@@ -1,6 +1,6 @@
 import BottomMenu from "./BottomMenu";
 import React from "react";
-import { Chat, Provider, TextArea, Box } from "@stardust-ui/react";
+import { Chat, Provider, TextArea } from "@stardust-ui/react";
 import { ComponentPrototype, PrototypeSection } from "../Prototype";
 import gutter from "../gutter";
 // import Chat from '../chat';

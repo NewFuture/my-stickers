@@ -11,34 +11,30 @@
 //     delete = 'delete',
 // }
 
+
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+// namespace Locales {
 /**
- * 所有NameSapce
- */
+* 所有NameSapce
+*/
 export enum NS {
     common = "common",
     homePage = "home",
     configPage = "config"
 }
 
-// export function getLocale(): string {
-//     return navigator.language || 'en';
-// }
-
-// export function getMessages() {
-//     return getLocale().startsWith('zh') ? zh : en;
-// }
-
 export enum Common {
-    title = "title",
-    description = "description",
-    not_found = "not_found",
+    title = "common:title",
+    description = "common:description",
+    not_found = "common:not_found",
 }
 
 export enum HomePage {
-    downloadExtension = "downloadExtension",
+    downloadExtension = "home:downloadExtension",
 }
 
 export enum ConfigPage {
-    upload = 'upload',
-    delete = 'delete',
+    upload = 'config:upload',
+    delete = 'config:delete',
 }
