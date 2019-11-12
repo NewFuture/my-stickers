@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider, themes } from "@stardust-ui/react";
-
 import ChatMessage from "./index";
+import "../../lib/i18n";
+
 if (document) {
     document.createRange = () =>
         (({

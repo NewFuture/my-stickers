@@ -1,70 +1,72 @@
 {
-  "name": "sticker",
-  "version": "0.1.0",
-  "private": true,
-  "license": "MS-PL",
-  "proxy": "http://localhost:3007/",
-  "dependencies": {
-    "@microsoft/teams-js": "^1.5.2",
-    "@stardust-ui/react": "^0.40.3",
-    "axios": "^0.19.0",
-    "i18next": "^19.0.0",
-    "i18next-browser-languagedetector": "^4.0.1",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
-    "react-i18next": "^11.1.0",
-    "react-markdown": "^4.2.2",
-    "react-router-dom": "^5.1.2"
-  },
-  "devDependencies": {
-    "@types/jest": "24.0.20",
-    "@types/node": "12.11.7",
-    "@types/react": "16.9.11",
-    "@types/react-dom": "16.9.3",
-    "@types/react-router-dom": "^5.1.2",
-    "react-scripts": "^3.2.0",
-    "react-snap": "^1.23.0",
-    "sass": "^1.23.3",
-    "typescript": "^3.7.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "postbuild": "react-snap && rm -rf build/custom-stickers.zip",
-    "test": "react-scripts test"
-  },
-  "repository": {
-    "directory": "web",
-    "type": "git",
-    "url": "git+https://github.com/NewFuture/custom-stickers-teams-extension.git"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "reactSnap": {
-    "skipThirdPartyRequests": true,
-    "inlineCss": true,
-    "cacheAjaxRequests": false,
-    "include": [
-      "/",
-      "/config.html",
-      "/privacy.html",
-      "/terms.html"
-    ],
-    "exclude": [
-      "/custom-stickers.zip"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "sticker",
+    "version": "0.1.0",
+    "private": true,
+    "license": "MS-PL",
+    "proxy": "http://localhost:3007/",
+    "dependencies": {
+        "@microsoft/teams-js": "^1.5.2",
+        "@stardust-ui/react": "^0.40.3",
+        "axios": "^0.19.0",
+        "i18next": "^19.0.0",
+        "i18next-browser-languagedetector": "^4.0.1",
+        "react": "^16.11.0",
+        "react-dom": "^16.11.0",
+        "react-i18next": "^11.1.0",
+        "react-markdown": "^4.2.2",
+        "react-router-dom": "^5.1.2"
+    },
+    "devDependencies": {
+        "@types/jest": "24.0.20",
+        "@types/node": "12.11.7",
+        "@types/react": "16.9.11",
+        "@types/react-dom": "16.9.3",
+        "@types/react-router-dom": "^5.1.2",
+        "react-scripts": "^3.2.0",
+        "react-snap": "^1.23.0",
+        "sass": "^1.23.3",
+        "typescript": "^3.7.2"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "postbuild": "react-snap",
+        "test": "react-scripts test"
+    },
+    "repository": {
+        "directory": "web",
+        "type": "git",
+        "url": "git+https://github.com/NewFuture/custom-stickers-teams-extension.git"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "reactSnap": {
+        "skipThirdPartyRequests": true,
+        "inlineCss": true,
+        "cacheAjaxRequests": false,
+        "include": [
+            "/",
+            "/config.html",
+            "/privacy.html",
+            "/terms.html"
+        ],
+        "exclude": [
+            "/custom-stickers.zip"
+        ],
+        "crawl": false,
+        "preloadImages": true
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
 }
