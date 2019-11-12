@@ -22,18 +22,18 @@ export const home = {
     protoMsgExtStep4: "Click <0/>",
     protoMsgExtTime: "Yesterday, 11:33 PM",
     protoMsgExtMenuMoreAction: "More Action",
-    protoMsgExtMenuSaveStickers: "♥ Save Stickers",
+    protoMsgExtMenuSaveStickers: "❤️ Save Stickers",
     protoMsgExtMenuSaveMsg: "Save messages",
     protoMsgExtMenuUnread: "Mark as unread",
     protoMsgExtMenuTranslate: "Translate",
-    protoMsgExtStickerSavedTitle: "♥ Saved",
+    protoMsgExtStickerSavedTitle: "❤️ Saved",
     // Compose Extension
     protoComposeTitle: "Send Stickers from compose",
     protoComposeSubTitle: "Componse editor with popover from Componse Extension",
     protoComposeTime: "6:66 AM",
-    protoComposeIntro: "home:protoComposeIntro",
-    protoComposeStep1: "home:protoComposeStep1",
-    protoComposeStep2: "home:protoComposeStep2",
+    protoComposeIntro: "Now, you cand send the stickers",
+    protoComposeStep1: "1. Click the ♥ icon",
+    protoComposeStep2: "2. Click the sitcker that you want to send",
 }
 
 

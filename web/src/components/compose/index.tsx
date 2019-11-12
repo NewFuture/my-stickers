@@ -1,22 +1,36 @@
 import BottomMenu from "./BottomMenu";
 import React from "react";
-import { Chat, Provider, TextArea } from "@stardust-ui/react";
+import { Chat, Provider, TextArea, ChatItemProps, Divider } from "@stardust-ui/react";
 import { ComponentPrototype, PrototypeSection } from "../Prototype";
 import gutter from "../gutter";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import { NS, HomePage } from "../../locales";
-// import Chat from '../chat';
+
+
 const TimeStamp = () => {
     const { t } = useTranslation(NS.homePage);
     return <>{t(HomePage.protoComposeTime)}</>
 }
-const messages = [
+const messages: ChatItemProps[] = [
     {
         gutter,
         message: (
             <Chat.Message
                 author="New Future"
-                content="Now, you cand send the stickers"
+                content={<Trans i18nKey={HomePage.protoComposeIntro} />}
+                timestamp={<Trans i18nKey={HomePage.protoMsgExtTime} />}
+            />
+        ),
+    },
+    {
+        children: <Divider content="♥" color="brand" important />,
+    },
+    {
+        gutter,
+        message: (
+            <Chat.Message
+                author="New Future"
+                content={<Trans i18nKey={HomePage.protoComposeStep1} />}
                 timestamp={<TimeStamp />}
             />
         ),
@@ -26,21 +40,18 @@ const messages = [
         message: (
             <Chat.Message
                 author="New Future"
-                content={<div>1. Click the ♥ icon</div>}
+                content={<Trans i18nKey={HomePage.protoComposeStep2} />}
                 timestamp={<TimeStamp />}
             />
         ),
     },
-    {
-        gutter,
-        message: (
-            <Chat.Message
-                author="New Future"
-                content={<div>2. Click the sitcker that you want to send</div>}
-                timestamp={<TimeStamp />}
-            />
-        ),
-    },
+    // {
+    //     message: (
+    //         <Chat.Message content="Hello" author="John Doe" timestamp="Yesterday, 10:15 PM" mine />
+    //     ),
+    //     contentPosition: 'end',
+    //     attached: 'top',
+    // },
 ];
 export default function Compose(props: any) {
     const { t } = useTranslation([NS.homePage])
