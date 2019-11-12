@@ -7,9 +7,8 @@ import {
     Image,
     Reaction,
     Icon,
-    Button,
 } from "@stardust-ui/react";
-import { Trans, Translation } from "react-i18next";
+import { Trans, Translation, useTranslation } from "react-i18next";
 import React from "react";
 
 import Popover from "./Popover";
@@ -18,6 +17,7 @@ import { Ref } from "@stardust-ui/react-component-ref";
 import gutter from "../gutter";
 
 import { HomePage, NS } from "../../locales";
+import { MoreButton, SaveStickersButton } from "./buttons";
 
 const helloSticker = process.env.PUBLIC_URL + "/hello.gif";
 
@@ -26,7 +26,7 @@ const reactions: ShorthandCollection<ReactionProps> = [
         icon: "like",
         content: 2333,
         key: "likes",
-        variables: { meReacting: true },
+        // variables: { meReacting: true },
     },
     // {
     //     icon: 'emoji',
@@ -89,23 +89,17 @@ const ChatWithPopover: React.FC = () => {
                                                 <li>{t(HomePage.protoMsgExtStep1)}</li>
                                                 <li>
                                                     <Trans i18nKey={HomePage.protoMsgExtStep2}>
-                                                        <Icon name="more" />
+                                                        <Icon name="more" color="brand" />
                                                     </Trans>
                                                 </li>
                                                 <li>
                                                     <Trans i18nKey={HomePage.protoMsgExtStep3}>
-                                                        <Button
-                                                            icon="stardust-menu-arrow-end"
-                                                            iconPosition="after"
-                                                            primary
-                                                            text
-                                                            content={t(HomePage.protoMsgExtMenuMoreAction)}
-                                                        />
+                                                        <MoreButton />
                                                     </Trans>
                                                 </li>
                                                 <li>
                                                     <Trans i18nKey={HomePage.protoMsgExtStep4}>
-                                                        <Button primary text content={t(HomePage.protoMsgExtMenuSaveStickers)} />
+                                                        <SaveStickersButton />
                                                     </Trans>
                                                 </li>
                                             </ol>
@@ -146,7 +140,7 @@ const TeamsChatMessage: React.FC<ChatMessageProps & { dialogContent: JSX.Element
 
     const handleBlur = (e: any) => !e.currentTarget.contains(e.relatedTarget) && setShowActionMenu(false);
     const { dialogContent, ...rest } = props;
-
+    const {t} = useTranslation(NS.homePage);
     return (
         <Ref innerRef={setChatMessageElement}>
             <Chat.Message
@@ -159,6 +153,7 @@ const TeamsChatMessage: React.FC<ChatMessageProps & { dialogContent: JSX.Element
                             onForceShowActionMenuChange={setForceShowActionMenu}
                             onShowActionMenuChange={setShowActionMenu}
                             dialogContent={dialogContent}
+                            t={t}
                             {...props}
                         />
                     ))

@@ -1,9 +1,13 @@
-import { Menu, Dialog, Button } from "@stardust-ui/react";
+import { Menu, Dialog } from "@stardust-ui/react";
 import React from "react";
+import { SaveStickersButton, MoreButton, StickersSavedTitle } from "./buttons";
+import { TFunction } from "i18next";
+import { HomePage } from "../../locales";
 
 export interface PopoverProps {
     className?: string;
     disabled: boolean;
+    t: TFunction,
     onForceShowActionMenuChange: (val: boolean) => void;
     onShowActionMenuChange: (val: boolean) => void;
     chatMessageElement?: HTMLElement;
@@ -28,7 +32,7 @@ interface PopoverState {
 // const daiglog =
 class Popover extends React.Component<PopoverProps, PopoverState> {
     state = {
-        focused: false,
+        focused: true,
         open: false,
     };
 
@@ -49,7 +53,7 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
     };
 
     render() {
-        const { dialogContent, disabled, onShowActionMenuChange, onForceShowActionMenuChange, ...rest } = this.props;
+        const { t, dialogContent, disabled, onShowActionMenuChange, onForceShowActionMenuChange, ...rest } = this.props;
         const { open } = this.state;
         delete rest.chatMessageElement;
         return (
@@ -60,15 +64,6 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                     iconOnly
                     className={this.props.className || "" + this.state.focused ? "focused" : ""}
                     items={[
-                        // {
-                        //     key: "smile2",
-                        //     disabled: true,
-                        //     // icon: 'smile',
-                        //     className: "emoji",
-                        //     "aria-label": "smile two",
-                        //     content: "😊",
-                        //     onClick: this.handleActionableItemClick,
-                        // },
                         {
                             key: "smile",
                             disabled: true,
@@ -118,32 +113,25 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                                 // pills: true,
                                 "data-is-focusable": true,
                                 items: [
-                                    { key: "bookmark", icon: "bookmark", disabled: true, content: "Save this message" },
+                                    { key: "bookmark", icon: "bookmark", disabled: true, content: t(HomePage.protoMsgExtMenuSaveMsg) },
                                     {
                                         key: "unread",
                                         icon: "mark-as-unread",
                                         disabled: true,
-                                        content: "Mark as unread",
+                                        content: t(HomePage.protoMsgExtMenuUnread),
                                     },
-                                    { key: "translate", icon: "translation", disabled: true, content: "Translate" },
+                                    { key: "translate", icon: "translation", disabled: true, content: t(HomePage.protoMsgExtMenuTranslate) },
                                     {
                                         "data-is-focusable": true,
                                         defaultMenuOpen: true,
                                         key: "more",
-                                        content: (
-                                            <Button
-                                                icon="stardust-menu-arrow-end"
-                                                iconPosition="after"
-                                                text
-                                                content="More actions"
-                                            />
-                                        ),
+                                        content: <MoreButton />,
                                         menu: {
                                             "data-is-focusable": true,
                                             items: [
                                                 {
                                                     key: "save",
-                                                    content: "♥ Save Stickers",
+                                                    content: <SaveStickersButton />,
                                                     menuOpen: true,
                                                     onClick: () => this.open(),
                                                 },
@@ -169,13 +157,13 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                         styles: { width: "100%" },
                         content: dialogContent,
                     }}
-                    header="♥ Saved!"
+                    header={<StickersSavedTitle />}
                     headerAction={{
                         icon: "close",
                         title: "Close",
                         onClick: this.close,
                     }}
-                    // trigger={<Button content="Open a dialog" />}
+                // trigger={<Button content="Open a dialog" />}
                 />
             </>
         );

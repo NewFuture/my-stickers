@@ -11,7 +11,7 @@ const SearchBox: React.FC = props => {
                 <Input fluid icon="search" placeholder="Select a sticker" />
             </Header>
             <Grid columns="3" rows="3">
-                <Image src={helloSticker} styles={{ width: "8em", cursor: "pointer" }} />
+                <Image src={helloSticker} title="Hello" styles={{ width: "7em", cursor: "pointer" }} />
                 {/* <Image src={helloSticker} />
                 <Image src={helloSticker} />
                 <Image src={helloSticker} />

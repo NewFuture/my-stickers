@@ -26,6 +26,7 @@ export enum NS {
 
 export enum Common {
     title = "common:title",
+    shortTitle = "common:shortTitle",
     description = "common:description",
     langSetting = "common:langSetting",
     not_found = "common:not_found",
@@ -33,6 +34,7 @@ export enum Common {
 
 export enum HomePage {
     downloadExtension = "home:downloadExtension",
+ 
     protoMsgExtTitle = "home:protoMsgExtTitle",
     protoMsgExtSubTitle = "home:protoMsgExtSubTitle",
     protoMsgExtStep1 = "home:protoMsgExtStep1",
@@ -42,7 +44,17 @@ export enum HomePage {
     protoMsgExtTime = "home:protoMsgExtTime",
     protoMsgExtMenuMoreAction = "home:protoMsgExtMenuMoreAction",
     protoMsgExtMenuSaveStickers = "home:protoMsgExtMenuSaveStickers",
+    protoMsgExtMenuSaveMsg = "home:protoMsgExtMenuSaveMsg",
+    protoMsgExtMenuUnread = "home:protoMsgExtMenuUnread",
+    protoMsgExtMenuTranslate = "home:protoMsgExtMenuTranslate",
+    protoMsgExtStickerSavedTitle="home:protoMsgExtStickerSavedTitle",
 
+    protoComposeTitle="home:protoComposeTitle",
+    protoComposeSubTitle="home:protoComposeSubTitle",
+    protoComposeTime="home:protoComposeTime",
+    protoComposeIntro="home:protoComposeIntro",
+    protoComposeStep1="home:protoComposeStep1",
+    protoComposeStep2="home:protoComposeStep2",
 
 }
 

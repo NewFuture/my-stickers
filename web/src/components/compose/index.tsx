@@ -3,8 +3,13 @@ import React from "react";
 import { Chat, Provider, TextArea } from "@stardust-ui/react";
 import { ComponentPrototype, PrototypeSection } from "../Prototype";
 import gutter from "../gutter";
+import { useTranslation } from "react-i18next";
+import { NS, HomePage } from "../../locales";
 // import Chat from '../chat';
-
+const TimeStamp = () => {
+    const { t } = useTranslation(NS.homePage);
+    return <>{t(HomePage.protoComposeTime)}</>
+}
 const messages = [
     {
         gutter,
@@ -12,7 +17,7 @@ const messages = [
             <Chat.Message
                 author="New Future"
                 content="Now, you cand send the stickers"
-                timestamp="Yesterday, 11:11 PM"
+                timestamp={<TimeStamp />}
             />
         ),
     },
@@ -22,7 +27,7 @@ const messages = [
             <Chat.Message
                 author="New Future"
                 content={<div>1. Click the ♥ icon</div>}
-                timestamp="Yesterday, 11:11 PM"
+                timestamp={<TimeStamp />}
             />
         ),
     },
@@ -32,17 +37,18 @@ const messages = [
             <Chat.Message
                 author="New Future"
                 content={<div>2. Click the sitcker that you want to send</div>}
-                timestamp="Yesterday, 11:11 PM"
+                timestamp={<TimeStamp />}
             />
         ),
     },
 ];
 export default function Compose(props: any) {
+    const { t } = useTranslation([NS.homePage])
     return (
-        <PrototypeSection title="Send Stickers from compose extension">
+        <PrototypeSection title={t(HomePage.protoComposeTitle)}>
             <ComponentPrototype
-                title="Componse editor with popover"
-                // description="Click save stciker in the more action menu list can save it!"
+                title={t(HomePage.protoComposeSubTitle)}
+            // description="Click save stciker in the more action menu list can save it!"
             >
                 <Provider
                     theme={{

@@ -1,8 +1,11 @@
 import React from "react";
 import { Menu, Popup, Button } from "@stardust-ui/react";
 import SearchBox from "./SearchBox";
+import { useTranslation } from "react-i18next";
+import { NS, Common } from "../../locales";
 
 const BottomMenu: React.FC = () => {
+  const { t } = useTranslation(NS.common)
   return (
     <Menu
       iconOnly
@@ -55,7 +58,7 @@ const BottomMenu: React.FC = () => {
             position="above"
             // align='center'
             content={<SearchBox />}
-            trigger={<Button iconOnly>♥</Button>}
+            trigger={<Button title={t(Common.shortTitle)} iconOnly>♥</Button>}
           />,
           key: 'custom sticker',
           // size: "large",
