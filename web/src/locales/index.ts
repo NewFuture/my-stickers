@@ -32,8 +32,17 @@ export enum Common {
 
 export enum HomePage {
     downloadExtension = "home:downloadExtension",
-    protoMessageExtensionTitle = "home:protoMessageExtensionTitle",
-    protoMessageExtensionSubTitle = "home:protoMessageExtensionSubTitle",
+    protoMsgExtTitle = "home:protoMsgExtTitle",
+    protoMsgExtSubTitle = "home:protoMsgExtSubTitle",
+    protoMsgExtStep1 = "home:protoMsgExtStep1",
+    protoMsgExtStep2 = "home:protoMsgExtStep2",
+    protoMsgExtStep3 = "home:protoMsgExtStep3",
+    protoMsgExtStep4 = "home:protoMsgExtStep4",
+    protoMsgExtTime = "home:protoMsgExtTime",
+    protoMsgExtMenuMoreAction = "home:protoMsgExtMenuMoreAction",
+    protoMsgExtMenuSaveStickers = "home:protoMsgExtMenuSaveStickers",
+
+
 }
 
 export enum ConfigPage {

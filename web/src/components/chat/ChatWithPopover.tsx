@@ -7,12 +7,17 @@ import {
     Image,
     Reaction,
     Icon,
+    Button,
 } from "@stardust-ui/react";
+import { Trans, Translation } from "react-i18next";
 import React from "react";
+
 import Popover from "./Popover";
 // import ReactionPopup from './ReactionPopup'
 import { Ref } from "@stardust-ui/react-component-ref";
 import gutter from "../gutter";
+
+import { HomePage, NS } from "../../locales";
 
 const helloSticker = process.env.PUBLIC_URL + "/hello.gif";
 
@@ -36,104 +41,101 @@ const reactionsWithPopup = reactions.map(reaction => (render: any) =>
 
 const ChatWithPopover: React.FC = () => {
     return (
-        <Provider
-            theme={{
-                componentStyles: {
-                    ChatMessage: {
-                        root: (opts: any) => ({
-                            marginBottom: "2em",
-                            "& a": {
-                                color: opts.theme.siteVariables.colors.brand[600],
+        <Translation ns={NS.homePage}>
+            {t => (
+                <Provider
+                    theme={{
+                        componentStyles: {
+                            ChatMessage: {
+                                root: (opts: any) => ({
+                                    marginBottom: "2em",
+                                    "& a": {
+                                        color: opts.theme.siteVariables.colors.brand[600],
+                                    },
+                                }),
                             },
-                        }),
-                    },
-                    Menu: {
-                        root: {
-                            background: "#fff",
-                            transition: "opacity 0.2s",
-                            position: "absolute",
-
-                            "& a:focus": {
-                                textDecoration: "none",
-                                color: "inherit",
-                            },
-                            "& a": {
-                                color: "inherit",
-                            },
-
-                            "& .smile-emoji": {
-                                position: "absolute",
-                                opacity: 0,
-                                zIndex: -1,
-                            },
-
-                            "&.focused .smile-emoji": {
-                                position: "initial",
-                                zIndex: "initial",
-                                opacity: 1,
-                            },
-
-                            "&:hover .smile-emoji": {
-                                position: "initial",
-                                zIndex: "initial",
-                                opacity: 1,
+                            Menu: {
+                                root: {
+                                    background: "#fff",
+                                    transition: "opacity 0.2s",
+                                    position: "absolute",
+                                    "& a:focus": {
+                                        textDecoration: "none",
+                                        color: "inherit",
+                                    },
+                                    "& a": {
+                                        color: "inherit",
+                                    },
+                                },
                             },
                         },
-                    },
-                },
-            }}
-        >
-            <Chat
-                styles={{
-                    margin: "auto",
-                    padding: "1em",
-                    width: "90%",
-                    maxWidth: "1366px",
-                }}
-                items={[
-                    {
-                        key: "a",
-                        message: (
-                            <Chat.Message
-                                author="New Future"
-                                content={
-                                    <ol>
-                                        <li>Click or hover on the next message</li>
-                                        <li>
-                                            Click the <Icon name="more" /> (the right one of the reaction list)
-                                        </li>
-                                        <li>
-                                            Click <b>More actions > </b> (the last one in the menu list)
-                                        </li>
-                                        <li>
-                                            Click <b>♥ Save Stickers</b>
-                                        </li>
-                                    </ol>
-                                }
-                                timestamp="Yesterday, 10:15 PM"
-                            />
-                        ),
-                        gutter,
-                    },
-                    {
-                        key: "b",
-                        message: (
-                            <TeamsChatMessage
-                                author="New Future"
-                                data-is-focusable
-                                content={<Image src={helloSticker} />}
-                                dialogContent={<Image src={helloSticker} />}
-                                reactionGroup={{
-                                    items: reactionsWithPopup,
-                                }}
-                                timestamp="Yesterday, 10:16 PM"
-                            />
-                        ),
-                        gutter,
-                    },
-                ]}
-            />
-        </Provider>
+                    }}
+                >
+                    <Chat
+                        styles={{
+                            margin: "auto",
+                            padding: "1em",
+                            width: "90%",
+                            maxWidth: "1366px",
+                        }}
+                        items={[
+                            {
+                                key: "a",
+                                message: (
+                                    <Chat.Message
+                                        author="New Future"
+                                        content={
+                                            <ol>
+                                                <li>{t(HomePage.protoMsgExtStep1)}</li>
+                                                <li>
+                                                    <Trans i18nKey={HomePage.protoMsgExtStep2}>
+                                                        <Icon name="more" />
+                                                    </Trans>
+                                                </li>
+                                                <li>
+                                                    <Trans i18nKey={HomePage.protoMsgExtStep3}>
+                                                        <Button
+                                                            icon="stardust-menu-arrow-end"
+                                                            iconPosition="after"
+                                                            primary
+                                                            text
+                                                            content={t(HomePage.protoMsgExtMenuMoreAction)}
+                                                        />
+                                                    </Trans>
+                                                </li>
+                                                <li>
+                                                    <Trans i18nKey={HomePage.protoMsgExtStep4}>
+                                                        <Button primary text content={t(HomePage.protoMsgExtMenuSaveStickers)} />
+                                                    </Trans>
+                                                </li>
+                                            </ol>
+                                        }
+                                        timestamp={t(HomePage.protoMsgExtTime)}
+                                    />
+                                ),
+                                gutter,
+                            },
+                            {
+                                key: "b",
+                                message: (
+                                    <TeamsChatMessage
+                                        author="New Future"
+                                        data-is-focusable
+                                        content={<Image src={helloSticker} />}
+                                        dialogContent={<Image src={helloSticker} />}
+                                        reactionGroup={{
+                                            items: reactionsWithPopup,
+                                        }}
+                                        timestamp={t(HomePage.protoMsgExtTime)}
+                                    />
+                                ),
+                                gutter,
+                            },
+                        ]}
+                    />
+                </Provider>
+            )}
+        </Translation>
     );
 };
 
