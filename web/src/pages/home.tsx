@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { HomePage, NS, Common } from "../locales";
 import ChatWithPopover from "../components/chat";
 import Compose from "../components/compose";
+import LanguageButton from "../components/language";
 
 export default function Home() {
     const { t } = useTranslation([NS.common, NS.homePage]);
@@ -13,6 +14,7 @@ export default function Home() {
     }, [t]);
     return (
         <>
+            <LanguageButton />
             <Header
                 as="h1"
                 color="brand"
@@ -22,7 +24,7 @@ export default function Home() {
                 }}
                 content={t(Common.title)}
                 description={t(Common.description)}
-            />
+            ></Header>
             <Flex hAlign="center" styles={{ padding: "1em" }}>
                 <Button
                     styles={{ textDecoration: "none" }}

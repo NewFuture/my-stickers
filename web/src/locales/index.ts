@@ -27,6 +27,7 @@ export enum NS {
 export enum Common {
     title = "common:title",
     description = "common:description",
+    langSetting = "common:langSetting",
     not_found = "common:not_found",
 }
 

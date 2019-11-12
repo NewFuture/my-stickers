@@ -4,10 +4,11 @@ import ImageList from "../components/image-list";
 import UploadButton from "../components/upload-button";
 import { Sticker, getStickers } from "../services/get-stickers";
 // import { FormattedMessage } from "react-intl";
-import { ConfigPage, NS } from "../locales";
+import { NS, ConfigPage } from "../locales";
 import { init, exit } from "../services/teams";
 import { upload, getUploadSAS } from "../services/upload";
 import { useTranslation } from "react-i18next";
+import LanguageButton from "../components/language";
 
 export default function Config() {
     const [stickes, setStickes] = useState<Sticker[]>([]);
@@ -43,6 +44,7 @@ export default function Config() {
     }
     return (
         <>
+            <LanguageButton />
             <Header align="center">
                 <List
                     items={[

@@ -4,6 +4,7 @@
 export const common = {
     "title": "Custom Stickers",
     "description": "Save and send your stickers in Microsoft Teams",
+    langSetting:"Set Language"
 }
 
 /**
