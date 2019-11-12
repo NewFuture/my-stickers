@@ -1,6 +1,5 @@
-import { Menu, Dialog } from "@stardust-ui/react";
+import { Menu, Dialog, Button } from "@stardust-ui/react";
 import React from "react";
-// import cx from 'classnames'
 
 export interface PopoverProps {
     className?: string;
@@ -107,11 +106,13 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                         {
                             key: "c",
                             icon: "more",
+                            indicator: false,
                             onMenuOpenChange: (e, props) => {
                                 onShowActionMenuChange(true);
                                 onForceShowActionMenuChange(props! && props!.menuOpen!);
                             },
                             "aria-label": "more options",
+
                             // defaultMenuOpen: true,
                             menu: {
                                 // pills: true,
@@ -129,7 +130,14 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                                         "data-is-focusable": true,
                                         defaultMenuOpen: true,
                                         key: "more",
-                                        content: "More actions >",
+                                        content: (
+                                            <Button
+                                                icon="stardust-menu-arrow-end"
+                                                iconPosition="after"
+                                                text
+                                                content="More actions"
+                                            />
+                                        ),
                                         menu: {
                                             "data-is-focusable": true,
                                             items: [

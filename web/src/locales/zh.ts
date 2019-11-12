@@ -18,6 +18,8 @@ export const common = {
  */
 export const home = {
     "downloadExtension": "下载此扩展应用",
+    protoMessageExtensionTitle: "将聊天中表情存为表情",
+    protoMessageExtensionSubTitle: "通过扩展里的更多操作一键保存"
 }
 
 

@@ -2,16 +2,15 @@ import React from "react";
 import { BrowserRouter as Router, RouteProps, Route, Switch } from "react-router-dom";
 import { Provider, themes } from "@stardust-ui/react";
 
-// import { getLocale, getMessages } from "./locales";
+import "./lib/i18n";
+
 import Config from "./pages/config";
 import Home from "./pages/home";
 import NotFound from "./pages/notfound";
 import PrivacyPage from "./pages/privacy";
-
-import "./lib/i18n";
-
-import "./App.scss";
 import TermsPage from "./pages/terms";
+
+window.localStorage.felaDevMode = window.localStorage.stardustDebug = process.env.NODE_ENV === "development";
 
 const routes: RouteProps[] = [
     {

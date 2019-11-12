@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { Header, Button, Flex } from "@stardust-ui/react";
-// import { FormattedMessage } from "react-intl";
+import { useTranslation } from "react-i18next";
+
 import { HomePage, NS, Common } from "../locales";
 import ChatWithPopover from "../components/chat";
 import Compose from "../components/compose";
-import { useTranslation } from "react-i18next";
 
 export default function Home() {
     const { t } = useTranslation([NS.common, NS.homePage]);

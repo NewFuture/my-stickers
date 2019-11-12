@@ -32,6 +32,8 @@ export enum Common {
 
 export enum HomePage {
     downloadExtension = "home:downloadExtension",
+    protoMessageExtensionTitle = "home:protoMessageExtensionTitle",
+    protoMessageExtensionSubTitle = "home:protoMessageExtensionSubTitle",
 }
 
 export enum ConfigPage {
