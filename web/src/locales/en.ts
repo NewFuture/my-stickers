@@ -1,7 +1,23 @@
-export default {
+/**
+ * 通用语言
+ */
+export const common = {
     "title": "Custom Stickers",
     "description": "Save and send your stickers in Microsoft Teams",
-    home_downloadExtension:"Download This Extension",
+}
+
+/**
+ * 首页 index.html
+ */
+export const home = {
+    "downloadExtension": "Download This Extension",
+}
+
+
+/**
+ * 配置页 config.html
+ */
+export const config = {
     "upload": 'upload',
     "delete": 'delete',
 }

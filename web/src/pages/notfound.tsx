@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Header } from "@stardust-ui/react";
-import { FormattedMessage } from "react-intl";
-import { Messages } from "../locales";
+import { NS, Common } from "../locales";
+import { useTranslation } from "react-i18next";
+// import { FormattedMessage } from "react-intl";
+// import { Messages } from "../locales";
 
 export default function NotFound() {
-    document.title = "404";
-    return <Header
-        color="brand"
-        align="center"
-        content={<FormattedMessage id={Messages.not_found} />}
-        description={<FormattedMessage id={Messages.not_found} />}
-    />
+    const { t } = useTranslation([NS.common, NS.homePage]);
+    useEffect(() => {
+        document.title = "404" + t(Common.not_found);
+    }, [t]);
+    return <Header color="brand" align="center" content={t(Common.not_found)} description={t(Common.not_found)} />;
 }

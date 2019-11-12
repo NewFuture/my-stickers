@@ -1,14 +1,14 @@
 import React from "react";
 import { Image, Header, Input, Box, Grid } from "@stardust-ui/react";
 
-const helloSticker = process.env.PUBLIC_URL + '/hello.gif';
+const helloSticker = process.env.PUBLIC_URL + "/hello.gif";
 
-const SearchBox: React.FC = (props) => {
+const SearchBox: React.FC = props => {
     return (
         <Box>
             <Header as="h4" content="♥ Stickers" />
             <Header as="h4">
-                <Input fluid icon="search" placeholder="Select a sticker" />            <Header />
+                <Input fluid icon="search" placeholder="Select a sticker" />
             </Header>
             <Grid columns="3" rows="3">
                 <Image src={helloSticker} styles={{ width: "8em", cursor: "pointer" }} />
@@ -18,6 +18,6 @@ const SearchBox: React.FC = (props) => {
                 <Image src={helloSticker} /> */}
             </Grid>
         </Box>
-    )
-}
+    );
+};
 export default SearchBox;

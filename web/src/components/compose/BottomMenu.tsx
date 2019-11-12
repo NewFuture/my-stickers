@@ -11,42 +11,42 @@ const BottomMenu: React.FC = () => {
           key: 'a',
           size: "large",
           icon: "format",
-          outline: true,
+          // outline: true,
           disabled: true
         },
         {
           key: 'r',
           size: "large",
           icon: "redbang",
-          outline: true,
+          // outline: true,
           disabled: true
         },
         {
           key: 'paperclip',
           size: "large",
           icon: "paperclip",
-          outline: true,
+          // outline: true,
           disabled: true
         },
         {
           key: 'emoji',
           size: "large",
           icon: "emoji",
-          outline: true,
+          // outline: true,
           disabled: true
         },
         {
           key: 'giphy',
           size: "large",
           icon: "giphy",
-          outline: true,
+          // outline: true,
           disabled: true
         },
         {
           key: 'sticker',
           size: "large",
           icon: "sticker",
-          outline: true,
+          // outline: true,
           disabled: true
         },
         {
@@ -67,7 +67,7 @@ const BottomMenu: React.FC = () => {
           key: 'more',
           size: "large",
           icon: "more",
-          outline: true,
+          // outline: true,
           disabled: true
         },
       ]}

@@ -1,21 +1,14 @@
 import React, { ChangeEventHandler } from "react";
 import { Button } from "@stardust-ui/react";
-import { FormattedMessage } from "react-intl";
-import { Messages } from "../locales";
 
 export interface PropType {
     multiple?: boolean;
     onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
-const UploadButton = (props: PropType) => (
+const UploadButton: React.FC<PropType> = props => (
     <span>
-        <Button
-            as="label"
-            htmlFor="image-upload"
-            icon="add"
-            content={<FormattedMessage id={Messages.upload} />}
-        ></Button>
+        <Button as="label" htmlFor="image-upload" icon="add" content={props.children} />
         <input
             hidden
             type="file"

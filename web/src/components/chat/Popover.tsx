@@ -26,7 +26,7 @@ interface PopoverState {
 //     return behavior
 // }
 
-// const daiglog = 
+// const daiglog =
 class Popover extends React.Component<PopoverProps, PopoverState> {
     state = {
         focused: false,
@@ -112,14 +112,18 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                                 onForceShowActionMenuChange(props! && props!.menuOpen!);
                             },
                             "aria-label": "more options",
-                            indicator: true,
                             // defaultMenuOpen: true,
                             menu: {
                                 // pills: true,
                                 "data-is-focusable": true,
                                 items: [
                                     { key: "bookmark", icon: "bookmark", disabled: true, content: "Save this message" },
-                                    { key: "unread", icon: "mark-as-unread", disabled: true, content: "Mark as unread" },
+                                    {
+                                        key: "unread",
+                                        icon: "mark-as-unread",
+                                        disabled: true,
+                                        content: "Mark as unread",
+                                    },
                                     { key: "translate", icon: "translation", disabled: true, content: "Translate" },
                                     {
                                         "data-is-focusable": true,
@@ -155,15 +159,15 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                     // confirmButton="Confirm"
                     content={{
                         styles: { width: "100%" },
-                        content: dialogContent
+                        content: dialogContent,
                     }}
                     header="♥ Saved!"
                     headerAction={{
-                        icon: 'close',
-                        title: 'Close',
+                        icon: "close",
+                        title: "Close",
                         onClick: this.close,
                     }}
-                // trigger={<Button content="Open a dialog" />}
+                    // trigger={<Button content="Open a dialog" />}
                 />
             </>
         );
