@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { SplitButton } from "@stardust-ui/react";
 import { useTranslation } from "react-i18next";
 import { NS, Common } from "../locales";
@@ -9,23 +9,21 @@ const LanguageList = [
     { key: "en", content: "English" },
 ];
 const LanguageButton = () => {
-    const [isOpen, setIsOpen] = useState(false);
     const { t, i18n } = useTranslation(NS.common);
     return (
         <SplitButton
             styles={{
                 position: "absolute",
-                top: "1.5em",
+                top: "2em",
                 right: "1.5em",
             }}
             menu={LanguageList}
             button={{
+                size: "smaller",
                 content: t(Common.langSetting),
                 icon: "translation",
             }}
-            open={isOpen}
-            toggleButton={{ onClick: () => setIsOpen(open => !open) }}
-            onMainButtonClick={() => setIsOpen(open => !open)}
+            onMainButtonClick={() => i18n.changeLanguage(i18n.language === "zh" ? "en" : "zh")}
             onMenuItemClick={(_, v) => {
                 const index = v && v.index;
                 if (isNumber(index)) {
@@ -33,7 +31,6 @@ const LanguageButton = () => {
                     if (l) {
                         i18n.changeLanguage(l.key);
                     }
-                    setIsOpen(false);
                 }
             }}
         />

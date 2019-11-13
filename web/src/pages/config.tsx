@@ -45,9 +45,10 @@ export default function Config() {
     return (
         <>
             <LanguageButton />
-            <Header align="center">
+            <Header>
                 <List
                     items={[
+                        <Button icon="accept" key="exit" primary iconOnly circular onClick={() => exit()} />,
                         <UploadButton onChange={ImageUploadHandler} key="upload" multiple>
                             {t(ConfigPage.upload)}
                         </UploadButton>,
@@ -58,7 +59,6 @@ export default function Config() {
                             key="delete"
                             content={t(ConfigPage.delete)}
                         />,
-                        <Button icon="accept" key="exit" primary iconOnly circular onClick={() => exit()} />,
                     ]}
                     horizontal
                 />

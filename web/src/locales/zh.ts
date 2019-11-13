@@ -6,7 +6,7 @@ export const common = {
     title: "自定义表情包",
     shortTitle: "表情",
     description: "在微软Teams中保存和使用自定义表情包",
-    langSetting: "语言设置",
+    langSetting: "Switch Language",
 }
 
 /**

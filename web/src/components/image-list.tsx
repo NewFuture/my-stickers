@@ -8,7 +8,7 @@ interface Props {
 }
 
 const ImageList: React.FC<Props> = (props: Props) => (
-    <Grid columns={4}>
+    <Grid columns={3}>
         {props.items.map(item => (
             <ImageItem key={item.id} src={item.src} label={item.name} />
         ))}

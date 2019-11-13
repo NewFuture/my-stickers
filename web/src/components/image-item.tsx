@@ -9,18 +9,18 @@ export interface PropTypes {
 const ImageItem: React.FC<PropTypes> = (props: PropTypes) => {
     const { src, label, edit } = props;
     return (
-        <Segment inverted>
+        <Segment styles={{textAlign:"center"}}>
             <Image
                 src={src}
                 styles={{
-                    width: "200px",
-                    height: "200px",
+                    width: "28.5vw",
+                    height: "28.5vw",
                 }}
             />
             {edit ? (
                 <Input icon="edit" value={label} inverted inline />
             ) : (
-                label && <Label color="black" content={label} />
+                label && <Label color="gray"  content={label} />
             )}
         </Segment>
     );
