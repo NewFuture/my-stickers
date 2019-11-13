@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Header, Button, Flex, Text, FlexItem, Box } from "@stardust-ui/react";
+import { Header, Button, Text, Box } from "@stardust-ui/react";
 import { useTranslation } from "react-i18next";
 
 import { HomePage, NS, Common } from "../locales";
