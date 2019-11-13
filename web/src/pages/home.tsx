@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Header, Button, Text, Box } from "@stardust-ui/react";
+import { Header, Button, Text, Box, Flex } from "@stardust-ui/react";
 import { useTranslation } from "react-i18next";
 
 import { HomePage, NS, Common } from "../locales";
@@ -38,6 +38,19 @@ export default function Home() {
             </Box>
             <ChatWithPopover />
             <Compose />
+            <Flex hAlign="center">
+                <Button
+                    styles={{ textDecoration: "none", padding: "1em", margin: "1em" }}
+                    as="a"
+                    href={process.env.PUBLIC_URL + "/custom-stickers.zip"}
+                    icon="download"
+                    content={t(HomePage.downloadExtension)}
+                    size="largest"
+                    download
+                    circular
+                    secondary
+                ></Button>
+            </Flex>
         </>
     );
 }

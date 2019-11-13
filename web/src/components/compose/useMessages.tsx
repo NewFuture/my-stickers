@@ -40,7 +40,7 @@ const messages: Message[] = [
         ),
     },
     {
-        gutter,
+        attached: "top",
         message: (
             <Chat.Message
                 author="New Future"
