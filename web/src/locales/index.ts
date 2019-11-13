@@ -30,6 +30,7 @@ export enum Common {
     description = "common:description",
     langSetting = "common:langSetting",
     not_found = "common:not_found",
+    date = "common:date"
 }
 
 export enum HomePage {
@@ -56,7 +57,7 @@ export enum HomePage {
     protoComposeIntro="home:protoComposeIntro",
     protoComposeStep1="home:protoComposeStep1",
     protoComposeStep2="home:protoComposeStep2",
-
+    protoComposeToday="home:protoComposeToday",
 }
 
 export enum ConfigPage {

@@ -7,6 +7,7 @@ export const common = {
     shortTitle: "表情",
     description: "在微软Teams中保存和使用自定义表情包。",
     langSetting: "Switch Language",
+    date: "{{date, a h:mm}}",
 }
 
 /**
@@ -33,6 +34,7 @@ export const home = {
     protoComposeTitle: "快速发送表情",
     protoComposeSubTitle: "点击编辑栏表情选择收藏的自定义表情",
     protoComposeTime: "早上 6:66",
+    protoComposeToday: "今天",
 
 }
 

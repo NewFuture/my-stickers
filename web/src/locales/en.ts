@@ -5,7 +5,8 @@ export const common = {
     title: "Custom Stickers",
     shortTitle: "Sticker",
     description: "Save and send your stickers in Microsoft Teams.",
-    langSetting: "切换语言"
+    langSetting: "切换语言",
+    date: "{{date, h:mm a}}",
 }
 
 /**
@@ -13,7 +14,7 @@ export const common = {
  */
 export const home = {
     downloadExtension: "Download This Extension",
-    tips:"(Alpha Version: all data will be cleaned in Beta Version)",
+    tips: "(Alpha Version: all data will be cleaned in Beta Version)",
     // Message Extension
     protoMsgExtTitle: "Save Images as Stickers from chat messages",
     protoMsgExtSubTitle: "Chat message with popover and reactions",
@@ -35,6 +36,7 @@ export const home = {
     protoComposeIntro: "Now, you cand send the stickers",
     protoComposeStep1: "1. Click the ♥ icon",
     protoComposeStep2: "2. Click the sitcker that you want to send",
+    protoComposeToday: "Today",
 }
 
 
