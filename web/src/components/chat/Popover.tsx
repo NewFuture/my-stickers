@@ -151,7 +151,7 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                     onOpen={this.open}
                     onCancel={this.close}
                     onConfirm={this.close}
-                    styles={{ width: "30%", textAlign: "center" }}
+                    styles={{ width: "30em", textAlign: "center" }}
                     // confirmButton="Confirm"
                     content={{
                         styles: { width: "100%" },

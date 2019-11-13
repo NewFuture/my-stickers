@@ -10,6 +10,7 @@
         "axios": "^0.19.0",
         "i18next": "^19.0.0",
         "i18next-browser-languagedetector": "^4.0.1",
+        "javascript-time-ago": "^2.0.4",
         "react": "^16.11.0",
         "react-dom": "^16.11.0",
         "react-i18next": "^11.1.0",

@@ -6,7 +6,7 @@ export const common = {
     shortTitle: "Sticker",
     description: "Save and send your stickers in Microsoft Teams.",
     langSetting: "切换语言",
-    date: "{{date, h:mm a}}",
+    date: "{{date, time-ago}}",
 }
 
 /**
