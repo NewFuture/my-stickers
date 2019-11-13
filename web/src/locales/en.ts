@@ -4,7 +4,7 @@
 export const common = {
     title: "Custom Stickers",
     shortTitle: "Sticker",
-    description: "Save and send your stickers in Microsoft Teams",
+    description: "Save and send your stickers in Microsoft Teams.",
     langSetting: "切换语言"
 }
 
@@ -13,6 +13,7 @@ export const common = {
  */
 export const home = {
     downloadExtension: "Download This Extension",
+    tips:"(Alpha Version: all data will be cleaned in Beta Version)",
     // Message Extension
     protoMsgExtTitle: "Save Images as Stickers from chat messages",
     protoMsgExtSubTitle: "Chat message with popover and reactions",

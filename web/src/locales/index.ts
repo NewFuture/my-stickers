@@ -34,7 +34,8 @@ export enum Common {
 
 export enum HomePage {
     downloadExtension = "home:downloadExtension",
- 
+    tips = "home:tips",
+
     protoMsgExtTitle = "home:protoMsgExtTitle",
     protoMsgExtSubTitle = "home:protoMsgExtSubTitle",
     protoMsgExtStep1 = "home:protoMsgExtStep1",

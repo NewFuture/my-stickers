@@ -5,7 +5,7 @@
 export const common = {
     title: "自定义表情包",
     shortTitle: "表情",
-    description: "在微软Teams中保存和使用自定义表情包",
+    description: "在微软Teams中保存和使用自定义表情包。",
     langSetting: "Switch Language",
 }
 
@@ -13,6 +13,7 @@ export const common = {
  * 首页 index.html
  */
 export const home = {
+    tips: "(内测版：所有数据会在公测版发布时清空)",
     downloadExtension: "下载此扩展应用",
     // 消息扩展
     protoMsgExtTitle: "将聊天中表情存为表情",
