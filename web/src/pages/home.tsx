@@ -34,7 +34,7 @@ export default function Home() {
                     size="largest"
                     primary
                 ></Button>
-                <Text fluid as="div" size="small" weight="light" important content={t(HomePage.tips)} />
+                <Text as="div" size="small" weight="light" important content={t(HomePage.tips)} />
             </Box>
             <ChatWithPopover />
             <Compose />
