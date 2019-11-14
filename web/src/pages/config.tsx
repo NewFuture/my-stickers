@@ -3,12 +3,15 @@ import { Button, List, Header } from "@stardust-ui/react";
 import ImageList from "../components/image-list";
 import UploadButton from "../components/upload-button";
 import { Sticker, getStickers } from "../services/get-stickers";
-// import { FormattedMessage } from "react-intl";
 import { NS, ConfigPage } from "../locales";
 import { init, exit } from "../services/teams";
 import { upload, getUploadSAS } from "../services/upload";
 import { useTranslation } from "react-i18next";
 import LanguageButton from "../components/language";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import reducer from "../reducer";
+const store = createStore(reducer);
 
 export default function Config() {
     const [stickes, setStickes] = useState<Sticker[]>([]);
@@ -43,7 +46,7 @@ export default function Config() {
         newFiles.forEach((f, index) => upload(f.file, sasInfos[index]));
     }
     return (
-        <>
+        <Provider store={store}>
             <LanguageButton />
             <Header>
                 <List
@@ -64,6 +67,6 @@ export default function Config() {
                 />
             </Header>
             <ImageList items={stickes} />
-        </>
+        </Provider>
     );
 }
