@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "@stardust-ui/react";
 import ImageItem from "./image-item";
-import { Sticker } from "../services/get-stickers";
+import { Sticker } from "../../model/sticker";
 
 interface Props {
     items: Sticker[];
