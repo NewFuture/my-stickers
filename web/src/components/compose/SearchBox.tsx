@@ -22,10 +22,6 @@ const SearchBox: React.FC = props => {
                         dispatchMessage({ type: "img", payload: helloSticker });
                     }}
                 />
-                {/* <Image src={helloSticker} />
-                <Image src={helloSticker} />
-                <Image src={helloSticker} />
-                <Image src={helloSticker} /> */}
             </Grid>
         </Box>
     );

@@ -1,19 +1,67 @@
 import React, { useEffect } from "react";
-import { Header, Button, Text, Box, Flex } from "@stardust-ui/react";
+import { Header, Button, Text, Box, Flex, Provider } from "@stardust-ui/react";
 import { useTranslation } from "react-i18next";
 
 import { HomePage, NS, Common } from "../locales";
 import ChatWithPopover from "../components/chat";
 import Compose from "../components/compose";
 import LanguageButton from "../components/language";
-
 export default function Home() {
     const { t } = useTranslation([NS.common, NS.homePage]);
     useEffect(() => {
         document.title = t(Common.title);
     }, [t]);
     return (
-        <>
+        <Provider
+            theme={{
+                componentStyles: {
+                    Header: {
+                        root: { marginTop: 0 },
+                    },
+                    Chat: {
+                        root: {
+                            padding: "1em",
+                            width: "90vw",
+                            minWidth: "300px",
+                            maxWidth: "1366px",
+                            maxHeight: "555px",
+                            overflow: "scroll",
+                        },
+                    },
+                    ChatMessage: {
+                        root: {
+                            maxWidth: "80vw",
+                            // marginRight: "auto",
+                        },
+                        // root: (opts: any) => ({
+                        //     // marginBottom: "2em",
+                        //     "& a": {
+                        //         color: opts.theme.siteVariables.colors.brand[600],
+                        //     },
+                        // }),
+                    },
+                    Image: {
+                        root: {
+                            maxWidth: "75vw",
+                        },
+                    },
+                    Menu: {
+                        root: {
+                            background: "#fff",
+                            transition: "opacity 0.2s",
+                            position: "absolute",
+                            "& a:focus": {
+                                textDecoration: "none",
+                                color: "inherit",
+                            },
+                            "& a": {
+                                color: "inherit",
+                            },
+                        },
+                    },
+                },
+            }}
+        >
             <LanguageButton
                 styles={{
                     position: "absolute",
@@ -57,6 +105,6 @@ export default function Home() {
                     secondary
                 ></Button>
             </Flex>
-        </>
+        </Provider>
     );
 }

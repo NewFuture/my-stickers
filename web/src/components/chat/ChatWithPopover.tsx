@@ -1,13 +1,4 @@
-import {
-    Chat,
-    Provider,
-    ChatMessageProps,
-    ShorthandCollection,
-    ReactionProps,
-    Image,
-    Reaction,
-    Icon,
-} from "@stardust-ui/react";
+import { Chat, ChatMessageProps, ShorthandCollection, ReactionProps, Image, Reaction, Icon } from "@stardust-ui/react";
 import { Trans, Translation, useTranslation } from "react-i18next";
 import React from "react";
 
@@ -43,91 +34,59 @@ const ChatWithPopover: React.FC = () => {
     return (
         <Translation ns={NS.homePage}>
             {t => (
-                <Provider
-                    theme={{
-                        componentStyles: {
-                            ChatMessage: {
-                                root: (opts: any) => ({
-                                    marginBottom: "2em",
-                                    "& a": {
-                                        color: opts.theme.siteVariables.colors.brand[600],
-                                    },
-                                }),
-                            },
-                            Menu: {
-                                root: {
-                                    background: "#fff",
-                                    transition: "opacity 0.2s",
-                                    position: "absolute",
-                                    "& a:focus": {
-                                        textDecoration: "none",
-                                        color: "inherit",
-                                    },
-                                    "& a": {
-                                        color: "inherit",
-                                    },
-                                },
-                            },
+                <Chat
+                    items={[
+                        {
+                            key: "a",
+                            message: (
+                                <Chat.Message
+                                    styles={{
+                                        marginBottom: "2em",
+                                    }}
+                                    author="New Future"
+                                    content={
+                                        <ol>
+                                            <li>{t(HomePage.protoMsgExtStep1)}</li>
+                                            <li>
+                                                <Trans i18nKey={HomePage.protoMsgExtStep2}>
+                                                    <Icon name="more" color="brand" />
+                                                </Trans>
+                                            </li>
+                                            <li>
+                                                <Trans i18nKey={HomePage.protoMsgExtStep3}>
+                                                    <MoreButton />
+                                                </Trans>
+                                            </li>
+                                            <li>
+                                                <Trans i18nKey={HomePage.protoMsgExtStep4}>
+                                                    <SaveStickersButton />
+                                                </Trans>
+                                            </li>
+                                        </ol>
+                                    }
+                                    timestamp={t(HomePage.protoMsgExtTime)}
+                                />
+                            ),
+                            gutter,
                         },
-                    }}
-                >
-                    <Chat
-                        styles={{
-                            margin: "auto",
-                            padding: "1em",
-                            width: "90%",
-                            maxWidth: "1366px",
-                        }}
-                        items={[
-                            {
-                                key: "a",
-                                message: (
-                                    <Chat.Message
-                                        author="New Future"
-                                        content={
-                                            <ol>
-                                                <li>{t(HomePage.protoMsgExtStep1)}</li>
-                                                <li>
-                                                    <Trans i18nKey={HomePage.protoMsgExtStep2}>
-                                                        <Icon name="more" color="brand" />
-                                                    </Trans>
-                                                </li>
-                                                <li>
-                                                    <Trans i18nKey={HomePage.protoMsgExtStep3}>
-                                                        <MoreButton />
-                                                    </Trans>
-                                                </li>
-                                                <li>
-                                                    <Trans i18nKey={HomePage.protoMsgExtStep4}>
-                                                        <SaveStickersButton />
-                                                    </Trans>
-                                                </li>
-                                            </ol>
-                                        }
-                                        timestamp={t(HomePage.protoMsgExtTime)}
-                                    />
-                                ),
-                                gutter,
-                            },
-                            {
-                                key: "b",
-                                message: (
-                                    <TeamsChatMessage
-                                        author="New Future"
-                                        data-is-focusable
-                                        content={<Image src={helloSticker} />}
-                                        dialogContent={<Image src={helloSticker} />}
-                                        reactionGroup={{
-                                            items: reactionsWithPopup,
-                                        }}
-                                        timestamp={t(HomePage.protoMsgExtTime)}
-                                    />
-                                ),
-                                gutter,
-                            },
-                        ]}
-                    />
-                </Provider>
+                        {
+                            key: "b",
+                            message: (
+                                <TeamsChatMessage
+                                    author="New Future"
+                                    data-is-focusable
+                                    content={<Image src={helloSticker} />}
+                                    dialogContent={<Image src={helloSticker} />}
+                                    reactionGroup={{
+                                        items: reactionsWithPopup,
+                                    }}
+                                    timestamp={t(HomePage.protoMsgExtTime)}
+                                />
+                            ),
+                            gutter,
+                        },
+                    ]}
+                />
             )}
         </Translation>
     );
@@ -140,7 +99,7 @@ const TeamsChatMessage: React.FC<ChatMessageProps & { dialogContent: JSX.Element
 
     const handleBlur = (e: any) => !e.currentTarget.contains(e.relatedTarget) && setShowActionMenu(false);
     const { dialogContent, ...rest } = props;
-    const {t} = useTranslation(NS.homePage);
+    const { t } = useTranslation(NS.homePage);
     return (
         <Ref innerRef={setChatMessageElement}>
             <Chat.Message
