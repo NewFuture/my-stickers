@@ -46,5 +46,7 @@ export const home = {
 export const config = {
     "upload": 'upload',
     "delete": 'delete',
-    loading: "Loading..."
+    loading: "Loading...",
+    maxsize: "The size of sticker images should less than {{size}}.",
+    maxnum: "Save {{n}} stickers at most.",
 }

@@ -3,12 +3,8 @@ import { Sticker } from "../model/sticker";
 import { store } from "../store";
 import { ActionType, } from "../reducer";
 import { getUploadSAS, upload, SasInfo } from "./upload";
-// import { ActionType } from "../reducer/action";
-// export interface Sticker {
-//     src: string;
-//     id: string | number;
-//     name?: string;
-// }
+
+
 
 export async function getStickers(): Promise<void> {
     store.dispatch({ type: ActionType.Status_Pending });
@@ -23,7 +19,15 @@ export async function getStickers(): Promise<void> {
 
 async function uploadSticker(file: File, sas: SasInfo) {
     // store.dispatch
-    const result = await upload(file, sas);
+    const result = await upload(file, sas, (p) => {
+        store.dispatch({
+            type: ActionType.STICKER_uploading,
+            payload: {
+                id: sas.id,
+                progress: p.percent,
+            }
+        })
+    });
     store.dispatch({
         type: ActionType.STICKER_uploadSuccess,
         payload: {
@@ -53,4 +57,20 @@ export async function uploadStickers(files: File[]) {
     })
 
     sasInfos.forEach((sas, i) => uploadSticker(files[i], sas))
+}
+
+export async function deleteSticker(id: string) {
+    store.dispatch({
+        type: ActionType.STICKER_delete,
+        payload: {
+            id
+        }
+    })
+    await API.delete(`/me/stickers/${id}`);
+    store.dispatch({
+        type: ActionType.STICKER_deleteSuccess,
+        payload: {
+            id
+        }
+    })
 }

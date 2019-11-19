@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Label, Segment, Input, Status, StatusProps, Loader, Button, Icon } from "@stardust-ui/react";
+import { Image, Label, Segment, Input, Status, StatusProps, Loader, Button } from "@stardust-ui/react";
 import { Sticker, StickerStatus } from "../../model/sticker";
 
 import "./item.scss";

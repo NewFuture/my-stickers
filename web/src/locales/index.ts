@@ -64,4 +64,6 @@ export enum ConfigPage {
     upload = 'config:upload',
     delete = 'config:delete',
     loading = 'config:loading',
+    maxsize = 'config:maxsize',
+    maxnum = 'config:maxnum',
 }
