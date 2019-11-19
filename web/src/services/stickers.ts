@@ -1,7 +1,7 @@
 import { API } from "../lib/http";
 import { Sticker } from "../model/sticker";
 import { store } from "../store";
-import { ActionType, } from "../reducer/";
+import { ActionType, } from "../reducer";
 import { getUploadSAS, upload, SasInfo } from "./upload";
 // import { ActionType } from "../reducer/action";
 // export interface Sticker {

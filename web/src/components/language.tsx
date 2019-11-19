@@ -1,5 +1,5 @@
 import React from "react";
-import { SplitButton } from "@stardust-ui/react";
+import { SplitButton, ICSSInJSStyle } from "@stardust-ui/react";
 import { useTranslation } from "react-i18next";
 import { NS, Common } from "../locales";
 import { isNumber } from "util";
@@ -8,15 +8,11 @@ const LanguageList = [
     { key: "zh", content: "中文" },
     { key: "en", content: "English" },
 ];
-const LanguageButton = () => {
+const LanguageButton: React.FC<{ styles?: ICSSInJSStyle }> = props => {
     const { t, i18n } = useTranslation(NS.common);
     return (
         <SplitButton
-            styles={{
-                position: "absolute",
-                top: "2em",
-                right: "1.5em",
-            }}
+            styles={props.styles}
             menu={LanguageList}
             button={{
                 size: "smaller",

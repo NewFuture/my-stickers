@@ -2,7 +2,7 @@ import React, { ChangeEvent } from "react";
 import { Button } from "@stardust-ui/react";
 import { useSelector } from "react-redux";
 import { StateType } from "../store";
-import { uploadStickers } from "../services/get-stickers";
+import { uploadStickers } from "../services/stickers";
 
 export interface PropType {
     multiple?: boolean;

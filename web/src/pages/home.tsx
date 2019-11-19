@@ -14,7 +14,13 @@ export default function Home() {
     }, [t]);
     return (
         <>
-            <LanguageButton />
+            <LanguageButton
+                styles={{
+                    position: "absolute",
+                    top: "2em",
+                    right: "1.5em",
+                }}
+            />
             <Header
                 as="h1"
                 color="brand"
