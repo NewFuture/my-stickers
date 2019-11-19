@@ -41,3 +41,11 @@ export function addUserStickers(userId: string, stickers: Array<Omit<Sticker, "i
         return stickers as Sticker[];
     });
 }
+
+export async function deleteUserSticker(userId: string, stickerId: string) {
+    const stickers = data.get(userId);
+    const deleteSticker = stickers && stickers.find(s => s.id === stickerId);
+    if (deleteSticker) {
+        data.set(userId, stickers!.filter(s => s.id !== stickerId))
+    }
+}

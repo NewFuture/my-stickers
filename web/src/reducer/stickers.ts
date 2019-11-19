@@ -81,7 +81,7 @@ export type StickerAction =
             id: string
         }
     } | {
-        type: StickerActionType.STICKER_editFail,
+        type: StickerActionType.STICKER_editSuccess,
         payload: {
             id: string
         }
@@ -124,7 +124,7 @@ function stickers(state: Sticker[] = [], action: StickerAction): Sticker[] {
             return state.map(s => (ids.includes(s.id)) ? { ...s, id: action.payload.find(data => data.id === s.id)!.new_id, status: StickerStatus.uploading, progress: 10 } : s);
         case StickerActionType.STICKER_uploading:
             // 更新上传进度
-            return state.map(s => s.id === action.payload.id ? { ...s, progress: 9 + 0.9 * action.payload.progress } : s);
+            return state.map(s => s.id === action.payload.id ? { ...s, progress: 9 + Math.round(0.9 * action.payload.progress) } : s);
         case StickerActionType.STICKER_uploadSuccess:
             // 上传完成
             return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.success, progress: 100 } : s);
@@ -132,14 +132,24 @@ function stickers(state: Sticker[] = [], action: StickerAction): Sticker[] {
             return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.upload_fail, progress: 0 } : s);
 
         case StickerActionType.STICKER_edit:
-            // 开始删除
+            // 开始更新数据
             return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.editing, progress: undefined } : s);
+        case StickerActionType.STICKER_editSuccess:
+            // 更新失败
+            return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.success } : s);
+        case StickerActionType.STICKER_editFail:
+            // 更新完成
+            return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.edit_fail } : s);
+
+        case StickerActionType.STICKER_delete:
+            // 开始删除
+            return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.delete, progress: undefined } : s);
         case StickerActionType.STICKER_deleteFail:
             // 删除失败
-            return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.success } : s);
+            return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.delete_fail } : s);
         case StickerActionType.STICKER_deleteSuccess:
             // 删除完成
-            return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.edit_fail } : s);
+            return state.filter(s => s.id !== action.payload.id);
 
         // return state.map(todo =>
         //     (stickers.id === action.id)

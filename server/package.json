@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node dist/app.js",
     "build": "gulp build",
-    "debug": "gulp serve --debug"
+    "debug": "gulp serve"
   },
   "repository": {
     "directory": "server",

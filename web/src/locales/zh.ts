@@ -45,4 +45,5 @@ export const home = {
 export const config = {
     "upload": '上传',
     "delete": '删除',
+    loading: "加载中...",
 }

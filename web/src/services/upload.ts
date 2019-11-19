@@ -41,9 +41,14 @@ async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
     });
 }
 
-export async function upload(file: File, sas: SasInfo) {
+export async function upload(file: File, sas: SasInfo, onProgress: (p: { percent: number, p: number }) => void) {
     const contentType = file.type;
-    await blob.put(`${sas.url}&comp=block&blockid=${btoa(sas.id)}`, await blobToArrayBuffer(file))
+    await blob.put(
+        `${sas.url}&comp=block&blockid=${btoa(sas.id)}`, await blobToArrayBuffer(file)
+        , {
+            onUploadProgress: (p) => onProgress({ percent: 100 * (p.loaded / p.total), p: p })
+        }
+    )
     // await blob.put(`${sas.url}&comp=blocklist`, `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><BlockList><Latest>${btoa(sas.id)}</Latest></BlockList>`, {
     //     headers: {
     //         "x-ms-blob-content-type": contentType

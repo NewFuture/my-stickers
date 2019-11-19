@@ -5,7 +5,7 @@ import { Router } from "express";
 import * as debug from "debug";
 
 import { getSasToken, commitBlocks } from "../services/file";
-import { addUserStickers, getUserStickers } from "../services/sticker";
+import { addUserStickers, getUserStickers, deleteUserSticker } from "../services/sticker";
 import { authorize } from "../middleware/authorize";
 
 const log = debug("router:api");
@@ -64,6 +64,25 @@ apiRouter.get("/me/stickers", async (req, res, next) => {
         log(req.userId, req.path)
         const stickers = await getUserStickers(req.userId);
         res.send({ values: stickers });
+        next();
+    } catch (error) {
+        if (error === "not found") {
+            res.send({ values: [] });
+            next();
+        } else {
+            log("load stickers fail", error);
+            res.statusCode = 500;
+            res.send(error);
+        }
+    }
+});
+
+apiRouter.delete("/me/stickers/:id", async (req, res, next) => {
+    try {
+        log(req.userId, req.path)
+        const id = req.params.id;
+        await deleteUserSticker(req.userId, id);
+        res.send({});
         next();
     } catch (error) {
         if (error === "not found") {

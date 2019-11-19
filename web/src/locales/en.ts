@@ -46,4 +46,5 @@ export const home = {
 export const config = {
     "upload": 'upload',
     "delete": 'delete',
+    loading: "Loading..."
 }

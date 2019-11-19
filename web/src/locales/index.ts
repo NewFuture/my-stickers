@@ -49,18 +49,19 @@ export enum HomePage {
     protoMsgExtMenuSaveMsg = "home:protoMsgExtMenuSaveMsg",
     protoMsgExtMenuUnread = "home:protoMsgExtMenuUnread",
     protoMsgExtMenuTranslate = "home:protoMsgExtMenuTranslate",
-    protoMsgExtStickerSavedTitle="home:protoMsgExtStickerSavedTitle",
+    protoMsgExtStickerSavedTitle = "home:protoMsgExtStickerSavedTitle",
 
-    protoComposeTitle="home:protoComposeTitle",
-    protoComposeSubTitle="home:protoComposeSubTitle",
-    protoComposeTime="home:protoComposeTime",
-    protoComposeIntro="home:protoComposeIntro",
-    protoComposeStep1="home:protoComposeStep1",
-    protoComposeStep2="home:protoComposeStep2",
-    protoComposeToday="home:protoComposeToday",
+    protoComposeTitle = "home:protoComposeTitle",
+    protoComposeSubTitle = "home:protoComposeSubTitle",
+    protoComposeTime = "home:protoComposeTime",
+    protoComposeIntro = "home:protoComposeIntro",
+    protoComposeStep1 = "home:protoComposeStep1",
+    protoComposeStep2 = "home:protoComposeStep2",
+    protoComposeToday = "home:protoComposeToday",
 }
 
 export enum ConfigPage {
     upload = 'config:upload',
     delete = 'config:delete',
+    loading = 'config:loading',
 }
