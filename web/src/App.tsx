@@ -9,6 +9,7 @@ import Home from "./pages/home";
 import NotFound from "./pages/notfound";
 import PrivacyPage from "./pages/privacy";
 import TermsPage from "./pages/terms";
+import { teams } from "@stardust-ui/react/dist/es/themes";
 
 if (process.env.NODE_ENV === "development") {
     window.localStorage.felaDevMode = window.localStorage.stardustDebug = true;
@@ -36,7 +37,7 @@ const routes: RouteProps[] = [
         component: TermsPage,
     },
 ];
-
+themes.teams.fontFaces = [];
 const App: React.FC = () => {
     return (
         <Provider theme={themes.teams}>
