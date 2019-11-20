@@ -21,9 +21,6 @@ export async function getUserStickers(userId: string): Promise<Sticker[]> {
         return Promise.resolve(cache.get(userId)!);
     }
     const dbResult = await query(userId);
-    if (dbResult) {
-        return dbResult;
-    }
     cache.set(userId, dbResult || []);
     return dbResult || [];
 }
