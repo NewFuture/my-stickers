@@ -7,15 +7,17 @@ import { Locale } from "../config/";
 // Initialize debug logging module
 const log = debug("collect");
 
-interface Img { src: string; alt?: string; }
+const ImgSrcRegex = /<img[^>]+src="([^"\s]+)"[^>]*>/g;
+const ImgAltRegex = /<img[^>]+alt="([^"]+)"[^>]*>/;
+interface Img { src: string; alt?: string | null; }
 // 字符串中提取图片信息
 function getImages(text: string): Img[] {
     const urls: Img[] = [];
-    const rex = /<img[^>]+src="([^"\s]+)"[^>]*>/g;
-    let m = rex.exec(text);
+    let m = ImgSrcRegex.exec(text);
     while (m) {
-        urls.push({ src: m[1] });
-        m = rex.exec(text);
+        const alt = m[0].match(ImgAltRegex);
+        urls.push({ src: m[1], alt: alt && alt[1] });
+        m = ImgSrcRegex.exec(text);
     }
     return urls;
 }
@@ -27,9 +29,9 @@ function getImageFromAttachment(a: MessagingExtensionAttachment): Img[] {
         // download attach
         return [{ src: a.contentUrl! }];
     }
-    if (a.contentType === "application/vnd.microsoft.card.adaptive" || a.contentType == "application/vnd.microsoft.card.hero") {
+    if (a.contentType === "application/vnd.microsoft.card.adaptive" || a.contentType === "application/vnd.microsoft.card.hero") {
         const card: any = typeof a.content === "string" ? JSON.parse(a.content || "{\"body\":[]}") : a.content;
-        return card.body.filter(c => c.type === "Image").map((c: CardImage) => ({ src: c.url, alt: c.alt }));
+        return card.body.filter(c => c.type === "Image").map((c) => ({ src: c.url, alt: c.alt || c.altText }));
     }
     return [];
 }
@@ -42,15 +44,15 @@ export async function fetchTaskCollect(req: Request, value: MessagingExtensionAc
     const attachments: MessageActionsPayloadAttachment[] = payload.attachments || [];
     attachments.map(getImageFromAttachment).filter(s => !!s).forEach(s => imgs.push(...s));
 
-    log('imgs', imgs)
-    const saveImgs = await addUserStickers(id, imgs.map(img => ({ src: img.src, name: img.alt })))
+    log("imgs", imgs);
+    const saveImgs = await addUserStickers(id, imgs.map(img => ({ src: img.src, name: img.alt! })));
     // log('imgs', saveImgs)
 
     const card = CardFactory.adaptiveCard(
         {
             type: "AdaptiveCard",
             body: [
-                ...saveImgs.map(img => ({
+                ...saveImgs.map<CardImage>(img => ({
                     url: img.src,
                     type: "Image",
                     altText: img.name,
