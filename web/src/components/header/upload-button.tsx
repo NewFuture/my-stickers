@@ -16,7 +16,7 @@ interface Msg {
     key: number;
     content: string;
 }
-const MAX_NUM = 10;
+const MAX_NUM = 100;
 const MAX_SIZE = 1000 * 1024;
 
 const UploadButton: React.FC<PropType> = props => {

@@ -22,14 +22,17 @@ export enum Status {
 }
 
 export enum StatusActionType {
-    Status_Pending="Status_Fetching",
+    Status_Pending = "Status_Fetching",
     Status_Ready = "Status_Ready",
+    Status_Syncing = "Status_Syncing",
 }
 
 export type StatusAction = {
-    type:StatusActionType.Status_Pending,
-}|{
-    type:StatusActionType.Status_Ready,
+    type: StatusActionType.Status_Pending,
+} | {
+    type: StatusActionType.Status_Ready,
+} | {
+    type: StatusActionType.Status_Syncing,
 }
 
 
@@ -40,6 +43,8 @@ function status(state = Status.pending, action: StatusAction): Status {
             return Status.pending;
         case StatusActionType.Status_Ready:
             return Status.ready;
+        case StatusActionType.Status_Syncing:
+            return Status.syncing;
         // return state.map(todo =>
         //     (stickers.id === action.id)
         //         ? { ...todo, completed: !todo.completed }
