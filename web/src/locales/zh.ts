@@ -25,15 +25,17 @@ export const home = {
     protoMsgExtStep4: "点击 <0/> 自动提取表情并保存",
     protoMsgExtTime: "昨天 晚上23:33",
     protoMsgExtMenuMoreAction: "更多操作",
-    protoMsgExtMenuSaveStickers: "❤️ 收藏表情",
+    protoMsgExtMenuSaveStickers: "收藏表情",
     protoMsgExtMenuSaveMsg: "保存此消息",
     protoMsgExtMenuUnread: "标记为未读",
     protoMsgExtMenuTranslate: "翻译",
-    protoMsgExtStickerSavedTitle: "❤️ 保存成功",
+    protoMsgExtStickerSavedTitle: "保存成功",
     // 编辑扩展
     protoComposeTitle: "快速发送表情",
     protoComposeSubTitle: "点击编辑栏表情选择收藏的自定义表情",
     protoComposeTime: "早上 6:66",
+    protoComposeStep1: "1. 点击 <0/> 图标",
+    protoComposeStep2: "2. 选择表情点击发送",
     protoComposeToday: "今天",
 
 }

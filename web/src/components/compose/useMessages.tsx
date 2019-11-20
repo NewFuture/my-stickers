@@ -1,5 +1,5 @@
 import React, { useReducer, createContext, Dispatch, useContext } from "react";
-import { ChatItemProps, Chat, Divider, Image } from "@stardust-ui/react";
+import { ChatItemProps, Chat, Divider, Image, Icon } from "@stardust-ui/react";
 import gutter from "../gutter";
 import { Trans } from "react-i18next";
 import { HomePage, NS, Common } from "../../locales";
@@ -34,7 +34,7 @@ const messages: Message[] = [
         message: (
             <Chat.Message
                 author="New Future"
-                content={<Trans ns={NS.homePage} i18nKey={HomePage.protoComposeStep1} />}
+                content={<Trans ns={NS.homePage} i18nKey={HomePage.protoComposeStep1}><Icon name="heart" outline/></Trans>}
                 timestamp={now}
             />
         ),

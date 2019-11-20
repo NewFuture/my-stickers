@@ -6,6 +6,8 @@ import { HomePage, NS, Common } from "../locales";
 import ChatWithPopover from "../components/chat";
 import Compose from "../components/compose";
 import LanguageButton from "../components/language";
+import HeartSvg from "../icons/heart";
+
 export default function Home() {
     const { t } = useTranslation([NS.common, NS.homePage]);
     useEffect(() => {
@@ -60,12 +62,15 @@ export default function Home() {
                         },
                     },
                 },
+                icons: {
+                    heart: HeartSvg,
+                },
             }}
         >
             <LanguageButton
                 styles={{
                     position: "absolute",
-                    top: "2em",
+                    top: "1em",
                     right: "1.5em",
                 }}
             />

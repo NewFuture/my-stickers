@@ -1,15 +1,19 @@
 import React from "react";
-import { Image, Header, Input, Box, Grid } from "@stardust-ui/react";
+import { Image, Header, Input, Box, Grid, Icon } from "@stardust-ui/react";
 import { useMessages } from "./useMessages";
+import { useTranslation } from "react-i18next";
+import { Common } from "../../locales";
 
 const helloSticker = process.env.PUBLIC_URL + "/hello.gif";
 
 const SearchBox: React.FC = props => {
     const [, dispatchMessage] = useMessages();
-
+    const { t } = useTranslation();
     return (
         <Box>
-            <Header as="h4" content="❤️ Stickers" />
+            <Header as="h4">
+                <Icon name="heart" color="orange" /> {t(Common.shortTitle)}
+            </Header>
             <Header as="h4">
                 <Input fluid icon="search" placeholder="Select a sticker" />
             </Header>

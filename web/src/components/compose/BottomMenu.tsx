@@ -60,9 +60,7 @@ const BottomMenu: React.FC<UIComponentProps> = props => {
                             // align='center'
                             content={<SearchBox />}
                             trigger={
-                                <Button title={t(Common.shortTitle)} iconOnly>
-                                    ♥
-                                </Button>
+                                <Button title={t(Common.shortTitle)} icon={{ name: "heart", outline: true }} iconOnly />
                             }
                         />
                     ),
