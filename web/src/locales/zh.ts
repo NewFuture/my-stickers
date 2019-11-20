@@ -14,7 +14,7 @@ export const common = {
  * 首页 index.html
  */
 export const home = {
-    tips: "(内测版：所有数据会在公测版发布时清空)",
+    tips: "(体验版：如有bug和意见欢迎反馈)",
     downloadExtension: "下载此扩展应用",
     // 消息扩展
     protoMsgExtTitle: "将聊天中表情存为表情",

@@ -14,7 +14,7 @@ export const common = {
  */
 export const home = {
     downloadExtension: "Download This Extension",
-    tips: "(Alpha Version: all data will be cleaned in Beta Version)",
+    tips: "(Beta Version: welcome to feedback bugs or suggestions)",
     // Message Extension
     protoMsgExtTitle: "Save Images as Stickers from chat messages",
     protoMsgExtSubTitle: "Chat message with popover and reactions",

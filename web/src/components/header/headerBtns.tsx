@@ -25,7 +25,7 @@ const HeaderBtns: React.FC = () => {
                         circular
                         onClick={() => exit()}
                     />,
-                    <UploadButton key="upload" disabled={status !== Status.ready} multiple>
+                    <UploadButton key="upload" disabled={status === Status.pending} multiple>
                         {t(ConfigPage.upload)}
                     </UploadButton>,
                     // <Button
