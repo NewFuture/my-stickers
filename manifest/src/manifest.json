@@ -33,12 +33,12 @@
         {
           "id": "mycollection",
           "title": "my collections",
-          "description": "Add a clever description here",
+          "description": "All stickes saved by me",
           "initialRun": true,
           "parameters": [
             {
               "name": "query",
-              "description": "filter by name",
+              "description": "search my stickers by name",
               "title": "search"
             }
           ],
@@ -49,8 +49,8 @@
         },
         {
           "id": "collect",
-          "description": "收藏消息中的图片表情",
-          "title": "收藏表情",
+          "description": "collect the sticke images from messages",
+          "title": "Save Stickers",
           "type": "action",
           "fetchTask": true,
           "context": [

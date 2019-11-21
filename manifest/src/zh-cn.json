@@ -7,7 +7,7 @@
   "composeExtensions[0].commands[0].title": "我的收藏",
   "composeExtensions[0].commands[0].description": "我收藏的所有表情包",
   "composeExtensions[0].commands[0].parameters[0].title": "搜索",
-  "composeExtensions[0].commands[0].parameters[0].description": "选择表情包",
+  "composeExtensions[0].commands[0].parameters[0].description": "名称搜索表情包",
   "composeExtensions[0].commands[1].title": "收藏表情",
   "composeExtensions[0].commands[1].description": "收藏消息中的图片作为表情",
   "composeExtensions[0].commands[1].taskInfo.title": "正在保存图片"
