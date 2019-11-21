@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Header, Segment, Provider } from "@stardust-ui/react";
+import { Box, Header, Segment, Provider, Divider } from "@stardust-ui/react";
 
 import "./Prototype.scss";
 
@@ -16,11 +16,13 @@ export const PrototypeSection: React.FunctionComponent<ComponentPrototypeProps> 
     const { title, children, styles, ...rest } = props;
     return (
         <Box className="PrototypeSection" {...rest}>
-            {title && (
-                <Header color="green" align="center" as="h2">
-                    {title}
-                </Header>
-            )}
+            <Divider important color="green">
+                {title && (
+                    <Header color="green" align="center" as="h2">
+                        {title}
+                    </Header>
+                )}
+            </Divider>
             {children}
         </Box>
     );

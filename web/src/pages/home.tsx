@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Header, Button, Text, Box, Flex, Provider } from "@stardust-ui/react";
+import { Header, Button, Text, Box, Flex, Provider, Video } from "@stardust-ui/react";
 import { useTranslation } from "react-i18next";
 
 import { HomePage, NS, Common } from "../locales";
@@ -82,19 +82,36 @@ export default function Home() {
                 content={t(Common.title)}
                 description={t(Common.description)}
             ></Header>
-            <Box styles={{ padding: "1em", textAlign: "center" }}>
-                <Button
-                    styles={{ textDecoration: "none", margin: ".8em" }}
-                    as="a"
-                    href={process.env.PUBLIC_URL + "/custom-stickers.zip"}
-                    download
-                    icon="download"
-                    content={t(HomePage.downloadExtension)}
-                    size="largest"
-                    primary
-                ></Button>
+            <Box styles={{ padding: "1em 0", textAlign: "center" }}>
+                <Video
+                    autoPlay
+                    styles={{
+                        maxWidth: "100%",
+                    }}
+                    // poster="public/images/tears-of-steel.jpg"
+                    src="https://sticker.newfuture.cc/video/install_trim.mp4"
+                    variables={
+                        {
+                            // height: "300px",
+                            // width: "100%",
+                        }
+                    }
+                />
+                <div>
+                    <Button
+                        styles={{ textDecoration: "none", margin: ".8em" }}
+                        as="a"
+                        href={process.env.PUBLIC_URL + "/custom-stickers.zip"}
+                        download
+                        icon="download"
+                        content={t(HomePage.downloadExtension)}
+                        size="largest"
+                        primary
+                    ></Button>
+                </div>
                 <Text as="div" size="small" weight="light" important content={t(HomePage.tips)} />
             </Box>
+            {/* <DemoVideo /> */}
             <ChatWithPopover />
             <Compose />
             <Flex hAlign="center">
