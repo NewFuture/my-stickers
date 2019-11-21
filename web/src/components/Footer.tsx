@@ -13,16 +13,29 @@ const Footer: React.FC = () => {
                 href="https://github.com/NewFuture/custom-stickers-teams-extension/issues/new"
                 text
                 secondary
+                size="smallest"
+                target="_blank"
+                rel="noopener noreferrer"
+                color="info"
             >
                 {t(Common.feedback)}
             </Button>
-            <Button as="a" href="https://github.com/NewFuture/custom-stickers-teams-extension" text secondary>
+            <Button
+                as="a"
+                href="https://github.com/NewFuture/custom-stickers-teams-extension"
+                text
+                secondary
+                size="smallest"
+                target="_blank"
+                rel="noopener noreferrer"
+                color="info"
+            >
                 Github
             </Button>
-            <Button as={Link} text secondary to="/privacy.html">
+            <Button as={Link} text secondary to="/privacy.html" size="smallest" color="info">
                 {t(Common.privacyTitle)}
             </Button>
-            <Button as={Link} text secondary to="/terms.html">
+            <Button as={Link} text secondary to="/terms.html" size="smallest" color="info">
                 {t(Common.termsTitle)}
             </Button>
         </Flex>

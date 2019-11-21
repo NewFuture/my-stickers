@@ -25,18 +25,18 @@ export default function Home() {
                     },
                     Chat: {
                         root: {
-                            padding: "1em",
-                            width: "90vw",
+                            padding: "1em .5em",
+                            width: "100%",
                             minWidth: "300px",
-                            maxWidth: "1366px",
-                            maxHeight: "555px",
+                            minHeight: "400px",
+                            maxHeight: "580px",
                             overflow: "scroll",
                         },
                     },
                     ChatMessage: {
                         root: {
                             maxWidth: "80vw",
-                            minWidth: "12rem",
+                            minWidth: "12.8rem",
                             marginRight: "5rem",
                         },
                     },
@@ -98,8 +98,8 @@ export default function Home() {
                 </div>
                 <Text as="div" size="small" weight="light" important content={t(HomePage.tips)} />
             </Box>
-            <ChatWithPopover />
             <Compose />
+            <ChatWithPopover />
             <Flex hAlign="center">
                 <Button
                     styles={{ textDecoration: "none", padding: "1em", margin: "1em" }}

@@ -5,7 +5,7 @@
 export const common = {
     title: "自定义表情包",
     shortTitle: "表情",
-    description: "在微软Teams中保存和使用自定义表情包。",
+    description: "在微软Teams中保存和使用你的自定义表情包。",
     langSetting: "Language",
     date: "{{date, time-ago}}",
     privacyTitle: "隐私声明",
@@ -19,9 +19,9 @@ export const common = {
  */
 export const home = {
     tips: "(体验版：如有bug和意见欢迎反馈)",
-    downloadExtension: "下载此扩展应用",
+    downloadExtension: "下载安装此扩展",
     // 消息扩展
-    protoMsgExtTitle: "将聊天中表情存为表情",
+    protoMsgExtTitle: "将聊天中图片存为表情",
     protoMsgExtSubTitle: "通过消息扩展一键收藏别人的表情",
     protoMsgExtStep1: "鼠标点击或者悬停于下面的图片消息上",
     protoMsgExtStep2: "点击 <0/> (最右边的更多图标)",
@@ -38,6 +38,8 @@ export const home = {
     protoComposeTitle: "快速发送表情",
     protoComposeSubTitle: "点击编辑栏表情选择收藏的自定义表情",
     protoComposeTime: "早上 6:66",
+    protoComposeIntro: "安装完成之后,你就可以发送自己的表情啦 ❤",
+    protoComposeIntroTip: "你可能需要手动把图标,从更多扩展中(...)右键固定到编辑栏。",
     protoComposeStep1: "1. 点击 <0/> 图标",
     protoComposeStep2: "2. 选择表情点击发送",
     protoComposeToday: "今天",

@@ -3,13 +3,29 @@
 }
 
 .PrototypeComponent {
-    padding: 2em;
-    width: fit-content;
-    margin: auto;
-    background: rgba(235, 235, 228, 0.5);
-    box-shadow: 0px 1px 0px 1px rgba(235, 235, 228, 0.2);
+    width: 85%;
+    min-width: fit-content;
+    max-width: 1920px;
 
-    @media screen and (max-width: 460px) {
-        padding: 1em 0;
+    margin: auto;
+
+    box-shadow: 0px 1px 0px 1px rgba(235, 235, 228, 0.2);
+    border-radius: 2px;
+
+    & &-header {
+        background: #464775;
+        color: #fff;
+        padding: 1em 2em;
+        margin: 0;
+    }
+    & &-content {
+        background: #33344a;
+        padding: 0 2em 2em;
+        &Box {
+            background: #f3f2f1;
+        }
+        @media screen and (max-width: 460px) {
+            padding: 0;
+        }
     }
 }

@@ -43,7 +43,7 @@ const ChatWithPopover: React.FC = () => {
                                     styles={{
                                         marginBottom: "2em",
                                     }}
-                                    author="New Future"
+                                    author="NewFuture"
                                     content={
                                         <ol>
                                             <li>{t(HomePage.protoMsgExtStep1)}</li>
@@ -73,7 +73,7 @@ const ChatWithPopover: React.FC = () => {
                             key: "b",
                             message: (
                                 <TeamsChatMessage
-                                    author="New Future"
+                                    author="NewFuture"
                                     data-is-focusable
                                     content={<Image className="Sticker" src={helloSticker} />}
                                     dialogContent={<Image className="Sticker" src={helloSticker} />}

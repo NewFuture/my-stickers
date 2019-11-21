@@ -33,8 +33,12 @@ export const PrototypeComponent: React.FunctionComponent<ComponentPrototypeProps
     return (
         <Provider>
             <Box className="PrototypeComponent" {...rest}>
-                <Header as="h3">{header}</Header>
-                <Segment>{children}</Segment>
+                <Header as="h3" className="PrototypeComponent-header">
+                    {header}
+                </Header>
+                <Segment className="PrototypeComponent-content">
+                    <div className="PrototypeComponent-contentBox">{children}</div>
+                </Segment>
             </Box>
         </Provider>
     );

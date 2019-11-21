@@ -6,35 +6,41 @@ import { HomePage, NS, Common } from "../../locales";
 
 type Message = ChatItemProps; // ChatItemProps;
 
-const date = new Date();
+const date = new Date(Date.now() - 60000);
 const now = <Trans ns={NS.common} values={{ date }} i18nKey={Common.date} />;
 const messages: Message[] = [
     {
         gutter,
         message: (
             <Chat.Message
-                author="New Future"
-                content={<Trans ns={NS.homePage} i18nKey={HomePage.protoComposeIntro} />}
-                timestamp={<Trans ns={NS.homePage} i18nKey={HomePage.protoMsgExtTime} />}
+                author="NewFuture"
+                content={<Trans i18nKey={HomePage.protoComposeIntro} />}
+                timestamp={<Trans i18nKey={HomePage.protoMsgExtTime} />}
             />
         ),
     },
     {
-        children: (
-            <Divider
-                content={<Trans ns={NS.homePage} i18nKey={HomePage.protoComposeToday} />}
-                color="brand"
-                important
+        attached: "top",
+        message: (
+            <Chat.Message
+                content={
+                    <small>
+                        <Trans i18nKey={HomePage.protoComposeIntroTip} />
+                    </small>
+                }
             />
         ),
+    },
+    {
+        children: <Divider content={<Trans i18nKey={HomePage.protoComposeToday} />} color="brand" />,
     },
     {
         gutter,
         message: (
             <Chat.Message
-                author="New Future"
+                author="NewFuture"
                 content={
-                    <Trans ns={NS.homePage} i18nKey={HomePage.protoComposeStep1}>
+                    <Trans i18nKey={HomePage.protoComposeStep1}>
                         <Icon name="heart" outline />
                     </Trans>
                 }
@@ -44,13 +50,7 @@ const messages: Message[] = [
     },
     {
         attached: "top",
-        message: (
-            <Chat.Message
-                author="New Future"
-                content={<Trans ns={NS.homePage} i18nKey={HomePage.protoComposeStep2} />}
-                timestamp={now}
-            />
-        ),
+        message: <Chat.Message content={<Trans i18nKey={HomePage.protoComposeStep2} />} />,
     },
 ];
 
@@ -78,6 +78,7 @@ function reducer(m: Message[], a: Action): Message[] {
                     attached: m.length > 3 ? "top" : undefined,
                     message: (
                         <Chat.Message
+                            styles={{ margin: 0 }}
                             content={<Image className="Sticker" src={a.payload} />}
                             timestamp={<Trans ns={NS.common} values={{ date }} i18nKey={Common.date} />}
                             mine

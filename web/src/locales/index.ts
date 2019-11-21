@@ -59,6 +59,7 @@ export enum HomePage {
     protoComposeSubTitle = "home:protoComposeSubTitle",
     protoComposeTime = "home:protoComposeTime",
     protoComposeIntro = "home:protoComposeIntro",
+    protoComposeIntroTip = "home:protoComposeIntroTip",
     protoComposeStep1 = "home:protoComposeStep1",
     protoComposeStep2 = "home:protoComposeStep2",
     protoComposeToday = "home:protoComposeToday",
