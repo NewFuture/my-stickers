@@ -6,8 +6,8 @@ import debug = require("debug");
 import { Sticker } from "./sticker";
 import { QUERY_SQL, INSERT_SQL, DELETE_SQL, UPDATE_NAME_SQL, UPDATE_WIGHT_SQL } from "./sql";
 
-const dbConfig = Object.assign(resolve(ENV.SQL_CONNECT_STRING), { parseJSON: true });
-
+const dbConfig: Sql.config = Object.assign(resolve(ENV.SQL_CONNECT_STRING), { parseJSON: true });
+(dbConfig.options as any).lowerCaseGuids = true;
 
 const log = debug("mssql");
 const error = debug("error:sql");

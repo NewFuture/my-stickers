@@ -66,9 +66,27 @@ export async function deleteSticker(id: string) {
             id
         }
     })
-    await API.delete(`/me/stickers/${id}`);
+    await API.delete(`/stickers/${id}`);
     store.dispatch({
         type: ActionType.STICKER_deleteSuccess,
+        payload: {
+            id
+        }
+    })
+}
+
+export async function editSticker(id: string, name: string) {
+
+    store.dispatch({
+        type: ActionType.STICKER_edit,
+        payload: {
+            id,
+            name
+        }
+    })
+    await API.patch(`/stickers/${id}`, { name });
+    store.dispatch({
+        type: ActionType.STICKER_editSuccess,
         payload: {
             id
         }

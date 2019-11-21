@@ -133,7 +133,12 @@ function stickers(state: Sticker[] = [], action: StickerAction): Sticker[] {
 
         case StickerActionType.STICKER_edit:
             // 开始更新数据
-            return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.editing, progress: undefined } : s);
+            return state.map(s => s.id === action.payload.id ? {
+                ...s,
+                status: StickerStatus.editing,
+                name: action.payload.name,
+                progress: undefined,
+            } : s);
         case StickerActionType.STICKER_editSuccess:
             // 更新失败
             return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.success } : s);

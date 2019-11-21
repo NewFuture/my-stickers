@@ -66,4 +66,6 @@ export enum ConfigPage {
     loading = 'config:loading',
     maxsize = 'config:maxsize',
     maxnum = 'config:maxnum',
+    inputeTitle = "config:inputeTitle",
+    inputePlaceholder = "config:inputePlaceholder",
 }

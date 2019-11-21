@@ -64,7 +64,7 @@ export async function addUserStickers(userId: string, stickers: Array<Omit<Stick
                     updateStickers.push(sticker as Sticker);
                 }
                 ++newSticker;
-                insert(sticker.id, userId, sticker.src, sticker.name);
+                insert(sticker.id, userId, sticker.src, sticker.name?.trim());
             }
         }
         cache.delete(userId);
@@ -96,7 +96,9 @@ export async function updateStickerName(userId: string, stickerId: string, name:
     if (!sticker) {
         return Promise.reject("not found");
     } else if (sticker.name !== name) {
-        return await updateName(stickerId, name);
+        await updateName(stickerId, name);
+        cache.delete(userId);
     }
+    sticker.name = name;
     return Promise.resolve(sticker);
 }

@@ -5,7 +5,7 @@ import { Router } from "express";
 import * as debug from "debug";
 
 import { getSasToken, commitBlocks } from "../services/file";
-import { addUserStickers, getUserStickers, deleteUserSticker } from "../services/sticker";
+import { addUserStickers, getUserStickers, deleteUserSticker, updateStickerName } from "../services/sticker";
 import { authorize } from "../middleware/authorize";
 
 const log = debug("router:api");
@@ -13,6 +13,11 @@ const log = debug("router:api");
 const apiRouter = Router();
 // middleware that is specific to this router
 apiRouter.use(authorize);
+
+apiRouter.use((req, res, next) => {
+    log(req.userId, req.path);
+    next();
+});
 
 interface UploadRequest {
     user: string;
@@ -59,9 +64,11 @@ apiRouter.post("/stickers/commit", async (req, res, next) => {
     }
 });
 
+/**
+ * 拉取列表
+ */
 apiRouter.get("/me/stickers", async (req, res, next) => {
     try {
-        log(req.userId, req.path)
         const stickers = await getUserStickers(req.userId);
         res.send({ values: stickers });
         next();
@@ -77,43 +84,38 @@ apiRouter.get("/me/stickers", async (req, res, next) => {
     }
 });
 
-apiRouter.delete("/me/stickers/:id", async (req, res, next) => {
+/**
+ * 删除表情
+ */
+apiRouter.delete("/stickers/:id", async (req, res, next) => {
     try {
-        log(req.userId, req.path)
         const id = req.params.id;
         await deleteUserSticker(req.userId, id);
         res.send({});
         next();
     } catch (error) {
-        if (error === "not found") {
-            res.send({ values: [] });
-            next();
-        } else {
-            log("load stickers fail", error);
-            res.statusCode = 500;
-            res.send(error);
-        }
+        res.statusCode = 500;
+        res.send(error);
+    }
+});
+
+interface PatchStickerRequest {
+    name: string;
+}
+/**
+ * 修改表情
+ */
+apiRouter.patch("/stickers/:id", async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const name = (req.body as PatchStickerRequest).name;
+        await updateStickerName(req.userId, id, name);
+        res.send({});
+        next();
+    } catch (error) {
+        res.statusCode = 500;
+        res.send(error);
     }
 });
 
 export { apiRouter };
-
-
-// interface PostStickerRequest {
-//     user: string;
-//     token: string;
-//     sticker: Sticker;
-// }
-
-// apiRouter.post("/me/stickers", async (req, res, next) => {
-//     const body: PostStickerRequest = req.body;
-//     try {
-//         const info = await addUserStickers(req.userId, [body.sticker]);
-//         res.send(info[0]);
-//         next();
-//     } catch (error) {
-//         log("add fail", error);
-//         res.statusCode = 500;
-//         res.send(error);
-//     }
-// });

@@ -1,14 +1,23 @@
-import React from "react";
-import { Image, Label, Segment, Input, Status, StatusProps, Loader, Button } from "@stardust-ui/react";
+import React, { createRef } from "react";
+import { Image, Label, Segment, Input, Status, StatusProps, Loader, Button, Dialog } from "@stardust-ui/react";
+import { useTranslation } from "react-i18next";
+
 import { Sticker, StickerStatus } from "../../model/sticker";
 
 import "./item.scss";
+import { ConfigPage } from "../../locales";
 
 const ImageItem: React.FC<Sticker & {
     onDelete: () => void;
+    onEdit: (name: string) => void;
 }> = props => {
-    const { src, name, status, progress } = props;
+    const { src, name, status, progress, onEdit, onDelete } = props;
+    const { t } = useTranslation();
+
+    const refInput = createRef<HTMLInputElement>();
     const isDeleting = status === StickerStatus.delete;
+    const isEditting = status === StickerStatus.editing;
+    const isMoving = status === StickerStatus.moving;
     let state: StatusProps["state"] = undefined;
     let icon = "";
 
@@ -29,6 +38,7 @@ const ImageItem: React.FC<Sticker & {
             icon = "loading";
             break;
         case StickerStatus.delete:
+        case StickerStatus.editing:
             state = "warning";
             break;
         default:
@@ -44,9 +54,9 @@ const ImageItem: React.FC<Sticker & {
                 className="ImageItem-close"
                 icon="close"
                 size="small"
-                disabled={isDeleting}
+                disabled={isDeleting || isMoving}
                 loading={isDeleting}
-                onClick={props.onDelete}
+                onClick={onDelete}
                 iconOnly
                 circular
             />
@@ -58,7 +68,49 @@ const ImageItem: React.FC<Sticker & {
                 )}
                 {icon !== "loading" && name && <Label color="gray" content={name} />}
             </div>
-            {status === StickerStatus.editing && <Input icon="edit" value={name} inverted inline />}
+            <Dialog
+                cancelButton={{
+                    icon: "close",
+                    iconOnly: true,
+                    circular: true,
+                }}
+                confirmButton={{
+                    icon: "accept",
+                    iconOnly: true,
+                    circular: true,
+                }}
+                onConfirm={c => {
+                    const value = refInput.current && refInput.current.value;
+                    if (value && value !== name) {
+                        onEdit(value);
+                    }
+                }}
+                closeOnOutsideClick={false}
+                content={
+                    <Input
+                        inputRef={refInput}
+                        clearable
+                        maxLength={64}
+                        fluid
+                        autoFocus
+                        placeholder={t(ConfigPage.inputePlaceholder)}
+                        defaultValue={name || ""}
+                    />
+                }
+                header={t(ConfigPage.inputeTitle)}
+                trigger={
+                    <Button
+                        className="ImageItem-edit"
+                        loading={isEditting}
+                        disabled={isEditting || isDeleting || isMoving || status === StickerStatus.uploading}
+                        icon="edit"
+                        size="small"
+                        iconOnly
+                        circular
+                        secondary
+                    />
+                }
+            />
         </Segment>
     );
 };

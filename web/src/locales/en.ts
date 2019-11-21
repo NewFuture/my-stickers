@@ -44,9 +44,11 @@ export const home = {
  * 配置页 config.html
  */
 export const config = {
-    "upload": 'upload',
-    "delete": 'delete',
+    upload: 'upload',
+    delete: 'delete',
     loading: "Loading...",
     maxsize: "The size of sticker images should less than {{size}}.",
     maxnum: "Save {{n}} stickers at most.",
+    inputeTitle: "Edit the sticker's name",
+    inputePlaceholder: "Input a name for search",
 }
