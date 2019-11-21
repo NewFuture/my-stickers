@@ -15,12 +15,15 @@
     & &-header {
         background: #464775;
         color: #fff;
-        padding: 1em 2em;
+        padding: 1em 3em;
         margin: 0;
+        @media screen and (max-width: 460px) {
+            padding: 0.5em;
+        }
     }
     & &-content {
         background: #33344a;
-        padding: 0 2em 2em;
+        padding: 0 3em 3em;
         &Box {
             background: #f3f2f1;
         }
