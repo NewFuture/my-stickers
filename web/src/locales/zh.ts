@@ -8,6 +8,10 @@ export const common = {
     description: "在微软Teams中保存和使用自定义表情包。",
     langSetting: "Language",
     date: "{{date, time-ago}}",
+    privacyTitle: "隐私声明",
+    termsTitle: "使用条款",
+    feedback: "反馈",
+
 }
 
 /**

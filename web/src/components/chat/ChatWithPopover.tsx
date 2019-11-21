@@ -75,8 +75,8 @@ const ChatWithPopover: React.FC = () => {
                                 <TeamsChatMessage
                                     author="New Future"
                                     data-is-focusable
-                                    content={<Image src={helloSticker} />}
-                                    dialogContent={<Image src={helloSticker} />}
+                                    content={<Image className="Sticker" src={helloSticker} />}
+                                    dialogContent={<Image className="Sticker" src={helloSticker} />}
                                     reactionGroup={{
                                         items: reactionsWithPopup,
                                     }}

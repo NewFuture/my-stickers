@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
-import { Header, Button, Text, Box, Flex, Provider, Video } from "@stardust-ui/react";
+import { Header, Button, Text, Box, Flex, Provider, Video, Divider } from "@stardust-ui/react";
 import { useTranslation } from "react-i18next";
 
-import { HomePage, NS, Common } from "../locales";
+import { HomePage, Common } from "../locales";
 import ChatWithPopover from "../components/chat";
 import Compose from "../components/compose";
 import LanguageButton from "../components/language";
 import HeartSvg from "../icons/heart";
+import Footer from "../components/Footer";
+
+import "./home.scss";
 
 export default function Home() {
-    const { t } = useTranslation([NS.common, NS.homePage]);
+    const { t } = useTranslation();
     useEffect(() => {
         document.title = t(Common.title);
     }, [t]);
@@ -33,18 +36,8 @@ export default function Home() {
                     ChatMessage: {
                         root: {
                             maxWidth: "80vw",
-                            // marginRight: "auto",
-                        },
-                        // root: (opts: any) => ({
-                        //     // marginBottom: "2em",
-                        //     "& a": {
-                        //         color: opts.theme.siteVariables.colors.brand[600],
-                        //     },
-                        // }),
-                    },
-                    Image: {
-                        root: {
-                            maxWidth: "75vw",
+                            minWidth: "12rem",
+                            marginRight: "5rem",
                         },
                     },
                     Menu: {
@@ -90,12 +83,6 @@ export default function Home() {
                     }}
                     // poster="public/images/tears-of-steel.jpg"
                     src="https://sticker.newfuture.cc/video/install_trim.mp4"
-                    variables={
-                        {
-                            // height: "300px",
-                            // width: "100%",
-                        }
-                    }
                 />
                 <div>
                     <Button
@@ -111,7 +98,6 @@ export default function Home() {
                 </div>
                 <Text as="div" size="small" weight="light" important content={t(HomePage.tips)} />
             </Box>
-            {/* <DemoVideo /> */}
             <ChatWithPopover />
             <Compose />
             <Flex hAlign="center">
@@ -127,6 +113,8 @@ export default function Home() {
                     secondary
                 ></Button>
             </Flex>
+            <Divider />
+            <Footer />
         </Provider>
     );
 }

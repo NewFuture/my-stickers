@@ -7,6 +7,9 @@ export const common = {
     description: "Save and send your stickers in Microsoft Teams.",
     langSetting: "切换语言",
     date: "{{date, time-ago}}",
+    privacyTitle: "Privacy Statement",
+    termsTitle: "Terms and Conditions",
+    feedback: "Feedback",
 }
 
 /**
@@ -37,6 +40,7 @@ export const home = {
     protoComposeStep1: "1. Click the <0/> icon",
     protoComposeStep2: "2. Click the sitcker that you want to send",
     protoComposeToday: "Today",
+
 }
 
 

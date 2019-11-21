@@ -4,10 +4,9 @@ import gutter from "../gutter";
 import { Trans } from "react-i18next";
 import { HomePage, NS, Common } from "../../locales";
 
-
 type Message = ChatItemProps; // ChatItemProps;
 
-const date = new Date()
+const date = new Date();
 const now = <Trans ns={NS.common} values={{ date }} i18nKey={Common.date} />;
 const messages: Message[] = [
     {
@@ -34,7 +33,11 @@ const messages: Message[] = [
         message: (
             <Chat.Message
                 author="New Future"
-                content={<Trans ns={NS.homePage} i18nKey={HomePage.protoComposeStep1}><Icon name="heart" outline/></Trans>}
+                content={
+                    <Trans ns={NS.homePage} i18nKey={HomePage.protoComposeStep1}>
+                        <Icon name="heart" outline />
+                    </Trans>
+                }
                 timestamp={now}
             />
         ),
@@ -53,13 +56,13 @@ const messages: Message[] = [
 
 type Action =
     | {
-        type: "add";
-        payload: Message;
-    }
+          type: "add";
+          payload: Message;
+      }
     | {
-        type: "img";
-        payload: string;
-    };
+          type: "img";
+          payload: string;
+      };
 
 function reducer(m: Message[], a: Action): Message[] {
     console.log(a.type);
@@ -73,17 +76,20 @@ function reducer(m: Message[], a: Action): Message[] {
                 {
                     contentPosition: "end",
                     attached: m.length > 3 ? "top" : undefined,
-                    message: <Chat.Message
-                        content={<Image src={a.payload} />}
-                        timestamp={<Trans ns={NS.common} values={{ date }} i18nKey={Common.date} />}
-                        mine />,
+                    message: (
+                        <Chat.Message
+                            content={<Image className="Sticker" src={a.payload} />}
+                            timestamp={<Trans ns={NS.common} values={{ date }} i18nKey={Common.date} />}
+                            mine
+                        />
+                    ),
                 },
             ];
     }
     return m;
 }
 
-const context = createContext<[Message[], Dispatch<Action>]>([messages, () => { }]);
+const context = createContext<[Message[], Dispatch<Action>]>([messages, () => {}]);
 
 export const MessageProvider: React.FC = props => {
     const [state, dispatch] = useReducer(reducer, messages);

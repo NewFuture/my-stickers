@@ -6,7 +6,8 @@ import { store } from "../store";
 import { getStickers } from "../services/stickers";
 import HeaderBtns from "../components/header/headerBtns";
 
-import { Provider as TeamsProvider, themes } from "@stardust-ui/react";
+import { Provider as TeamsProvider, themes, Divider } from "@stardust-ui/react";
+import Footer from "../components/Footer";
 
 export default function Config() {
     useEffect(() => {
@@ -17,6 +18,8 @@ export default function Config() {
             <Provider store={store}>
                 <HeaderBtns />
                 <ImageList />
+                <Divider />
+                <Footer />
             </Provider>
         </TeamsProvider>
     );
