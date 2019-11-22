@@ -12,7 +12,7 @@ const List: React.FC = () => {
     const stickes = useSelector((state: StateType) => state.stickers);
     const { t } = useTranslation();
     return status === Status.pending ? (
-        <Loader styles={{ padding: "2em 0" }} label={t(ConfigPage.loading)} size="larger" />
+        <Loader styles={{ padding: "4em 0" }} label={t(ConfigPage.loading)} size="larger" />
     ) : (
         <ImageList items={stickes} />
     );

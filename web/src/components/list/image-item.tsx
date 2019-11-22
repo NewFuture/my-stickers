@@ -1,5 +1,5 @@
 import React, { createRef } from "react";
-import { Image, Label, Segment, Input, Status, StatusProps, Loader, Button, Dialog } from "@stardust-ui/react";
+import { Image, Label, Input, Status, StatusProps, Loader, Button, Dialog } from "@stardust-ui/react";
 import { useTranslation } from "react-i18next";
 
 import { Sticker, StickerStatus } from "../../model/sticker";
@@ -48,7 +48,7 @@ const ImageItem: React.FC<Sticker & {
     }
 
     return (
-        <Segment className="ImageItem">
+        <div className="ImageItem">
             <Image className="ImageItem-img" src={src} />
             <Button
                 className="ImageItem-close"
@@ -111,7 +111,7 @@ const ImageItem: React.FC<Sticker & {
                     />
                 }
             />
-        </Segment>
+        </div>
     );
 };
 

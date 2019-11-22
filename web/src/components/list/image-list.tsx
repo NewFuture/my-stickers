@@ -10,7 +10,7 @@ interface Props {
 
 const ImageList: React.FC<Props> = (props: Props) => {
     return (
-        <Grid columns={3}>
+        <Grid styles={{ minHeight: "33vw" }} className="just-items-center" columns={3}>
             {props.items.map(item => (
                 <ImageItem
                     key={item.id}
