@@ -78,11 +78,13 @@ export default function Home() {
             <Box styles={{ padding: "1em 0", textAlign: "center" }}>
                 <Video
                     autoPlay
+                    muted
                     styles={{
                         maxWidth: "100%",
+                        width:"1920px",
                     }}
                     // poster="public/images/tears-of-steel.jpg"
-                    src="https://sticker.newfuture.cc/video/install_trim.mp4"
+                    src="https://sticker.newfuture.cc/video/install_set_up-1920.mp4"
                 />
                 <div>
                     <Button
