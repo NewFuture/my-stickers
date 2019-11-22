@@ -7,3 +7,20 @@
 .just-items-center {
     justify-items: center;
 }
+
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    position: relative;
+}
+
+#root {
+    padding-bottom: 3em;
+}
+.Footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}

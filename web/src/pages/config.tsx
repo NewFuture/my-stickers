@@ -18,7 +18,6 @@ export default function Config() {
             <HeaderBtns />
             <Divider />
             <ImageList />
-            <Divider />
             <Footer />
         </Provider>
     );

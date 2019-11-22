@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Header, Button, Text, Box, Flex, Provider, Video, Divider } from "@stardust-ui/react";
+import { Header, Button, Text, Box, Flex, Provider, Video } from "@stardust-ui/react";
 import { useTranslation } from "react-i18next";
 
 import { HomePage, Common } from "../locales";
@@ -116,7 +116,6 @@ export default function Home() {
                     secondary
                 ></Button>
             </Flex>
-            <Divider />
             <Footer />
         </Provider>
     );
