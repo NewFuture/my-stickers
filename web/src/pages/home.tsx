@@ -28,8 +28,9 @@ export default function Home() {
                             padding: "1em .5em",
                             width: "100%",
                             minWidth: "300px",
-                            minHeight: "400px",
-                            maxHeight: "580px",
+                            height: "48vw",
+                            minHeight: "440px",
+                            maxHeight: "560px",
                             overflow: "scroll",
                         },
                     },
@@ -81,7 +82,7 @@ export default function Home() {
                     muted
                     styles={{
                         maxWidth: "100%",
-                        width:"1920px",
+                        width: "1920px",
                     }}
                     // poster="public/images/tears-of-steel.jpg"
                     src="https://sticker.newfuture.cc/video/install_set_up-1920.mp4"

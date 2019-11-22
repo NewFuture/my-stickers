@@ -25,10 +25,18 @@
         background: #33344a;
         padding: 0 3em 3em;
         &Box {
+            padding: 2vw 1vw;
             background: #f3f2f1;
         }
         @media screen and (max-width: 460px) {
             padding: 0;
+            &Box {
+                padding: 0;
+            }
         }
+    }
+
+    @media screen and (max-width: 1920px) {
+        width: 100%;
     }
 }
