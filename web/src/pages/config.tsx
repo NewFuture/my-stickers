@@ -6,7 +6,7 @@ import { store } from "../store";
 import { getStickers } from "../services/stickers";
 import HeaderBtns from "../components/header/headerBtns";
 
-import { Provider as TeamsProvider, themes, Divider } from "@stardust-ui/react";
+import { Divider } from "@stardust-ui/react";
 import Footer from "../components/Footer";
 
 export default function Config() {
@@ -14,14 +14,12 @@ export default function Config() {
         init().then(getStickers);
     }, []);
     return (
-        <TeamsProvider theme={themes.teams}>
-            <Provider store={store}>
-                <HeaderBtns />
-                <Divider />
-                <ImageList />
-                <Divider />
-                <Footer />
-            </Provider>
-        </TeamsProvider>
+        <Provider store={store}>
+            <HeaderBtns />
+            <Divider />
+            <ImageList />
+            <Divider />
+            <Footer />
+        </Provider>
     );
 }
