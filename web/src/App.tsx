@@ -10,6 +10,8 @@ import NotFound from "./pages/notfound";
 import PrivacyPage from "./pages/privacy";
 import TermsPage from "./pages/terms";
 
+import "./App.scss";
+
 if (process.env.NODE_ENV === "development") {
     window.localStorage.felaDevMode = window.localStorage.stardustDebug = true;
 }
@@ -39,20 +41,7 @@ const routes: RouteProps[] = [
 themes.teams.fontFaces = [];
 const App: React.FC = () => {
     return (
-        <Provider
-            theme={{
-                ...themes.teams,
-                componentStyles: {
-                    ...themes.teams.componentStyles,
-                    Loader: {
-                        ...themes.teams.componentStyles.Loader,
-                        ":brefore": {
-                            backgroundRepeat: "no-repeat",
-                        },
-                    },
-                },
-            }}
-        >
+        <Provider theme={themes.teams}>
             <Router>
                 <Switch>
                     {routes.map((route, i) => (
