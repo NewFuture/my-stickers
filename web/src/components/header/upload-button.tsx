@@ -57,7 +57,7 @@ const UploadButton: React.FC<PropType> = props => {
 
     return (
         <>
-            <Button as="label" disabled={disabled} htmlFor="image-upload" icon="add" content={props.children} />
+            <Button as="label" disabled={disabled} htmlFor="image-upload" icon="add" primary content={props.children} />
             <input
                 hidden
                 disabled={disabled}

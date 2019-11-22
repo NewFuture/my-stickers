@@ -17,6 +17,7 @@ export default function Config() {
         <TeamsProvider theme={themes.teams}>
             <Provider store={store}>
                 <HeaderBtns />
+                <Divider />
                 <ImageList />
                 <Divider />
                 <Footer />

@@ -1,4 +1,4 @@
-import { Header, List, Button } from "@stardust-ui/react";
+import { Button, Flex } from "@stardust-ui/react";
 import React from "react";
 import { ConfigPage, NS } from "../../locales";
 import { exit } from "../../services/teams";
@@ -13,34 +13,21 @@ const HeaderBtns: React.FC = () => {
     const { t } = useTranslation(NS.configPage);
     const status = useSelector((state: StateType) => state.status);
     return (
-        <Header>
-            <List
-                items={[
-                    <Button
-                        disabled={status === Status.syncing}
-                        icon="accept"
-                        key="exit"
-                        primary
-                        iconOnly
-                        circular
-                        onClick={() => exit()}
-                    />,
-                    <UploadButton key="upload" disabled={status === Status.pending} multiple>
-                        {t(ConfigPage.upload)}
-                    </UploadButton>,
-                    // <Button
-                    //     disabled={status === Status.pending}
-                    //     icon="trash-can"
-                    //     iconPosition="before"
-                    //     secondary
-                    //     key="delete"
-                    //     content={t(ConfigPage.delete)}
-                    // />,
-                    <LanguageButton key="lang" styles={{ display: "block" }} />,
-                ]}
-                horizontal
+        <Flex as="header" vAlign="center" hAlign="center" space="between" padding="padding.medium">
+            <LanguageButton key="lang" styles={{ display: "block" }} />
+            <UploadButton key="upload" disabled={status === Status.pending} multiple>
+                {t(ConfigPage.upload)}
+            </UploadButton>
+            <Button
+                disabled={status === Status.syncing}
+                icon="accept"
+                key="exit"
+                primary
+                iconOnly
+                circular
+                onClick={() => exit()}
             />
-        </Header>
+        </Flex>
     );
 };
 

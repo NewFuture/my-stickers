@@ -39,7 +39,20 @@ const routes: RouteProps[] = [
 themes.teams.fontFaces = [];
 const App: React.FC = () => {
     return (
-        <Provider theme={themes.teams}>
+        <Provider
+            theme={{
+                ...themes.teams,
+                componentStyles: {
+                    ...themes.teams.componentStyles,
+                    Loader: {
+                        ...themes.teams.componentStyles.Loader,
+                        ":brefore": {
+                            backgroundRepeat: "no-repeat",
+                        },
+                    },
+                },
+            }}
+        >
             <Router>
                 <Switch>
                     {routes.map((route, i) => (
