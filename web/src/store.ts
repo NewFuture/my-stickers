@@ -11,7 +11,21 @@ export interface StateType {
     exitable: boolean,
 }
 
-export const store = createStore<StateType, Action, {}, {}>(reducer);
+
+/**
+ * for react-snap
+ */
+// Grab the state from a global variable injected into the server-generated HTML
+const preloadedState = window.__PRELOADED_STATE__;
+// Allow the passed state to be garbage-collected
+delete window.__PRELOADED_STATE__;
+// Tell react-snap how to save Redux state
+window.snapSaveState = () => ({
+    __PRELOADED_STATE__: store.getState()
+});
+
+
+export const store = createStore<StateType, Action, {}, {}>(reducer, preloadedState);
 
 function StatusHandler() {
     const state = store.getState();
@@ -27,3 +41,4 @@ function StatusHandler() {
     }
 }
 store.subscribe(StatusHandler);
+
