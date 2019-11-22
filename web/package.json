@@ -48,7 +48,7 @@
     },
     "reactSnap": {
         "skipThirdPartyRequests": true,
-        "inlineCss": false,
+        "inlineCss": true,
         "cacheAjaxRequests": false,
         "include": [
             "/",
