@@ -9,7 +9,7 @@ export const API = axios.create({
     },
     // auth,
     transformRequest: (data, headers) => {
-        console.log(data, headers)
+        // console.log(data, headers)
         headers['authorization'] = `${auth.id} ${auth.token}`;
         return JSON.stringify(data);
     }
