@@ -62,6 +62,10 @@
         "minifyHtml": {
             "sortClassName": false
         },
+        "viewport": {
+            "width": 580,
+            "height": 360
+        },
         "crawl": false,
         "preloadImages": true
     },
