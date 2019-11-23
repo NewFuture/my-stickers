@@ -16,10 +16,12 @@ if (process.env.NODE_ENV === "development") {
     window.localStorage.felaDevMode = window.localStorage.stardustDebug = true;
 }
 
+document.querySelectorAll('style[data-fela-type]').forEach(s => s.innerHTML = '');
+
 const routes: RouteProps[] = [
     {
         // title: 'Home',
-        path: ["/", "index.html"],
+        path: ["/", "/index.html"],
         component: Home,
         exact: true,
     },
