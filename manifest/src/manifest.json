@@ -32,8 +32,8 @@
       "commands": [
         {
           "id": "mycollection",
-          "title": "my collections",
-          "description": "All stickes saved by me",
+          "title": "My Collections",
+          "description": "All stickes I saved",
           "initialRun": true,
           "parameters": [
             {
