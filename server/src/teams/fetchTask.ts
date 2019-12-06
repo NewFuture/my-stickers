@@ -46,19 +46,26 @@ export async function fetchTaskCollect(req: Request, value: MessagingExtensionAc
 
     log("imgs", imgs);
     const saveImgs = await addUserStickers(id, imgs.map(img => ({ src: img.src, name: img.alt! })));
+    const hasImgs = saveImgs && saveImgs.length > 0;
     // log('imgs', saveImgs)
 
     const card = CardFactory.adaptiveCard(
         {
             type: "AdaptiveCard",
-            body: [
+            body: hasImgs ? [
                 ...saveImgs.map<CardImage>(img => ({
                     url: img.src,
                     type: "Image",
                     altText: img.name,
                     spacing: "None",
                 }))
-            ],
+            ] : [
+                    {
+                        type: "TextBlock",
+                        text: req.__(Locale.collect_save_no_images_found),
+                        horizontalAlignment: "Center"
+                    }
+                ],
             actions: [
                 // {
                 //     type: "Action.Submit",
@@ -83,7 +90,7 @@ export async function fetchTaskCollect(req: Request, value: MessagingExtensionAc
     const result: TaskModuleContinueResponse = {
         type: "continue",
         value: {
-            title: req.__(Locale.collect_save_success),
+            title: req.__(hasImgs ? Locale.collect_save_success : Locale.collect_save_fail),
             height: "small",
             width: "small",
             card,
