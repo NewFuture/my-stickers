@@ -45,14 +45,18 @@ export async function fetchTaskCollect(req: Request, value: MessagingExtensionAc
     attachments.map(getImageFromAttachment).filter(s => !!s).forEach(s => imgs.push(...s));
 
     log("imgs", imgs);
-    const saveImgs = await addUserStickers(id, imgs.map(img => ({ src: img.src, name: img.alt! })));
-    const hasImgs = saveImgs && saveImgs.length > 0;
+    const hasImgs = imgs && imgs.length > 0;
+
+    const saveImgs = hasImgs && await addUserStickers(id, imgs.map(img => ({ src: img.src, name: img.alt! })));
     // log('imgs', saveImgs)
+
 
     const card = CardFactory.adaptiveCard(
         {
             type: "AdaptiveCard",
-            body: hasImgs ? [
+            $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
+            version: "1.0",
+            body: saveImgs ? [
                 ...saveImgs.map<CardImage>(img => ({
                     url: img.src,
                     type: "Image",
@@ -63,34 +67,32 @@ export async function fetchTaskCollect(req: Request, value: MessagingExtensionAc
                     {
                         type: "TextBlock",
                         text: req.__(Locale.collect_save_no_images_found),
-                        horizontalAlignment: "Center"
+                        horizontalAlignment: "Center",
+                        wrap: true,
                     }
                 ],
-            actions: [
-                // {
-                //     type: "Action.Submit",
-                //     title: "删除",
-                //     data: {
-                //         action: "moreDetails",
-                //         id: "1234-5678"
-                //     }
-                // },
-                // {
-                //     type: "Action.Submit",
-                //     title: "确定",
-                //     data: {
-                //         id: "1234-5678"
-                //     }
-                // },
-            ],
-            $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
-            version: "1.0"
+            // actions: [
+            //     // {
+            //     //     type: "Action.Submit",
+            //     //     title: "删除",
+            //     //     data: {
+            //     //         action: "moreDetails",
+            //     //         id: "1234-5678"
+            //     //     }
+            //     // },
+            //     // {
+            //     //     type: "Action.Submit",
+            //     //     title: "确定",
+            //     //     data: {
+            //     //         id: "1234-5678"
+            //     //     }
+            //     // },
+            // ],
         });
-
     const result: TaskModuleContinueResponse = {
         type: "continue",
         value: {
-            title: req.__(hasImgs ? Locale.collect_save_success : Locale.collect_save_fail),
+            title: req.__(saveImgs ? Locale.collect_save_success : Locale.collect_save_fail),
             height: "small",
             width: "small",
             card,
