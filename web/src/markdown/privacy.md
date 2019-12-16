@@ -36,5 +36,10 @@ Plugin-related issues.
 ## Changes to our Privacy Statement
 
 We may change the Privacy Statement from time to time as and when the
-Application version is modified, and Users will be notified of any
-change in Privacy Statement through that version of the Application
+Extension version is modified, and Users will be notified of any
+change in Privacy Statement through that version of the Extension
+
+## Contact Information
+
+Questions regarding Custom Stickers Extension for Microsoft Teams Privacy Statement
+or information practices should be directed to [sticker@newfuture.cc](mailto:sticker@newfuture.cc).
