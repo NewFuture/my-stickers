@@ -1,6 +1,5 @@
 # Terms and Conditions of Use
 
-
 Welcome to Custom Stickers Extension for Microsoft Teams Application
 (hereafter `Sticker Extension`).
 If you use the Sticker Extension, you will be bound by the following Terms
@@ -25,8 +24,10 @@ Sticker Extension will automatically check for updates and the application will 
 ### Rights over content
 
 Sticker Extension merely store User upload images or link URL of users. You are responsible for ensuring your use
-(including access) of the data is compliant with applicable laws and agreements. 
+(including access) of the data is compliant with applicable laws and agreements.
 Any copyright violations reported to us will be notified to the User.
+
+**That users will be solely responsible for the data shared using the Customer Stickers app and Microsoft Teams is not responsible for any issues related to data uploaded by customers**.
 
 ### Privacy
 
