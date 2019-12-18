@@ -27,7 +27,7 @@ Sticker Extension merely store User upload images or link URL of users. You are 
 (including access) of the data is compliant with applicable laws and agreements.
 Any copyright violations reported to us will be notified to the User.
 
-**That users will be solely responsible for the data shared using the Customer Stickers app and Microsoft Teams is not responsible for any issues related to data uploaded by customers**.
+**That users will be solely responsible for the data shared using the Customer Stickers Extension, and Microsoft Teams is not responsible for any issues related to data uploaded by customers**.
 
 ### Privacy
 
