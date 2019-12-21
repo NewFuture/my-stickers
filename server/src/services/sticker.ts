@@ -50,12 +50,13 @@ export async function addUserStickers(userId: string, stickers: Array<Omit<Stick
     return getUserStickers(userId).then(savedStickers => {
         cache.delete(userId);
         const updateStickers: Sticker[] = [];
+        const tasks: Promise<any>[] = []
         for (let index = 0, newSticker = 0; index < stickers.length; index++) {
             const sticker = stickers[index];
             const savedOne = savedStickers.find(s => s.src === sticker.src);
             if (savedOne) {
                 // 已保存的更新权重
-                renewWeight(savedOne.id);
+                tasks.push(renewWeight(savedOne.id));
                 updateStickers.push(savedOne);
             } else if (newSticker + savedStickers.length <= MAX) {
                 // 未保存自动保存
@@ -64,11 +65,13 @@ export async function addUserStickers(userId: string, stickers: Array<Omit<Stick
                     updateStickers.push(sticker as Sticker);
                 }
                 ++newSticker;
-                insert(sticker.id, userId, sticker.src, sticker.name?.trim());
+                tasks.push(insert(sticker.id, userId, sticker.src, sticker.name?.trim()));
             }
         }
-        cache.delete(userId);
-        return updateStickers;
+        return Promise.all(tasks).then(() => {
+            cache.delete(userId);
+            return updateStickers;
+        });
     });
 }
 

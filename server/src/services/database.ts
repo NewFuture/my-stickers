@@ -34,7 +34,12 @@ async function excute<T>(sql: string, vars: Record<string, any>) {
         const request = pool.request();
         // tslint:disable-next-line: forin
         for (const key in vars) {
-            request.input(key, vars[key]);
+            const value = vars[key];
+            if (typeof value === "number" && value > 2 ** 31) {
+                request.input(key, Sql.TYPES.BigInt, vars[key]);
+            } else {
+                request.input(key, vars[key]);
+            }
         }
         const result = await request.query<T>(sql);
         log(result);
@@ -49,13 +54,13 @@ export function query(userId: string) {
     return excute<Sticker>(QUERY_SQL, { userId });
 }
 
-export function insert(id: string, userId: string, src: string, name?: string) {
+export function insert(id: string, userId: string, src: string, name?: string, weight?: number) {
     return excute(INSERT_SQL, {
         id,
         userId,
         src,
         name,
-        weight: getNewWeight()
+        weight: weight || getNewWeight()
     });
 }
 
