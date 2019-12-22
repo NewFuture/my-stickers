@@ -53,7 +53,7 @@ Log files help us to monitor, analyze, improve and maintain the Extension and to
 
 ### Data Security
 
-The data (uploaded images, saved URLs and other such data) was protected in (Microsoft Cloud Azure)(https://azure.microsoft.com/). 
+The data (uploaded images, saved URLs and other such data) was protected in [Microsoft Cloud Azure](https://azure.microsoft.com/). 
 
 
 
