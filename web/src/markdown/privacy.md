@@ -51,6 +51,13 @@ These server logs include information such as your web request, browser type and
 information and other such information.
 Log files help us to monitor, analyze, improve and maintain the Extension and to diagnose and fix any issues.
 
+### Data Security
+
+The data (uploaded images, saved URLs and other such data) was protected in (Microsoft Cloud Azure)(https://azure.microsoft.com/). 
+
+
+
+
 ## Changes to our Privacy Statement
 
 We may change the Privacy Statement from time to time as and when the
