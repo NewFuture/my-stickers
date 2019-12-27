@@ -53,10 +53,12 @@ Log files help us to monitor, analyze, improve and maintain the Extension and to
 
 ### Data Security
 
-The data (uploaded images, saved URLs and other such data) was protected in [Microsoft Cloud Azure](https://azure.microsoft.com/). 
+The data (uploaded images, saved URLs...) was protected in [Microsoft Cloud Azure](https://azure.microsoft.com/).
 
-
-
+-   All users' uploaded messages are transformed and secured via [bot framework](https://dev.botframework.com/), and will not be saved.
+-   All search queries are transformed and secured via [bot framework](https://dev.botframework.com/), and will not be saved.
+-   All users' uploaded images are stored and secured in [Azure blob storage](https://azure.microsoft.com/en-us/services/storage/blobs/).
+-   All users' colletion urls are stored and encrypted in [Azure Database](https://azure.microsoft.com/en-us/services/sql-database/), and can be deleted in extension config setting page.
 
 ## Changes to our Privacy Statement
 
