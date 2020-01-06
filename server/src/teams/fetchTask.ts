@@ -117,7 +117,7 @@ export async function fetchTaskCollect(req: Request, value: MessagingExtensionAc
         type: "continue",
         value: {
             title: req.__(saveImgs ? Locale.collect_save_success : Locale.collect_save_fail),
-            height: saveImgs ? 300 : 40,
+            height: saveImgs ? 300 : 60,
             width: saveImgs ? 300 : "small",
             card,
         },
