@@ -77,7 +77,7 @@ jobs:
                     - task: AzureWebApp@1
                       displayName: 'Azure Web App Deploy: custom-stickers'
                       inputs:
-                        azureSubscription: 'custom-stickers - Azure'
+                        azureSubscription: "Visual Studio Enterprise (087cc3e0-4650-424c-a20f-76e018064603)"
                         appType: webAppLinux
                         appName: 'custom-stickers'
                         runtimeStack: 'NODE|lts'
