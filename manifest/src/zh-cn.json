@@ -3,7 +3,7 @@
   "name.short": "表情包",
   "name.full": "表情包",
   "description.short": "收藏和发送自定义表情",
-  "description.full": "在Teams里收藏，发送和管理你的自定义表情。[#LI] 1, 从电脑或手机相册上传自己的表情包;[/#LI][#LI] 2, 从消息中收藏别人的表情包或图片;[/#LI][#LI] 3, 搜索发送自己的表情包;[/#LI][#LI] 4, 管理和修改表情包的名字.[/#LI]",
+  "description.full": "在Teams里收藏，发送和管理你的自定义表情。[#LI] 从电脑或手机相册上传自己的表情包;[/#LI][#LI] 从消息中收藏别人的表情包或图片;[/#LI][#LI] 搜索发送自己的表情包;[/#LI][#LI] 管理和修改表情包的名字。[/#LI]",
   "composeExtensions[0].commands[0].title": "我的收藏",
   "composeExtensions[0].commands[0].description": "我收藏的所有表情包",
   "composeExtensions[0].commands[0].parameters[0].title": "搜索",
