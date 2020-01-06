@@ -19,7 +19,7 @@ jobs:
       displayName: Build Sticker manifest # friendly name to display in the UI
       variables:
           TEAMS_APP_ID: 46fae4d0-faf5-11e9-80f3-53ad33b77bce
-          MICROSOFT_APP_ID: 963a3218-68a8-4a64-bd82-988a02788cfb
+          MICROSOFT_APP_ID: df0e11e9-b58d-4143-a5ea-37cc44ade294
           HOSTNAME: stickers-api.newfuture.cc
           AZURE_STORAGE_CDN: stickers.newfuture.cc
           WEB_HOST: sticker.newfuture.cc
