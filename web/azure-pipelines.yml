@@ -62,7 +62,7 @@ jobs:
                         displayName: "AzureBlob File Copy"
                         inputs:
                             SourcePath: "$(Agent.BuildDirectory)/drop"
-                            azureSubscription: "Visual Studio Enterprise (087cc3e0-4650-424c-a20f-76e018064603)"
+                            azureSubscription: "custom-stickers"
                             Destination: AzureBlob
                             storage: customstickers
                             ContainerName: "$web"
