@@ -11,8 +11,10 @@ import Footer from "../components/Footer";
 
 import "./home.scss";
 
+const APP_LINK = "https://teams.microsoft.com/l/app/46fae4d0-faf5-11e9-80f3-53ad33b77bce?source=store-copy-link";
+
 export default function Home() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     useEffect(() => {
         document.title = t(Common.title);
     }, [t]);
@@ -84,16 +86,15 @@ export default function Home() {
                         maxWidth: "100%",
                         width: "1920px",
                     }}
-                    // poster="public/images/tears-of-steel.jpg"
+                    poster={`${process.env.PUBLIC_URL}/img/${i18n.language === "zh" ? "zh" : "en"}.png`}
                     src="https://sticker.newfuture.cc/video/install_set_up-1920.mp4"
                 />
                 <div>
                     <Button
                         styles={{ textDecoration: "none", margin: ".8em" }}
                         as="a"
-                        href={process.env.PUBLIC_URL + "/custom-stickers.zip"}
-                        download
-                        icon="download"
+                        href={APP_LINK}
+                        icon="teams"
                         content={t(HomePage.downloadExtension)}
                         size="largest"
                         primary
@@ -107,11 +108,10 @@ export default function Home() {
                 <Button
                     styles={{ textDecoration: "none", padding: "1em", margin: "1em" }}
                     as="a"
-                    href={process.env.PUBLIC_URL + "/custom-stickers.zip"}
-                    icon="download"
+                    href={APP_LINK}
+                    icon="teams"
                     content={t(HomePage.downloadExtension)}
                     size="largest"
-                    download
                     circular
                     secondary
                 ></Button>

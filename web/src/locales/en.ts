@@ -16,7 +16,7 @@ export const common = {
  * 首页 index.html
  */
 export const home = {
-    downloadExtension: "Download This Extension",
+    downloadExtension: "Get This Extension",
     tips: "(Beta Preview: welcome to feedback bugs or suggestions)",
     // Message Extension
     protoMsgExtTitle: "Save Images as Stickers from chat messages",

@@ -19,7 +19,7 @@ export const common = {
  */
 export const home = {
     tips: "(体验版：如有bug和意见欢迎反馈)",
-    downloadExtension: "下载安装此扩展",
+    downloadExtension: "安装此扩展",
     // 消息扩展
     protoMsgExtTitle: "将聊天中图片存为表情",
     protoMsgExtSubTitle: "通过消息扩展一键收藏别人的表情",
