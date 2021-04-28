@@ -22,6 +22,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "src"
