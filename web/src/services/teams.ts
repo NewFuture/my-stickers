@@ -10,6 +10,7 @@ export function init() {
         auth.token = new URLSearchParams(window.location.search).get('token')!;
         try {
             teams.initialize(async () => {
+                console.debug("teams initialized")
                 auth.id = await getUserId();
                 resolve(auth);
             })

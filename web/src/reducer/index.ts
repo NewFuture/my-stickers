@@ -9,7 +9,7 @@ import { ExitableAction, ExitableActionType, exitableReducer } from './exitable'
 export type Action = ExitableAction | StickerAction | StatusAction;
 
 type ActionType = ExitableActionType | StickerActionType | StatusActionType;
-
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 const ActionType = {
     ...ExitableActionType,
     ...StickerActionType,

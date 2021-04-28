@@ -1,5 +1,5 @@
 import { Button, Flex } from "@stardust-ui/react";
-import React from "react";
+import React, { useCallback } from "react";
 import { ConfigPage, NS } from "../../locales";
 import { exit } from "../../services/teams";
 import UploadButton from "./upload-button";
@@ -12,6 +12,7 @@ import { Status } from "../../reducer/status";
 const HeaderBtns: React.FC = () => {
     const { t } = useTranslation(NS.configPage);
     const status = useSelector((state: StateType) => state.status);
+    const onExit = useCallback(()=>exit(),[])
     return (
         <Flex as="header" vAlign="center" hAlign="center" space="between" padding="padding.medium">
             <LanguageButton key="lang" styles={{ display: "block" }} />
@@ -25,7 +26,7 @@ const HeaderBtns: React.FC = () => {
                 primary
                 iconOnly
                 circular
-                onClick={() => exit()}
+                onClick={onExit}
             />
         </Flex>
     );
