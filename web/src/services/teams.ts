@@ -17,6 +17,7 @@ export function init() {
                 }, reject)
             })
         } catch (error) {
+            console.error('initialize error', error)
             reject(error)
         }
     })
@@ -27,6 +28,9 @@ export function exit(result?: string) {
 }
 
 export function getUserId(): Promise<string> {
-    return new Promise(resolve => teams.getContext((c) => resolve(c.userObjectId!)));
+    return new Promise(resolve => teams.getContext((c) => {
+        console.debug(c)
+        resolve(c.userObjectId!)
+    }));
 }
 

@@ -11,7 +11,7 @@ import Footer from "../components/Footer";
 
 export default function Config() {
     useEffect(() => {
-        init().then(getStickers);
+        init().then(getStickers,()=>alert('Teams initialized error'));
     }, []);
     return (
         <Provider store={store}>
