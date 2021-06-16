@@ -16,13 +16,16 @@ const log = debug("mycollection");
 function stickerToCard(sticker: Sticker): MessagingExtensionAttachment {
     const card: MessagingExtensionAttachment = CardFactory.adaptiveCard({
         type: "AdaptiveCard",
-        version: "1.0",
+        version: "1.2",
         body: [{
             url: sticker.src,
             altText: sticker.name,
             type: "Image",
             spacing: "None",
             horizontalAlignment: "center",
+            msTeams: {
+                allowExpand: true
+            }
         }]
     });
     card.preview = CardFactory.thumbnailCard(sticker.name || "", [sticker.src]);

@@ -9,10 +9,12 @@ export function init() {
     return new Promise((resolve, reject) => {
         auth.token = new URLSearchParams(window.location.search).get('token')!;
         try {
-            teams.initialize(async () => {
+            teams.initialize(() => {
                 console.debug("teams initialized")
-                auth.id = await getUserId();
-                resolve(auth);
+                getUserId().then(id => {
+                    auth.id = id;
+                    resolve(auth);
+                }, reject)
             })
         } catch (error) {
             reject(error)
