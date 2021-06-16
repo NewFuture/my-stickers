@@ -7,8 +7,8 @@ export async function querySettingsUrl(req: Request, context: TurnContext): Prom
     const extension: MessagingExtensionResult = {
         suggestedActions: {
             actions: [{
-                type: ActionTypes.OpenUrl,
-                title: "Setting",
+                type: ActionTypes.OpenApp,
+                title: "Settings",
                 value: getConfigUrl(req.userId)
             }],
         },
