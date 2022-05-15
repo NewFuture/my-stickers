@@ -1,5 +1,5 @@
 {
-  "name": "sticker",
+  "name": "sticker-server",
   "version": "0.0.1",
   "description": "Microsoft Teams Custom Stickers Extension Server",
   "license": "MS-PL",

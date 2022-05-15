@@ -12,3 +12,7 @@ connectors.json
 
 dist/
 temp/
+yarn-error.log
+
+.yarn/cache/*
+.yarn/*.gz
