@@ -11,7 +11,9 @@ import Footer from "../components/Footer";
 
 export default function Config() {
     useEffect(() => {
-        init().then(getStickers,()=>alert('Teams initialized error'));
+        if(navigator.userAgent !== "ReactSnap"){
+            init().then(getStickers,()=>console.error('Teams initialized error'));
+        }
     }, []);
     return (
         <Provider store={store}>
