@@ -1,12 +1,11 @@
-import { app } from "@microsoft/teams-js";
+import * as microsoftTeams from "@microsoft/teams-js";
 
 export const auth = {
     id: '',
     token: '',
 }
 
-
-app.initialize().then(() => { console.debug("teams initialized") });
+microsoftTeams.initialize(() => { console.debug("teams initialized") });
 
 export function init() {
     auth.id = new URLSearchParams(window.location.search).get('id')!;
@@ -23,6 +22,6 @@ export function init() {
 }
 
 export function exit() {
-    return app.notifySuccess();
+    return microsoftTeams.authentication.notifySuccess();
     
 }

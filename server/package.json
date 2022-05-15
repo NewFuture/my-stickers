@@ -1,5 +1,5 @@
 {
-  "name": "sticker-server",
+  "name": "server",
   "version": "0.0.1",
   "description": "Microsoft Teams Custom Stickers Extension Server",
   "license": "MS-PL",
@@ -27,14 +27,14 @@
     "@types/i18n": "^0.8.8",
     "@types/mssql": "^4.3.1",
     "dotenv": "^8.6.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
-    "nodemon": "^2.0.16",
+    "nodemon": "^1.19.4",
     "ts-loader": "^4.5.0",
     "tslint": "^5.11.0",
     "tslint-loader": "^3.6.0",
     "tslint-webpack-plugin": "^1.2.2",
     "typescript": "^3.9.9",
-    "webpack": "^5.72.1"
+    "webpack": "^4.46.0"
   }
 }

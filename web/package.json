@@ -1,11 +1,11 @@
 {
-    "name": "sticker-web",
+    "name": "web",
     "version": "0.1.0",
     "private": true,
     "license": "MS-PL",
     "proxy": "http://localhost:3007/",
     "dependencies": {
-        "@microsoft/teams-js": "^2.0.0-beta.1",
+        "@microsoft/teams-js": "^1.12.1",
         "@stardust-ui/react": "^0.40.4",
         "axios": "^0.21.2",
         "i18next": "^19.9.2",
