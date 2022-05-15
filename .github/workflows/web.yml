@@ -20,8 +20,10 @@ jobs:
 
     - name: install
       run: npm ci
+      working-directory: ./web
       env:
         CI: true
+        
     - name: build
       working-directory: ./web
       run: npm run build        
