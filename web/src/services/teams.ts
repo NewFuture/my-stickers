@@ -9,7 +9,7 @@ microsoftTeams.initialize(() => { console.debug("teams initialized") });
 
 export function init() {
     auth.id = new URLSearchParams(window.location.search).get('id')!;
-    auth.token = window.location.hash;
+    auth.token = window.location.hash.replace('#','');
     return Promise.resolve(auth);
 
     // return app.initialize().then(() =>
