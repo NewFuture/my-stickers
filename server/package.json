@@ -15,10 +15,10 @@
     "url": "git+https://github.com/NewFuture/custom-stickers-teams-extension.git"
   },
   "dependencies": {
-    "azure-storage": "^2.10.4",
-    "botbuilder": "^4.13.4",
-    "express": "^4.17.1",
-    "i18n": "^0.8.6",
+    "azure-storage": "^2.10.7",
+    "botbuilder": "^4.16.0",
+    "express": "^4.18.1",
+    "i18n": "^0.14.2",
     "mssql": "^6.3.2"
   },
   "devDependencies": {
@@ -27,14 +27,14 @@
     "@types/i18n": "^0.8.8",
     "@types/mssql": "^4.3.1",
     "dotenv": "^8.6.0",
-    "gulp": "4.0.2",
+    "gulp": "^3.9.1",
     "gulp-sourcemaps": "^2.6.5",
-    "nodemon": "^1.19.4",
+    "nodemon": "^2.0.16",
     "ts-loader": "^4.5.0",
     "tslint": "^5.11.0",
     "tslint-loader": "^3.6.0",
     "tslint-webpack-plugin": "^1.2.2",
     "typescript": "^3.9.9",
-    "webpack": "^4.46.0"
+    "webpack": "^5.72.1"
   }
 }
