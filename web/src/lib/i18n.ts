@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import TimeAgo, { DateInput } from 'javascript-time-ago';
+import TimeAgo from 'javascript-time-ago';
 import enTime from 'javascript-time-ago/locale/en'
 import zhTime from 'javascript-time-ago/locale/zh';
 
