@@ -19,7 +19,7 @@ interface Msg {
 const MAX_NUM = 100;
 const MAX_SIZE = 1000 * 1024;
 
-const UploadButton: React.FC<PropType> = props => {
+const UploadButton: React.FC<PropType> = (props) => {
     const [messages, setMessages] = useState([] as Msg[]);
     const { t } = useTranslation(NS.configPage);
 
@@ -32,8 +32,8 @@ const UploadButton: React.FC<PropType> = props => {
      */
     function ImageUploadHandler(e: ChangeEvent<HTMLInputElement>) {
         const msg = [];
-        const files = [...e.target.files];
-        const filtered = files.filter(v => v.size < MAX_SIZE);
+        const files: File[] = [...(e.target.files as any)];
+        const filtered = files.filter((v) => v.size < MAX_SIZE);
         console.log(filtered, files.length, filtered.length);
         if (filtered.length !== files.length) {
             // alert("暂不支持超过1M的图片,超过的自动过滤");
@@ -67,7 +67,7 @@ const UploadButton: React.FC<PropType> = props => {
                 multiple={!!props.multiple}
                 accept="image/png, image/jpeg, image/gif"
             />
-            {messages.map(m => (
+            {messages.map((m) => (
                 <Alert style={{ position: "fixed", top: "1em", zIndex: 10 }} icon="error" warning dismissible {...m} />
             ))}
         </>

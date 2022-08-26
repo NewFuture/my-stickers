@@ -14,6 +14,9 @@
     "web": "npm run start --prefix web",
     "manifest": "npm run build --prefix manifest"
   },
+  "resolutions": {
+    "@types/react": "17.0.48"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NewFuture/custom-stickers-teams-extension.git"
@@ -24,4 +27,5 @@
     "url": "https://github.com/NewFuture/custom-stickers-teams-extension/issues"
   },
   "homepage": "https://github.com/NewFuture/custom-stickers-teams-extension#readme",
+  "packageManager": "yarn@3.2.3"
 }
