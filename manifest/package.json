@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/manifest.json",
   "scripts": {
-    "build": "gulp manifest"
+    "build": "package-teams-app stickers"
   },
   "repository": {
     "directory": "manifest",
@@ -14,12 +14,6 @@
   "author": "New Future",
   "license": "MS-PL",
   "dependencies": {
-    "del": "^5.1.0",
-    "dotenv": "^8.2.0",
-    "gulp": "4.0.2",
-    "gulp-token-replace": "1.1.5",
-    "gulp-zip": "4.2.0",
-    "request": "^2.88.0",
-    "z-schema": "^4.2.1"
+    "package-teams-app": "^2.0.0"
   }
 }

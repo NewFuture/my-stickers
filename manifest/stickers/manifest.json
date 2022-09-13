@@ -1,14 +1,14 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.10/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.10",
-  "id": "{{TEAMS_APP_ID}}",
-  "version": "{{npm_package_version}}",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.14/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.14",
+  "id": "${TEAMS_APP_ID}",
+  "version": "${npm_package_version}",
   "packageName": "stickers",
   "developer": {
     "name": "New Future",
-    "websiteUrl": "https://{{WEB_HOST}}",
-    "privacyUrl": "https://{{WEB_HOST}}/privacy.html",
-    "termsOfUseUrl": "https://{{WEB_HOST}}/terms.html"
+    "websiteUrl": "https://${WEB_HOST}",
+    "privacyUrl": "https://${WEB_HOST}/privacy.html",
+    "termsOfUseUrl": "https://${WEB_HOST}/terms.html"
   },
   "name": {
     "short": "Custom Stickers",
@@ -27,11 +27,28 @@
   "bots": [],
   "composeExtensions": [
     {
-      "botId": "{{MICROSOFT_APP_ID}}",
+      "botId": "${MICROSOFT_APP_ID}",
       "canUpdateConfiguration": true,
       "commands": [
         {
-          "id": "mycollection",
+          "id": "queryAll",
+          "title": "My Collections",
+          "description": "All stickes I saved",
+          "initialRun": true,
+          "parameters": [
+            {
+              "name": "queryAll",
+              "description": "search all my stickers by name",
+              "title": "search all"
+            }
+          ],
+          "type": "query",
+          "context": [
+            "compose"
+          ]
+        },
+        {
+          "id": "MyCollection",
           "title": "My Collections",
           "description": "All stickes I saved",
           "initialRun": true,
@@ -39,6 +56,40 @@
             {
               "name": "query",
               "description": "search my stickers by name",
+              "title": "search"
+            }
+          ],
+          "type": "query",
+          "context": [
+            "compose"
+          ]
+        },
+        {
+          "id": "MyCollection",
+          "title": "My Collections",
+          "description": "All stickes I saved",
+          "initialRun": true,
+          "parameters": [
+            {
+              "name": "queryStore",
+              "description": "search recommended stickers",
+              "title": "search"
+            }
+          ],
+          "type": "query",
+          "context": [
+            "compose"
+          ]
+        },
+        {
+          "id": "company",
+          "title": "My company Collections",
+          "description": "All stickes I saved",
+          "initialRun": true,
+          "parameters": [
+            {
+              "name": "queryStore",
+              "description": "search recommended stickers",
               "title": "search"
             }
           ],
@@ -57,10 +108,10 @@
             "message"
           ],
           "taskInfo": {
-            "title": "正在保存图片",
+            "title": "Saving the images",
             "height": "small",
             "width": "small",
-            "url": "https://{{HOSTNAME}}/collect"
+            "url": "https://${HOSTNAME}/collect"
           }
         }
       ]
@@ -68,9 +119,9 @@
   ],
   "permissions": [],
   "validDomains": [
-    "{{WEB_HOST}}",
-    "{{HOSTNAME}}",
-    "{{AZURE_STORAGE_CDN}}"
+    "${WEB_HOST}",
+    "${HOSTNAME}",
+    "${AZURE_STORAGE_CDN}"
   ],
   "localizationInfo": {
     "defaultLanguageTag": "en-us",
