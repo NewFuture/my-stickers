@@ -1,10 +1,14 @@
-import React from "react";
 import { Route } from "react-router-dom";
 import Home from "../pages/home";
 import NotFound from "../pages/notfound";
+import { Common } from "../locales";
+import { loadMarkdownPage } from "../pages/markdownPage";
 
-const PrivacyPage = React.lazy(() => import("../pages/privacy"));
-const TermsPage = React.lazy(() => import("../pages/terms"));
+import privacyStatement from "../markdown/privacy.md";
+import termsStatement from "../markdown/terms.md";
+
+const PrivacyPage = loadMarkdownPage(privacyStatement, Common.privacyTitle);
+const TermsPage = loadMarkdownPage(termsStatement, Common.termsTitle);
 
 export const routes = [
     <Route key="home" path="/" element={<Home />} />,

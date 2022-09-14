@@ -26,8 +26,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build",
-        "postbuild": "react-snap",
+        "build": "react-scripts build && react-snap",
         "test": "react-scripts test"
     },
     "repository": {
@@ -40,7 +39,7 @@
     },
     "reactSnap": {
         "skipThirdPartyRequests": true,
-        "inlineCss": true,
+        "inlineCss": false,
         "cacheAjaxRequests": false,
         "include": [
             "/",
@@ -48,7 +47,9 @@
             "/terms.html"
         ],
         "exclude": [
-            "/custom-stickers.zip"
+            "/custom-stickers.zip",
+            "/stickers.zip",
+            "/config/"
         ],
         "minifyHtml": {
             "sortClassName": false

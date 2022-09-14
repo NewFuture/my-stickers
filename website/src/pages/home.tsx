@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { Header, Button, Text, Box, Flex, Provider, Video } from "@stardust-ui/react";
 import { useTranslation } from "react-i18next";
 
