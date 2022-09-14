@@ -10,6 +10,8 @@ package
 # do not include the Connectors Json Db file
 connectors.json
 
+*.zip
+
 dist/
 temp/
 yarn-error.log

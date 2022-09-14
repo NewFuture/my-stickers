@@ -1,0 +1,23 @@
+{
+    "folders": [
+      {
+        // Source code
+        // "name": "Product",
+        "path": "manifest"
+      },
+      {
+        // Docs and release notes
+        // "name": "Documentation",
+        "path": "web"
+      },
+      {
+        // Yeoman extension generator
+        // "name": "Extension generator",
+        "path": "server"
+      },
+      {
+        "name": "ROOT",
+        "path": "./"
+      },
+    ]
+  }

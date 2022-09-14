@@ -12,7 +12,7 @@
   "scripts": {
     "server": "npm run debug --prefix server",
     "web": "npm run start --prefix web",
-    "manifest": "npm run build --prefix manifest"
+    "manifest": "yarn workspace manifest run build"
   },
   "resolutions": {
     "@types/react": "17.0.48"
