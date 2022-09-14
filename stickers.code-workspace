@@ -1,14 +1,17 @@
 {
     "folders": [
       {
-        // Source code
-        // "name": "Product",
-        "path": "manifest"
+        "path": "client-config-app"
       },
       {
         // Docs and release notes
         // "name": "Documentation",
         "path": "website"
+      },
+      {
+        // Source code
+        // "name": "Product",
+        "path": "manifest"
       },
       {
         // Yeoman extension generator

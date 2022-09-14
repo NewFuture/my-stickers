@@ -21,10 +21,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "noFallthroughCasesInSwitch": true
   },
   "include": [
     "src"
-  ]
+, "../client-config-page/store.ts", "../client-config-page/services", "../client-config-page/src/reducer", "../client-config-page/src/config.tsx", "../client-config-page/src/model", "../client-config-page/src/http.ts", "../client-config-page/src/header"  ]
 }

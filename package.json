@@ -5,6 +5,7 @@
   "main": "index.js",
   "private": true,
   "workspaces": [
+    "client-config-app",
     "website",
     "manifest",
     "server"

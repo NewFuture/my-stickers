@@ -1,0 +1,36 @@
+.ImageItem {
+    position: relative;
+    text-align: center;
+    width: 32vw;
+    height: 32vw;
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0 0 5px whitesmoke;
+    & &-img {
+        width: 100%;
+        height: 100%;
+    }
+    & &-bar {
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        bottom: 0.2em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    & &-close {
+        position: absolute;
+        right: 0.5em;
+        top: 0.5em;
+        // background-color: #A33D2A;
+        // color: white;
+    }
+    & &-edit {
+        position: absolute;
+        left: 1em;
+        top: 0.5em;
+    }
+}

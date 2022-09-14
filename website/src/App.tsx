@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Routes } from "react-router-dom";
-import { Loader, Provider, themes } from "@stardust-ui/react";
+import { Provider, themes } from "@stardust-ui/react";
 import "./lib/i18n";
 import { routes } from "./lib/routes";
 
