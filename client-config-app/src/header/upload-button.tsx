@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, PropsWithChildren, useState } from "react";
 import { Button, Alert } from "@stardust-ui/react";
 import { useSelector } from "react-redux";
 import { StateType } from "../lib/store";
@@ -19,7 +19,7 @@ interface Msg {
 const MAX_NUM = 100;
 const MAX_SIZE = 1000 * 1024;
 
-const UploadButton: React.FC<PropType> = (props) => {
+const UploadButton: React.FC<PropsWithChildren<PropType>> = (props) => {
     const [messages, setMessages] = useState([] as Msg[]);
     const { t } = useTranslation(NS.configPage);
 
