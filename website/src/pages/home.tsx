@@ -10,14 +10,13 @@ import HeartSvg from "../icons/heart";
 import Footer from "../components/Footer";
 
 import "./home.scss";
+import { useTitle } from "../lib/useTitle";
 
 const APP_LINK = "https://teams.microsoft.com/l/app/46fae4d0-faf5-11e9-80f3-53ad33b77bce?source=store-copy-link";
 
 export default function Home() {
     const { t, i18n } = useTranslation();
-    useEffect(() => {
-        document.title = t(Common.title);
-    }, [t]);
+    useTitle(t(Common.title));
     return (
         <Provider
             theme={{

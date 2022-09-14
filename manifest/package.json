@@ -2,7 +2,7 @@
   "name": "manifest",
   "version": "1.0.6",
   "description": "",
-  "main": "src/manifest.json",
+  "main": "stickers/manifest.json",
   "scripts": {
     "build": "package-teams-app stickers"
   },

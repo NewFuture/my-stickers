@@ -1,27 +1,9 @@
-// import * as zh from './zh';
-// import * as en from './en';
-
-// export { zh, en };
-// export enum Messages {
-//     title = "title",
-//     description = "description",
-//     not_found = "not_found",
-//     home_downloadExtension = "home_downloadExtension",
-//     upload = 'upload',
-//     delete = 'delete',
-// }
-
-
-
-// eslint-disable-next-line @typescript-eslint/no-namespace
-// namespace Locales {
 /**
 * 所有NameSapce
 */
-export enum NS {
+export const enum NS {
     common = "common",
     homePage = "home",
-    configPage = "config"
 }
 
 export enum Common {
@@ -31,10 +13,10 @@ export enum Common {
     langSetting = "common:langSetting",
     not_found = "common:not_found",
     date = "common:date",
+    homeTitle = "common:homeTitle",
     privacyTitle = "common:privacyTitle",
     termsTitle = "common:termsTitle",
     feedback = "common:feedback",
-
 }
 
 export enum HomePage {
@@ -63,15 +45,4 @@ export enum HomePage {
     protoComposeStep1 = "home:protoComposeStep1",
     protoComposeStep2 = "home:protoComposeStep2",
     protoComposeToday = "home:protoComposeToday",
-
-}
-
-export enum ConfigPage {
-    upload = 'config:upload',
-    delete = 'config:delete',
-    loading = 'config:loading',
-    maxsize = 'config:maxsize',
-    maxnum = 'config:maxnum',
-    inputeTitle = "config:inputeTitle",
-    inputePlaceholder = "config:inputePlaceholder",
 }

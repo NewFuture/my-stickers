@@ -8,7 +8,7 @@
       {
         // Docs and release notes
         // "name": "Documentation",
-        "path": "web"
+        "path": "website"
       },
       {
         // Yeoman extension generator

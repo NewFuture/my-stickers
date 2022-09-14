@@ -1,8 +1,8 @@
 import { Flex, Button, Divider } from "@stardust-ui/react";
-import { Common } from "../locales";
-// import { Link } from "react-router-dom";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { Common } from "../locales";
 
 const Footer: React.FC = () => {
     const { t } = useTranslation();
@@ -10,6 +10,9 @@ const Footer: React.FC = () => {
         <footer className="Footer">
             <Divider />
             <Flex vAlign="center" hAlign="center">
+                <Button to="/" as={Link} text secondary size="smallest" color="info">
+                    {t(Common.homeTitle)}
+                </Button>
                 <Button
                     as="a"
                     href="https://github.com/NewFuture/custom-stickers-teams-extension/issues/new"
@@ -34,10 +37,10 @@ const Footer: React.FC = () => {
                 >
                     Github
                 </Button>
-                <Button as="a" text secondary href="/privacy.html" target="_blank" size="smallest" color="info">
+                <Button to="/privacy.html" as={Link} text secondary size="smallest" color="info">
                     {t(Common.privacyTitle)}
                 </Button>
-                <Button as="a" text secondary href="/terms.html" target="_blank" size="smallest" color="info">
+                <Button to="/terms.html" as={Link} text secondary size="smallest" color="info">
                     {t(Common.termsTitle)}
                 </Button>
             </Flex>

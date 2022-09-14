@@ -17,6 +17,8 @@ body {
 }
 
 #root {
+    border-top: 1px transparent solid;  // fix margin 穿透
+    height: 100%;
     padding-bottom: 3em;
 }
 .Footer {

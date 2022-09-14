@@ -11,8 +11,8 @@
     "termsOfUseUrl": "https://${WEB_HOST}/terms.html"
   },
   "name": {
-    "short": "Custom Stickers",
-    "full": "Custom Stickers"
+    "short": "Custom Stickers[test]",
+    "full": "Custom Stickers[test]"
   },
   "description": {
     "short": "Add Custom Stickers in Teams ❤",
@@ -28,18 +28,43 @@
   "composeExtensions": [
     {
       "botId": "${MICROSOFT_APP_ID}",
-      "canUpdateConfiguration": true,
       "commands": [
         {
           "id": "queryAll",
-          "title": "My Collections",
+          "title": "TAB1",
           "description": "All stickes I saved",
           "initialRun": true,
           "parameters": [
             {
               "name": "queryAll",
               "description": "search all my stickers by name",
-              "title": "search all"
+              "title": "all",
+              "inputType": "text"
+            },
+            {
+              "name": "scope",
+              "title": "scope",
+              "description": "scope",
+              "inputType": "choiceset",
+              "value": "all",
+              "choices": [
+                {
+                  "title": "all",
+                  "value": "all"
+                },
+                {
+                  "title": "my",
+                  "value": "my"
+                },
+                {
+                  "title": "test Value",
+                  "value": "test Value"
+                },
+                {
+                  "title": "test Value",
+                  "value": "test Value"
+                }
+              ]
             }
           ],
           "type": "query",
@@ -49,7 +74,7 @@
         },
         {
           "id": "MyCollection",
-          "title": "My Collections",
+          "title": "TAB2",
           "description": "All stickes I saved",
           "initialRun": true,
           "parameters": [
@@ -65,35 +90,16 @@
           ]
         },
         {
-          "id": "MyCollection",
-          "title": "My Collections",
-          "description": "All stickes I saved",
-          "initialRun": true,
-          "parameters": [
-            {
-              "name": "queryStore",
-              "description": "search recommended stickers",
-              "title": "search"
-            }
-          ],
-          "type": "query",
-          "context": [
-            "compose"
-          ]
-        },
-        {
-          "id": "company",
-          "title": "My company Collections",
-          "description": "All stickes I saved",
-          "initialRun": true,
-          "parameters": [
-            {
-              "name": "queryStore",
-              "description": "search recommended stickers",
-              "title": "search"
-            }
-          ],
-          "type": "query",
+          "id": "management",
+          "title": "xxx",
+          "description": "xxxDesc",
+          "taskInfo": {
+            "title": "xxxTitle",
+            "url": "https://${WEB_HOST}/config/",
+            "height": "large",
+            "width": "large"
+          },
+          "type": "action",
           "context": [
             "compose"
           ]

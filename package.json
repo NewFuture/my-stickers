@@ -5,14 +5,14 @@
   "main": "index.js",
   "private": true,
   "workspaces": [
-    "web",
+    "website",
     "manifest",
     "server"
   ],
   "scripts": {
     "server": "npm run debug --prefix server",
     "web": "npm run start --prefix web",
-    "manifest": "yarn workspace manifest run build"
+    "manifest": "package-teams-app manifest/stickers package/stickers.zip"
   },
   "resolutions": {
     "@types/react": "17.0.48"
