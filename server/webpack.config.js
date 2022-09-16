@@ -1,4 +1,4 @@
-// // Copyright (c) Wictor Wilén. All rights reserved. 
+// // Copyright (c) Wictor Wilén. All rights reserved.
 // // Copyright (c) Microsoft Corporation. All rights reserved.
 // // Licensed under the MIT license.
 
@@ -57,13 +57,11 @@
 //     }));
 // }
 
-
 // module.exports = config;
-var path = require('path');
-var fs = require('fs');
+var path = require("path");
+var fs = require("fs");
 
-
-var isProd = process.env.NODE_ENV !== 'development';
+var isProd = process.env.NODE_ENV !== "development";
 
 var nodeModules = {};
 // fs.readdirSync('./node_modules')
@@ -74,24 +72,21 @@ var nodeModules = {};
 //         nodeModules[mod] = 'commonjs ' + mod;
 //     });
 
-
 module.exports = {
-    entry: './src/app.ts',
-    target: 'node',
+    entry: "./src/app.ts",
+    target: "node",
     watch: !isProd,
-    mode: isProd ? 'production' : 'development',
+    mode: isProd ? "production" : "development",
     output: {
-        filename: 'app.js',
-        path: path.resolve(__dirname, './dist')
+        filename: "app.js",
+        path: path.resolve(__dirname, "./dist"),
     },
-    devtool: 'source-map',
+    devtool: "source-map",
     resolve: {
-        extensions: ['.ts', '.js']
+        extensions: [".ts", ".js"],
     },
     module: {
-        rules: [
-            { test: /\.ts$/, loader: 'ts-loader' }
-        ]
+        rules: [{ test: /\.ts$/, loader: "ts-loader" }],
     },
-    externals: nodeModules
+    externals: nodeModules,
 };

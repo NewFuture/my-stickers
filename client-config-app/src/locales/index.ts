@@ -1,13 +1,11 @@
-
-
 // eslint-disable-next-line @typescript-eslint/no-namespace
 // namespace Locales {
 /**
-* 所有NameSapce
-*/
+ * 所有NameSapce
+ */
 export const enum NS {
     common = "common",
-    configPage = "config"
+    configPage = "config",
 }
 
 export enum Common {
@@ -20,15 +18,14 @@ export enum Common {
     privacyTitle = "common:privacyTitle",
     termsTitle = "common:termsTitle",
     feedback = "common:feedback",
-
 }
 
 export enum ConfigPage {
-    upload = 'config:upload',
-    delete = 'config:delete',
-    loading = 'config:loading',
-    maxsize = 'config:maxsize',
-    maxnum = 'config:maxnum',
+    upload = "config:upload",
+    delete = "config:delete",
+    loading = "config:loading",
+    maxsize = "config:maxsize",
+    maxnum = "config:maxnum",
     inputeTitle = "config:inputeTitle",
     inputePlaceholder = "config:inputePlaceholder",
 }

@@ -1,4 +1,3 @@
-
 import * as debug from "debug";
 import { Router } from "express";
 import { BotFrameworkAdapter, MessagingExtensionActionResponse } from "botbuilder";
@@ -32,12 +31,12 @@ botRouter.post("/", (req, res, next) => {
                 case "composeExtension/query":
                     body = {
                         composeExtension: await queryMyCollection(req, turnContext.activity.value),
-                    }
+                    };
                     break;
                 case "composeExtension/querySettingUrl":
                     body = {
                         composeExtension: await querySettingsUrl(req, turnContext),
-                    }
+                    };
                     break;
                 case "composeExtension/setting":
                     body = {};
@@ -45,7 +44,7 @@ botRouter.post("/", (req, res, next) => {
                 case "composeExtension/submitAction":
                     body = {
                         composeExtension: await submitAction(req, turnContext.activity.value),
-                    }
+                    };
                     break;
                 case "composeExtension/fetchTask":
                     body = await fetchTaskCollect(req, turnContext.activity.value);
@@ -61,12 +60,14 @@ botRouter.post("/", (req, res, next) => {
                 value: {
                     body,
                     status: 200,
-                }
+                },
             });
             next();
         } catch (err) {
             log("err", err);
-            if (next) { next(err); }
+            if (next) {
+                next(err);
+            }
         }
     });
 });

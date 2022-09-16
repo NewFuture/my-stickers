@@ -1,19 +1,19 @@
 {
-  "name": "manifest",
-  "version": "1.0.6",
-  "description": "",
-  "main": "stickers/manifest.json",
-  "scripts": {
-    "build": "package-teams-app stickers"
-  },
-  "repository": {
-    "directory": "manifest",
-    "type": "git",
-    "url": "git+https://github.com/NewFuture/custom-stickers-teams-extension.git"
-  },
-  "author": "New Future",
-  "license": "MS-PL",
-  "dependencies": {
-    "package-teams-app": "^2.0.0"
-  }
+    "name": "manifest",
+    "version": "1.0.6",
+    "description": "",
+    "main": "stickers/manifest.json",
+    "scripts": {
+        "build": "package-teams-app stickers"
+    },
+    "repository": {
+        "directory": "manifest",
+        "type": "git",
+        "url": "git+https://github.com/NewFuture/custom-stickers-teams-extension.git"
+    },
+    "author": "New Future",
+    "license": "MS-PL",
+    "dependencies": {
+        "package-teams-app": "^2.0.0"
+    }
 }

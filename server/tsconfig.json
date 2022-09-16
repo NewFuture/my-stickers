@@ -8,9 +8,7 @@
         "strictNullChecks": true,
         "sourceMap": true,
         "experimentalDecorators": true,
-        "resolveJsonModule": true,
+        "resolveJsonModule": true
     },
-    "exclude": [
-        "node_modules"
-    ]
+    "exclude": ["node_modules"]
 }

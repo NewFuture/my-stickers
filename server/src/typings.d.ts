@@ -3,7 +3,6 @@ declare namespace Express {
         /**
          * 用户ID
          */
-        userId: string,
+        userId: string;
     }
 }
-

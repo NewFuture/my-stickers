@@ -4,12 +4,11 @@ import Footer from "../components/Footer";
 import { useTitle } from "../lib/useTitle";
 import type { Common } from "../locales";
 
-
 /**
  * Lazy load and render a markdown page
- * @param markdownFile 
- * @param titleKey 
- * @returns 
+ * @param markdownFile
+ * @param titleKey
+ * @returns
  */
 export function loadMarkdownPage(markdownFile: string, titleKey: Common) {
     return React.lazy(() =>

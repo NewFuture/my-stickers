@@ -6,14 +6,14 @@ import "../../lib/i18n";
 
 if (document) {
     document.createRange = () =>
-        (({
+        ({
             setStart: () => {},
             setEnd: () => {},
             commonAncestorContainer: {
                 nodeName: "BODY",
                 ownerDocument: document,
             },
-        } as any) as Range);
+        } as any as Range);
 }
 it("Chat renders without crashing", () => {
     const div = document.createElement("div");

@@ -1,4 +1,3 @@
-
 /**
  * 通用语言
  */
@@ -11,8 +10,7 @@ export const common = {
     privacyTitle: "隐私声明",
     termsTitle: "使用条款",
     feedback: "反馈",
-
-}
+};
 
 /**
  * 首页 index.html
@@ -43,19 +41,17 @@ export const home = {
     protoComposeStep1: "1. 点击 <0/> 图标",
     protoComposeStep2: "2. 选择表情点击发送",
     protoComposeToday: "今天",
-
-}
-
+};
 
 /**
  * 配置页 config.html
  */
 export const config = {
-    upload: '上传',
-    delete: '删除',
+    upload: "上传",
+    delete: "删除",
     loading: "加载中...",
     maxsize: "表情图片大小不能超过 {{size}}",
     maxnum: "最多可保存{{n}}张表情",
     inputeTitle: "修改表情标签",
     inputePlaceholder: "输入名称以便搜索",
-}
+};

@@ -12,7 +12,6 @@ export enum StickerStatus {
     // updating = "update",
 
     moving = "move",
-
 }
 
 export interface Sticker {

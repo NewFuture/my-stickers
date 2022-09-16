@@ -1,30 +1,55 @@
 {
     "folders": [
-      {
-        "path": "client-config-app"
-      },
-      {
-        // Docs and release notes
-        // "name": "Documentation",
-        "path": "website"
-      },
-      {
-        // Source code
-        // "name": "Product",
-        "path": "manifest"
-      },
-      {
-        // Yeoman extension generator
-        // "name": "Extension generator",
-        "path": "server"
-      },
-      {
-        // Source code
-        "path": "stickers"
-      },
-      {
-        "name": "ROOT",
-        "path": "./"
-      },
-    ]
-  }
+        {
+            "path": "client-config-app"
+        },
+        {
+            // Docs and release notes
+            // "name": "Documentation",
+            "path": "website"
+        },
+        {
+            // Source code
+            // "name": "Product",
+            "path": "manifest"
+        },
+        {
+            // Yeoman extension generator
+            // "name": "Extension generator",
+            "path": "server"
+        },
+        {
+            // Source code
+            "path": "stickers"
+        },
+        {
+            "name": "ROOT",
+            "path": "./"
+        }
+    ],
+    "settings": {
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "typescript.enablePromptUseWorkspaceTsdk": true,
+        "npm.packageManager": "yarn",
+        "editor.renderControlCharacters": true,
+        "editor.renderWhitespace": "boundary",
+        "editor.tabSize": 4,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.rulers": [100, 120],
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": true
+        },
+        "eslint.format.enable": true,
+        "eslint.onIgnoredFiles": "off",
+        "eslint.options": {
+            "ignorePath": ".gitignore"
+        },
+        "eslint.validate": ["typescriptreact", "typescript", "javascript", "javascriptreact"],
+        "eslint.packageManager": "yarn",
+        "json.format.enable": false,
+        "[json]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        }
+    }
+}

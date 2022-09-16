@@ -26,14 +26,14 @@ const reactions: ShorthandCollection<ReactionProps> = [
     // },
 ];
 
-const reactionsWithPopup = reactions.map(reaction => (render: any) =>
-    render(reaction, (_: any, props: any) => <Reaction {...props} />),
+const reactionsWithPopup = reactions.map(
+    (reaction) => (render: any) => render(reaction, (_: any, props: any) => <Reaction {...props} />),
 );
 
 const ChatWithPopover: React.FC = () => {
     return (
         <Translation ns={NS.homePage}>
-            {t => (
+            {(t) => (
                 <Chat
                     items={[
                         {
@@ -92,7 +92,7 @@ const ChatWithPopover: React.FC = () => {
     );
 };
 
-const TeamsChatMessage: React.FC<ChatMessageProps & { dialogContent: JSX.Element }> = props => {
+const TeamsChatMessage: React.FC<ChatMessageProps & { dialogContent: JSX.Element }> = (props) => {
     const [showActionMenu, setShowActionMenu] = React.useState(false);
     const [forceShowActionMenu, setForceShowActionMenu] = React.useState(false);
     const [chatMessageElement, setChatMessageElement] = React.useState<HTMLElement>();

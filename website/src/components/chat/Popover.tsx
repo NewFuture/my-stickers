@@ -7,7 +7,7 @@ import { HomePage } from "../../locales";
 export interface PopoverProps {
     className?: string;
     disabled: boolean;
-    t: TFunction,
+    t: TFunction;
     onForceShowActionMenuChange: (val: boolean) => void;
     onShowActionMenuChange: (val: boolean) => void;
     chatMessageElement?: HTMLElement;
@@ -113,14 +113,24 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                                 // pills: true,
                                 "data-is-focusable": true,
                                 items: [
-                                    { key: "bookmark", icon: "bookmark", disabled: true, content: t(HomePage.protoMsgExtMenuSaveMsg) },
+                                    {
+                                        key: "bookmark",
+                                        icon: "bookmark",
+                                        disabled: true,
+                                        content: t(HomePage.protoMsgExtMenuSaveMsg),
+                                    },
                                     {
                                         key: "unread",
                                         icon: "mark-as-unread",
                                         disabled: true,
                                         content: t(HomePage.protoMsgExtMenuUnread),
                                     },
-                                    { key: "translate", icon: "translation", disabled: true, content: t(HomePage.protoMsgExtMenuTranslate) },
+                                    {
+                                        key: "translate",
+                                        icon: "translation",
+                                        disabled: true,
+                                        content: t(HomePage.protoMsgExtMenuTranslate),
+                                    },
                                     {
                                         "data-is-focusable": true,
                                         defaultMenuOpen: true,
@@ -163,7 +173,7 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                         title: "Close",
                         onClick: this.close,
                     }}
-                // trigger={<Button content="Open a dialog" />}
+                    // trigger={<Button content="Open a dialog" />}
                 />
             </>
         );

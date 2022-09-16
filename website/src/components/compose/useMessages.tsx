@@ -92,7 +92,7 @@ function reducer(m: Message[], a: Action): Message[] {
 
 const context = createContext<[Message[], Dispatch<Action>]>([messages, () => {}]);
 
-export const MessageProvider: React.FC = props => {
+export const MessageProvider: React.FC = (props) => {
     const [state, dispatch] = useReducer(reducer, messages);
     return <context.Provider value={[state, dispatch]}>{props.children}</context.Provider>;
 };

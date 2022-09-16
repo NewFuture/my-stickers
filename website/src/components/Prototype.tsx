@@ -12,7 +12,7 @@ interface ComponentPrototypeProps extends PrototypeSectionProps {
     description?: React.ReactNode;
 }
 
-export const PrototypeSection: React.FunctionComponent<ComponentPrototypeProps> = props => {
+export const PrototypeSection: React.FunctionComponent<ComponentPrototypeProps> = (props) => {
     const { title, children, styles, ...rest } = props;
     return (
         <Box className="PrototypeSection" {...rest}>
@@ -28,7 +28,7 @@ export const PrototypeSection: React.FunctionComponent<ComponentPrototypeProps> 
     );
 };
 
-export const PrototypeComponent: React.FunctionComponent<ComponentPrototypeProps> = props => {
+export const PrototypeComponent: React.FunctionComponent<ComponentPrototypeProps> = (props) => {
     const { description, title: header, children, styles, ...rest } = props;
     return (
         <Provider>

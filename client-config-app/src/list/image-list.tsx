@@ -11,12 +11,12 @@ interface Props {
 const ImageList: React.FC<Props> = (props: Props) => {
     return (
         <Grid className="just-items-center" columns={3}>
-            {props.items.map(item => (
+            {props.items.map((item) => (
                 <ImageItem
                     key={item.id}
                     {...item}
                     onDelete={() => deleteSticker(item.id)}
-                    onEdit={name => {
+                    onEdit={(name) => {
                         editSticker(item.id, name);
                     }}
                 />

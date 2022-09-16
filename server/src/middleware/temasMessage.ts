@@ -1,4 +1,4 @@
-import { Request, Response, } from "express";
+import { Request, Response } from "express";
 import { StatusCodes, Activity } from "botbuilder";
 import * as debug from "debug";
 

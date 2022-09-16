@@ -1,6 +1,6 @@
 /**
-* 所有NameSapce
-*/
+ * 所有NameSapce
+ */
 export const enum NS {
     common = "common",
     homePage = "home",

@@ -1,0 +1,3 @@
+client-config-app/build/*
+website/build/*
+server/dist/*
