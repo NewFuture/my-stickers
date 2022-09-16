@@ -25,7 +25,6 @@ export async function getUserStickers(userId: string): Promise<Sticker[]> {
     return dbResult || [];
 }
 
-
 /**
  * 模糊搜索
  * @param userId
@@ -34,8 +33,7 @@ export async function getUserStickers(userId: string): Promise<Sticker[]> {
 export async function searchUserStickers(userId: string, search: string): Promise<Sticker[]> {
     const stickers = await getUserStickers(userId);
     const reg = new RegExp(search.trim().replace(/\s+/g, ".*"));
-    return stickers.filter(s => s.name && reg.test(s.name));
-
+    return stickers.filter((s) => s.name && reg.test(s.name));
 }
 
 /**
@@ -43,17 +41,20 @@ export async function searchUserStickers(userId: string, search: string): Promis
  * @param userId
  * @param stickers
  */
-export async function addUserStickers(userId: string, stickers: Array<Omit<Sticker, "id"> & { id?: string }>): Promise<Sticker[]> {
+export async function addUserStickers(
+    userId: string,
+    stickers: Array<Omit<Sticker, "id"> & { id?: string }>,
+): Promise<Sticker[]> {
     if (!userId || !stickers || stickers.length === 0) {
         return Promise.reject("no stickers add");
     }
-    return getUserStickers(userId).then(savedStickers => {
+    return getUserStickers(userId).then((savedStickers) => {
         cache.delete(userId);
         const updateStickers: Sticker[] = [];
-        const tasks: Promise<any>[] = []
+        const tasks: Promise<any>[] = [];
         for (let index = 0, newSticker = 0; index < stickers.length; index++) {
             const sticker = stickers[index];
-            const savedOne = savedStickers.find(s => s.src === sticker.src);
+            const savedOne = savedStickers.find((s) => s.src === sticker.src);
             if (savedOne) {
                 // 已保存的更新权重
                 tasks.push(renewWeight(savedOne.id));
@@ -82,7 +83,7 @@ export async function addUserStickers(userId: string, stickers: Array<Omit<Stick
  */
 export async function deleteUserSticker(userId: string, stickerId: string) {
     const stickers = await getUserStickers(userId);
-    const deleteSticker = stickers && stickers.find(s => s.id === stickerId);
+    const deleteSticker = stickers && stickers.find((s) => s.id === stickerId);
     if (deleteSticker) {
         await del(stickerId);
         cache.delete(userId);
@@ -95,7 +96,7 @@ export async function deleteUserSticker(userId: string, stickerId: string) {
 export async function updateStickerName(userId: string, stickerId: string, name: string) {
     name = (name || "").trim();
     const stickers = await getUserStickers(userId);
-    const sticker = stickers.find(s => s.id === stickerId);
+    const sticker = stickers.find((s) => s.id === stickerId);
     if (!sticker) {
         return Promise.reject("not found");
     } else if (sticker.name !== name) {

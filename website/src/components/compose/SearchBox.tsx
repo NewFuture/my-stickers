@@ -6,7 +6,7 @@ import { Common } from "../../locales";
 
 const helloSticker = process.env.PUBLIC_URL + "/hello.gif";
 
-const SearchBox: React.FC = props => {
+const SearchBox: React.FC = (props) => {
     const [, dispatchMessage] = useMessages();
     const { t } = useTranslation();
     return (

@@ -7,10 +7,12 @@ import { Sticker, StickerStatus } from "../model/sticker";
 import "./item.scss";
 import { ConfigPage } from "../locales";
 
-const ImageItem: React.FC<Sticker & {
-    onDelete: () => void;
-    onEdit: (name: string) => void;
-}> = props => {
+const ImageItem: React.FC<
+    Sticker & {
+        onDelete: () => void;
+        onEdit: (name: string) => void;
+    }
+> = (props) => {
     const { src, name, status, progress, onEdit, onDelete } = props;
     const { t } = useTranslation();
 
@@ -79,7 +81,7 @@ const ImageItem: React.FC<Sticker & {
                     iconOnly: true,
                     circular: true,
                 }}
-                onConfirm={c => {
+                onConfirm={(c) => {
                     const value = refInput.current && refInput.current.value;
                     if (value && value !== name) {
                         onEdit(value);

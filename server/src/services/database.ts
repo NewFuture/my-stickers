@@ -16,10 +16,9 @@ const pool = new Sql.ConnectionPool(dbConfig);
 
 const poolConnect = pool.connect();
 
-pool.on("error", err => {
+pool.on("error", (err) => {
     error(err);
 });
-
 
 const baseTime = +new Date("2019-11-20T11:00:00Z");
 function getNewWeight() {
@@ -30,7 +29,6 @@ async function excute<T>(sql: string, vars: Record<string, any>) {
     log("query", sql.replace(/\n/g, " "));
     await poolConnect; // ensures that the pool has been created
     try {
-
         const request = pool.request();
         // tslint:disable-next-line: forin
         for (const key in vars) {
@@ -60,7 +58,7 @@ export function insert(id: string, userId: string, src: string, name?: string, w
         userId,
         src,
         name,
-        weight: weight || getNewWeight()
+        weight: weight || getNewWeight(),
     });
 }
 
@@ -76,6 +74,4 @@ export function renewWeight(id: string) {
     return excute(UPDATE_WIGHT_SQL, { id, weight: getNewWeight() });
 }
 
-export function batchUpdateWeight() {
-
-}
+export function batchUpdateWeight() {}

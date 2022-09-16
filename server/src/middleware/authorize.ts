@@ -1,4 +1,4 @@
-import { Request, Response, } from "express";
+import { Request, Response } from "express";
 import { StatusCodes } from "botbuilder";
 import * as debug from "debug";
 import { validateToken } from "../services/token";
@@ -18,7 +18,7 @@ function sendError(res: Response, error: string) {
  */
 export function authorize(req: Request, res: Response, next?: () => void) {
     const authorization = req.headers.authorization;
-    log(authorization)
+    log(authorization);
 
     if (!authorization) {
         sendError(res, "authorization not found");

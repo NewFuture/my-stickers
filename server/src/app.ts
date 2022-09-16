@@ -17,7 +17,6 @@ log(`Initializing Microsoft Teams Express hosted App...`);
 // tslint:disable-next-line:no-var-requires
 // require("dotenv").config();
 
-
 // Set up app insights
 // appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY).start();
 
@@ -25,11 +24,13 @@ log(`Initializing Microsoft Teams Express hosted App...`);
 const express = Express();
 
 // Inject the raw request body onto the request object
-express.use(Express.json({
-    verify: (req, res, buf: Buffer, encoding: string): void => {
-        (req as any).rawBody = buf.toString();
-    }
-}));
+express.use(
+    Express.json({
+        verify: (req, res, buf: Buffer, encoding: string): void => {
+            (req as any).rawBody = buf.toString();
+        },
+    }),
+);
 express.use(Express.urlencoded({ extended: true }));
 express.use(i18nMiddleware);
 
@@ -45,4 +46,3 @@ express.set("port", port);
 http.createServer(express).listen(port, () => {
     log(`Server running on ${port}`);
 });
-

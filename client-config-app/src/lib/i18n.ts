@@ -1,10 +1,9 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
 
-import * as zh from '../locales/zh';
-import * as en from '../locales/en';
-
+import * as zh from "../locales/zh";
+import * as en from "../locales/en";
 
 i18n
     // load translation using xhr -> see /public/locales
@@ -18,16 +17,15 @@ i18n
     // init i18next
     // for all options read: https://www.i18next.com/overview/configuration-options
     .init({
-        fallbackLng: 'en',
+        fallbackLng: "en",
         debug: process.env.NODE_ENV === "development",
         interpolation: {
-
             escapeValue: false, // not needed for react as it escapes by default
         },
         resources: {
             en,
-            zh
-        }
+            zh,
+        },
         // react i18next special options (optional)
         // override if needed - omit if ok with defaults
         /*
@@ -41,6 +39,5 @@ i18n
         }
         */
     });
-
 
 export default i18n;

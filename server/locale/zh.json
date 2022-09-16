@@ -1,6 +1,6 @@
 {
     "pong": "乓!",
-    "initial_run_upload_stickers":"上传表情",
+    "initial_run_upload_stickers": "上传表情",
     "collect_save_success": "图片已保存到表情",
     "collect_save_fail": "保存失败",
     "collect_save_no_images_found": "消息中没有可保存的图片"

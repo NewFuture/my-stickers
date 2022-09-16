@@ -1,2 +1,2 @@
 export { ENV } from "./env";
-export {Locale} from "./locale";
+export { Locale } from "./locale";

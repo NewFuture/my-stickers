@@ -45,7 +45,7 @@ function getImageFromAttachment(a: MessagingExtensionAttachment): Img[] {
         a.contentType === "application/vnd.microsoft.card.hero"
     ) {
         const card: any = typeof a.content === "string" ? JSON.parse(a.content || '{"body":[]}') : a.content;
-        return card.body.filter(c => c.type === "Image").map(c => ({ src: c.url, alt: c.alt || c.altText }));
+        return card.body.filter((c) => c.type === "Image").map((c) => ({ src: c.url, alt: c.alt || c.altText }));
     }
     return [];
 }
@@ -58,8 +58,8 @@ export async function fetchTaskCollect(req: Request, value: MessagingExtensionAc
     const attachments: MessageActionsPayloadAttachment[] = payload.attachments || [];
     attachments
         .map(getImageFromAttachment)
-        .filter(s => !!s)
-        .forEach(s => imgs.push(...s));
+        .filter((s) => !!s)
+        .forEach((s) => imgs.push(...s));
 
     log("imgs", imgs);
     const hasImgs = imgs && imgs.length > 0;
@@ -68,7 +68,7 @@ export async function fetchTaskCollect(req: Request, value: MessagingExtensionAc
         hasImgs &&
         (await addUserStickers(
             id,
-            imgs.map(img => ({ src: img.src, name: img.alt! })),
+            imgs.map((img) => ({ src: img.src, name: img.alt! })),
         ));
     // log('imgs', saveImgs)
 
@@ -78,7 +78,7 @@ export async function fetchTaskCollect(req: Request, value: MessagingExtensionAc
         version: "1.0",
         body: saveImgs
             ? [
-                  ...saveImgs.map<CardImage>(img => ({
+                  ...saveImgs.map<CardImage>((img) => ({
                       url: img.src,
                       type: "Image",
                       altText: img.name,

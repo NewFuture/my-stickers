@@ -4,7 +4,7 @@ import SearchBox from "./SearchBox";
 import { useTranslation } from "react-i18next";
 import { NS, Common } from "../../locales";
 
-const BottomMenu: React.FC<UIComponentProps> = props => {
+const BottomMenu: React.FC<UIComponentProps> = (props) => {
     const { t } = useTranslation(NS.common);
     return (
         <Menu

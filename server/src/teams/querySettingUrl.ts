@@ -6,11 +6,13 @@ export async function querySettingsUrl(req: Request, context: TurnContext): Prom
     // const id = context.activity.from.id;
     const extension: MessagingExtensionResult = {
         suggestedActions: {
-            actions: [{
-                type: ActionTypes.OpenApp,
-                title: "Settings",
-                value: getConfigUrl(req.userId)
-            }],
+            actions: [
+                {
+                    type: ActionTypes.OpenApp,
+                    title: "Settings",
+                    value: getConfigUrl(req.userId),
+                },
+            ],
         },
         type: "config",
     };

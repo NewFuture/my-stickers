@@ -16,14 +16,7 @@
         "no-consecutive-blank-lines": false,
         "no-console": {
             "severity": "warning",
-            "options": [
-                "debug",
-                "info",
-                "log",
-                "time",
-                "timeEnd",
-                "trace"
-            ]
+            "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
         },
         "object-literal-sort-keys": false
     },
@@ -32,4 +25,4 @@
             "options": [120]
         }
     }
-  }
+}

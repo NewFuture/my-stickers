@@ -7,7 +7,7 @@ const LanguageList = [
     { key: "zh", content: "中文" },
     { key: "en", content: "English" },
 ];
-const LanguageButton: React.FC<{ styles?: ICSSInJSStyle }> = props => {
+const LanguageButton: React.FC<{ styles?: ICSSInJSStyle }> = (props) => {
     const { i18n } = useTranslation(NS.common);
     return (
         <SplitButton

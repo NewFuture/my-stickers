@@ -1,30 +1,30 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext",
-      "esnext.intl",
-      "es2017.intl",
-      "es2018.intl"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "downlevelIteration": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "noFallthroughCasesInSwitch": true
-  },
-  "include": [
-    "src"
-, "../client-config-page/store.ts", "../client-config-page/services", "../client-config-page/src/reducer", "../client-config-page/src/config.tsx", "../client-config-page/src/model", "../client-config-page/src/http.ts", "../client-config-page/src/header"  ]
+    "compilerOptions": {
+        "target": "es5",
+        "lib": ["dom", "dom.iterable", "esnext", "esnext.intl", "es2017.intl", "es2018.intl"],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "downlevelIteration": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react-jsx",
+        "noFallthroughCasesInSwitch": true
+    },
+    "include": [
+        "src",
+        "../client-config-page/store.ts",
+        "../client-config-page/services",
+        "../client-config-page/src/reducer",
+        "../client-config-page/src/config.tsx",
+        "../client-config-page/src/model",
+        "../client-config-page/src/http.ts",
+        "../client-config-page/src/header"
+    ]
 }

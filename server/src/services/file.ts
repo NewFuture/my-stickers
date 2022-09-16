@@ -3,7 +3,6 @@ import { ENV } from "../config";
 import { uuidUrlSafeEncode } from "../util/base64";
 import { generateUuid } from "../util/uuid";
 
-
 const container = ENV.AZURE_STORAGE_CONTAINER;
 const blobService = azure.createBlobService(ENV.AZURE_STORAGE_ACCOUNT_NAME!, ENV.AZURE_STORAGE_ACCOUNT_ACCESS_KEY!);
 
@@ -32,8 +31,8 @@ export function getSasToken(userId: string, ext: string): SasInfo {
         AccessPolicy: {
             Permissions: azure.BlobUtilities.SharedAccessPermissions.WRITE,
             Start: startDate,
-            Expiry: expiryDate
-        }
+            Expiry: expiryDate,
+        },
     };
     const id = generateUuid();
     // const id: string = base64EncodeUUID();
@@ -52,16 +51,19 @@ export function getSasToken(userId: string, ext: string): SasInfo {
  */
 export function commitBlocks(userId: string, id: string, extWithDot: string, contentType: string): Promise<string> {
     const fileName = `${uuidUrlSafeEncode(userId)}/${uuidUrlSafeEncode(id)}${extWithDot}`;
-    return new Promise((resolve, reject) => blobService.commitBlocks(
-        container,
-        fileName,
-        { LatestBlocks: [id] },
-        { contentSettings: { contentType } },
-        (err) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(`https://${ENV.AZURE_STORAGE_CDN}/${container}/${fileName}`);
-            }
-        }));
+    return new Promise((resolve, reject) =>
+        blobService.commitBlocks(
+            container,
+            fileName,
+            { LatestBlocks: [id] },
+            { contentSettings: { contentType } },
+            (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(`https://${ENV.AZURE_STORAGE_CDN}/${container}/${fileName}`);
+                }
+            },
+        ),
+    );
 }

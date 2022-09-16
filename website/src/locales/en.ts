@@ -12,7 +12,7 @@ export const common = {
     privacyTitle: "Privacy Statement",
     termsTitle: "Terms and Conditions",
     feedback: "Feedback",
-}
+};
 
 /**
  * 首页 index.html
@@ -43,4 +43,4 @@ export const home = {
     protoComposeStep1: "1. Click the <0/> icon",
     protoComposeStep2: "2. Click the sitcker that you want to send",
     protoComposeToday: "Today",
-}
+};

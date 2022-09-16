@@ -1,4 +1,3 @@
-
 import * as path from "path";
 
 import { Router } from "express";
@@ -30,12 +29,10 @@ interface UploadRequest {
  */
 apiRouter.post("/upload", (req, res, next) => {
     const body: UploadRequest = req.body;
-    const allSAS = body.exts.map(ext => getSasToken(req.userId, ext));
+    const allSAS = body.exts.map((ext) => getSasToken(req.userId, ext));
     res.send(allSAS);
     next();
 });
-
-
 
 interface PostStickerBlobRequest {
     id: string;
@@ -50,11 +47,13 @@ apiRouter.post("/stickers/commit", async (req, res, next) => {
     const ext = path.extname(name);
     try {
         const src = await commitBlocks(req.userId, id, ext, contentType);
-        const info = await addUserStickers(req.userId, [{
-            id,
-            src,
-            name: path.basename(name, ext)
-        }]);
+        const info = await addUserStickers(req.userId, [
+            {
+                id,
+                src,
+                name: path.basename(name, ext),
+            },
+        ]);
         res.send(info[0]);
         next();
     } catch (error) {

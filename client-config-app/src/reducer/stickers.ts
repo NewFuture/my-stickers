@@ -21,90 +21,102 @@ export enum StickerActionType {
     STICKER_move = "STICKER_move",
     STICKER_moveSuccess = "STICKER_moveSuccess",
     STICKER_moveFail = "STICKER_moveFail",
-
 }
 
 export type StickerAction =
-    {
-        type: StickerActionType.STICKER_fetch,
-        payload: Sticker[],
-    } | {
-        type: StickerActionType.STICKER_preupload,
-        payload: { id: string, src: string, name?: string }[]
-    } | {
-        type: StickerActionType.STICKER_upload,
-        payload: {
-            id: string,
-            new_id: string,
-        }[]
-    } | {
-        type: StickerActionType.STICKER_uploading
-        payload: {
-            id: string,
-            progress: number,
-        }
-    } | {
-        type: StickerActionType.STICKER_uploadSuccess
-        payload: {
-            id: string,
-            src: string,
-        }
-    } | {
-        type: StickerActionType.STICKER_uploadFail
-        payload: {
-            id: string,
-        }
-    } | {
-        type: StickerActionType.STICKER_delete,
-        payload: {
-            id: string
-        }
-    } | {
-        type: StickerActionType.STICKER_deleteSuccess,
-        payload: {
-            id: string
-        }
-    } | {
-        type: StickerActionType.STICKER_deleteFail,
-        payload: {
-            id: string
-        }
-    } | {
-        type: StickerActionType.STICKER_edit,
-        payload: {
-            id: string
-            name: string
-        }
-    } | {
-        type: StickerActionType.STICKER_editFail,
-        payload: {
-            id: string
-        }
-    } | {
-        type: StickerActionType.STICKER_editSuccess,
-        payload: {
-            id: string
-        }
-    } | {
-        type: StickerActionType.STICKER_move,
-        payload: {
-            from: string
-            to: string
-        }
-    } | {
-        type: StickerActionType.STICKER_moveSuccess,
-        payload: {
-            from: string
-            to: string
-        }
-    } | {
-        type: StickerActionType.STICKER_moveFail,
-        payload: {
-            from: string
-            to: string
-        }
-    }
-
+    | {
+          type: StickerActionType.STICKER_fetch;
+          payload: Sticker[];
+      }
+    | {
+          type: StickerActionType.STICKER_preupload;
+          payload: { id: string; src: string; name?: string }[];
+      }
+    | {
+          type: StickerActionType.STICKER_upload;
+          payload: {
+              id: string;
+              new_id: string;
+          }[];
+      }
+    | {
+          type: StickerActionType.STICKER_uploading;
+          payload: {
+              id: string;
+              progress: number;
+          };
+      }
+    | {
+          type: StickerActionType.STICKER_uploadSuccess;
+          payload: {
+              id: string;
+              src: string;
+          };
+      }
+    | {
+          type: StickerActionType.STICKER_uploadFail;
+          payload: {
+              id: string;
+          };
+      }
+    | {
+          type: StickerActionType.STICKER_delete;
+          payload: {
+              id: string;
+          };
+      }
+    | {
+          type: StickerActionType.STICKER_deleteSuccess;
+          payload: {
+              id: string;
+          };
+      }
+    | {
+          type: StickerActionType.STICKER_deleteFail;
+          payload: {
+              id: string;
+          };
+      }
+    | {
+          type: StickerActionType.STICKER_edit;
+          payload: {
+              id: string;
+              name: string;
+          };
+      }
+    | {
+          type: StickerActionType.STICKER_editFail;
+          payload: {
+              id: string;
+          };
+      }
+    | {
+          type: StickerActionType.STICKER_editSuccess;
+          payload: {
+              id: string;
+          };
+      }
+    | {
+          type: StickerActionType.STICKER_move;
+          payload: {
+              from: string;
+              to: string;
+          };
+      }
+    | {
+          type: StickerActionType.STICKER_moveSuccess;
+          payload: {
+              from: string;
+              to: string;
+          };
+      }
+    | {
+          type: StickerActionType.STICKER_moveFail;
+          payload: {
+              from: string;
+              to: string;
+          };
+      };
 
 function stickers(state: Sticker[] = [], action: StickerAction): Sticker[] {
     // const payload = action.payload;
@@ -115,46 +127,71 @@ function stickers(state: Sticker[] = [], action: StickerAction): Sticker[] {
 
         case StickerActionType.STICKER_preupload:
             // 准备上传
-            const newState: Sticker[] = action.payload.map(s => ({ ...s, status: StickerStatus.upload, progress: 0 }));
-            newState.push(...state)
+            const newState: Sticker[] = action.payload.map((s) => ({
+                ...s,
+                status: StickerStatus.upload,
+                progress: 0,
+            }));
+            newState.push(...state);
             return newState;
         case StickerActionType.STICKER_upload:
             // 开始上传
-            const ids = action.payload.map(s => s.id);
-            return state.map(s => (ids.includes(s.id)) ? { ...s, id: action.payload.find(data => data.id === s.id)!.new_id, status: StickerStatus.uploading, progress: 10 } : s);
+            const ids = action.payload.map((s) => s.id);
+            return state.map((s) =>
+                ids.includes(s.id)
+                    ? {
+                          ...s,
+                          id: action.payload.find((data) => data.id === s.id)!.new_id,
+                          status: StickerStatus.uploading,
+                          progress: 10,
+                      }
+                    : s,
+            );
         case StickerActionType.STICKER_uploading:
             // 更新上传进度
-            return state.map(s => s.id === action.payload.id ? { ...s, progress: 9 + Math.round(0.9 * action.payload.progress) } : s);
+            return state.map((s) =>
+                s.id === action.payload.id ? { ...s, progress: 9 + Math.round(0.9 * action.payload.progress) } : s,
+            );
         case StickerActionType.STICKER_uploadSuccess:
             // 上传完成
-            return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.success, progress: 100 } : s);
+            return state.map((s) =>
+                s.id === action.payload.id ? { ...s, status: StickerStatus.success, progress: 100 } : s,
+            );
         case StickerActionType.STICKER_uploadFail:
-            return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.upload_fail, progress: 0 } : s);
+            return state.map((s) =>
+                s.id === action.payload.id ? { ...s, status: StickerStatus.upload_fail, progress: 0 } : s,
+            );
 
         case StickerActionType.STICKER_edit:
             // 开始更新数据
-            return state.map(s => s.id === action.payload.id ? {
-                ...s,
-                status: StickerStatus.editing,
-                name: action.payload.name,
-                progress: undefined,
-            } : s);
+            return state.map((s) =>
+                s.id === action.payload.id
+                    ? {
+                          ...s,
+                          status: StickerStatus.editing,
+                          name: action.payload.name,
+                          progress: undefined,
+                      }
+                    : s,
+            );
         case StickerActionType.STICKER_editSuccess:
             // 更新失败
-            return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.success } : s);
+            return state.map((s) => (s.id === action.payload.id ? { ...s, status: StickerStatus.success } : s));
         case StickerActionType.STICKER_editFail:
             // 更新完成
-            return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.edit_fail } : s);
+            return state.map((s) => (s.id === action.payload.id ? { ...s, status: StickerStatus.edit_fail } : s));
 
         case StickerActionType.STICKER_delete:
             // 开始删除
-            return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.delete, progress: undefined } : s);
+            return state.map((s) =>
+                s.id === action.payload.id ? { ...s, status: StickerStatus.delete, progress: undefined } : s,
+            );
         case StickerActionType.STICKER_deleteFail:
             // 删除失败
-            return state.map(s => s.id === action.payload.id ? { ...s, status: StickerStatus.delete_fail } : s);
+            return state.map((s) => (s.id === action.payload.id ? { ...s, status: StickerStatus.delete_fail } : s));
         case StickerActionType.STICKER_deleteSuccess:
             // 删除完成
-            return state.filter(s => s.id !== action.payload.id);
+            return state.filter((s) => s.id !== action.payload.id);
 
         // return state.map(todo =>
         //     (stickers.id === action.id)
@@ -162,8 +199,8 @@ function stickers(state: Sticker[] = [], action: StickerAction): Sticker[] {
         //         : todo
         // )
         default:
-            return state
+            return state;
     }
 }
 
-export default stickers
+export default stickers;

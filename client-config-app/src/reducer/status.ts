@@ -1,9 +1,7 @@
-
 /**
  * 全局状态
  */
 export enum Status {
-
     /**
      * 正在初始化
      */
@@ -27,15 +25,16 @@ export enum StatusActionType {
     Status_Syncing = "Status_Syncing",
 }
 
-export type StatusAction = {
-    type: StatusActionType.Status_Pending,
-} | {
-    type: StatusActionType.Status_Ready,
-} | {
-    type: StatusActionType.Status_Syncing,
-}
-
-
+export type StatusAction =
+    | {
+          type: StatusActionType.Status_Pending;
+      }
+    | {
+          type: StatusActionType.Status_Ready;
+      }
+    | {
+          type: StatusActionType.Status_Syncing;
+      };
 
 function status(state = Status.pending, action: StatusAction): Status {
     switch (action.type) {
@@ -51,8 +50,8 @@ function status(state = Status.pending, action: StatusAction): Status {
         //         : todo
         // )
         default:
-            return state
+            return state;
     }
 }
 
-export default status
+export default status;
