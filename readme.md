@@ -37,10 +37,18 @@ Main Dependencies and Technology:
 
 Sever API and bot
 
-## [manifest](./manifest)
+## [/manifest](./manifest)
 
 Manifest Package files
+
+-   Search and Query
+-   ActionButton in Compose Extension
+-   allow admin customization `configurableProperties`
 
 Dependencies:
 
 -   `package-teams-app`: package the manifest.zip (auto replace environment vars and validate schemas)
+
+## [/stickers](./stickers)
+
+Manage the Official Recommened Stickers
