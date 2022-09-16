@@ -5481,9 +5481,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-i18next: ^11.18.5
-    react-markdown: ^8.0.3
     react-redux: ^7.2.4
-    react-router-dom: ^6.4.0
     react-scripts: ^5.0.1
     redux: ^4.2.0
     typescript: ^4.8.2
@@ -16673,6 +16671,8 @@ __metadata:
 "sticker@workspace:.":
   version: 0.0.0-use.local
   resolution: "sticker@workspace:."
+  dependencies:
+    package-teams-app: ^2.0.0
   languageName: unknown
   linkType: soft
 
