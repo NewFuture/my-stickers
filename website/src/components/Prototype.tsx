@@ -8,9 +8,8 @@ interface PrototypeSectionProps {
     styles?: React.CSSProperties;
 }
 
-interface ComponentPrototypeProps extends PrototypeSectionProps {
+interface ComponentPrototypeProps extends React.PropsWithChildren<PrototypeSectionProps> {
     description?: React.ReactNode;
-    children?:React.ReactNode;
 }
 
 export const PrototypeSection: React.FunctionComponent<ComponentPrototypeProps> = (props) => {
