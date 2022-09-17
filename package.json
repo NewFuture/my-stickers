@@ -16,8 +16,11 @@
         "eslint": "eslint --cache --max-warnings 0 --cache-location node_modules/.cache/ --ext .ts,.tsx",
         "prettier": "prettier --cache \"**/*.{js,jsx,ts,tsx,json,css,scss,md,yml,html}\"",
         "server": "npm run debug --prefix server",
-        "web": "npm run start --prefix web",
-        "manifest": "package-teams-app manifest/stickers package/stickers.zip"
+        "client": "yarn workspace client-config-app run start",
+        "client:build": "yarn workspace client-config-app run build",
+        "website": "yarn workspace website run start",
+        "website:build": "yarn workspace website run build",
+        "manifest": "yarn workspace manifest run build"
     },
     "repository": {
         "type": "git",
@@ -34,7 +37,6 @@
         "eslint": "^8.23.1",
         "eslint-config-prettier": "^8.5.0",
         "eslint-config-react-app": "^7.0.1",
-        "package-teams-app": "^2.0.0",
         "prettier": "^2.7.1",
         "typescript": "^4.8.3"
     }

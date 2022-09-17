@@ -5,7 +5,8 @@ node_modules
 package
 
 # do not include the local environment files
-.env
+.env.local
+.env.*.local
 
 # do not include the Connectors Json Db file
 connectors.json
@@ -15,6 +16,10 @@ connectors.json
 dist/
 temp/
 yarn-error.log
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 .yarn/cache/*
 .yarn/*.gz
