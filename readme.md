@@ -1,5 +1,8 @@
 # Custom Stickers for Microsoft Teams
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=v2&repo=NewFuture/custom-stickers-teams-extension
+&devcontainer_path=.devcontainer%2Fdevcontainer.json)
+
 ## [/client-config-app](./client-config-app/)
 
 The Web App in Teams for Management Stickers and uploading.
