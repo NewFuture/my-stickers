@@ -10,6 +10,7 @@ interface PrototypeSectionProps {
 
 interface ComponentPrototypeProps extends PrototypeSectionProps {
     description?: React.ReactNode;
+    children?:React.ReactNode;
 }
 
 export const PrototypeSection: React.FunctionComponent<ComponentPrototypeProps> = (props) => {

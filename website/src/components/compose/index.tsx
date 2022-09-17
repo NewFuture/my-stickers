@@ -5,7 +5,7 @@ import { PrototypeComponent, PrototypeSection } from "../Prototype";
 import { NS, HomePage } from "../../locales";
 import { ComposeChat } from "./ComposeChat";
 
-export default function Compose(props: React.Props<{}>) {
+export default function Compose(props: React.PropsWithChildren<{}>) {
     const { t } = useTranslation([NS.homePage]);
     return (
         <PrototypeSection title={t(HomePage.protoComposeTitle)}>
