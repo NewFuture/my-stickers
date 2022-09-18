@@ -117,19 +117,19 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                                         key: "bookmark",
                                         icon: "bookmark",
                                         disabled: true,
-                                        content: t(HomePage.protoMsgExtMenuSaveMsg),
+                                        content: t<string>(HomePage.protoMsgExtMenuSaveMsg),
                                     },
                                     {
                                         key: "unread",
                                         icon: "mark-as-unread",
                                         disabled: true,
-                                        content: t(HomePage.protoMsgExtMenuUnread),
+                                        content: t<string>(HomePage.protoMsgExtMenuUnread),
                                     },
                                     {
                                         key: "translate",
                                         icon: "translation",
                                         disabled: true,
-                                        content: t(HomePage.protoMsgExtMenuTranslate),
+                                        content: t<string>(HomePage.protoMsgExtMenuTranslate),
                                     },
                                     {
                                         "data-is-focusable": true,

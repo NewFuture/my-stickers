@@ -1,5 +1,5 @@
-import React, { useReducer, createContext, Dispatch, useContext } from "react";
-import { ChatItemProps, Chat, Divider, Image, Icon } from "@stardust-ui/react";
+import React, { useReducer, createContext, Dispatch, useContext, ReactText } from "react";
+import { ChatItemProps, Chat, Divider, Image, Icon, ReactChildren } from "@stardust-ui/react";
 import gutter from "../gutter";
 import { Trans } from "react-i18next";
 import { HomePage, NS, Common } from "../../locales";
@@ -92,7 +92,7 @@ function reducer(m: Message[], a: Action): Message[] {
 
 const context = createContext<[Message[], Dispatch<Action>]>([messages, () => {}]);
 
-export const MessageProvider: React.FC = (props) => {
+export const MessageProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
     const [state, dispatch] = useReducer(reducer, messages);
     return <context.Provider value={[state, dispatch]}>{props.children}</context.Provider>;
 };
