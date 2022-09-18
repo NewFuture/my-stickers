@@ -11,7 +11,7 @@ The build files will put to the `/config/` folder of the website.
 
 Main Dependencies and Technology:
 
--   `@fluentui/react@v9`: for UI components and themes
+-   `@fluentui/react-components`: FluentUI V9
 -   `react@18` and `typescript` to build the app
 -   `i18next`: for localization
 -   `@microsoft/teams-js@v2`: for Teams API

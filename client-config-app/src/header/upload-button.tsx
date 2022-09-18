@@ -1,5 +1,6 @@
 import React, { ChangeEvent, PropsWithChildren, useState } from "react";
-import { Button, Alert } from "@stardust-ui/react";
+import { Button } from "@fluentui/react-components";
+import { Alert } from "@fluentui/react-components/unstable";
 import { useSelector } from "react-redux";
 import { StateType } from "../lib/store";
 import { uploadStickers } from "../services/stickers";
@@ -57,7 +58,7 @@ const UploadButton: React.FC<PropsWithChildren<PropType>> = (props) => {
 
     return (
         <>
-            <Button as="label" disabled={disabled} htmlFor="image-upload" icon="add" primary content={props.children} />
+            <label htmlFor="image-upload">{props.children}</label>
             <input
                 hidden
                 disabled={disabled}
@@ -67,8 +68,14 @@ const UploadButton: React.FC<PropsWithChildren<PropType>> = (props) => {
                 multiple={!!props.multiple}
                 accept="image/png, image/jpeg, image/gif"
             />
-            {messages.map((m) => (
-                <Alert style={{ position: "fixed", top: "1em", zIndex: 10 }} icon="error" warning dismissible {...m} />
+            {messages.map((m, i) => (
+                <Alert
+                    style={{ position: "fixed", top: "1em", zIndex: 10 }}
+                    icon="error"
+                    intent="warning"
+                    // dismissible
+                    {...m}
+                />
             ))}
         </>
     );

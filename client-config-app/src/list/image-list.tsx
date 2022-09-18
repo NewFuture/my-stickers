@@ -1,5 +1,4 @@
 import React from "react";
-import { Grid } from "@stardust-ui/react";
 import ImageItem from "./image-item";
 import { Sticker } from "../model/sticker";
 import { deleteSticker, editSticker } from "../services/stickers";
@@ -10,7 +9,7 @@ interface Props {
 
 const ImageList: React.FC<Props> = (props: Props) => {
     return (
-        <Grid className="just-items-center" columns={3}>
+        <div className="just-items-center">
             {props.items.map((item) => (
                 <ImageItem
                     key={item.id}
@@ -21,7 +20,7 @@ const ImageList: React.FC<Props> = (props: Props) => {
                     }}
                 />
             ))}
-        </Grid>
+        </div>
     );
 };
 

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Provider as ThemeProvider, Divider, themes } from "@stardust-ui/react";
+import { FluentProvider, Divider, teamsLightTheme } from "@fluentui/react-components";
 import { Provider } from "react-redux";
 import ImageList from "./list";
 import { init } from "./services/teams";
@@ -14,14 +14,13 @@ export default function ConfigApp() {
             init().then(getStickers, () => console.error("Teams initialized error"));
         }
     }, []);
-    themes.teams.fontFaces = [];
     return (
-        <ThemeProvider theme={themes.teams}>
+        <FluentProvider theme={teamsLightTheme}>
             <Provider store={store}>
                 <HeaderBtns />
                 <Divider />
                 <ImageList />
             </Provider>
-        </ThemeProvider>
+        </FluentProvider>
     );
 }

@@ -1,5 +1,7 @@
 import React, { createRef } from "react";
-import { Image, Label, Input, Status, StatusProps, Loader, Button, Dialog } from "@stardust-ui/react";
+import { Image, Label, Input, Button, Spinner } from "@fluentui/react-components";
+// import { Dialog } from "@fluentui/react-components/dist/unstable";
+
 import { useTranslation } from "react-i18next";
 
 import { Sticker, StickerStatus } from "../model/sticker";
@@ -20,8 +22,9 @@ const ImageItem: React.FC<
     const isDeleting = status === StickerStatus.delete;
     const isEditting = status === StickerStatus.editing;
     const isMoving = status === StickerStatus.moving;
-    let state: StatusProps["state"] = undefined;
+    // let state: StatusProps["state"] = undefined;
     let icon = "";
+    let state = "";
 
     switch (status) {
         case StickerStatus.delete_fail:
@@ -57,20 +60,23 @@ const ImageItem: React.FC<
                 icon="close"
                 size="small"
                 disabled={isDeleting || isMoving}
-                loading={isDeleting}
+                // loading={isDeleting}
                 onClick={onDelete}
-                iconOnly
-                circular
+                // iconOnly
+                // circular
             />
             <div className="ImageItem-bar">
-                {icon === "loading" ? (
-                    <Loader size="smallest" inline label={progress + "%"} labelPosition="end" />
-                ) : (
-                    state && <Status state={state} icon={icon} size="largest" />
-                )}
-                {icon !== "loading" && name && <Label color="gray" content={name} />}
+                <>
+                    {icon === "loading" ? (
+                        <Spinner size="small" label={progress + "%"} labelPosition="after" />
+                    ) : (
+                        { icon }
+                        // state && <Status state={state} icon={icon} size="largest" />
+                    )}
+                    {icon !== "loading" && name && <Label color="gray">{name}</Label>}
+                </>
             </div>
-            <Dialog
+            {/* <Dialog
                 cancelButton={{
                     icon: "close",
                     iconOnly: true,
@@ -81,7 +87,7 @@ const ImageItem: React.FC<
                     iconOnly: true,
                     circular: true,
                 }}
-                onConfirm={(c) => {
+                onConfirm={() => {
                     const value = refInput.current && refInput.current.value;
                     if (value && value !== name) {
                         onEdit(value);
@@ -112,7 +118,7 @@ const ImageItem: React.FC<
                         secondary
                     />
                 }
-            />
+            /> */}
         </div>
     );
 };

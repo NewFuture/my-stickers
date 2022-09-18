@@ -1,4 +1,4 @@
-import { Button, Flex } from "@stardust-ui/react";
+import { Button, makeStyles } from "@fluentui/react-components";
 import React, { useCallback } from "react";
 import { ConfigPage, NS } from "../locales";
 import { exit } from "../services/teams";
@@ -9,13 +9,21 @@ import { useSelector } from "react-redux";
 import { StateType } from "../lib/store";
 import { Status } from "../reducer/status";
 
+const useStyles = makeStyles({
+    root: {
+        display: "flex",
+        verticalAlign: "center",
+        justifyContent: "space-between",
+    },
+});
 const HeaderBtns: React.FC = () => {
     const { t } = useTranslation(NS.configPage);
     const status = useSelector((state: StateType) => state.status);
     const onExit = useCallback(() => exit(), []);
+    const styles = useStyles();
     return (
-        <Flex as="header" vAlign="center" hAlign="center" space="between" padding="padding.medium">
-            <LanguageButton key="lang" styles={{ display: "block" }} />
+        <header className={styles.root}>
+            <LanguageButton key="lang" className="" />
             <UploadButton key="upload" disabled={status === Status.pending} multiple>
                 {t(ConfigPage.upload)}
             </UploadButton>
@@ -23,12 +31,11 @@ const HeaderBtns: React.FC = () => {
                 disabled={status === Status.syncing}
                 icon="accept"
                 key="exit"
-                primary
-                iconOnly
-                circular
+                appearance="primary"
+                shape="circular"
                 onClick={onExit}
             />
-        </Flex>
+        </header>
     );
 };
 

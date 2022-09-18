@@ -1,17 +1,11 @@
 {
     "folders": [
         {
+            "name": "ROOT",
+            "path": "./"
+        },
+        {
             "path": "client-config-app"
-        },
-        {
-            // Docs and release notes
-            // "name": "Documentation",
-            "path": "website"
-        },
-        {
-            // Source code
-            // "name": "Product",
-            "path": "manifest"
         },
         {
             // Yeoman extension generator
@@ -20,11 +14,17 @@
         },
         {
             // Source code
-            "path": "stickers"
+            // "name": "Product",
+            "path": "manifest"
         },
         {
-            "name": "ROOT",
-            "path": "./"
+            // Docs and release notes
+            // "name": "Documentation",
+            "path": "website"
+        },
+        {
+            // Source code
+            "path": "stickers"
         }
     ],
     "settings": {
@@ -48,7 +48,7 @@
         "eslint.validate": ["typescriptreact", "typescript", "javascript", "javascriptreact"],
         "eslint.packageManager": "yarn",
         "json.format.enable": false,
-        "[json]": {
+        "[jsonc]": {
             "editor.defaultFormatter": "esbenp.prettier-vscode"
         }
     }
