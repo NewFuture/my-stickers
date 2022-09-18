@@ -8,23 +8,22 @@
             "path": "client-config-app"
         },
         {
-            // Yeoman extension generator
-            // "name": "Extension generator",
+            "name": "server(bot+API)",
             "path": "server"
         },
         {
-            // Source code
-            // "name": "Product",
+            // "name": "Extension generator",
+            "path": "images-functions"
+        },
+        {
             "path": "manifest"
         },
         {
-            // Docs and release notes
-            // "name": "Documentation",
             "path": "website"
         },
         {
             // Source code
-            "path": "stickers"
+            "path": "official-stickers"
         }
     ],
     "settings": {

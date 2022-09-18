@@ -51,6 +51,6 @@ Dependencies:
 
 -   `package-teams-app`: package the manifest.zip (auto replace environment vars and validate schemas)
 
-## [/stickers](./stickers)
+## [/official-stickers](./official-stickers)
 
 Manage the Official Recommened Stickers
