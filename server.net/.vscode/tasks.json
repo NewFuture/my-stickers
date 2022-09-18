@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/stickers.csproj",
+                "${workspaceFolder}/Stickers.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/stickers.csproj",
+                "${workspaceFolder}/Stickers.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -29,12 +29,7 @@
             "label": "watch",
             "command": "dotnet",
             "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "--project",
-                "${workspaceFolder}/stickers.csproj"
-            ],
+            "args": ["watch", "run", "--project", "${workspaceFolder}/Stickers.csproj"],
             "problemMatcher": "$msCompile"
         }
     ]
