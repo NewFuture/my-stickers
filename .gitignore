@@ -26,3 +26,7 @@ yarn-error.log*
 client-config-app/build/*
 website/build/*
 server/dist/*
+
+# C#
+server.net/obj/*
+server.net/bin/*
