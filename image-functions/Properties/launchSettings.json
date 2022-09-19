@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "image_functions": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7034",
+      "launchBrowser": false
+    }
+  }
+}
