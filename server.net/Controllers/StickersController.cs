@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Stickers.Entities;
+using Stickers.Service;
 
 namespace Stickers.Controllers;
 
@@ -12,9 +14,11 @@ public class StickersController : ControllerBase
     };
 
     private readonly ILogger<StickersController> _logger;
+    private StickerStorage stickerStorage = null;
 
-    public StickersController(ILogger<StickersController> logger)
+    public StickersController(StickerStorage stickerStorage, ILogger<StickersController> logger)
     {
+        this.stickerStorage = stickerStorage;
         _logger = logger;
     }
 
@@ -24,19 +28,19 @@ public class StickersController : ControllerBase
         return null;
     }
     [HttpGet(Name = "me/stickers")]
-    public IEnumerable<string>? Get()
+    public async Task<List<Sticker>> Get(string userId)
     {
-        return null;
+        return await this.stickerStorage.getUserStickers(userId);
     }
     [HttpDelete(Name = "/stickers")]
-    public IEnumerable<string>? Delete(string id)
+    public async Task<bool> Delete(string id, string userId)
     {
-        return null;
+        return await this.stickerStorage.deleteUserSticker(userId, id);
     }
     [HttpPatch(Name = "/stickers")]
-    public IEnumerable<string>? UpdateSticker(string id)
+    public async Task<bool> UpdateSticker(string id,string userId,string name)
     {
-        return null;
+        return await this.stickerStorage.updateStickerName(userId, id, name);
     }
 
 }
