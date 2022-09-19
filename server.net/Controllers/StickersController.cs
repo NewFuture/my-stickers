@@ -18,9 +18,25 @@ public class StickersController : ControllerBase
         _logger = logger;
     }
 
+    [HttpPost(Name = "/stickers/commit")]
+    public IEnumerable<string>? Commit()
+    {
+        return null;
+    }
     [HttpGet(Name = "me/stickers")]
     public IEnumerable<string>? Get()
     {
         return null;
     }
+    [HttpDelete(Name = "/stickers")]
+    public IEnumerable<string>? Delete(string id)
+    {
+        return null;
+    }
+    [HttpPatch(Name = "/stickers")]
+    public IEnumerable<string>? UpdateSticker(string id)
+    {
+        return null;
+    }
+
 }
