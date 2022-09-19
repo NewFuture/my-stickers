@@ -4,7 +4,7 @@
     "description": "",
     "main": "stickers/manifest.json",
     "scripts": {
-        "build": "yarn dlx package-teams-app ./stickers ../package/stickers.zip"
+        "build": "yarn dlx package-teams-app stickers ../package/stickers.zip"
     },
     "repository": {
         "directory": "manifest",

@@ -1,26 +1,30 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { FluentProvider, Divider, teamsLightTheme } from "@fluentui/react-components";
-import { Provider } from "react-redux";
 import ImageList from "./list";
 import { init } from "./services/teams";
-import { store } from "./lib/store";
-import { getStickers } from "./services/stickers";
+import { useStickersList } from "./services/stickers";
 import HeaderBtns from "./header/headerBtns";
 import "./lib/i18n";
+import { SWRConfig } from 'swr'
+
+function Sticker({isTenant}:React.PropsWithChildren<{isTenant:boolean}>):JSX.Element {
+    const {stickers,isLoading } = useStickersList(isTenant);
+    return <>
+                <HeaderBtns disabled={isLoading}  />
+                <Divider />
+                <ImageList loading={isLoading} stickes={stickers}/>
+            </>
+}
 
 export default function ConfigApp() {
     useEffect(() => {
-        if (navigator.userAgent !== "ReactSnap") {
-            init().then(getStickers, () => console.error("Teams initialized error"));
-        }
+        init();
     }, []);
     return (
         <FluentProvider theme={teamsLightTheme}>
-            <Provider store={store}>
-                <HeaderBtns />
-                <Divider />
-                <ImageList />
-            </Provider>
+            <SWRConfig>
+                <Sticker isTenant={false}/>
+            </SWRConfig>
         </FluentProvider>
     );
 }

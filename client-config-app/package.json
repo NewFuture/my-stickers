@@ -3,7 +3,7 @@
     "version": "2.0.0",
     "private": true,
     "license": "MS-PL",
-    "proxy": "http://localhost:3007/",
+    "proxy": "https://stickers-api.newfuture.cc/api/",
     "dependencies": {
         "@fluentui/react-components": "^9.3.0",
         "@fluentui/react-icons": "^2.0.182",
@@ -20,7 +20,6 @@
         "@types/jest": "^27",
         "@types/react": "^18",
         "@types/react-dom": "^18",
-        "@types/react-redux": "^7.1.16",
         "react-scripts": "^5.0.1",
         "typescript": "^4.8.2"
     },
