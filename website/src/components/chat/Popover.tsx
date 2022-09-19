@@ -1,8 +1,8 @@
-import { Menu, Dialog } from "@stardust-ui/react";
 import React from "react";
 import { SaveStickersButton, MoreButton, StickersSavedTitle } from "./buttons";
 import { TFunction } from "i18next";
 import { HomePage } from "../../locales";
+import { Dialog, Menu } from "@fluentui/react-northstar";
 
 export interface PopoverProps {
     className?: string;

@@ -1,4 +1,4 @@
-import { Chat, ChatMessageProps, ShorthandCollection, ReactionProps, Image, Reaction, Icon } from "@stardust-ui/react";
+import { Icon } from "@stardust-ui/react";
 import { Trans, Translation, useTranslation } from "react-i18next";
 import React from "react";
 
@@ -9,6 +9,7 @@ import gutter from "../gutter";
 
 import { HomePage, NS } from "../../locales";
 import { MoreButton, SaveStickersButton } from "./buttons";
+import { Chat, ChatMessageProps, ShorthandCollection, ReactionProps, Image, Reaction, Ref } from "@fluentui/react-northstar";
 
 const helloSticker = process.env.PUBLIC_URL + "/hello.gif";
 

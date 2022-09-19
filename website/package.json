@@ -4,6 +4,7 @@
     "private": true,
     "license": "MS-PL",
     "dependencies": {
+        "@fluentui/react-northstar": "^0.64.0",
         "@stardust-ui/react": "^0.40.4",
         "i18next": "^21.9.1",
         "i18next-browser-languagedetector": "^6.1.5",
