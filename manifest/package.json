@@ -1,10 +1,10 @@
 {
     "name": "manifest",
-    "version": "1.0.6",
+    "version": "2.0.0",
     "description": "",
     "main": "stickers/manifest.json",
     "scripts": {
-        "build": "yarn dlx package-teams-app ./stickers ../package/stickers.zip"
+        "build": "yarn dlx package-teams-app ./stickers ./dist/stickers.zip"
     },
     "repository": {
         "directory": "manifest",
@@ -12,8 +12,5 @@
         "url": "git+https://github.com/NewFuture/custom-stickers-teams-extension.git"
     },
     "author": "New Future",
-    "license": "MS-PL",
-    "dependencies": {
-        "package-teams-app": "^2.0.0"
-    }
+    "license": "MS-PL"
 }
