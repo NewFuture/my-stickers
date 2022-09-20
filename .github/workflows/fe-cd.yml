@@ -1,0 +1,84 @@
+# Front Build and Deploy （Release to blob）
+
+name: front-end-build-deploy
+on:
+    push:
+        branches: ["v2", "main"]
+        paths:
+            - ".github/workflows/fe-cd.yml"
+            - "client-config-app/**"
+            - "manifest/**"
+            - "official-stickers/**"
+            - "website/**"
+
+permissions:
+    contents: read
+
+# This allows a subsequently queued workflow run to interrupt previous runs
+concurrency:
+    group: "${{ github.workflow }}-${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+    cancel-in-progress: true
+
+jobs:
+    front-end-build:
+        runs-on: ubuntu-latest
+        timeout-minutes: 8
+        env:
+            NODE_ENV: production
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  cache: yarn
+                  node-version: 16
+
+            - run: yarn
+
+            - run: yarn manifest
+            - run: yarn stickers
+            - run: yarn client:build
+            - run: yarn website:build
+            - run: yarn stickers
+
+            # Upload build result
+            - uses: actions/upload-artifact@v3
+              with:
+                  name: front-end
+                  path: |
+                      website/build/
+                      client-config-app/build/
+                      manifest/dist/
+                      official-stickers/
+                  retention-days: 10
+
+    front-end-deploy:
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+        steps:
+            - uses: actions/download-artifact@v3
+              with:
+                  path: ./
+            - run: |
+                  mv website/build ./ \
+                  && mv manifest/build ./ \
+                  && mv client-config-app/build ./config \
+
+            - name: "Upload to blob storage"
+              uses: azure/CLI@v1
+              with:
+                  inlineScript: |
+                      az storage blob upload-batch \
+                      --connection-string ${{ secrets.BLOB_CONNECTION_STRING}} \
+                      -s . \
+                      -d '$web' \
+
+            # # https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-static-site-github-actions?tabs=userlevel
+            # - name: Azure Login
+            #   uses: azure/login@v1
+            #   with:
+            #       creds: ${{ secrets.AZURE_CREDENTIALS }}
+            # - name: "Purge CDN endpoint"
+            #   uses: azure/CLI@v1
+            #   with:
+            #       inlineScript: |
+            #           az cdn endpoint purge --content-paths  "/*" --profile-name "CDN_PROFILE_NAME" --name "CDN_ENDPOINT" --resource-group "RESOURCE_GROUP"
