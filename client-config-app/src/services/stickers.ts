@@ -16,7 +16,8 @@ const fetcher = (url: string) =>
         .then((res) => res.data);
 
 export function useStickersList(isTenant: boolean) {
-    const { data, error } = useSWR(isTenant ? "tenant/stickers" : "me/stickers", fetcher);
+    const url = isTenant ? "tenant/stickers" : "me/stickers";
+    const { data, error } = useSWR("stickers", () => fetcher(url));
     return {
         stickers: data?.values,
         isLoading: !error && !data,
@@ -27,28 +28,39 @@ export function useStickersList(isTenant: boolean) {
 async function uploadSticker(file: File, sas: SasInfo) {
     // store.dispatch
     const result = await upload(file, sas, (p) => {
-        // Todo
+        // store.dispatch({
+        //     payload: {
+        //         id: sas.id,
+        //         progress: p.percent,
+        //     }
+        // })
     });
     return result;
 }
 
-export async function uploadStickers(files: File[]) {
-    const stickers: Sticker[] = files.map((f, i) => ({
-        id: `${i}.${Math.random()}`,
-        src: URL.createObjectURL(f),
-        name: f.name.replace(/\..*$/, ""),
-    }));
+export async function uploadSticker1(file: File, sticker: Sticker, onProgressUpdate: (sticker: Sticker) => void) {
+    // store.dispatch
 
+    const sasInfo = await getUploadSAS({
+        exts: file.name.split("."),
+    });
+    await upload(file, sasInfo[0], (p) => {
+        sticker.progress = p.percent;
+        onProgressUpdate(sticker);
+    });
+}
+
+export async function uploadStickers(files: File[], onStickerChange: (stickers: Sticker[]) => void) {
     const sasInfos = await getUploadSAS({
         exts: files.map((f) => f.name.split(".").pop()!),
     });
 
     sasInfos.forEach((sas, i) => uploadSticker(files[i], sas));
-    return stickers;
+    onStickerChange([]);
 }
 
-export async function deleteSticker(id: string) {
-    await API.delete(`/stickers/${id}`);
+export async function deleteSticker(id: string): Promise<string> {
+    return await API.delete(`/stickers/${id}`);
 }
 
 export async function editSticker(id: string, name: string) {
