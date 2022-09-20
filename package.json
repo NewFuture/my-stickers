@@ -18,6 +18,9 @@
         "website": "yarn workspace website run start",
         "website:build": "yarn workspace website run build",
         "manifest": "yarn workspace manifest run build",
+        "stickers": "yarn workspace official-stickers run build",
+        "server": "cd server.net && dotnet run",
+        "server:build": "cd server.net && dotnet build",
         "eslint": "eslint --cache --max-warnings 0 --cache-location node_modules/.cache/ --ext .ts,.tsx",
         "prettier": "prettier --cache \"**/*.{js,jsx,ts,tsx,json,css,scss,md,yml,html}\""
     },
