@@ -52,6 +52,8 @@ jobs:
                   retention-days: 10
 
     front-end-deploy:
+        environment:
+            name: Integration
         runs-on: ubuntu-latest
         timeout-minutes: 5
         steps:
