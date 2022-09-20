@@ -11,7 +11,7 @@ namespace Stickers.Service.Tests
     [TestClass()]
     public class BlobServiceTests
     {
-        private string connectionString = "DefaultEndpointsProtocol=https;AccountName=stickerstestblob;AccountKey=iHF/+qta9aawXNS+2/d1+kiWusozauf059iEB6UhIeg+vD5LIRktA/KebxFZWDAVNvNeeJnAp88w+AStvquR3g==;EndpointSuffix=core.windows.net";
+        private string connectionString = "";
         [TestMethod()]
         public void getSasTokenTest()
         {
