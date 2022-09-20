@@ -1,4 +1,4 @@
-import React, { ChangeEvent, PropsWithChildren, useRef, useState } from "react";
+import React, { ChangeEvent, PropsWithChildren, useState } from "react";
 import { Button } from "@fluentui/react-components";
 import { AddRegular } from "@fluentui/react-icons";
 import { uploadStickers } from "../services/stickers";
@@ -19,10 +19,10 @@ interface Msg {
 const MAX_NUM = 100;
 const MAX_SIZE = 1000 * 1024;
 
-export const UploadButton: React.FC<PropsWithChildren<UploadButtonProps>> = (props):JSX.Element => {
+export const UploadButton: React.FC<PropsWithChildren<UploadButtonProps>> = (props): JSX.Element => {
     // const { disabled,picCount,multiple } = props;
     const picCount = 0;
-    const [messages, setMessages] = useState([] as Msg[]);
+    const [, setMessages] = useState([] as Msg[]);
     const { t } = useTranslation(NS.configPage);
 
     const inputDisabled = picCount >= MAX_NUM;
@@ -59,11 +59,11 @@ export const UploadButton: React.FC<PropsWithChildren<UploadButtonProps>> = (pro
     const fileUploadRef = React.useRef<HTMLInputElement>(null);
     const handleClick = () => {
         fileUploadRef?.current?.click();
-      };
+    };
     return (
         <>
             <div className="ImageItem">
-                <Button icon={<AddRegular/>} onClick={handleClick} />
+                <Button icon={<AddRegular />} onClick={handleClick} />
             </div>
             <input
                 hidden
