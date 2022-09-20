@@ -31,5 +31,5 @@ server/dist/*
 server.net/obj/*
 server.net/bin/*
 server.net/.vs/*
-StickersTest/obj/*
-StickersTest/bin/*
+StickersTests/bin/*
+StickersTests/obj/*
