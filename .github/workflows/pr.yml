@@ -29,7 +29,7 @@ jobs:
         strategy:
             # fail-fast: false
             matrix:
-                os: [windows, ubuntu, macos]
+                os: [windows, ubuntu]
                 node-version: [16, latest]
         runs-on: ${{ matrix.os }}-latest
         timeout-minutes: 8
