@@ -52,6 +52,7 @@ jobs:
                   retention-days: 10
 
     front-end-deploy:
+        needs: [front-end-build]
         environment:
             name: Integration
         runs-on: ubuntu-latest
