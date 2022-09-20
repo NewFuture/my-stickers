@@ -30,4 +30,6 @@ server/dist/*
 # C#
 server.net/obj/*
 server.net/bin/*
-server.net/.vs/
+server.net/.vs/*
+StickersTest/obj/*
+StickersTest/bin/*
