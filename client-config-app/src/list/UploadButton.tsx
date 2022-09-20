@@ -1,16 +1,15 @@
-import React, { ChangeEvent, PropsWithChildren, useState } from "react";
+import React, { ChangeEvent, PropsWithChildren, useRef, useState } from "react";
 import { Button } from "@fluentui/react-components";
-import { Alert } from "@fluentui/react-components/unstable";
-import { useSelector } from "react-redux";
-import { StateType } from "../lib/store";
+import { AddRegular } from "@fluentui/react-icons";
 import { uploadStickers } from "../services/stickers";
+import { ConfigPage, NS } from "../locales";
 import { useTranslation } from "react-i18next";
-import { NS, ConfigPage } from "../locales";
+import "./item.scss";
 
-export interface PropType {
-    multiple?: boolean;
-    disabled?: boolean;
-    // onChange: ChangeEventHandler<HTMLInputElement>;
+export interface UploadButtonProps {
+    // multiple?: boolean;
+    // disabled?: boolean;
+    // picCount: number;
 }
 
 interface Msg {
@@ -20,12 +19,13 @@ interface Msg {
 const MAX_NUM = 100;
 const MAX_SIZE = 1000 * 1024;
 
-const UploadButton: React.FC<PropsWithChildren<PropType>> = (props) => {
+export const UploadButton: React.FC<PropsWithChildren<UploadButtonProps>> = (props):JSX.Element => {
+    // const { disabled,picCount,multiple } = props;
+    const picCount = 0;
     const [messages, setMessages] = useState([] as Msg[]);
     const { t } = useTranslation(NS.configPage);
 
-    const n = useSelector((state: StateType) => state.stickers.length);
-    const disabled = props.disabled || n >= MAX_NUM;
+    const inputDisabled = picCount >= MAX_NUM;
 
     /**
      * @todo 限制文件大小
@@ -43,7 +43,7 @@ const UploadButton: React.FC<PropsWithChildren<PropType>> = (props) => {
                 content: t(ConfigPage.maxsize, { size: MAX_SIZE / 1024 + "K" }),
             });
         }
-        if (filtered.length + n > MAX_NUM) {
+        if (filtered.length + picCount > MAX_NUM) {
             msg.push({
                 key: Math.random(),
                 content: t(ConfigPage.maxnum, { n: MAX_NUM }),
@@ -52,33 +52,29 @@ const UploadButton: React.FC<PropsWithChildren<PropType>> = (props) => {
         console.log(msg);
         setMessages(msg);
         if (filtered.length) {
-            uploadStickers(filtered.slice(0, MAX_NUM - n));
+            uploadStickers(filtered.slice(0, MAX_NUM - picCount));
         }
     }
 
+    const fileUploadRef = React.useRef<HTMLInputElement>(null);
+    const handleClick = () => {
+        fileUploadRef?.current?.click();
+      };
     return (
         <>
-            <label htmlFor="image-upload">{props.children}</label>
+            <div className="ImageItem">
+                <Button icon={<AddRegular/>} onClick={handleClick} />
+            </div>
             <input
                 hidden
-                disabled={disabled}
+                disabled={inputDisabled}
                 type="file"
                 id="image-upload"
                 onChange={ImageUploadHandler}
-                multiple={!!props.multiple}
+                multiple
+                ref={fileUploadRef}
                 accept="image/png, image/jpeg, image/gif"
             />
-            {messages.map((m, i) => (
-                <Alert
-                    style={{ position: "fixed", top: "1em", zIndex: 10 }}
-                    icon="error"
-                    intent="warning"
-                    // dismissible
-                    {...m}
-                />
-            ))}
         </>
     );
 };
-
-export default UploadButton;

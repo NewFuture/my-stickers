@@ -17,15 +17,16 @@ const LanguageList = [
     { key: "zh", content: "中文" },
     { key: "en", content: "English" },
 ];
-const LanguageButton: React.FC<{ className?: string }> = (props) => {
-    const { i18n } = useTranslation(NS.common);
+
+export const LanguageButton = (): JSX.Element => {
+    const { t } = useTranslation(NS.common);
     const items = useMemo(() => LanguageList.map((item) => <MenuItem key={item.key}>{item.content}</MenuItem>), []);
     return (
         <Menu positioning="below-end">
             <MenuTrigger>
                 {(triggerProps: MenuButtonProps) => (
                     <SplitButton menuButton={triggerProps} icon={<TranslateRegular />}>
-                        t(Common.langSetting)
+                        {t(Common.langSetting)}
                     </SplitButton>
                 )}
             </MenuTrigger>
@@ -35,5 +36,3 @@ const LanguageButton: React.FC<{ className?: string }> = (props) => {
         </Menu>
     );
 };
-
-export default LanguageButton;

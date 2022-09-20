@@ -23,7 +23,7 @@ const ImageItem: React.FC<
     const isEditting = status === StickerStatus.editing;
     const isMoving = status === StickerStatus.moving;
     // let state: StatusProps["state"] = undefined;
-    let icon = "";
+    let icon = "accept";
     let state = "";
 
     switch (status) {
@@ -70,7 +70,7 @@ const ImageItem: React.FC<
                     {icon === "loading" ? (
                         <Spinner size="small" label={progress + "%"} labelPosition="after" />
                     ) : (
-                        { icon }
+                        <></>
                         // state && <Status state={state} icon={icon} size="largest" />
                     )}
                     {icon !== "loading" && name && <Label color="gray">{name}</Label>}

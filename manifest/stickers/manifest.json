@@ -2,13 +2,13 @@
     "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.14/MicrosoftTeams.schema.json",
     "manifestVersion": "1.14",
     "id": "${TEAMS_APP_ID}",
-    "version": "${npm_package_version}",
+    "version": "${VERSION}",
     "packageName": "stickers",
     "developer": {
         "name": "New Future",
-        "websiteUrl": "https://${WEB_HOST}",
-        "privacyUrl": "https://${WEB_HOST}/privacy.html",
-        "termsOfUseUrl": "https://${WEB_HOST}/terms.html"
+        "websiteUrl": "https://${WEBSITE}",
+        "privacyUrl": "https://${WEBSITE}/privacy.html",
+        "termsOfUseUrl": "https://${WEBSITE}/terms.html"
     },
     "name": {
         "short": "Custom Stickers[test]",
@@ -28,44 +28,11 @@
     "composeExtensions": [
         {
             "botId": "${MICROSOFT_APP_ID}",
+            "canUpdateConfiguration": true,
             "commands": [
                 {
-                    "id": "queryAll",
-                    "title": "TAB1",
-                    "description": "All stickes I saved",
-                    "initialRun": true,
-                    "parameters": [
-                        {
-                            "name": "scope",
-                            "title": "scope",
-                            "description": "scope",
-                            "inputType": "choiceset",
-                            "choices": [
-                                {
-                                    "title": "all",
-                                    "value": "all"
-                                },
-                                {
-                                    "title": "my",
-                                    "value": "my"
-                                },
-                                {
-                                    "title": "test Value",
-                                    "value": "test Value"
-                                },
-                                {
-                                    "title": "test Value",
-                                    "value": "test Value"
-                                }
-                            ]
-                        }
-                    ],
-                    "type": "query",
-                    "context": ["compose"]
-                },
-                {
-                    "id": "MyCollection",
-                    "title": "TAB2",
+                    "id": "mycollection",
+                    "title": "My Collections",
                     "description": "All stickes I saved",
                     "initialRun": true,
                     "parameters": [
@@ -80,11 +47,11 @@
                 },
                 {
                     "id": "management",
-                    "title": "xxx",
-                    "description": "xxxDesc",
+                    "title": "➕ Management",
+                    "description": "Upload and ",
                     "taskInfo": {
-                        "title": "xxxTitle",
-                        "url": "https://${WEB_HOST}/config/",
+                        "title": "Upload, delete and edit your favorite stickers",
+                        "url": "https://${WEBSITE}/config/",
                         "height": "large",
                         "width": "large"
                     },
@@ -97,19 +64,13 @@
                     "title": "Save Stickers",
                     "type": "action",
                     "fetchTask": true,
-                    "context": ["message"],
-                    "taskInfo": {
-                        "title": "Saving the images",
-                        "height": "small",
-                        "width": "small",
-                        "url": "https://${HOSTNAME}/collect"
-                    }
+                    "context": ["message"]
                 }
             ]
         }
     ],
     "permissions": [],
-    "validDomains": ["${WEB_HOST}", "${HOSTNAME}", "${AZURE_STORAGE_CDN}"],
+    "validDomains": ["${WEBSITE}", "${HOSTNAME}"],
     "configurableProperties": [
         "name",
         "shortDescription",

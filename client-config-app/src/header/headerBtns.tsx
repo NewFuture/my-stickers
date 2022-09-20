@@ -2,12 +2,8 @@ import { Button, makeStyles } from "@fluentui/react-components";
 import React, { useCallback } from "react";
 import { ConfigPage, NS } from "../locales";
 import { exit } from "../services/teams";
-import UploadButton from "./upload-button";
-import LanguageButton from "./LanguageButton";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { StateType } from "../lib/store";
-import { Status } from "../reducer/status";
+import { LanguageButton } from "./LanguageButton";
 
 const useStyles = makeStyles({
     root: {
@@ -16,19 +12,19 @@ const useStyles = makeStyles({
         justifyContent: "space-between",
     },
 });
-const HeaderBtns: React.FC = () => {
-    const { t } = useTranslation(NS.configPage);
-    const status = useSelector((state: StateType) => state.status);
+
+export interface HeaderButtonProps {
+    disabled: boolean
+}
+
+const HeaderBtns: React.FC<HeaderButtonProps> = ({disabled}:HeaderButtonProps):JSX.Element => {
     const onExit = useCallback(() => exit(), []);
     const styles = useStyles();
     return (
         <header className={styles.root}>
-            <LanguageButton key="lang" className="" />
-            <UploadButton key="upload" disabled={status === Status.pending} multiple>
-                {t(ConfigPage.upload)}
-            </UploadButton>
+            <LanguageButton key="lang"/>
             <Button
-                disabled={status === Status.syncing}
+                disabled={disabled}
                 icon="accept"
                 key="exit"
                 appearance="primary"
