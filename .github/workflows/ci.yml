@@ -1,3 +1,4 @@
+name: build-check
 on:
     push:
         branches: ["v2", "main"]
@@ -22,6 +23,7 @@ jobs:
             - uses: actions/setup-node@v3
               with:
                   node-version: 16
+                  cache: yarn
             - run: yarn
             - run: yarn format:check
 
@@ -38,9 +40,10 @@ jobs:
             - name: Set up Node ${{ matrix.node-version }}
               uses: actions/setup-node@v3
               with:
+                  cache: yarn
                   node-version: ${{ matrix.node-version }}
-            - name: Install dependencies
-              run: yarn
+
+            - run: yarn
 
             - run: yarn manifest
             - run: yarn stickers
