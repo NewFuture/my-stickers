@@ -8,6 +8,14 @@
             "path": "client-config-app"
         },
         {
+            "name": "server(Deprecated)",
+            "path": "server"
+        },
+        {
+            "name": "server.net",
+            "path": "server.net"
+        },
+        {
             "name": "server(bot+API)",
             "path": "server"
         },
@@ -49,6 +57,9 @@
         "json.format.enable": false,
         "[jsonc]": {
             "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[csharp]": {
+            "editor.defaultFormatter": "ms-dotnettools.csharp"
         }
     }
 }
