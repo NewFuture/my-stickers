@@ -3,7 +3,7 @@
     public class Sticker
     {
         public string src { get; set; }
-        public string id { get; set; }
+        public Guid id { get; set; }
         public string name { get; set; }
     }
 }
