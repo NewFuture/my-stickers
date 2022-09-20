@@ -7,7 +7,12 @@ import axios from "axios";
 const fetcher = (url: string) =>
     axios
         //   .get(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`, { headers: { Authorization: `${auth.id} ${auth.token}` } })
-        .get(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`, { headers: { Authorization: 'b614c4c4-2d74-4e56-bc0d-cc0d79b2715f 1663756411131.u8TlauIHpr2mdT9KyrEjZiJxtd5ftEN6TIxCtkVAC3c' } })
+        .get(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`, {
+            headers: {
+                Authorization:
+                    "b614c4c4-2d74-4e56-bc0d-cc0d79b2715f 1663756411131.u8TlauIHpr2mdT9KyrEjZiJxtd5ftEN6TIxCtkVAC3c",
+            },
+        })
         .then((res) => res.data);
 
 export function useStickersList(isTenant: boolean) {
@@ -40,8 +45,8 @@ export async function uploadSticker1(file: File, sticker: Sticker, onProgressUpd
         exts: file.name.split("."),
     });
     await upload(file, sasInfo[0], (p) => {
-        sticker.progress = p.percent
-        onProgressUpdate(sticker)
+        sticker.progress = p.percent;
+        onProgressUpdate(sticker);
     });
 }
 

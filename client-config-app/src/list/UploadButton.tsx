@@ -19,10 +19,10 @@ interface Msg {
 const MAX_NUM = 100;
 const MAX_SIZE = 1000 * 1024;
 
-export const UploadButton: React.FC<PropsWithChildren<UploadButtonProps>> = (props):JSX.Element => {
+export const UploadButton: React.FC<PropsWithChildren<UploadButtonProps>> = (props): JSX.Element => {
     const picCount = 0;
     const [messages, setMessages] = useState([] as Msg[]);
-    const [uploadFiles,setUploadFiles] = useState<File[]>([]);
+    const [uploadFiles, setUploadFiles] = useState<File[]>([]);
     const { t } = useTranslation(NS.configPage);
     const imageListStyles = useImageListStyles();
     const inputDisabled = picCount >= MAX_NUM;
@@ -57,9 +57,12 @@ export const UploadButton: React.FC<PropsWithChildren<UploadButtonProps>> = (pro
     return (
         <>
             <div className={imageListStyles.item}>
-                <label htmlFor='image-upload'> <AddRegular className={imageListStyles.img}/> </label>
+                <label htmlFor="image-upload">
+                    {" "}
+                    <AddRegular className={imageListStyles.img} />{" "}
+                </label>
             </div>
-            <UploadImageList files={uploadFiles}/>
+            <UploadImageList files={uploadFiles} />
             <input
                 hidden
                 disabled={inputDisabled}

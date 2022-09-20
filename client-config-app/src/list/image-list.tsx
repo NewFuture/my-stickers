@@ -12,29 +12,31 @@ interface ImageListProps {
 
 const ImageList: React.FC<ImageListProps> = (props: ImageListProps) => {
     const imageListStyles = useImageListStyles();
-    const { cache,mutate } = useSWRConfig();
-    const stickers = cache.get('stickers')?.values;
+    const { cache, mutate } = useSWRConfig();
+    const stickers = cache.get("stickers")?.values;
     return (
         <div className={imageListStyles.grid}>
             <UploadButton />
-            {stickers.map((item:Sticker) => (
+            {stickers.map((item: Sticker) => (
                 <ImageItem
                     key={item.id}
                     {...item}
-                    onDelete={() => deleteSticker(item.id).then(() => {
-                        mutate('stickers');
-                        // const indexOfObject = stickers.findIndex((element:Sticker) => {
-                        //     return element.id === item.id;
-                        //   });
-                        //   if (indexOfObject !== -1) {
-                        //     stickers.splice(indexOfObject, 1);
-                        //   }
-                        //   cache.set('stickers',{'values':stickers});
+                    onDelete={() =>
+                        deleteSticker(item.id).then(() => {
+                            mutate("stickers");
+                            // const indexOfObject = stickers.findIndex((element:Sticker) => {
+                            //     return element.id === item.id;
+                            //   });
+                            //   if (indexOfObject !== -1) {
+                            //     stickers.splice(indexOfObject, 1);
+                            //   }
+                            //   cache.set('stickers',{'values':stickers});
 
-                        //   const stickers1 = cache.get('stickers');
+                            //   const stickers1 = cache.get('stickers');
 
-                        //   console.log('stickers',stickers1);
-                    })}
+                            //   console.log('stickers',stickers1);
+                        })
+                    }
                     onEdit={(name) => {
                         editSticker(item.id, name);
                     }}
