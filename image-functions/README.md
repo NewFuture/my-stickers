@@ -14,7 +14,7 @@
 
 1. Ensure the appropriate configuration exists in `local.settings.json`.
 2. (Note) If you want to test functions with *Azure Storage Emulator*, run *Azure Storage Emulator* and wait for it to be ready to use. In this way, you should copy `local.settings.json` form `local.settings.json.debug`.
-3. (Note) If you want to test functions with *Azurite*, run `Azurite: Start` in the command pallette, and select `image-functions` as working directory. In this way, you should copy `local.settings.json` form `local.settings.json.debug`.
+3. (Note) If you want to test functions with *Azurite*, run `Azurite: Start Blob Service`, `Azurite: Start Queue Service`, and `Azurite: Start Table Service` in the command pallette, and select `image-functions` as working directory. In this way, you should copy `local.settings.json` form `local.settings.json.debug`.
 4. Press F5 or run `Debug: Start Debugging` in the command pallette, and select `Attach to .NET Functions`.
 
 ## Deploy
