@@ -1,5 +1,5 @@
-import React, { createRef } from "react";
-import { Image, Label, Input, Button, Spinner } from "@fluentui/react-components";
+import React from "react";
+import { Image, Label, Button, Spinner } from "@fluentui/react-components";
 // import { Dialog } from "@fluentui/react-components/dist/unstable";
 
 import { useTranslation } from "react-i18next";
@@ -7,20 +7,18 @@ import { useTranslation } from "react-i18next";
 import { Sticker, StickerStatus } from "../model/sticker";
 
 import "./item.scss";
-import { ConfigPage } from "../locales";
+// import { ConfigPage } from "../locales";
 
 const ImageItem: React.FC<
     Sticker & {
         onDelete: () => void;
         onEdit: (name: string) => void;
     }
-> = (props) => {
-    const { src, name, status, progress, onEdit, onDelete } = props;
+> = ({ src, name, status, progress, onDelete }) => {
     const { t } = useTranslation();
+    console.log(t);
 
-    const refInput = createRef<HTMLInputElement>();
     const isDeleting = status === StickerStatus.delete;
-    const isEditting = status === StickerStatus.editing;
     const isMoving = status === StickerStatus.moving;
     // let state: StatusProps["state"] = undefined;
     let icon = "accept";
@@ -52,6 +50,7 @@ const ImageItem: React.FC<
             }
     }
 
+    console.log(state);
     return (
         <div className="ImageItem">
             <Image className="ImageItem-img" src={src} />

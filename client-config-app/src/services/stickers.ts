@@ -3,21 +3,25 @@ import { Sticker } from "../model/sticker";
 import { getUploadSAS, upload, SasInfo } from "./upload";
 import useSWR from "swr";
 import axios from "axios";
-import { auth } from "./teams";
 
-const fetcher = (url:string) =>
+const fetcher = (url: string) =>
     axios
-    //   .get(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`, { headers: { Authorization: `${auth.id} ${auth.token}` } })
-      .get(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`, { headers: { Authorization: 'b614c4c4-2d74-4e56-bc0d-cc0d79b2715f 1663756411131.u8TlauIHpr2mdT9KyrEjZiJxtd5ftEN6TIxCtkVAC3c' } })
-      .then((res) => res.data);
+        //   .get(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`, { headers: { Authorization: `${auth.id} ${auth.token}` } })
+        .get(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`, {
+            headers: {
+                Authorization:
+                    "b614c4c4-2d74-4e56-bc0d-cc0d79b2715f 1663756411131.u8TlauIHpr2mdT9KyrEjZiJxtd5ftEN6TIxCtkVAC3c",
+            },
+        })
+        .then((res) => res.data);
 
-export function useStickersList(isTenant:boolean) {
-    const {data,error} = useSWR(isTenant ? "tenant/stickers" : "me/stickers",fetcher);
+export function useStickersList(isTenant: boolean) {
+    const { data, error } = useSWR(isTenant ? "tenant/stickers" : "me/stickers", fetcher);
     return {
         stickers: data?.values,
         isLoading: !error && !data,
         isError: error,
-    }
+    };
 }
 
 async function uploadSticker(file: File, sas: SasInfo) {
@@ -25,6 +29,7 @@ async function uploadSticker(file: File, sas: SasInfo) {
     const result = await upload(file, sas, (p) => {
         // Todo
     });
+    return result;
 }
 
 export async function uploadStickers(files: File[]) {
@@ -39,6 +44,7 @@ export async function uploadStickers(files: File[]) {
     });
 
     sasInfos.forEach((sas, i) => uploadSticker(files[i], sas));
+    return stickers;
 }
 
 export async function deleteSticker(id: string) {
