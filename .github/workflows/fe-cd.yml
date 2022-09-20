@@ -71,9 +71,9 @@ jobs:
               with:
                   inlineScript: |
                       az storage blob upload-batch \
-                      --connection-string ${{ secrets.BLOB_CONNECTION_STRING}} \
-                      -s . \
-                      -d '$web' \
+                      --source . \
+                      --destination '$web' \
+                      --connection-string "${{secrets.BLOB_CONNECTION_STRING}}" \
 
             # # https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-static-site-github-actions?tabs=userlevel
             # - name: Azure Login
