@@ -62,9 +62,9 @@ jobs:
               with:
                   path: ./
             - run: |
-                  mv website/build ./ \
-                  && mv manifest/build ./ \
-                  && mv client-config-app/build ./config \
+                  mv front-end/website/build ./www \
+                  && mv front-end/manifest/build/* ./www/ \
+                  && mv front-end/client-config-app/build ./www/config \
 
             - name: "Upload to blob storage"
               uses: azure/CLI@v1
