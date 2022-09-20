@@ -58,7 +58,7 @@ jobs:
                   path: |
                       website/build/
                       client-config-app/build/
-                      manifest/dist/
+                      manifest/build/
                       official-stickers/
                   retention-days: 5
 
