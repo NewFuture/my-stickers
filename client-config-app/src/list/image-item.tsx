@@ -1,3 +1,4 @@
+
 import React, { createRef } from "react";
 import { Image, Label, Button, Spinner } from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
@@ -16,7 +17,6 @@ const ImageItem: React.FC<
     const imageListStyles = useImageListStyles();
     const refInput = createRef<HTMLInputElement>();
     const isDeleting = status === StickerStatus.delete;
-    const isEditting = status === StickerStatus.editing;
     const isMoving = status === StickerStatus.moving;
     // let state: StatusProps["state"] = undefined;
     let icon = "accept";
@@ -48,6 +48,7 @@ const ImageItem: React.FC<
             }
     }
 
+    console.log(state);
     return (
         <div className={imageListStyles.item}>
             <Image className={imageListStyles.img} src={src} />

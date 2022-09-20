@@ -1,4 +1,5 @@
 import React, { ChangeEvent, PropsWithChildren, useState } from "react";
+import { Button } from "@fluentui/react-components";
 import { AddRegular } from "@fluentui/react-icons";
 import { ConfigPage, NS } from "../locales";
 import { useTranslation } from "react-i18next";

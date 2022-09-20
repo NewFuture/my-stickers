@@ -17,7 +17,7 @@ export function useStickersList(isTenant: boolean) {
         stickers: data?.values,
         isLoading: !error && !data,
         isError: error,
-    }
+    };
 }
 
 async function uploadSticker(file: File, sas: SasInfo) {
@@ -30,6 +30,7 @@ async function uploadSticker(file: File, sas: SasInfo) {
         //     }
         // })
     });
+    return result;
 }
 
 export async function uploadSticker1(file: File, sticker: Sticker, onProgressUpdate: (sticker: Sticker) => void) {
