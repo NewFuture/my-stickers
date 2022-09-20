@@ -4,13 +4,15 @@ import { Sticker } from "../model/sticker";
 import { deleteSticker, editSticker } from "../services/stickers";
 import { UploadButton } from "./UploadButton";
 
-interface Props {
+import { useImageListStyles } from "./image-list.styles";
+interface ImageListProps {
     items: Sticker[];
 }
 
-const ImageList: React.FC<Props> = (props: Props) => {
+const ImageList: React.FC<ImageListProps> = (props: ImageListProps) => {
+    const imageListStyles = useImageListStyles();
     return (
-        <div className="just-items-center">
+        <div className={imageListStyles.grid}>
             <UploadButton />
             {props.items.map((item) => (
                 <ImageItem

@@ -1,10 +1,9 @@
-import React, { ChangeEvent, PropsWithChildren, useRef, useState } from "react";
-import { Button } from "@fluentui/react-components";
+import React, { ChangeEvent, PropsWithChildren, useState } from "react";
 import { AddRegular } from "@fluentui/react-icons";
 import { uploadStickers } from "../services/stickers";
 import { ConfigPage, NS } from "../locales";
 import { useTranslation } from "react-i18next";
-import "./item.scss";
+import { useImageListStyles } from "./image-list.styles";
 
 export interface UploadButtonProps {
     // multiple?: boolean;
@@ -24,7 +23,7 @@ export const UploadButton: React.FC<PropsWithChildren<UploadButtonProps>> = (pro
     const picCount = 0;
     const [messages, setMessages] = useState([] as Msg[]);
     const { t } = useTranslation(NS.configPage);
-
+    const imageListStyles = useImageListStyles();
     const inputDisabled = picCount >= MAX_NUM;
 
     /**
@@ -56,14 +55,10 @@ export const UploadButton: React.FC<PropsWithChildren<UploadButtonProps>> = (pro
         }
     }
 
-    const fileUploadRef = React.useRef<HTMLInputElement>(null);
-    const handleClick = () => {
-        fileUploadRef?.current?.click();
-      };
     return (
         <>
-            <div className="ImageItem">
-                <Button icon={<AddRegular/>} onClick={handleClick} />
+            <div className={imageListStyles.item}>
+                <label htmlFor='image-upload'> <AddRegular className={imageListStyles.img}/> </label>
             </div>
             <input
                 hidden
@@ -72,7 +67,6 @@ export const UploadButton: React.FC<PropsWithChildren<UploadButtonProps>> = (pro
                 id="image-upload"
                 onChange={ImageUploadHandler}
                 multiple
-                ref={fileUploadRef}
                 accept="image/png, image/jpeg, image/gif"
             />
         </>

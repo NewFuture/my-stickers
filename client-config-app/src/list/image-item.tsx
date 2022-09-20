@@ -1,23 +1,19 @@
 import React, { createRef } from "react";
-import { Image, Label, Input, Button, Spinner } from "@fluentui/react-components";
-// import { Dialog } from "@fluentui/react-components/dist/unstable";
-
+import { Image, Label, Button, Spinner } from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
-
 import { Sticker, StickerStatus } from "../model/sticker";
-
-import "./item.scss";
-import { ConfigPage } from "../locales";
+import { useImageListStyles } from "./image-list.styles";
+import { Delete16Filled, Edit16Regular } from "@fluentui/react-icons";
 
 const ImageItem: React.FC<
     Sticker & {
         onDelete: () => void;
-        onEdit: (name: string) => void;
+        onEdit: (name:string) => void;
     }
 > = (props) => {
-    const { src, name, status, progress, onEdit, onDelete } = props;
+    const { src, id, name, status, progress, onEdit, onDelete } = props;
     const { t } = useTranslation();
-
+    const imageListStyles = useImageListStyles();
     const refInput = createRef<HTMLInputElement>();
     const isDeleting = status === StickerStatus.delete;
     const isEditting = status === StickerStatus.editing;
@@ -53,19 +49,25 @@ const ImageItem: React.FC<
     }
 
     return (
-        <div className="ImageItem">
-            <Image className="ImageItem-img" src={src} />
+        <div className={imageListStyles.item}>
+            <Image className={imageListStyles.img} src={src} />
             <Button
-                className="ImageItem-close"
-                icon="close"
-                size="small"
+                className={imageListStyles.edit}
+                icon={<Edit16Regular />}
+                size='medium'
                 disabled={isDeleting || isMoving}
-                // loading={isDeleting}
-                onClick={onDelete}
-                // iconOnly
-                // circular
+                appearance='transparent'
+                onClick={name ? (() => onEdit(name)) : () =>{}}
             />
-            <div className="ImageItem-bar">
+            <Button
+                className={imageListStyles.close}
+                icon={<Delete16Filled />}
+                size='medium'
+                disabled={isDeleting || isMoving}
+                appearance='transparent'
+                onClick={onDelete}
+            />
+            <div className={imageListStyles.bar}>
                 <>
                     {icon === "loading" ? (
                         <Spinner size="small" label={progress + "%"} labelPosition="after" />
