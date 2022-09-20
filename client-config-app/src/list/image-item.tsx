@@ -1,6 +1,5 @@
-import React, { createRef } from "react";
+import React from "react";
 import { Image, Label, Button, Spinner } from "@fluentui/react-components";
-import { useTranslation } from "react-i18next";
 import { Sticker, StickerStatus } from "../model/sticker";
 import { useImageListStyles } from "./image-list.styles";
 import { Delete16Filled, Edit16Regular } from "@fluentui/react-icons";
@@ -11,13 +10,10 @@ const ImageItem: React.FC<
         onEdit?: (name: string) => void;
     }
 > = (props) => {
-    const { src, id, name, status, progress, onEdit, onDelete } = props;
-    const { t } = useTranslation();
+    const { src, name, status, progress, onEdit, onDelete } = props;
     const imageListStyles = useImageListStyles();
-    const refInput = createRef<HTMLInputElement>();
     const isDeleting = status === StickerStatus.delete;
     const isMoving = status === StickerStatus.moving;
-    // let state: StatusProps["state"] = undefined;
     let icon = "accept";
     let state = "";
 
@@ -82,49 +78,6 @@ const ImageItem: React.FC<
                     {icon !== "loading" && name && <Label color="gray">{name}</Label>}
                 </>
             </div>
-            {/* <Dialog
-                cancelButton={{
-                    icon: "close",
-                    iconOnly: true,
-                    circular: true,
-                }}
-                confirmButton={{
-                    icon: "accept",
-                    iconOnly: true,
-                    circular: true,
-                }}
-                onConfirm={() => {
-                    const value = refInput.current && refInput.current.value;
-                    if (value && value !== name) {
-                        onEdit(value);
-                    }
-                }}
-                closeOnOutsideClick={false}
-                content={
-                    <Input
-                        inputRef={refInput}
-                        clearable
-                        maxLength={64}
-                        fluid
-                        autoFocus
-                        placeholder={t(ConfigPage.inputePlaceholder)}
-                        defaultValue={name || ""}
-                    />
-                }
-                header={t(ConfigPage.inputeTitle)}
-                trigger={
-                    <Button
-                        className="ImageItem-edit"
-                        loading={isEditting}
-                        disabled={isEditting || isDeleting || isMoving || status === StickerStatus.uploading}
-                        icon="edit"
-                        size="small"
-                        iconOnly
-                        circular
-                        secondary
-                    />
-                }
-            /> */}
         </div>
     );
 };
