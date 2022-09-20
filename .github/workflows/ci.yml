@@ -54,7 +54,7 @@ jobs:
             # Upload build result
             - uses: actions/upload-artifact@v3
               with:
-                  name: ${{ matrix.os }}-py${{ matrix.node-version }}
+                  name: FE-${{ matrix.os }}-${{ matrix.node-version }}
                   path: |
                       website/build/
                       client-config-app/build/
@@ -81,7 +81,7 @@ jobs:
             # Upload build result
             - uses: actions/upload-artifact@v3
               with:
-                  name: ${{ matrix.os }}-py${{ matrix.node-version }}
+                  name: server-${{ matrix.os }}
                   path: |
                       server.net/bin
                   retention-days: 5
