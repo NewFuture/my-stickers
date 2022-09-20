@@ -1,26 +1,16 @@
 {
     "folders": [
         {
-            "name": "ROOT",
+            "name": "/",
             "path": "./"
         },
         {
             "path": "client-config-app"
         },
         {
-            "name": "server(Deprecated)",
-            "path": "server"
-        },
-        {
-            "name": "server.net",
             "path": "server.net"
         },
         {
-            "name": "server(bot+API)",
-            "path": "server"
-        },
-        {
-            // "name": "Extension generator",
             "path": "images-functions"
         },
         {
@@ -30,7 +20,6 @@
             "path": "website"
         },
         {
-            // Source code
             "path": "official-stickers"
         }
     ],
@@ -60,6 +49,9 @@
         },
         "[csharp]": {
             "editor.defaultFormatter": "ms-dotnettools.csharp"
+        },
+        "[json]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
         }
     }
 }

@@ -8,19 +8,18 @@
         "client-config-app",
         "website",
         "manifest",
-        "server"
+        "official-stickers"
     ],
     "scripts": {
         "format": "yarn prettier --write && yarn eslint ./ --fix",
         "format:check": "yarn prettier --check && yarn eslint ./",
-        "eslint": "eslint --cache --max-warnings 0 --cache-location node_modules/.cache/ --ext .ts,.tsx",
-        "prettier": "prettier --cache \"**/*.{js,jsx,ts,tsx,json,css,scss,md,yml,html}\"",
-        "server": "npm run debug --prefix server",
         "client": "yarn workspace client-config-app run start",
         "client:build": "yarn workspace client-config-app run build",
         "website": "yarn workspace website run start",
         "website:build": "yarn workspace website run build",
-        "manifest": "yarn workspace manifest run build"
+        "manifest": "yarn workspace manifest run build",
+        "eslint": "eslint --cache --max-warnings 0 --cache-location node_modules/.cache/ --ext .ts,.tsx",
+        "prettier": "prettier --cache \"**/*.{js,jsx,ts,tsx,json,css,scss,md,yml,html}\""
     },
     "repository": {
         "type": "git",
