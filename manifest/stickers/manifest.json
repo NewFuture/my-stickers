@@ -46,9 +46,17 @@
                     "context": ["compose"]
                 },
                 {
+                    "id": "collect",
+                    "description": "collect the sticke images from messages",
+                    "title": "Save Stickers",
+                    "type": "action",
+                    "fetchTask": true,
+                    "context": ["message"]
+                },
+                {
                     "id": "management",
-                    "title": "➕ Management",
-                    "description": "Upload and ",
+                    "title": "⚙️",
+                    "description": "upload and management stickers",
                     "taskInfo": {
                         "title": "Upload, delete and edit your favorite stickers",
                         "url": "https://${WEBSITE}/config/",
@@ -57,14 +65,6 @@
                     },
                     "type": "action",
                     "context": ["compose"]
-                },
-                {
-                    "id": "collect",
-                    "description": "collect the sticke images from messages",
-                    "title": "Save Stickers",
-                    "type": "action",
-                    "fetchTask": true,
-                    "context": ["message"]
                 }
             ]
         }

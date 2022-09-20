@@ -10,5 +10,7 @@
     "composeExtensions[0].commands[0].parameters[0].description": "名称搜索我的表情",
     "composeExtensions[0].commands[1].title": "收藏表情",
     "composeExtensions[0].commands[1].description": "收藏消息中的图片作为表情",
-    "composeExtensions[0].commands[1].taskInfo.title": "正在保存图片"
+    "composeExtensions[0].commands[2].title": "⚙️",
+    "composeExtensions[0].commands[2].description": "上传管理",
+    "composeExtensions[0].commands[2].taskInfo.title": "上传修改删除你的表情包"
 }
