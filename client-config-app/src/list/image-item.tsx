@@ -7,8 +7,8 @@ import { Delete16Filled, Edit16Regular } from "@fluentui/react-icons";
 
 const ImageItem: React.FC<
     Sticker & {
-        onDelete: () => void;
-        onEdit: (name:string) => void;
+        onDelete?: () => void;
+        onEdit?: (name:string) => void;
     }
 > = (props) => {
     const { src, id, name, status, progress, onEdit, onDelete } = props;
@@ -51,22 +51,22 @@ const ImageItem: React.FC<
     return (
         <div className={imageListStyles.item}>
             <Image className={imageListStyles.img} src={src} />
-            <Button
+            {onEdit && <Button
                 className={imageListStyles.edit}
                 icon={<Edit16Regular />}
                 size='medium'
                 disabled={isDeleting || isMoving}
                 appearance='transparent'
                 onClick={name ? (() => onEdit(name)) : () =>{}}
-            />
-            <Button
+            />}
+            {onDelete && <Button
                 className={imageListStyles.close}
                 icon={<Delete16Filled />}
                 size='medium'
                 disabled={isDeleting || isMoving}
                 appearance='transparent'
                 onClick={onDelete}
-            />
+            />}
             <div className={imageListStyles.bar}>
                 <>
                     {icon === "loading" ? (

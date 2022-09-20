@@ -3,13 +3,13 @@ import { makeStyles } from "@fluentui/react-components";
 export const useImageListStyles = makeStyles({
     grid: {
         display: "grid",
-        gridTemplateColumns: "repeat(3, calc(33%))",
+        gridTemplateColumns: "repeat(4, calc(25%))",
     },
     item: {
         position: "relative",
         textAlign: "center",
-        width: "32vw",
-        height: "32vw",
+        width: "24vw",
+        height: "24vw",
         overFlow: "hidden",
         boxShadow: "0 0 5px whitesmoke",
     },
