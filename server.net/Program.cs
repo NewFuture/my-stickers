@@ -2,6 +2,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Stickers.Bot;
+using Stickers.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddSingleton<StickerStorage>();
+builder.Services.AddSingleton<DapperContext>();
+builder.Services.AddSingleton<BlobService>();
 
 // Create the Bot Framework Authentication to be used with the Bot Adapter.
 builder.Services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
@@ -21,6 +24,8 @@ builder.Services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFramew
 
 // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
 builder.Services.AddTransient<IBot, TeamsMessagingExtensionsBot>();
+
+
 var app = builder.Build();
 
 

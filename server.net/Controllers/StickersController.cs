@@ -34,19 +34,19 @@ public class StickersController : ControllerBase
         {
             src = src,
             name = Path.GetFileNameWithoutExtension(request.name) + extendName,
-            id = request.id
+            id = Guid.Parse(request.id)
         };
         var list = await this.stickerStorage.addUserStickers(userId, new List<Sticker>() { newSticker });
         return list[0];
         
     }
     [HttpGet(Name = "me/stickers")]
-    public async Task<List<Sticker>> Get(string userId)
+    public async Task<List<Sticker>> Get(Guid userId)
     {
         return await this.stickerStorage.getUserStickers(userId);
     }
     [HttpDelete(Name = "/stickers")]
-    public async Task<bool> Delete(string id, string userId)
+    public async Task<bool> Delete(string id, Guid userId)
     {
         return await this.stickerStorage.deleteUserSticker(userId, id);
     }
