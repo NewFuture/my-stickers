@@ -14,31 +14,31 @@
         {
             this.context = context;
         }
-        public async Task<List<Sticker>>  getUserStickers(string id)
+        public async Task<List<Sticker>>  getUserStickers(string userid)
         {
-            var query = "SELECT * FROM Stickers where userId = @userId";
+            var query = $"SELECT * FROM {ENV.SQL_TABEL_NAME} where userId = @userId";
             using (var connection = context.CreateConnection())
             {
-                var companies = await connection.QueryAsync<Sticker>(query, id);
+                var companies = await connection.QueryAsync<Sticker>(query, new { userId = userid });
                 return companies.ToList();
             }
         }
         public async Task<bool> deleteUserSticker(string userId, string stickerId)
         {
-            var query = "delete FROM Stickers where userId = @userId and stickerId=@stickerId";
+            var query = $"delete FROM {ENV.SQL_TABEL_NAME} where userId = @userId and Id=@Id";
             using (var connection = context.CreateConnection())
             {
-                var ItemCount = await connection.ExecuteAsync(query, new { userId = userId, stickerId = stickerId });
+                var ItemCount = await connection.ExecuteAsync(query, new { userId = userId, Id = stickerId });
                 return ItemCount > 0;
             }
         }
 
         public async Task<bool> updateStickerName(string userId, string stickerId, string name)
         {
-            var query = "update Stickers set name = @name where userId = @userId and stickerId=@stickerId";
+            var query = $"update {ENV.SQL_TABEL_NAME} set name = @name where userId = @userId and Id=@Id";
             using (var connection = context.CreateConnection())
             {
-                var ItemCount = await connection.ExecuteAsync(query, new { userId = userId, stickerId = stickerId, Name=name });
+                var ItemCount = await connection.ExecuteAsync(query, new { userId = userId, Id = stickerId, Name=name });
                 return ItemCount > 0;
             }
         }
@@ -69,7 +69,7 @@
                         userId= userId,
                         weight = 0,
                     };
-                    string sql = "INSERT\r\nINTO ${ENV.SQL_TABEL_NAME} (id,userId,src,name,weight)\r\nVALUES (@id,@userId,@src,@name,@weight)";
+                    string sql = $"INSERT\r\nINTO {ENV.SQL_TABEL_NAME} (id,userId,src,name,weight)\r\nVALUES (@id,@userId,@src,@name,@weight)";
                     await connection.ExecuteAsync(sql, newItem);
                     result.Add(item);
                 }

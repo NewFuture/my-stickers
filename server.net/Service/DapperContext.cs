@@ -10,7 +10,7 @@ namespace Stickers.Service
         public DapperContext(IConfiguration configuration)
         {
             _configuration = configuration;
-            _connectionString = _configuration.GetConnectionString("SqlConnection");
+            _connectionString = _configuration["SqlConnection"];
         }
         public IDbConnection CreateConnection()
             => new SqlConnection(_connectionString);
