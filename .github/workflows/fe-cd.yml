@@ -53,7 +53,7 @@ jobs:
                       website/build/
                       client-config-app/build/
                       manifest/build/
-                      official-stickers/
+                      official-stickers/build/
                   retention-days: 10
 
     front-end-deploy:
@@ -73,6 +73,7 @@ jobs:
                   mv website/build ./www \
                   && mv manifest/build/* ./www/ \
                   && mv client-config-app/build ./www/config \
+                  && mv official-stickers/build ./www/official-stickers \
 
             - name: "Upload to blob storage"
               uses: azure/CLI@v1
