@@ -5,15 +5,17 @@ import { init } from "./services/teams";
 import { useStickersList } from "./services/stickers";
 import HeaderBtns from "./header/headerBtns";
 import "./lib/i18n";
-import { SWRConfig } from 'swr'
+import { SWRConfig } from "swr";
 
-function Sticker({isTenant}:React.PropsWithChildren<{isTenant:boolean}>):JSX.Element {
-    const {stickers,isLoading } = useStickersList(isTenant);
-    return <>
-                <HeaderBtns disabled={isLoading}  />
-                <Divider />
-                <ImageList loading={isLoading} stickes={stickers}/>
-            </>
+function Sticker({ isTenant }: React.PropsWithChildren<{ isTenant: boolean }>): JSX.Element {
+    const { stickers, isLoading } = useStickersList(isTenant);
+    return (
+        <>
+            <HeaderBtns disabled={isLoading} />
+            <Divider />
+            <ImageList loading={isLoading} stickes={stickers} />
+        </>
+    );
 }
 
 export default function ConfigApp() {
@@ -23,7 +25,7 @@ export default function ConfigApp() {
     return (
         <FluentProvider theme={teamsLightTheme}>
             <SWRConfig>
-                <Sticker isTenant={false}/>
+                <Sticker isTenant={false} />
             </SWRConfig>
         </FluentProvider>
     );

@@ -14,16 +14,16 @@
         {
             this.context = context;
         }
-        public async Task<List<Sticker>>  getUserStickers(string userid)
+        public async Task<List<Sticker>>  getUserStickers(Guid userId)
         {
             var query = $"SELECT * FROM {ENV.SQL_TABEL_NAME} where userId = @userId order by weight desc ";
             using (var connection = context.CreateConnection())
             {
-                var companies = await connection.QueryAsync<Sticker>(query, new { userId = userid });
+                var companies = await connection.QueryAsync<Sticker>(query, new { userId });
                 return companies.ToList();
             }
         }
-        public async Task<bool> deleteUserSticker(string userId, string stickerId)
+        public async Task<bool> deleteUserSticker(Guid userId, string stickerId)
         {
             var query = $"delete FROM {ENV.SQL_TABEL_NAME} where userId = @userId and Id=@Id";
             using (var connection = context.CreateConnection())
@@ -44,7 +44,7 @@
         }
         public async Task<List<Sticker>> addUserStickers(string userId, List<Sticker> stickers)
         {
-            var oldstickers = await this.getUserStickers(userId);
+            var oldstickers = await this.getUserStickers(Guid.Parse(userId));
             List<Sticker> result = new List<Sticker>();
             using (var connection = context.CreateConnection())
             {

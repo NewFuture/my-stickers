@@ -1,28 +1,19 @@
-import React, { createRef } from "react";
-import { Image, Label, Input, Button, Spinner } from "@fluentui/react-components";
-// import { Dialog } from "@fluentui/react-components/dist/unstable";
-
-import { useTranslation } from "react-i18next";
-
+import React from "react";
+import { Image, Label, Button, Spinner } from "@fluentui/react-components";
 import { Sticker, StickerStatus } from "../model/sticker";
-
-import "./item.scss";
-import { ConfigPage } from "../locales";
+import { useImageListStyles } from "./image-list.styles";
+import { Delete16Filled, Edit16Regular } from "@fluentui/react-icons";
 
 const ImageItem: React.FC<
     Sticker & {
-        onDelete: () => void;
-        onEdit: (name: string) => void;
+        onDelete?: () => void;
+        onEdit?: (name: string) => void;
     }
 > = (props) => {
     const { src, name, status, progress, onEdit, onDelete } = props;
-    const { t } = useTranslation();
-
-    const refInput = createRef<HTMLInputElement>();
+    const imageListStyles = useImageListStyles();
     const isDeleting = status === StickerStatus.delete;
-    const isEditting = status === StickerStatus.editing;
     const isMoving = status === StickerStatus.moving;
-    // let state: StatusProps["state"] = undefined;
     let icon = "accept";
     let state = "";
 
@@ -52,20 +43,31 @@ const ImageItem: React.FC<
             }
     }
 
+    console.log(state);
     return (
-        <div className="ImageItem">
-            <Image className="ImageItem-img" src={src} />
-            <Button
-                className="ImageItem-close"
-                icon="close"
-                size="small"
-                disabled={isDeleting || isMoving}
-                // loading={isDeleting}
-                onClick={onDelete}
-                // iconOnly
-                // circular
-            />
-            <div className="ImageItem-bar">
+        <div className={imageListStyles.item}>
+            <Image className={imageListStyles.img} src={src} />
+            {onEdit && (
+                <Button
+                    className={imageListStyles.edit}
+                    icon={<Edit16Regular />}
+                    size="medium"
+                    disabled={isDeleting || isMoving}
+                    appearance="transparent"
+                    onClick={name ? () => onEdit(name) : () => {}}
+                />
+            )}
+            {onDelete && (
+                <Button
+                    className={imageListStyles.close}
+                    icon={<Delete16Filled />}
+                    size="medium"
+                    disabled={isDeleting || isMoving}
+                    appearance="transparent"
+                    onClick={onDelete}
+                />
+            )}
+            <div className={imageListStyles.bar}>
                 <>
                     {icon === "loading" ? (
                         <Spinner size="small" label={progress + "%"} labelPosition="after" />
@@ -76,49 +78,6 @@ const ImageItem: React.FC<
                     {icon !== "loading" && name && <Label color="gray">{name}</Label>}
                 </>
             </div>
-            {/* <Dialog
-                cancelButton={{
-                    icon: "close",
-                    iconOnly: true,
-                    circular: true,
-                }}
-                confirmButton={{
-                    icon: "accept",
-                    iconOnly: true,
-                    circular: true,
-                }}
-                onConfirm={() => {
-                    const value = refInput.current && refInput.current.value;
-                    if (value && value !== name) {
-                        onEdit(value);
-                    }
-                }}
-                closeOnOutsideClick={false}
-                content={
-                    <Input
-                        inputRef={refInput}
-                        clearable
-                        maxLength={64}
-                        fluid
-                        autoFocus
-                        placeholder={t(ConfigPage.inputePlaceholder)}
-                        defaultValue={name || ""}
-                    />
-                }
-                header={t(ConfigPage.inputeTitle)}
-                trigger={
-                    <Button
-                        className="ImageItem-edit"
-                        loading={isEditting}
-                        disabled={isEditting || isDeleting || isMoving || status === StickerStatus.uploading}
-                        icon="edit"
-                        size="small"
-                        iconOnly
-                        circular
-                        secondary
-                    />
-                }
-            /> */}
         </div>
     );
 };

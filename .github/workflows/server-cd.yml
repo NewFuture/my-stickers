@@ -1,0 +1,52 @@
+# Server Build and Deploy （Release to blob）
+
+name: Server-end-build-deploy
+on:
+    push:
+        branches: ["v2", "main"]
+        paths:
+            - ".github/workflows/server-cd.yml"
+            - "server.net/**"
+
+permissions:
+    contents: read
+
+# This allows a subsequently queued workflow run to interrupt previous runs
+concurrency:
+    group: "${{ github.workflow }}-${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+    cancel-in-progress: true
+
+env:
+    AZURE_WEBAPP_NAME: Sticker
+    AZURE_WEBAPP_PACKAGE_PATH: "server.net/dotnet-webapp" # Set this to the path to your web app project, defaults to the repository root:
+    DOTNET_VERSION: "6.0.401" # The .NET SDK version to use
+
+jobs:
+    publish:
+        environment:
+            name: Integration
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup .NET Core
+              uses: actions/setup-dotnet@v1
+              with:
+                  dotnet-version: ${{ env.DOTNET_VERSION }}
+
+            - name: Install dependencies
+              run: |
+                  cd server.net
+                  dotnet restore
+
+            - name: Build
+              run: |
+                  dotnet build server.net --configuration Release --no-restore
+                  dotnet publish server.net -c Release -o "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}" -r linux-x64 --self-contained true /p:UseAppHost=true
+
+            - uses: azure/webapps-deploy@v2
+              name: Deploy
+              with:
+                  publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+                  package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"

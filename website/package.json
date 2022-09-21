@@ -19,13 +19,13 @@
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "react-scripts": "^5.0.1",
-        "react-snap": "^1.23.0",
         "sass": "^1.35.1",
         "typescript": "^4.8.2"
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build && react-snap",
+        "build": "react-scripts build && yarn snap",
+        "snap": "yarn dlx react-snap",
         "test": "react-scripts test"
     },
     "repository": {
