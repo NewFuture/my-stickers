@@ -6,50 +6,78 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
+using Stickers.Models;
+using Stickers.Resources;
 
-namespace Stickers.Bot;
-
-public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
+namespace Stickers.Bot
 {
 
-    protected override Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
+    public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
     {
-        var text = query?.Parameters?[0]?.Value as string ?? string.Empty;
 
-        // We take every row of the results and wrap them in cards wrapped in MessagingExtensionAttachment objects.
-        // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
-
-        // The list of MessagingExtensionAttachments must we wrapped in a MessagingExtensionResult wrapped in a MessagingExtensionResponse.
-        return Task.FromResult(GetResultGrid());
-    }
-
-    public MessagingExtensionResponse GetResultGrid()
-    {
-        var imageFiles = Directory.EnumerateFiles("wwwroot", "*.*", SearchOption.AllDirectories)
-        .Where(s => s.EndsWith(".jpg"));
-
-        List<MessagingExtensionAttachment> attachments = new List<MessagingExtensionAttachment>();
-
-        foreach (string img in imageFiles)
+        protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
         {
-            var image = img.Split("\\");
-            var thumbnailCard = new ThumbnailCard();
-            thumbnailCard.Images = new List<CardImage>() { new CardImage(_baseUrl + "/" + image[1]) };
-            var attachment = new MessagingExtensionAttachment
-            {
-                ContentType = ThumbnailCard.ContentType,
-                Content = thumbnailCard,
-            };
-            attachments.Add(attachment);
+            var text = query?.Parameters?[0]?.Value as string ?? string.Empty;
+
+            // We take every row of the results and wrap them in cards wrapped in MessagingExtensionAttachment objects.
+            // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
+
+            // The list of MessagingExtensionAttachments must we wrapped in a MessagingExtensionResult wrapped in a MessagingExtensionResponse.
+            return await GetResultGrid(turnContext);
         }
-        return new MessagingExtensionResponse
+
+        public async Task<MessagingExtensionResponse> GetResultGrid(ITurnContext turnContext)
         {
-            ComposeExtension = new MessagingExtensionResult
+
+            var userId = turnContext.Activity?.From?.AadObjectId;
+            var imageEntities = await this.stickerStorage.getUserStickers(Guid.Parse(userId));
+            var imageFiles = imageEntities.Select(entity => new Img { Src = entity.src, Alt = entity.name });
+
+            List<MessagingExtensionAttachment> attachments = new List<MessagingExtensionAttachment>();
+
+            foreach (var img in imageFiles)
             {
-                Type = "result",
-                AttachmentLayout = "grid",
-                Attachments = attachments
+                var thumbnailCard = new ThumbnailCard();
+                thumbnailCard.Images = new List<CardImage>() { new CardImage(img.Src) };
+                var cardJson = this.GetAdaptiveCardJsonObject(img, "StickerCard.json");
+                var attachment = new MessagingExtensionAttachment
+                {
+                    ContentType = "application/vnd.microsoft.card.adaptive",
+                    Content = cardJson,
+                    Preview = thumbnailCard.ToAttachment(),
+                };
+                attachments.Add(attachment);
             }
-        };
+            return new MessagingExtensionResponse
+            {
+                ComposeExtension = attachments.Count > 0 ? new MessagingExtensionResult
+                {
+                    Type = "result",
+                    AttachmentLayout = "grid",
+                    Attachments = attachments
+                } : new MessagingExtensionResult
+                {
+                    Type = "config",
+                    Text = LocalizationHelper.LookupString("initial_run_upload_stickers", GetCultureInfoFromBotActivity(turnContext.Activity)),
+                    SuggestedActions = new MessagingExtensionSuggestedAction
+                    {
+                        Actions = new List<CardAction>
+                        {
+                            new CardAction
+                            {
+                                Type = "openUrl",
+                                Title = "Settings",
+                                Value = this.GetConfigUrl()
+                            }
+                        }
+                    }
+                }
+            };
+        }
+
+        private string GetConfigUrl()
+        {
+            return $"{this.WebUrl}/congfig";
+        }
     }
 }

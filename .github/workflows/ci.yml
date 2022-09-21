@@ -1,7 +1,7 @@
 name: build-check
 on:
-    push:
-        branches: ["v2", "main"]
+    # push:
+    #     branches: ["v2", "main"]
     pull_request:
         branches: ["v2", "main"]
 
@@ -49,9 +49,7 @@ jobs:
             - run: yarn stickers
             - run: yarn client:build
             - run: yarn website:build
-            - run: yarn stickers
 
-            # Upload build result
             - uses: actions/upload-artifact@v3
               with:
                   name: FE-${{ matrix.os }}-${{ matrix.node-version }}
@@ -62,7 +60,7 @@ jobs:
                       official-stickers/
                   retention-days: 5
 
-    server-build:
+    back-end-build:
         strategy:
             # fail-fast: false
             matrix:
@@ -76,12 +74,5 @@ jobs:
               with:
                   dotnet-version: ${{ matrix.dotnet-version }}
 
-            - run: dotnet build server.net
-
-            # Upload build result
-            - uses: actions/upload-artifact@v3
-              with:
-                  name: server-${{ matrix.os }}
-                  path: |
-                      server.net/bin
-                  retention-days: 5
+            - run: dotnet build server.net -c Release
+            - run: dotnet build image-functions -c Release

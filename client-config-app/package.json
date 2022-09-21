@@ -3,6 +3,7 @@
     "version": "2.0.0",
     "private": true,
     "license": "MS-PL",
+    "homepage": "/config/",
     "proxy": "http://localhost:3007/",
     "dependencies": {
         "@fluentui/react-components": "^9.3.0",

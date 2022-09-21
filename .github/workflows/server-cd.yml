@@ -1,6 +1,6 @@
-# Server Build and Deploy （Release to blob）
+# Server Build and Deploy
 
-name: Server-end-build-deploy
+name: Server-build-deploy
 on:
     push:
         branches: ["v2", "main"]
@@ -17,17 +17,12 @@ concurrency:
     cancel-in-progress: true
 
 env:
-    AZURE_WEBAPP_NAME: Sticker
-    AZURE_WEBAPP_PACKAGE_PATH: "server.net" # Set this to the path to your web app project, defaults to the repository root:
-    DOTNET_VERSION: "6.0.401" # The .NET SDK version to use
+    DOTNET_VERSION: "6.x" # The .NET SDK version to use
 
 jobs:
-    publish:
-        environment:
-            name: Integration
-
+    server-build:
         runs-on: ubuntu-latest
-
+        timeout-minutes: 6
         steps:
             - uses: actions/checkout@v2
             - name: Setup .NET Core
@@ -35,20 +30,34 @@ jobs:
               with:
                   dotnet-version: ${{ env.DOTNET_VERSION }}
 
-            - name: Install dependencies
-              run: |
-                  cd server.net
-                  dotnet restore
-
             - name: Build
-              run: |
-                  cd server.net
-                  dotnet build --configuration Release --no-restore
-                  dotnet publish -c Release -o ../dotnet-webapp -r linux-x64 --self-contained true /p:UseAppHost=true
+              run: dotnet build server.net --configuration Release
+
+            - name: Publish
+              run: dotnet publish server.net -c Release -o webapp
+            #   -r linux-x64 --self-contained true /p:UseAppHost=true
+
+            - uses: actions/upload-artifact@v3
+              with:
+                  name: package
+                  path: webapp/**
+                  if-no-files-found: error
+                  retention-days: 5
+
+    server-deploy:
+        needs: [server-build]
+        environment:
+            name: Integration
+            url: https://hack-stickers-v2-dev.azurewebsites.net/swagger/index.html
+        runs-on: ubuntu-latest
+        timeout-minutes: 6
+        steps:
+            - uses: actions/download-artifact@v3
+              with:
+                  name: package
+                  path: ./
 
             - uses: azure/webapps-deploy@v2
-              name: Deploy
               with:
-                  app-name: ${{ env.AZURE_WEBAPP_NAME }}
                   publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-                  package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/dotnet-webapp"
+                  package: package

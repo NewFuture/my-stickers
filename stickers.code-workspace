@@ -11,7 +11,7 @@
             "path": "server.net"
         },
         {
-            "path": "images-functions"
+            "path": "image-functions"
         },
         {
             "path": "manifest"
@@ -47,11 +47,12 @@
         "[jsonc]": {
             "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
+        "[json]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
         "[csharp]": {
             "editor.defaultFormatter": "ms-dotnettools.csharp"
         },
-        "[json]": {
-            "editor.defaultFormatter": "esbenp.prettier-vscode"
-        }
+        "debug.internalConsoleOptions": "neverOpen"
     }
 }

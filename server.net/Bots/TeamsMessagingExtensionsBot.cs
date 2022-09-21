@@ -3,14 +3,19 @@
 // @see https://github.com/microsoft/BotBuilder-Samples/blob/main/samples/csharp_dotnetcore/50.teams-messaging-extensions-search/Bots/TeamsMessagingExtensionsSearchBot.cs
 
 using Microsoft.Bot.Builder.Teams;
+using Stickers.Service;
 
-namespace Stickers.Bot;
-
-public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
+namespace Stickers.Bot
 {
-    public readonly string _baseUrl;
-    public TeamsMessagingExtensionsBot(IConfiguration configuration) : base()
+    public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
     {
-        this._baseUrl = configuration["BaseUrl"];
+        public readonly string WebUrl;
+        private StickerStorage stickerStorage = null;
+
+        public TeamsMessagingExtensionsBot(IConfiguration configuration, StickerStorage stickerStorage) : base()
+        {
+            this.WebUrl = configuration["WebUrl"];
+            this.stickerStorage = stickerStorage;
+        }
     }
 }
