@@ -16,7 +16,7 @@
         }
         public async Task<List<Sticker>>  getUserStickers(Guid userId)
         {
-            var query = $"SELECT * FROM {ENV.SQL_TABEL_NAME} where userId = @userId";
+            var query = $"SELECT * FROM {ENV.SQL_TABEL_NAME} where userId = @userId order by weight desc ";
             using (var connection = context.CreateConnection())
             {
                 var companies = await connection.QueryAsync<Sticker>(query, new { userId });
@@ -46,19 +46,29 @@
         {
             var oldstickers = await this.getUserStickers(Guid.Parse(userId));
             List<Sticker> result = new List<Sticker>();
-            if (oldstickers != null && oldstickers.Count > 0)
-            {
-                var needUpdate = stickers.FindAll(o => oldstickers.Exists(s => s.src == o.src));
-                foreach (var item in needUpdate)
-                {
-                    //update and remove from list
-
-                    stickers.Remove(item);
-                    result.Add(item);
-                }
-            }
             using (var connection = context.CreateConnection())
             {
+                if (oldstickers != null && oldstickers.Count > 0)
+                {
+                   var needUpdate = stickers.FindAll(o => oldstickers.Exists(s => s.src == o.src));
+                   foreach (var item in needUpdate)
+                   {
+                        //update and remove from list
+                        var updateItem = new
+                        {
+                            id = item.id,
+                            name = item.name,
+                            src = item.src,
+                            userId = userId,
+                            weight = DateTime.Now.Ticks,
+                        };
+                        string sql = $"update {ENV.SQL_TABEL_NAME} set weight = @weight where userId = @userId and Id=@Id";
+                        await connection.ExecuteAsync(sql, updateItem);
+                        stickers.Remove(item);
+                        result.Add(item);
+                    }
+                }
+           
                 foreach (var item in stickers)
                 {
                     var newItem = new
@@ -67,7 +77,7 @@
                         name = item.name,
                         src =item.src,
                         userId= userId,
-                        weight = 0,
+                        weight = DateTime.Now.Ticks,
                     };
                     string sql = $"INSERT\r\nINTO {ENV.SQL_TABEL_NAME} (id,userId,src,name,weight)\r\nVALUES (@id,@userId,@src,@name,@weight)";
                     await connection.ExecuteAsync(sql, newItem);

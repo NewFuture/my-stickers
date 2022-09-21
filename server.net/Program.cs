@@ -25,7 +25,9 @@ builder.Services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>
 // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
 builder.Services.AddTransient<IBot, TeamsMessagingExtensionsBot>();
 
-
+builder.Services.AddSingleton<DapperContext>();
+builder.Services.AddSingleton<BlobService>();
+builder.Services.AddSingleton<StickerStorage>();
 var app = builder.Build();
 
 
