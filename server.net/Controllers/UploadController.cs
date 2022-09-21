@@ -4,18 +4,14 @@ using Stickers.Service;
 namespace Stickers.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/upload")]
 public class UploadController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
 
     private readonly ILogger<StickersController> _logger;
     private readonly BlobService blobService;
 
-    public UploadController(BlobService blobService ,ILogger<StickersController> logger)
+    public UploadController(BlobService blobService, ILogger<StickersController> logger)
     {
         _logger = logger;
         this.blobService = blobService;
@@ -23,7 +19,7 @@ public class UploadController : ControllerBase
 
 
     [HttpPost(Name = "upload")]
-    public async Task<SasInfo[]> Upload([FromBody]UploadRequest request)
+    public async Task<SasInfo[]> Upload([FromBody] UploadRequest request)
     {
         var list = new List<SasInfo>();
         foreach (var item in request.exts)
@@ -35,9 +31,9 @@ public class UploadController : ControllerBase
     }
     public class UploadRequest
     {
-        public string user { get; set; }
-        public string token { get; set; }
-        public string[] exts { get; set; }
+        public string? user { get; set; }
+        public string? token { get; set; }
+        public string[]? exts { get; set; }
     }
 }
 

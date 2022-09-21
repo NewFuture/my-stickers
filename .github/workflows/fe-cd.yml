@@ -17,7 +17,7 @@ permissions:
 env:
     WEBSITE: stickerstestblob.z7.web.core.windows.net
     MICROSOFT_APP_ID: "b967aed7-3ba9-48fb-ae52-2df66d237844"
-    REACT_APP_API_ROOT: https://hack-stickers-v2-dev.azurewebsites.net/api/
+    REACT_APP_API_ROOT: https://stickers-int-server-linux.azurewebsites.net/api/
 
 # This allows a subsequently queued workflow run to interrupt previous runs
 concurrency:
@@ -43,7 +43,6 @@ jobs:
             - run: yarn stickers
             - run: yarn client:build
             - run: yarn website:build
-            - run: yarn stickers
 
             # Upload build result
             - uses: actions/upload-artifact@v3
