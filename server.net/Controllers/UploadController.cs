@@ -4,7 +4,7 @@ using Stickers.Service;
 namespace Stickers.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/upload")]
 public class UploadController : ControllerBase
 {
 

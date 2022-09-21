@@ -6,7 +6,7 @@ name: Build and deploy ASP.Net Core app to Azure Web App - stickers-server-win-c
 on:
     push:
         branches:
-            - server-deploy-test
+            - none
     workflow_dispatch:
 
 jobs:

@@ -5,7 +5,7 @@ using Stickers.Service;
 namespace Stickers.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/me/stickers")]
 public class StickersController : ControllerBase
 {
 
@@ -21,7 +21,7 @@ public class StickersController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost(Name = "stickers/commit")]
+    [HttpPost("commit")]
     public async Task<Sticker> Commit([FromQuery] string userId, [FromBody] PostStickerBlobRequest request)
     {
         string extendName = System.IO.Path.GetExtension(request.name);
@@ -36,17 +36,17 @@ public class StickersController : ControllerBase
         return list[0];
 
     }
-    [HttpGet(Name = "me/stickers")]
+    [HttpGet("/api/me/stickers")]
     public async Task<List<Sticker>> Get(Guid userId)
     {
         return await this.stickerStorage.getUserStickers(userId);
     }
-    [HttpDelete(Name = "stickers")]
+    [HttpDelete("{id}")]
     public async Task<bool> Delete(string id, Guid userId)
     {
         return await this.stickerStorage.deleteUserSticker(userId, id);
     }
-    [HttpPatch(Name = "stickers")]
+    [HttpPatch("{id}")]
     public async Task<bool> UpdateSticker(string id, string userId, string name)
     {
         return await this.stickerStorage.updateStickerName(userId, id, name);
