@@ -17,7 +17,7 @@ const ImageList: React.FC<ImageListProps> = (props: ImageListProps) => {
     const stickers = cache.get("stickers")?.values;
     const [uploadFiles, setUploadFiles] = useState<File[]>([]);
     const onFinshUpload = (file: File) => {
-        setUploadFiles(uploadFiles.filter(f=>file!==f));
+        setUploadFiles(uploadFiles.filter((f) => file !== f));
         mutate("stickers");
     };
     return (
