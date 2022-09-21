@@ -1,4 +1,4 @@
-# Front Build and Deploy （Release to blob）
+# Front Build and Deploy (Release to blob)
 
 name: front-end-build-deploy
 on:
