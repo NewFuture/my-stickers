@@ -71,7 +71,7 @@ jobs:
               with:
                   inlineScript: |
                       az storage blob upload-batch \
-                      --source . \
+                      --source ./www/ \
                       --destination '$web' \
                       --connection-string "${{secrets.BLOB_CONNECTION_STRING}}" \
 
