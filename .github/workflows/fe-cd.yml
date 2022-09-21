@@ -66,11 +66,13 @@ jobs:
         steps:
             - uses: actions/download-artifact@v3
               with:
+                  name: front-end
                   path: ./
+
             - run: |
-                  mv front-end/website/build ./www \
-                  && mv front-end/manifest/build/* ./www/ \
-                  && mv front-end/client-config-app/build ./www/config \
+                  mv website/build ./www \
+                  && mv manifest/build/* ./www/ \
+                  && mv client-config-app/build ./www/config \
 
             - name: "Upload to blob storage"
               uses: azure/CLI@v1
