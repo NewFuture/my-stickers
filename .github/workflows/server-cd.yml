@@ -1,6 +1,6 @@
 # Server Build and Deploy （Release to blob）
 
-name: Server-end-build-deploy
+name: Server-build-deploy
 on:
     push:
         branches: ["v2", "main"]
@@ -17,15 +17,14 @@ concurrency:
     cancel-in-progress: true
 
 env:
-    AZURE_WEBAPP_NAME: Sticker
     AZURE_WEBAPP_PACKAGE_PATH: "server.net/dotnet-webapp" # Set this to the path to your web app project, defaults to the repository root:
-    DOTNET_VERSION: "6.0.401" # The .NET SDK version to use
+    DOTNET_VERSION: "6.x" # The .NET SDK version to use
 
 jobs:
     publish:
         environment:
             name: Integration
-
+            url: https://hack-stickers-v2-dev.azurewebsites.net/swagger/index.html
         runs-on: ubuntu-latest
 
         steps:
@@ -35,14 +34,9 @@ jobs:
               with:
                   dotnet-version: ${{ env.DOTNET_VERSION }}
 
-            - name: Install dependencies
-              run: |
-                  cd server.net
-                  dotnet restore
-
             - name: Build
               run: |
-                  dotnet build server.net --configuration Release --no-restore
+                  dotnet build server.net --configuration Release
                   dotnet publish server.net -c Release -o "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}" -r linux-x64 --self-contained true /p:UseAppHost=true
 
             - uses: azure/webapps-deploy@v2
