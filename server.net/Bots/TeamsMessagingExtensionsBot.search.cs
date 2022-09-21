@@ -15,7 +15,7 @@ namespace Stickers.Bot
     public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
     {
 
-        protected override Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
+        protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
         {
             var text = query?.Parameters?[0]?.Value as string ?? string.Empty;
 
@@ -23,12 +23,15 @@ namespace Stickers.Bot
             // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
 
             // The list of MessagingExtensionAttachments must we wrapped in a MessagingExtensionResult wrapped in a MessagingExtensionResponse.
-            return Task.FromResult(GetResultGrid(turnContext));
+            return await GetResultGrid(turnContext);
         }
 
-        public MessagingExtensionResponse GetResultGrid(ITurnContext turnContext)
+        public async Task<MessagingExtensionResponse> GetResultGrid(ITurnContext turnContext)
         {
-            var imageFiles = new List<Img> { new Img { Src = "https://us-api.asm.skype.com/v1/objects/0-wus-d8-42bf9c065270a85665ee1c1bd8f2814f/views/imgo", Alt = "Test" } };
+
+            var userId = turnContext.Activity?.From?.AadObjectId;
+            var imageEntities = await this.stickerStorage.getUserStickers(Guid.Parse(userId));
+            var imageFiles = imageEntities.Select(entity => new Img { Src = entity.src, Alt = entity.name });
 
             List<MessagingExtensionAttachment> attachments = new List<MessagingExtensionAttachment>();
 
@@ -36,10 +39,12 @@ namespace Stickers.Bot
             {
                 var thumbnailCard = new ThumbnailCard();
                 thumbnailCard.Images = new List<CardImage>() { new CardImage(img.Src) };
+                var cardJson = this.GetAdaptiveCardJsonObject(img, "StickerCard.json");
                 var attachment = new MessagingExtensionAttachment
                 {
-                    ContentType = ThumbnailCard.ContentType,
-                    Content = thumbnailCard,
+                    ContentType = "application/vnd.microsoft.card.adaptive",
+                    Content = cardJson,
+                    Preview = thumbnailCard.ToAttachment(),
                 };
                 attachments.Add(attachment);
             }

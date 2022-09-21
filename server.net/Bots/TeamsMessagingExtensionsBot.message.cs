@@ -9,6 +9,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Stickers.Entities;
 using Stickers.Models;
 using Stickers.Resources;
 using Stickers.Utils;
@@ -25,6 +26,7 @@ namespace Stickers.Bot
             var value = (JObject)turnContext.Activity.Value;
             var payload = value?["messagePayload"].ToObject<JObject>();
             var body = payload?["body"].ToObject<JObject>();
+            var userId = turnContext.Activity?.From?.AadObjectId;
             var content = body?["content"].ToString();
             List<MessagingExtensionAttachment> attachments = payload?["attachments"].ToObject<List<MessagingExtensionAttachment>>();
             var imgs = this.GetImages(content);
@@ -33,6 +35,7 @@ namespace Stickers.Bot
                 imgs.AddRange(this.getImageFromAttachment(attachment));
             }
             var saveImgs = imgs.Count > 0;
+            await this.stickerStorage.addUserStickers(userId, (List<Sticker>)imgs.Select(img => new Sticker { src = img.Src, name = img.Alt, id = Guid.NewGuid() }));
             JObject cardJson;
             if (saveImgs)
             {
