@@ -1,4 +1,4 @@
-# Front Build and Deploy （Release to blob）
+# Front Build and Deploy (Release to blob)
 
 name: front-end-build-deploy
 on:
@@ -13,6 +13,11 @@ on:
 
 permissions:
     contents: read
+
+env:
+    WEBSITE: stickerstestblob.z7.web.core.windows.net
+    MICROSOFT_APP_ID: "b967aed7-3ba9-48fb-ae52-2df66d237844"
+    REACT_APP_API_ROOT: https://hack-stickers-v2-dev.azurewebsites.net/api/
 
 # This allows a subsequently queued workflow run to interrupt previous runs
 concurrency:
@@ -55,6 +60,7 @@ jobs:
         needs: [front-end-build]
         environment:
             name: Integration
+            url: https://${{env.WEBSITE}}/
         runs-on: ubuntu-latest
         timeout-minutes: 5
         steps:
@@ -74,6 +80,7 @@ jobs:
                       --source ./www/ \
                       --destination '$web' \
                       --connection-string "${{secrets.BLOB_CONNECTION_STRING}}" \
+                      --overwrite
 
             # # https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-static-site-github-actions?tabs=userlevel
             # - name: Azure Login

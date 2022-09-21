@@ -49,7 +49,6 @@ jobs:
             - run: yarn stickers
             - run: yarn client:build
             - run: yarn website:build
-            - run: yarn stickers
 
             # Upload build result
             - uses: actions/upload-artifact@v3
@@ -62,21 +61,22 @@ jobs:
                       official-stickers/
                   retention-days: 5
 
-    server-build:
+    back-end-build:
         strategy:
             # fail-fast: false
             matrix:
                 os: [windows, ubuntu]
                 dotnet-version: [6.x]
         runs-on: ${{ matrix.os }}-latest
-        timeout-minutes: 8
+        timeout-minutes: 5
         steps:
             - uses: actions/checkout@v3
             - uses: actions/setup-dotnet@v2
               with:
                   dotnet-version: ${{ matrix.dotnet-version }}
 
-            - run: dotnet build server.net
+            - run: dotnet build server.net --configuration Release
+            - run: dotnet build image-functions --configuration Release
 
             # Upload build result
             - uses: actions/upload-artifact@v3
@@ -84,4 +84,5 @@ jobs:
                   name: server-${{ matrix.os }}
                   path: |
                       server.net/bin
+                      image-functions/bin
                   retention-days: 5

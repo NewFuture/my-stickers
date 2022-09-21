@@ -9,22 +9,28 @@ namespace Stickers.Service
     {
         private BlobServiceClient client = null;
         private string containerName = "container";
-        public BlobService(string connectionString)
+        public BlobService(IConfiguration configuration)
         {
-            client = new BlobServiceClient(connectionString);
+            var blobConnection = configuration["BlobConnection"];
+            client = new BlobServiceClient(blobConnection);
+            
         }
         public async Task<SasInfo> getSasToken(string userId,string ext)
         {
+            var id = Guid.NewGuid().ToString().ToLower();
+            string fileName = $"{userId}/{id}.{ext}";
             BlobSasBuilder sasBuilder = new BlobSasBuilder();
             sasBuilder.BlobContainerName = containerName;   
-            sasBuilder.BlobName = ext;
+            sasBuilder.BlobName = fileName;
             sasBuilder.ExpiresOn = DateTime.Now.AddMinutes(10);
             sasBuilder.SetPermissions(BlobAccountSasPermissions.All);
             var containerClient = client.GetBlobContainerClient(containerName);
-            Uri sasUri = containerClient.GenerateSasUri(sasBuilder);
+            var blockClient = containerClient.GetBlockBlobClient(fileName);
+            Uri sasUri = blockClient.GenerateSasUri(sasBuilder);
+            //Uri sasUri = containerClient.GenerateSasUri(sasBuilder);
             return new SasInfo()
             {
-                id = null,
+                id = id,
                 url = sasUri.ToString(),
                 token = null,
 
@@ -33,7 +39,8 @@ namespace Stickers.Service
         public async Task<string> commitBlocks(string userId, string id, string extWithDot,string contentType)
         {
             string fileName = $"{userId}/{id}{extWithDot}";
-            var item = client.GetBlobContainerClient(this.containerName).GetBlockBlobClient(extWithDot).CommitBlockList(new List<string> { id });
+            var blockclient = client.GetBlobContainerClient(this.containerName).GetBlockBlobClient(fileName);
+            var item = await blockclient.CommitBlockListAsync(new List<string> { id });
             return $"https://${ENV.AZURE_STORAGE_CDN}/${this.containerName}/${fileName}";
 
         }
