@@ -13,14 +13,14 @@ namespace Stickers.Service
         {
             var blobConnection = configuration["BlobConnection"];
             client = new BlobServiceClient(blobConnection);
-            
+
         }
-        public async Task<SasInfo> getSasToken(string userId,string ext)
+        public async Task<SasInfo> getSasToken(string userId, string ext)
         {
             var id = Guid.NewGuid().ToString().ToLower();
             string fileName = $"{userId}/{id}.{ext}";
             BlobSasBuilder sasBuilder = new BlobSasBuilder();
-            sasBuilder.BlobContainerName = containerName;   
+            sasBuilder.BlobContainerName = containerName;
             sasBuilder.BlobName = fileName;
             sasBuilder.ExpiresOn = DateTime.Now.AddMinutes(10);
             sasBuilder.SetPermissions(BlobAccountSasPermissions.All);
@@ -36,7 +36,7 @@ namespace Stickers.Service
 
             };
         }
-        public async Task<string> commitBlocks(string userId, string id, string extWithDot,string contentType)
+        public async Task<string> commitBlocks(string userId, string id, string extWithDot, string contentType)
         {
             string fileName = $"{userId}/{id}{extWithDot}";
             var blockclient = client.GetBlobContainerClient(this.containerName).GetBlockBlobClient(fileName);
@@ -51,9 +51,9 @@ namespace Stickers.Service
         /**
          * Base64编码的ID
          */
-    public string id { get; set; }
-    // base64?: string;
-    public string token { get; set; }
-    public string url { get; set; }
-}
+        public string id { get; set; }
+        // base64?: string;
+        public string token { get; set; }
+        public string url { get; set; }
+    }
 }

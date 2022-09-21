@@ -43,7 +43,6 @@ jobs:
             - run: yarn stickers
             - run: yarn client:build
             - run: yarn website:build
-            - run: yarn stickers
 
             # Upload build result
             - uses: actions/upload-artifact@v3
