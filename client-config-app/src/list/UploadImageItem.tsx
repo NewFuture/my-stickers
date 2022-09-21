@@ -1,14 +1,19 @@
-import React, { useState } from "react";
-import { Image } from "@fluentui/react-components";
-import { Sticker } from "../model/sticker";
+import React, { useEffect, useState } from "react";
+import { Image, Label } from "@fluentui/react-components";
+import { Sticker, StickerStatus } from "../model/sticker";
 import { useImageListStyles } from "./image-list.styles";
-import { uploadSticker1 } from "../services/stickers";
+import { uploadSticker } from "../services/stickers";
+import { ArrowRepeatAll16Regular } from "@fluentui/react-icons";
 
 interface UploadImageItemProps {
     file: File;
+    onFinsh: (file: File) => void;
 }
 
-export const UploadImageItem: React.FC<UploadImageItemProps> = ({ file }: UploadImageItemProps): JSX.Element => {
+export const UploadImageItem: React.FC<UploadImageItemProps> = ({
+    file,
+    onFinsh,
+}: UploadImageItemProps): JSX.Element => {
     const imageListStyles = useImageListStyles();
     const [sticker, setSticker] = useState<Sticker>({
         id: `${Math.random()}`,
@@ -16,12 +21,27 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({ file }: Upload
         name: file.name.replace(/\..*$/, ""),
     });
 
-    uploadSticker1(file, sticker, setSticker);
+    useEffect((): void => {
+        uploadSticker(file, (progress) => setSticker((s) => ({ ...s, progress }))).then(
+            () => {
+                setSticker((s) => ({ ...s, status: StickerStatus.success, progress: undefined }));
+                onFinsh(file);
+            },
+            () => {
+                setSticker((s) => ({ ...s, status: StickerStatus.upload_fail, progress: undefined }));
+            },
+        );
+    }, [file, onFinsh]);
 
     return (
         <div className={imageListStyles.item}>
             <Image className={imageListStyles.img} src={sticker.src} />
-            <div className={imageListStyles.bar}></div>
+            {sticker.progress && (
+                <div className={imageListStyles.uploadingBar}>
+                    <ArrowRepeatAll16Regular className={imageListStyles.icon} />
+                    <Label>Uploading……{sticker.progress}</Label>
+                </div>
+            )}
         </div>
     );
 };

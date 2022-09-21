@@ -25,17 +25,46 @@ export const useImageListStyles = makeStyles({
         right: "0",
         bottom: "0.2em",
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "end",
         alignItems: "center",
+        backgroundColor: "#F5F5F5",
+        opacity: "0.8",
+        ":hover": {
+            backgroundColor: "#DCDCDC",
+        },
     },
     close: {
         position: "absolute",
-        right: "0.5em",
-        top: "0.5em",
-    },
-    edit: {
-        position: "absolute",
         left: "1em",
         top: "0.5em",
+        backgroundColor: "#F5F5F5",
+        opacity: "0.8",
+        ":hover": {
+            backgroundColor: "#DCDCDC",
+        },
+    },
+    input: {
+        fontWeight: "bold",
+        fontSize: "large",
+        ":after": {
+            // bord
+        },
+    },
+    uploadingBar: {
+        position: "absolute",
+        marginLeft: "auto",
+        marginRight: "auto",
+        left: "0",
+        right: "0",
+        bottom: "0.2em",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#F5F5F5",
+        opacity: "0.8",
+    },
+    icon: {
+        width: "20px",
+        height: "20px",
     },
 });

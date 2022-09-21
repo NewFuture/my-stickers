@@ -1,7 +1,6 @@
 import { Button, makeStyles } from "@fluentui/react-components";
 import React, { useCallback } from "react";
 import { exit } from "../services/teams";
-import { LanguageButton } from "./LanguageButton";
 
 const useStyles = makeStyles({
     root: {
@@ -20,7 +19,6 @@ const HeaderBtns: React.FC<HeaderButtonProps> = ({ disabled }: HeaderButtonProps
     const styles = useStyles();
     return (
         <header className={styles.root}>
-            <LanguageButton key="lang" />
             <Button
                 disabled={disabled}
                 icon="accept"
