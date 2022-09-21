@@ -4,13 +4,14 @@
 
 using Microsoft.Bot.Builder.Teams;
 
-namespace Stickers.Bot;
-
-public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
+namespace Stickers.Bot
 {
-    public readonly string _baseUrl;
-    public TeamsMessagingExtensionsBot(IConfiguration configuration) : base()
+    public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
     {
-        this._baseUrl = configuration["BaseUrl"];
+        public readonly string WebUrl;
+        public TeamsMessagingExtensionsBot(IConfiguration configuration) : base()
+        {
+            this.WebUrl = configuration["WebUrl"];
+        }
     }
 }
