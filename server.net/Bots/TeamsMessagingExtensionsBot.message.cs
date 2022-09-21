@@ -35,7 +35,12 @@ namespace Stickers.Bot
                 imgs.AddRange(this.getImageFromAttachment(attachment));
             }
             var saveImgs = imgs.Count > 0;
-            await this.stickerStorage.addUserStickers(userId, (List<Sticker>)imgs.Select(img => new Sticker { src = img.Src, name = img.Alt, id = Guid.NewGuid() }));
+            var entities = new List<Sticker>();
+            foreach(var img in imgs)
+            {
+                entities.Add(new Sticker { src = img.Src, name = img.Alt, id = Guid.NewGuid() });
+            }
+            await this.stickerStorage.addUserStickers(userId, entities);
             JObject cardJson;
             if (saveImgs)
             {
