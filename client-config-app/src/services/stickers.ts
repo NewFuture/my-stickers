@@ -6,7 +6,9 @@ import { auth } from "./teams";
 
 const fetcher = (url: string) =>
     axios
-        .get(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`, { headers: { Authorization: `${auth.id} ${auth.token}` } })
+        .get(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`, {
+            headers: { Authorization: `${auth.id} ${auth.token}` },
+        })
         .then((res) => res.data);
 
 export function useStickersList(isTenant: boolean) {
