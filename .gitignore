@@ -25,6 +25,9 @@ yarn-error.log*
 .yarn/*.gz
 client-config-app/build/*
 website/build/*
+manifest/build/*
+official-stickers/build/*
+
 server/dist/*
 
 # C#
