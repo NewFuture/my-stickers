@@ -39,7 +39,7 @@ jobs:
 
             - uses: actions/upload-artifact@v3
               with:
-                  name: server
+                  name: package
                   path: webapp/**
                   if-no-files-found: error
                   retention-days: 5
@@ -54,9 +54,10 @@ jobs:
         steps:
             - uses: actions/download-artifact@v3
               with:
+                  name: package
                   path: ./
 
             - uses: azure/webapps-deploy@v2
               with:
                   publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-                  package: webapp
+                  package: package
