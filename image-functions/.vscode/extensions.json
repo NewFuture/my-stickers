@@ -1,8 +1,8 @@
 {
-  "recommendations": [
-    "Azurite.azurite",
-    "ms-azuretools.vscode-azurefunctions",
-    "ms-azuretools.vscode-azurestorage",
-    "ms-dotnettools.csharp"
-  ]
+    "recommendations": [
+        "Azurite.azurite",
+        "ms-azuretools.vscode-azurefunctions",
+        "ms-azuretools.vscode-azurestorage",
+        "ms-dotnettools.csharp"
+    ]
 }
