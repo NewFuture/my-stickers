@@ -55,6 +55,7 @@ jobs:
         needs: [front-end-build]
         environment:
             name: Integration
+            url: https://stickerstestblob.z7.web.core.windows.net/
         runs-on: ubuntu-latest
         timeout-minutes: 5
         steps:
@@ -74,6 +75,7 @@ jobs:
                       --source ./www/ \
                       --destination '$web' \
                       --connection-string "${{secrets.BLOB_CONNECTION_STRING}}" \
+                      --overwrite
 
             # # https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-static-site-github-actions?tabs=userlevel
             # - name: Azure Login
