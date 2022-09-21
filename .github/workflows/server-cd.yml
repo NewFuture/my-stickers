@@ -42,7 +42,7 @@ jobs:
                   name: server
                   path: webapp/**
                   if-no-files-found: error
-                  retention-days: 7
+                  retention-days: 5
 
     server-deploy:
         needs: [server-build]

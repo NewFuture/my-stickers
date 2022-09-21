@@ -50,7 +50,6 @@ jobs:
             - run: yarn client:build
             - run: yarn website:build
 
-            # Upload build result
             - uses: actions/upload-artifact@v3
               with:
                   name: FE-${{ matrix.os }}-${{ matrix.node-version }}
@@ -75,14 +74,5 @@ jobs:
               with:
                   dotnet-version: ${{ matrix.dotnet-version }}
 
-            - run: dotnet build server.net --configuration Release
-            - run: dotnet build image-functions --configuration Release
-
-            # Upload build result
-            - uses: actions/upload-artifact@v3
-              with:
-                  name: server-${{ matrix.os }}
-                  path: |
-                      server.net/bin
-                      image-functions/bin
-                  retention-days: 5
+            - run: dotnet build server.net -c Release
+            - run: dotnet build image-functions -c Release
