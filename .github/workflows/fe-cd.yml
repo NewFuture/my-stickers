@@ -62,7 +62,7 @@ jobs:
               with:
                   path: ./
             - run: |
-                  mv front-end/website/build ./ \
+                  mv front-end/website/build ./www \
                   && mv front-end/manifest/build/* ./www/ \
                   && mv front-end/client-config-app/build ./www/config \
 
@@ -71,7 +71,7 @@ jobs:
               with:
                   inlineScript: |
                       az storage blob upload-batch \
-                      --source . \
+                      --source ./www/ \
                       --destination '$web' \
                       --connection-string "${{secrets.BLOB_CONNECTION_STRING}}" \
 
