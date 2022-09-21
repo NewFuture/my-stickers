@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using ByteSizeLib;
 using ImageMagick;
@@ -12,6 +13,7 @@ namespace Stickers.ImageFunctions
     {
         private const string TAG = $"{nameof(ImageProcessor)}.{nameof(Run)}";
         private const int TARGET_SIZE = 256;
+        private const int TARGET_COLORS = 256;
         private static readonly Dictionary<MagickFormat, MagickFormat> FORMAT_MAPPING = new()
         {
             { MagickFormat.WebP, MagickFormat.Jpeg },
@@ -23,9 +25,11 @@ namespace Stickers.ImageFunctions
                         [Blob("processed-stickers/{name}", FileAccess.Write)] Stream outImageBlob,
                         string name, ILogger log)
         {
+            var stopWatch = new Stopwatch();
             var logPrefix = $"[{TAG}/{name}]";
             try
             {
+                stopWatch.Start();
                 log.LogInformation($"{logPrefix} triggered by blob ({ByteSize.FromBytes(imageBlob.Length)})");
 
                 // read
@@ -46,7 +50,7 @@ namespace Stickers.ImageFunctions
                 // quantize
                 var settings = new QuantizeSettings()
                 {
-                    Colors = 64,
+                    Colors = TARGET_COLORS,
                     DitherMethod = DitherMethod.FloydSteinberg,
                 };
                 images.Quantize(settings);
@@ -69,6 +73,11 @@ namespace Stickers.ImageFunctions
             catch (Exception e)
             {
                 log.LogError(e, $"{logPrefix} exception occurred, {e}");
+            }
+            finally
+            {
+                stopWatch.Stop();
+                log.LogInformation($"{logPrefix} elapsed {stopWatch.Elapsed:s\\.fff} seconds");
             }
         }
     }
