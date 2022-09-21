@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using ByteSizeLib;
 using ImageMagick;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
@@ -10,8 +11,8 @@ namespace Stickers.ImageFunctions
     public class ImageProcessor
     {
         private const string TAG = $"{nameof(ImageProcessor)}.{nameof(Run)}";
-        private const int TARGET_SIZE = 400;
-        private static readonly Dictionary<MagickFormat, MagickFormat> FORMAT_MAPPING = new Dictionary<MagickFormat, MagickFormat>()
+        private const int TARGET_SIZE = 256;
+        private static readonly Dictionary<MagickFormat, MagickFormat> FORMAT_MAPPING = new()
         {
             { MagickFormat.WebP, MagickFormat.Jpeg },
             { MagickFormat.WebM, MagickFormat.Gif },
@@ -25,39 +26,45 @@ namespace Stickers.ImageFunctions
             var logPrefix = $"[{TAG}/{name}]";
             try
             {
-                log.LogInformation($"{logPrefix} triggered by blob ({imageBlob.Length} bytes)");
+                log.LogInformation($"{logPrefix} triggered by blob ({ByteSize.FromBytes(imageBlob.Length)})");
 
-                using var collection = new MagickImageCollection(imageBlob);
-                var pivot = collection[0];
-                log.LogInformation($"{logPrefix} reads image (format: {pivot.Format}, size: {pivot.Width}x{pivot.Height}x{collection.Count})");
+                // read
+                using var images = new MagickImageCollection(imageBlob);
+                images.Coalesce();
+                var pivot = images[0];
+                log.LogInformation($"{logPrefix} read image (format: {pivot.Format}, size: {pivot.Width}x{pivot.Height}x{images.Count})");
 
+                // resize
                 if (pivot.Width > TARGET_SIZE || pivot.Height > TARGET_SIZE)
                 {
-                    foreach (var image in collection)
+                    foreach (var image in images)
                     {
                         image.AdaptiveResize(TARGET_SIZE, TARGET_SIZE);
                     }
                 }
-                collection.OptimizePlus();
-                collection.OptimizeTransparency();
 
-                pivot = collection[0];
+                // quantize
+                var settings = new QuantizeSettings()
+                {
+                    Colors = 64,
+                    DitherMethod = DitherMethod.FloydSteinberg,
+                };
+                images.Quantize(settings);
+
+                // optimize
+                images.OptimizePlus();
+                images.OptimizeTransparency();
+
+                // convert
+                pivot = images[0];
                 var outFormat = FORMAT_MAPPING.GetValueOrDefault(pivot.Format, pivot.Format);
-                var outBytes = collection.ToByteArray(outFormat);
-                log.LogInformation($"{logPrefix} processed image (format: {outFormat}, size: {pivot.Width}x{pivot.Height}x{collection.Count})");
+                var outBytes = images.ToByteArray(outFormat);
+                log.LogInformation($"{logPrefix} processed image (format: {outFormat}, size: {pivot.Width}x{pivot.Height}x{images.Count})");
 
-                var compressionRatio = (double)outBytes.Length / imageBlob.Length;
-                if (compressionRatio >= 1)
-                {
-                    imageBlob.Seek(0, SeekOrigin.Begin);
-                    imageBlob.CopyTo(outImageBlob);
-                    log.LogInformation($"{logPrefix} outputs blob originally, compression ratio: 1.0");
-                }
-                else
-                {
-                    outImageBlob.Write(outBytes);
-                    log.LogInformation($"{logPrefix} outputs blob ({outBytes.Length} bytes), compression ratio: {compressionRatio}");
-                }
+                // write
+                var compressionRatio = (double)outBytes.LongLength / imageBlob.Length;
+                outImageBlob.Write(outBytes);
+                log.LogInformation($"{logPrefix} wrote blob ({ByteSize.FromBytes(outBytes.LongLength)}) with compression ratio: {compressionRatio:P2}");
             }
             catch (Exception e)
             {
