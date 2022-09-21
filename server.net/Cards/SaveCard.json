@@ -1,24 +1,24 @@
 {
-  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-  "type": "AdaptiveCard",
-  "version": "1.5",
-  "body": [
-    {
-      "type": "Container",
-      "items": [
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.5",
+    "body": [
         {
-          "$data": "${Imgs}",
-          "altText": "${alt}",
-          "horizontalAlignment": "center",
-          "url": "${src}",
-          "height": "auto",
-          "msTeams": {
-            "allowExpand": true
-          },
-          "separator": false,
-          "type": "Image"
+            "type": "Container",
+            "items": [
+                {
+                    "$data": "${Imgs}",
+                    "altText": "${alt}",
+                    "horizontalAlignment": "center",
+                    "url": "${src}",
+                    "height": "auto",
+                    "msTeams": {
+                        "allowExpand": true
+                    },
+                    "separator": false,
+                    "type": "Image"
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
