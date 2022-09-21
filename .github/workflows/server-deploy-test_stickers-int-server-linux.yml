@@ -4,54 +4,95 @@
 name: Build and deploy ASP.Net Core app to Azure Web App - stickers-int-server-linux
 
 on:
-  push:
-    branches:
-      - server-deploy-test
-  workflow_dispatch:
+    push:
+        branches:
+            - server-deploy-test
+    workflow_dispatch:
+        # jobs:
+        #   build:
+        #     runs-on: ubuntu-latest
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+        #     steps:
+        #       - uses: actions/checkout@v2
 
-    steps:
-      - uses: actions/checkout@v2
+        #       - name: Set up .NET Core
+        #         uses: actions/setup-dotnet@v1
+        #         with:
+        #           dotnet-version: '6.0.x'
+        #           include-prerelease: true
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.x'
-          include-prerelease: true
+        #       - name: Build with dotnet
+        #         run: dotnet build --configuration Release
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+        #       - name: dotnet publish
+        #         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        #       - name: Upload artifact for deployment job
+        #         uses: actions/upload-artifact@v2
+        #         with:
+        #           name: .net-app
+        #           path: ${{env.DOTNET_ROOT}}/myapp
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+        #   deploy:
+        #     runs-on: ubuntu-latest
+        #     needs: build
+        #     environment:
+        #       name: 'Production'
+        #       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+        #     steps:
+        #       - name: Download artifact from build job
+        #         uses: actions/download-artifact@v2
+        #         with:
+        #           name: .net-app
 
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: .net-app
+        #       - name: Deploy to Azure Web App
+        #         id: deploy-to-webapp
+        #         uses: azure/webapps-deploy@v2
+        #         with:
+        #           app-name: 'stickers-int-server-linux'
+        #           slot-name: 'Production'
+        #           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_23C6B44F539946FD94F49E86C6A5F813 }}
+        #           package: .
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'stickers-int-server-linux'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_23C6B44F539946FD94F49E86C6A5F813 }}
-          package: .
+        server-build:
+            runs-on: ubuntu-latest
+            timeout-minutes: 6
+            steps:
+                - uses: actions/checkout@v2
+                - name: Setup .NET Core
+                  uses: actions/setup-dotnet@v1
+                  with:
+                      dotnet-version: ${{ env.DOTNET_VERSION }}
+
+                - name: Build
+                  run: dotnet build server.net/Stickers.csproj -c Release
+
+                - name: Publish
+                  run: dotnet publish server.net/Stickers.csproj -c Release -o webapp
+
+                - uses: actions/upload-artifact@v3
+                  with:
+                      name: package
+                      path: webapp
+                      if-no-files-found: error
+                      retention-days: 5
+
+        server-deploy:
+            needs: [server-build]
+            environment:
+                name: Integration
+                url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}/swagger/index.html
+            runs-on: ubuntu-latest
+            timeout-minutes: 6
+            steps:
+                - uses: actions/download-artifact@v3
+                  with:
+                      name: package
+                      path: ./
+
+                - uses: azure/webapps-deploy@v2
+                  id: deploy-to-webapp
+                  with:
+                      publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_23C6B44F539946FD94F49E86C6A5F813 }}
+                      package: .
