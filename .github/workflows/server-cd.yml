@@ -18,14 +18,14 @@ concurrency:
 
 env:
     AZURE_WEBAPP_NAME: Sticker
-    AZURE_WEBAPP_PACKAGE_PATH: "server.net" # Set this to the path to your web app project, defaults to the repository root:
+    AZURE_WEBAPP_PACKAGE_PATH: "server.net/dotnet-webapp" # Set this to the path to your web app project, defaults to the repository root:
     DOTNET_VERSION: "6.0.401" # The .NET SDK version to use
 
 jobs:
     publish:
         environment:
             name: Integration
-        
+
         runs-on: ubuntu-latest
 
         steps:
@@ -42,12 +42,11 @@ jobs:
 
             - name: Build
               run: |
-                  cd server.net
-                  dotnet build --configuration Release --no-restore
-                  dotnet publish -c Release -o ../dotnet-webapp -r linux-x64 --self-contained true /p:UseAppHost=true
+                  dotnet build server.net --configuration Release --no-restore
+                  dotnet publish server.net -c Release -o "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}" -r linux-x64 --self-contained true /p:UseAppHost=true
 
             - uses: azure/webapps-deploy@v2
               name: Deploy
               with:
                   publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-                  package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/dotnet-webapp"
+                  package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
