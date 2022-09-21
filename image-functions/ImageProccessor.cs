@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using ByteSizeLib;
 using ImageMagick;
 using Microsoft.Azure.WebJobs;
@@ -9,9 +10,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Stickers.ImageFunctions
 {
+    [StorageAccount("stickersblob_STORAGE")]
     public class ImageProcessor
     {
-        private const string TAG = $"{nameof(ImageProcessor)}.{nameof(Run)}";
+        private const string LOG_TAG = $"{nameof(ImageProcessor)}.{nameof(Run)}";
+        private const string IMAGE_PROCESSOR_VERSION_META = "ipv";
+        private const long LATEST_IMAGE_PROCESSOR_VERSION = 1;
         private const int TARGET_SIZE = 256;
         private const int TARGET_COLORS = 256;
         private static readonly Dictionary<MagickFormat, MagickFormat> FORMAT_MAPPING = new()
@@ -21,22 +25,34 @@ namespace Stickers.ImageFunctions
         };
 
         [FunctionName("ImageProcessor")]
-        public void Run([BlobTrigger("stickers/{name}", Connection = "stickersblob_STORAGE")] Stream imageBlob,
-                        [Blob("processed-stickers/{name}", FileAccess.Write, Connection = "stickersblob_STORAGE")] Stream outImageBlob,
+        public void Run([BlobTrigger("stickers/{name}")] BlobClient imageBlobClient,
                         string name, ILogger log)
         {
             var stopWatch = new Stopwatch();
-            var logPrefix = $"[{TAG}/{name}]";
+            var logPrefix = $"[{LOG_TAG}/{name}]";
             try
             {
                 stopWatch.Start();
-                log.LogInformation($"{logPrefix} triggered by blob ({ByteSize.FromBytes(imageBlob.Length)})");
+                log.LogInformation($"{logPrefix} triggered");
+
+                // check
+                var metadata = imageBlobClient.GetProperties().Value.Metadata;
+                string versionString;
+                long version;
+                if (metadata.TryGetValue(IMAGE_PROCESSOR_VERSION_META, out versionString) &&
+                    long.TryParse(versionString, out version) &&
+                    version >= LATEST_IMAGE_PROCESSOR_VERSION)
+                {
+                    log.LogInformation($"{logPrefix} no-ops due to detecting {IMAGE_PROCESSOR_VERSION_META} metadata");
+                    return;
+                }
 
                 // read
-                using var images = new MagickImageCollection(imageBlob);
+                using var inImageBlobStream = imageBlobClient.OpenRead();
+                using var images = new MagickImageCollection(inImageBlobStream);
                 images.Coalesce();
                 var pivot = images[0];
-                log.LogInformation($"{logPrefix} read image (format: {pivot.Format}, size: {pivot.Width}x{pivot.Height}x{images.Count})");
+                log.LogInformation($"{logPrefix} read image ({ByteSize.FromBytes(inImageBlobStream.Length)}, format: {pivot.Format}, size: {pivot.Width}x{pivot.Height}x{images.Count})");
 
                 // resize
                 if (pivot.Width > TARGET_SIZE || pivot.Height > TARGET_SIZE)
@@ -63,12 +79,24 @@ namespace Stickers.ImageFunctions
                 pivot = images[0];
                 var outFormat = FORMAT_MAPPING.GetValueOrDefault(pivot.Format, pivot.Format);
                 var outBytes = images.ToByteArray(outFormat);
-                log.LogInformation($"{logPrefix} processed image (format: {outFormat}, size: {pivot.Width}x{pivot.Height}x{images.Count})");
 
                 // write
-                var compressionRatio = (double)outBytes.LongLength / imageBlob.Length;
-                outImageBlob.Write(outBytes);
-                log.LogInformation($"{logPrefix} wrote blob ({ByteSize.FromBytes(outBytes.LongLength)}) with compression ratio: {compressionRatio:P2}");
+                var compressionRatio = (double)outBytes.LongLength / inImageBlobStream.Length;
+                var options = new BlobOpenWriteOptions()
+                {
+                    HttpHeaders = new()
+                    {
+                        ContentType = MagickFormatInfo.Create(outFormat)?.MimeType,
+                        CacheControl = "public, max-age=604800, immutable",
+                    },
+                    Metadata = new Dictionary<string, string>()
+                    {
+                        { IMAGE_PROCESSOR_VERSION_META, LATEST_IMAGE_PROCESSOR_VERSION.ToString() },
+                    },
+                };
+                using var outImageBlobStream = imageBlobClient.OpenWrite(true, options);
+                outImageBlobStream.Write(outBytes);
+                log.LogInformation($"{logPrefix} wrote blob ({ByteSize.FromBytes(outBytes.LongLength)}, format: {outFormat}, size: {pivot.Width}x{pivot.Height}x{images.Count}) with compression ratio: {compressionRatio:P2}");
             }
             catch (Exception e)
             {
