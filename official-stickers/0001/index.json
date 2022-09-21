@@ -1,0 +1,39 @@
+{
+    "collection": "胖胖的生活",
+    "type": "static",
+    "author": "An Ming (noon)",
+    "stickers": [
+        {
+            "img": "01.png",
+            "name": "good",
+            "keywords": ["good", "great", "nice", "赞", "棒", "👍"],
+            "localName": {
+                "zhCN": "棒"
+            }
+        },
+        {
+            "img": "02.png",
+            "name": "love",
+            "keywords": ["love", "heart", "爱", "爱你", "爱心", "心", "♥"],
+            "localName": {
+                "zhCN": "爱你"
+            }
+        },
+        {
+            "img": "03.png",
+            "name": "what",
+            "keywords": ["what", "confused", "question", "啥", "问号", "什么", "疑惑", "疑惑", "?", "？", "❓"],
+            "localName": {
+                "zhCN": "啥"
+            }
+        },
+        {
+            "img": "04.png",
+            "name": "Hey",
+            "keywords": ["snicke", "hey", "偷笑", "嘿嘿", "🤭"],
+            "localName": {
+                "zhCN": "嘿嘿"
+            }
+        }
+    ]
+}

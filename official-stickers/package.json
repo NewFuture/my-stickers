@@ -2,6 +2,6 @@
     "name": "official-stickers",
     "packageManager": "yarn@3.2.3",
     "scripts": {
-        "build": "echo do nothing"
+        "build": "node scripts/build.mjs"
     }
 }
