@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Http.Features;
     using Microsoft.Data.SqlClient;
     using Stickers.Entities;
+    using System.Diagnostics.Metrics;
     using System.Security.Cryptography;
 
     public class StickerStorage
@@ -23,6 +24,17 @@
                 return companies.ToList();
             }
         }
+
+        public async Task<List<Sticker>> search(string keyword)
+        {
+            var query = $"SELECT * FROM {ENV.SQL_TABEL_NAME} where name like CONCAT('%',@keyword,'%') order by weight desc";
+            using (var connection = context.CreateConnection())
+            {
+                var companies = await connection.QueryAsync<Sticker>(query, new { keyword });
+                return companies.ToList();
+            }
+        }
+
         public async Task<bool> deleteUserSticker(Guid userId, string stickerId)
         {
             var query = $"delete FROM {ENV.SQL_TABEL_NAME} where userId = @userId and Id=@Id";

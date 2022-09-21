@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Stickers.Entities;
+using Stickers.Search;
 using Stickers.Service;
 
 namespace Stickers.Controllers;
