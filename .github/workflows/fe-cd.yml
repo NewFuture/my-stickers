@@ -14,6 +14,11 @@ on:
 permissions:
     contents: read
 
+env:
+    WEBSITE: stickerstestblob.z7.web.core.windows.net
+    MICROSOFT_APP_ID: "b967aed7-3ba9-48fb-ae52-2df66d237844"
+    REACT_APP_API_ROOT: https://hack-stickers-v2-dev.azurewebsites.net/api/
+
 # This allows a subsequently queued workflow run to interrupt previous runs
 concurrency:
     group: "${{ github.workflow }}-${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
@@ -55,7 +60,7 @@ jobs:
         needs: [front-end-build]
         environment:
             name: Integration
-            url: https://stickerstestblob.z7.web.core.windows.net/
+            url: https://${{env.WEBSITE}}/
         runs-on: ubuntu-latest
         timeout-minutes: 5
         steps:
