@@ -17,16 +17,12 @@ concurrency:
     cancel-in-progress: true
 
 env:
-    AZURE_WEBAPP_PACKAGE_PATH: "server.net/dotnet-webapp" # Set this to the path to your web app project, defaults to the repository root:
     DOTNET_VERSION: "6.x" # The .NET SDK version to use
 
 jobs:
-    publish:
-        environment:
-            name: Integration
-            url: https://hack-stickers-v2-dev.azurewebsites.net/swagger/index.html
+    server-build:
         runs-on: ubuntu-latest
-
+        timeout-minutes: 6
         steps:
             - uses: actions/checkout@v2
             - name: Setup .NET Core
@@ -35,12 +31,32 @@ jobs:
                   dotnet-version: ${{ env.DOTNET_VERSION }}
 
             - name: Build
-              run: |
-                  dotnet build server.net --configuration Release
-                  dotnet publish server.net -c Release -o "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}" -r linux-x64 --self-contained true /p:UseAppHost=true
+              run: dotnet build server.net --configuration Release
+
+            - name: Publish
+              run: dotnet publish server.net -c Release -o webapp
+            #   -r linux-x64 --self-contained true /p:UseAppHost=true
+
+            - uses: actions/upload-artifact@v3
+              with:
+                  name: server
+                  path: webapp/**
+                  if-no-files-found: error
+                  retention-days: 5
+
+    server-deploy:
+        needs: [server-build]
+        environment:
+            name: Integration
+            url: https://hack-stickers-v2-dev.azurewebsites.net/swagger/index.html
+        runs-on: ubuntu-latest
+        timeout-minutes: 6
+        steps:
+            - uses: actions/download-artifact@v3
+              with:
+                  path: ./
 
             - uses: azure/webapps-deploy@v2
-              name: Deploy
               with:
                   publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-                  package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+                  package: webapp
