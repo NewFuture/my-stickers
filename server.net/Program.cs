@@ -1,6 +1,7 @@
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Stickers.Bot;
+using Stickers.Search;
 using Stickers.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<StickerStorage>();
 builder.Services.AddSingleton<DapperContext>();
+builder.Services.AddSingleton<OfficialStickersSearchHandler>();
 builder.Services.AddSingleton<BlobService>();
 
 // Create the Bot Framework Authentication to be used with the Bot Adapter.

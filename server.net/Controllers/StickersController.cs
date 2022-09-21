@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Stickers.Entities;
+using Stickers.Search;
 using Stickers.Service;
 
 namespace Stickers.Controllers;
