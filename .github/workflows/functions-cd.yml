@@ -1,6 +1,6 @@
 # Functions Build and Deploy
 
-name: Functions-build-deploy
+name: functions-build-deploy
 
 on:
     push:
@@ -20,7 +20,7 @@ concurrency:
 env:
     AZURE_FUNCTIONAPP_NAME: hack-stickers-v2-dev-image-functions
     AZURE_FUNCTIONAPP_PACKAGE_PATH: image-functions
-    DOTNET_VERSION: "6.0.401"
+    DOTNET_VERSION: 6.x
 
 jobs:
     build-and-deploy:
