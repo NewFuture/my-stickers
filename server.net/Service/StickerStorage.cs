@@ -62,7 +62,7 @@
                             userId = userId,
                             weight = DateTime.Now.Ticks,
                         };
-                        string sql = $"update {ENV.SQL_TABEL_NAME} set name = @name where userId = @userId and Id=@Id";
+                        string sql = $"update {ENV.SQL_TABEL_NAME} set weight = @weight where userId = @userId and Id=@Id";
                         await connection.ExecuteAsync(sql, updateItem);
                         stickers.Remove(item);
                         result.Add(item);
