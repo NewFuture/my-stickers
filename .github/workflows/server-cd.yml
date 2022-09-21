@@ -1,4 +1,4 @@
-# Server Build and Deploy （Release to blob）
+# Server Build and Deploy
 
 name: Server-build-deploy
 on:
