@@ -1,14 +1,11 @@
-import React, { ChangeEvent, PropsWithChildren, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { AddRegular } from "@fluentui/react-icons";
 import { ConfigPage, NS } from "../locales";
 import { useTranslation } from "react-i18next";
 import { useImageListStyles } from "./image-list.styles";
-import { UploadImageList } from "./UploadImageList";
 
 export interface UploadButtonProps {
-    // multiple?: boolean;
-    // disabled?: boolean;
-    // picCount: number;
+    onUploadListChange: (file: File[]) => void;
 }
 
 interface Msg {
@@ -18,10 +15,9 @@ interface Msg {
 const MAX_NUM = 100;
 const MAX_SIZE = 1000 * 1024;
 
-export const UploadButton: React.FC<PropsWithChildren<UploadButtonProps>> = (props): JSX.Element => {
+export const UploadButton: React.FC<UploadButtonProps> = ({ onUploadListChange }: UploadButtonProps): JSX.Element => {
     const picCount = 0;
     const [messages, setMessages] = useState([] as Msg[]);
-    const [uploadFiles, setUploadFiles] = useState<File[]>([]);
     const { t } = useTranslation(NS.configPage);
     const imageListStyles = useImageListStyles();
     const inputDisabled = picCount >= MAX_NUM;
@@ -50,7 +46,7 @@ export const UploadButton: React.FC<PropsWithChildren<UploadButtonProps>> = (pro
         setMessages(msg);
         console.log(messages);
         if (filtered.length) {
-            setUploadFiles(filtered.slice(0, MAX_NUM - picCount));
+            onUploadListChange(filtered.slice(0, MAX_NUM - picCount));
         }
     }
 
@@ -58,11 +54,9 @@ export const UploadButton: React.FC<PropsWithChildren<UploadButtonProps>> = (pro
         <>
             <div className={imageListStyles.item}>
                 <label htmlFor="image-upload">
-                    {" "}
-                    <AddRegular className={imageListStyles.img} />{" "}
+                    <AddRegular className={imageListStyles.img} />
                 </label>
             </div>
-            <UploadImageList files={uploadFiles} />
             <input
                 hidden
                 disabled={inputDisabled}

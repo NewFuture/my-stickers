@@ -1,6 +1,5 @@
 import { API } from "../lib/http";
-import { Sticker } from "../model/sticker";
-import { getUploadSAS, upload, SasInfo } from "./upload";
+import { getUploadSAS, upload } from "./upload";
 import useSWR from "swr";
 import axios from "axios";
 
@@ -25,38 +24,11 @@ export function useStickersList(isTenant: boolean) {
     };
 }
 
-async function uploadSticker(file: File, sas: SasInfo) {
-    // store.dispatch
-    const result = await upload(file, sas, (p) => {
-        // store.dispatch({
-        //     payload: {
-        //         id: sas.id,
-        //         progress: p.percent,
-        //     }
-        // })
-    });
-    return result;
-}
-
-export async function uploadSticker1(file: File, sticker: Sticker, onProgressUpdate: (sticker: Sticker) => void) {
-    // store.dispatch
-
+export async function uploadSticker(file: File, onProgressUpdate: (percent: number) => void) {
     const sasInfo = await getUploadSAS({
-        exts: file.name.split("."),
+        exts: [file.name.split(".").pop()!],
     });
-    await upload(file, sasInfo[0], (p) => {
-        sticker.progress = p.percent;
-        onProgressUpdate(sticker);
-    });
-}
-
-export async function uploadStickers(files: File[], onStickerChange: (stickers: Sticker[]) => void) {
-    const sasInfos = await getUploadSAS({
-        exts: files.map((f) => f.name.split(".").pop()!),
-    });
-
-    sasInfos.forEach((sas, i) => uploadSticker(files[i], sas));
-    onStickerChange([]);
+    return await upload(file, sasInfo[0], (p) => onProgressUpdate(p.percent));
 }
 
 export async function deleteSticker(id: string): Promise<string> {
