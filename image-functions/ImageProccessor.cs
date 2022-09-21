@@ -22,7 +22,7 @@ namespace Stickers.ImageFunctions
 
         [FunctionName("ImageProcessor")]
         public void Run([BlobTrigger("stickers/{name}", Connection = "stickersblob_STORAGE")] Stream imageBlob,
-                        [Blob("processed-stickers/{name}", FileAccess.Write)] Stream outImageBlob,
+                        [Blob("processed-stickers/{name}", FileAccess.Write, Connection = "stickersblob_STORAGE")] Stream outImageBlob,
                         string name, ILogger log)
         {
             var stopWatch = new Stopwatch();
