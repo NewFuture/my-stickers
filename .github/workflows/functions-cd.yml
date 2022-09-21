@@ -24,11 +24,13 @@ env:
 
 jobs:
     build-and-deploy:
+        environment:
+            name: Integration
+            url: https://hack-stickers-v2-image-functions.azurewebsites.net/
         runs-on: windows-latest
-        environment: dev
         steps:
             - name: "Checkout GitHub Action"
-              uses: actions/checkout@master
+              uses: actions/checkout@v3
 
             - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
               uses: actions/setup-dotnet@v1
@@ -41,6 +43,7 @@ jobs:
                   pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
                   dotnet build --configuration Release --output ./output
                   popd
+
             - name: "Run Azure Functions Action"
               uses: Azure/functions-action@v1
               id: fa
