@@ -1,10 +1,10 @@
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Connector.Authentication;
 using Stickers.Bot;
 using Stickers.Service;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
 
 // Add services to the container.
 
@@ -17,10 +17,10 @@ builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddSingleton<BlobService>();
 
 // Create the Bot Framework Authentication to be used with the Bot Adapter.
-builder.Services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
+//builder.Services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
 
 // Create the Bot Adapter with error handling enabled.
-// builder.Services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
+builder.Services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
 // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
 builder.Services.AddTransient<IBot, TeamsMessagingExtensionsBot>();
