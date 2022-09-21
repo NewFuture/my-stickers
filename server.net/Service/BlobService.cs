@@ -9,9 +9,11 @@ namespace Stickers.Service
     {
         private BlobServiceClient client = null;
         private string containerName = "container";
-        public BlobService(string connectionString)
+        public BlobService(IConfiguration configuration)
         {
-            client = new BlobServiceClient(connectionString);
+            var blobConnection = configuration["BlobConnection"];
+            client = new BlobServiceClient(blobConnection);
+            
         }
         public async Task<SasInfo> getSasToken(string userId,string ext)
         {
