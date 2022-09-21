@@ -18,7 +18,6 @@ concurrency:
     cancel-in-progress: true
 
 env:
-    AZURE_FUNCTIONAPP_NAME: hack-stickers-v2-dev-image-functions
     AZURE_FUNCTIONAPP_PACKAGE_PATH: image-functions
     DOTNET_VERSION: 6.x
 
@@ -48,6 +47,5 @@ jobs:
               uses: Azure/functions-action@v1
               id: fa
               with:
-                  app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
                   package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output
                   publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
