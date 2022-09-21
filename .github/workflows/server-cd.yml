@@ -23,6 +23,9 @@ env:
 
 jobs:
     publish:
+        environment:
+            name: Integration
+        
         runs-on: ubuntu-latest
 
         steps:
