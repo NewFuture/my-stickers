@@ -2,16 +2,11 @@ import { API } from "../lib/http";
 import { getUploadSAS, upload } from "./upload";
 import useSWR from "swr";
 import axios from "axios";
+import { auth } from "./teams";
 
 const fetcher = (url: string) =>
     axios
-        //   .get(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`, { headers: { Authorization: `${auth.id} ${auth.token}` } })
-        .get(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`, {
-            headers: {
-                Authorization:
-                    "b614c4c4-2d74-4e56-bc0d-cc0d79b2715f 1663756411131.u8TlauIHpr2mdT9KyrEjZiJxtd5ftEN6TIxCtkVAC3c",
-            },
-        })
+        .get(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`, { headers: { Authorization: `${auth.id} ${auth.token}` } })
         .then((res) => res.data);
 
 export function useStickersList(isTenant: boolean) {
