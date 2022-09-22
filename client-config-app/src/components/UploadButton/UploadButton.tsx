@@ -1,9 +1,11 @@
-import React, { ChangeEvent, useCallback, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { AddRegular } from "@fluentui/react-icons";
-import { TransKeys } from "../../locales";
 import { useTranslation } from "react-i18next";
+import { TransKeys } from "../../locales";
+
 import { useUploadButtonStyles } from "./UploadButton.styles";
 import { MAX_NUM } from "../../lib/env";
+import { Alert } from "../Alert/Alert";
 
 export interface UploadButtonProps {
     onUploadListChange: (file: File[]) => void;
@@ -26,10 +28,10 @@ export const UploadButton: React.FC<UploadButtonProps> = ({ maxNum, onUploadList
     const picCount = 0;
     const [messages, setMessages] = useState<Msg[]>([]);
     const { t } = useTranslation();
-    const imageListStyles = useUploadButtonStyles();
+    const styles = useUploadButtonStyles();
     const inputDisabled = picCount >= maxNum;
 
-    const imageUploadHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const imageUploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const msg = [];
         const files: File[] = [...(e.target.files as any)];
         const filtered = files.filter((v) => v.size < MAX_SIZE);
@@ -50,22 +52,29 @@ export const UploadButton: React.FC<UploadButtonProps> = ({ maxNum, onUploadList
         if (filtered.length) {
             onUploadListChange(filtered.slice(0, MAX_NUM - picCount));
         }
-    }, []);
+    };
 
     return (
-        <div className={imageListStyles.root}>
-            <label htmlFor="image-upload">
-                <AddRegular className={imageListStyles.icon} />
-            </label>
-            <input
-                hidden
-                disabled={inputDisabled}
-                type="file"
-                id="image-upload"
-                onChange={imageUploadHandler}
-                multiple
-                accept="image/png, image/jpeg, image/gif"
-            />
-        </div>
+        <>
+            <div className={styles.root}>
+                <label htmlFor="image-upload">
+                    <AddRegular className={styles.icon} />
+                </label>
+                <input
+                    hidden
+                    disabled={inputDisabled}
+                    type="file"
+                    id="image-upload"
+                    onChange={imageUploadHandler}
+                    multiple
+                    accept="image/png, image/jpeg, image/gif"
+                />
+            </div>
+            <div className={styles.errors}>
+                {messages.map((m) => (
+                    <Alert key={m.key}>{m.content}</Alert>
+                ))}
+            </div>
+        </>
     );
 };

@@ -1,8 +1,8 @@
 import "./lib/i18n";
 
-import React, { useEffect, useState } from "react";
-import { FluentProvider, Divider, teamsLightTheme } from "@fluentui/react-components";
-import { getAuthToken, init } from "./services/teams";
+import { useEffect } from "react";
+import { FluentProvider, teamsLightTheme } from "@fluentui/react-components";
+import { init } from "./services/teams";
 import { SWRConfig } from "swr";
 import { Sticker } from "./components/StickerApp";
 
