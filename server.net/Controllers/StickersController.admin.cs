@@ -1,12 +1,15 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stickers.Entities;
 using Stickers.Search;
 using Stickers.Service;
+using System.Security.Claims;
 
 namespace Stickers.Controllers;
 
 [ApiController]
 [Route("api/admin/stickers")]
+[Authorize]
 public class AdminStickersController : ControllerBase
 {
 
@@ -15,16 +18,23 @@ public class AdminStickersController : ControllerBase
     private StickerStorage stickerStorage;
     private BlobService blobService;
     private string tableName;
+    private IHttpContextAccessor httpContextAccessor = null;
 
-    public AdminStickersController(StickerStorage stickerStorage, BlobService blobService, ILogger<StickersController> logger)
+    public AdminStickersController(StickerStorage stickerStorage, BlobService blobService, ILogger<StickersController> logger, IHttpContextAccessor httpContextAccessor)
     {
         this.stickerStorage = stickerStorage;
         this.blobService = blobService;
         this.stickerStorage.SetAdmin();
         _logger = logger;
+        this.httpContextAccessor = httpContextAccessor;
    }
+    public Guid GetUserId()
+    {
+        var userId = this.httpContextAccessor.HttpContext?.User.FindFirstValue("http://schemas.microsoft.com/identity/claims/tenantid");
+        return new Guid(userId);
+    }
     [HttpPost("commit")]
-    public async Task<Sticker> Commit([FromQuery] string userId, [FromBody] PostStickerBlobRequest request)
+    public async Task<Sticker> Commit([FromQuery] Guid userId, [FromBody] PostStickerBlobRequest request)
     {
         string extendName = System.IO.Path.GetExtension(request.name);
         string src = await this.blobService.commitBlocks(userId, request.id, extendName, request.contentType);
@@ -41,16 +51,19 @@ public class AdminStickersController : ControllerBase
     [HttpGet("/api/admin/stickers")]
     public async Task<List<Sticker>> Get(Guid userId)
     {
+        userId = GetUserId();
         return await this.stickerStorage.getUserStickers(userId);
     }
     [HttpDelete("{id}")]
     public async Task<bool> Delete(string id, Guid userId)
     {
+        userId = GetUserId();
         return await this.stickerStorage.deleteUserSticker(userId, id);
     }
     [HttpPatch("{id}")]
-    public async Task<bool> UpdateSticker(string id, string userId, string name)
+    public async Task<bool> UpdateSticker(string id, Guid userId, string name)
     {
+        userId = GetUserId();
         return await this.stickerStorage.updateStickerName(userId, id, name);
     }
 

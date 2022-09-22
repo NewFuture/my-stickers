@@ -50,7 +50,7 @@
             }
         }
 
-        public async Task<bool> updateStickerName(string userId, string stickerId, string name)
+        public async Task<bool> updateStickerName(Guid userId, string stickerId, string name)
         {
             var query = $"update {this.tableName} set name = @name where userId = @userId and Id=@Id";
             using (var connection = context.CreateConnection())
@@ -59,9 +59,9 @@
                 return ItemCount > 0;
             }
         }
-        public async Task<List<Sticker>> addUserStickers(string userId, List<Sticker> stickers)
+        public async Task<List<Sticker>> addUserStickers(Guid userId, List<Sticker> stickers)
         {
-            var oldstickers = await this.getUserStickers(Guid.Parse(userId));
+            var oldstickers = await this.getUserStickers(userId);
             List<Sticker> result = new List<Sticker>();
             using (var connection = context.CreateConnection())
             {
