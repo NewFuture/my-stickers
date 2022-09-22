@@ -24,7 +24,7 @@ namespace Stickers.Service.Tests
         public void commitTest()
         {
             BlobService blob = new BlobService(this.getConfig());
-            var uri = blob.commitBlocks("testuser","","jpg","image/jpg").ConfigureAwait(false).GetAwaiter().GetResult();
+            var uri = blob.commitBlocks(Guid.NewGuid(),"","jpg","image/jpg").ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         private IConfiguration getConfig()
