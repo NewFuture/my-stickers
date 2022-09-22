@@ -1,11 +1,11 @@
 import { DeleteFilled } from "@fluentui/react-icons";
-import { Alert as FUI_Alert } from "@fluentui/react-components/unstable";
+import { Alert as FUIAlert } from "@fluentui/react-components/unstable";
 import React, { FC, useState } from "react";
 
 export const Alert: FC<React.PropsWithChildren> = ({ children }) => {
     const [hidden, setHidden] = useState<boolean>();
     return hidden ? null : (
-        <FUI_Alert
+        <FUIAlert
             intent="error"
             action={{
                 icon: <DeleteFilled aria-label="dismiss message" />,
@@ -13,6 +13,6 @@ export const Alert: FC<React.PropsWithChildren> = ({ children }) => {
             }}
         >
             Save failed
-        </FUI_Alert>
+        </FUIAlert>
     );
 };
