@@ -1,10 +1,6 @@
 import { makeStyles } from "@fluentui/react-components";
 
-export const useImageListStyles = makeStyles({
-    grid: {
-        display: "grid",
-        gridTemplateColumns: "repeat(4, calc(25%))",
-    },
+export const useImageItemStyles = makeStyles({
     item: {
         position: "relative",
         textAlign: "center",
