@@ -9,9 +9,10 @@ import { useSWRConfig } from "swr";
 import { UploadImageItem } from "./UploadImageItem";
 interface ImageListProps {
     items: Sticker[];
+    isTenant: boolean;
 }
 
-const ImageList: React.FC<ImageListProps> = (props: ImageListProps) => {
+const ImageList: React.FC<ImageListProps> = ({ isTenant }: ImageListProps) => {
     const imageListStyles = useImageListStyles();
     const { cache, mutate } = useSWRConfig();
     const stickers = cache.get("stickers")?.values;
@@ -22,7 +23,7 @@ const ImageList: React.FC<ImageListProps> = (props: ImageListProps) => {
     };
     return (
         <div className={imageListStyles.grid}>
-            <UploadButton onUploadListChange={setUploadFiles} />
+            {!isTenant && <UploadButton onUploadListChange={setUploadFiles} />}
             {uploadFiles?.map((item: File, index) => (
                 <UploadImageItem key={index} file={item} onFinsh={onFinshUpload} />
             ))}

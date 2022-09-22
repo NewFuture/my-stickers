@@ -1,6 +1,5 @@
-import { Button, makeStyles } from "@fluentui/react-components";
-import React, { useCallback } from "react";
-import { exit } from "../services/teams";
+import { makeStyles, Radio, RadioGroup } from "@fluentui/react-components";
+import React from "react";
 
 const useStyles = makeStyles({
     root: {
@@ -11,22 +10,18 @@ const useStyles = makeStyles({
 });
 
 export interface HeaderButtonProps {
-    disabled: boolean;
+    onRadioChange: (value: string) => void;
+    radio: string;
 }
 
-const HeaderBtns: React.FC<HeaderButtonProps> = ({ disabled }: HeaderButtonProps): JSX.Element => {
-    const onExit = useCallback(() => exit(), []);
+const HeaderBtns: React.FC<HeaderButtonProps> = ({ radio, onRadioChange }: HeaderButtonProps): JSX.Element => {
     const styles = useStyles();
     return (
         <header className={styles.root}>
-            <Button
-                disabled={disabled}
-                icon="accept"
-                key="exit"
-                appearance="primary"
-                shape="circular"
-                onClick={onExit}
-            />
+            <RadioGroup value={radio} onChange={(_, data) => onRadioChange(data.value)} layout="horizontal">
+                <Radio value="Tenant" label="Tenant" />
+                <Radio value="Personal" label="Personal" />
+            </RadioGroup>
         </header>
     );
 };

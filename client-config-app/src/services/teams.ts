@@ -18,3 +18,7 @@ export function init() {
 export function exit() {
     return authentication.notifySuccess();
 }
+
+export async function getAuthToken(): Promise<string> {
+    return authentication.getAuthToken({ silent: false });
+}

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stickers.Entities;
-using Stickers.Search;
+using Stickers.Models;
 using Stickers.Service;
 using System.Security.Claims;
 
@@ -36,6 +36,7 @@ public class AdminStickersController : ControllerBase
     [HttpPost("commit")]
     public async Task<Sticker> Commit([FromQuery] Guid userId, [FromBody] PostStickerBlobRequest request)
     {
+        userId = this.GetUserId();
         string extendName = System.IO.Path.GetExtension(request.name);
         string src = await this.blobService.commitBlocks(userId, request.id, extendName, request.contentType);
         var newSticker = new Sticker()
@@ -49,22 +50,25 @@ public class AdminStickersController : ControllerBase
 
     }
     [HttpGet("/api/admin/stickers")]
-    public async Task<List<Sticker>> Get(Guid userId)
+    public async Task<Page<Sticker>> Get(Guid userId)
     {
-        userId = GetUserId();
-        return await this.stickerStorage.getUserStickers(userId);
+        userId = this.GetUserId();
+        var stickers = await this.stickerStorage.getUserStickers(userId);
+        return new Page<Sticker>(stickers);
     }
     [HttpDelete("{id}")]
-    public async Task<bool> Delete(string id, Guid userId)
+    public async Task<Result> Delete(string id, Guid userId)
     {
-        userId = GetUserId();
-        return await this.stickerStorage.deleteUserSticker(userId, id);
+        userId = this.GetUserId();
+        var result = await this.stickerStorage.deleteUserSticker(userId, id);
+        return new Result(result);
     }
     [HttpPatch("{id}")]
-    public async Task<bool> UpdateSticker(string id, Guid userId, string name)
+    public async Task<Result> UpdateSticker(string id, Guid userId, string name)
     {
-        userId = GetUserId();
-        return await this.stickerStorage.updateStickerName(userId, id, name);
+        userId = this.GetUserId();
+        var result = await this.stickerStorage.updateStickerName(userId, id, name);
+        return new Result(result);
     }
 
 }

@@ -34,6 +34,86 @@
             "localName": {
                 "zhCN": "嘿嘿"
             }
+        },
+        {
+            "img": "05.png",
+            "name": "relax",
+            "keywords": ["relax", "toilet", "厕所", "放松"],
+            "localName": {
+                "zhCN": "放松"
+            }
+        },
+        {
+            "img": "06.png",
+            "name": "Pick Nose",
+            "keywords": ["sniPick Nose", "booger", "鼻屎", "鼻孔", "挖"],
+            "localName": {
+                "zhCN": "挖鼻屎"
+            }
+        },
+        {
+            "img": "07.png",
+            "name": "Speachles",
+            "keywords": ["Speachles", "nothing", "无语", "stare"],
+            "localName": {
+                "zhCN": "无语"
+            }
+        },
+        {
+            "img": "08.png",
+            "name": "Goodjob",
+            "keywords": ["Goodjob", "Awesome", "棒", "干得好", "优秀"],
+            "localName": {
+                "zhCN": "干得好"
+            }
+        },
+        {
+            "img": "09.png",
+            "name": "Boss",
+            "keywords": ["Boss", "老大"],
+            "localName": {
+                "zhCN": "老大"
+            }
+        },
+        {
+            "img": "10.png",
+            "name": "LOL",
+            "keywords": ["LOL", "Haha", "哈哈哈", "好笑"],
+            "localName": {
+                "zhCN": "好笑"
+            }
+        },
+        {
+            "img": "11.png",
+            "name": "Hmm",
+            "keywords": ["Hmm", "呃"],
+            "localName": {
+                "zhCN": "嗯"
+            }
+        },
+        {
+            "img": "12.png",
+            "name": "gourmet",
+            "keywords": ["gourmet", "delicious", "drool", "谗", "流口水", "好吃"],
+            "localName": {
+                "zhCN": "流口水"
+            }
+        },
+        {
+            "img": "13.png",
+            "name": "Yeah",
+            "keywords": ["Yeah", "Happy", "开心", "耶"],
+            "localName": {
+                "zhCN": "开心"
+            }
+        },
+        {
+            "img": "14.png",
+            "name": "Hey",
+            "keywords": ["snicke", "hey", "偷笑", "嘿嘿", "🤭"],
+            "localName": {
+                "zhCN": "嘿嘿"
+            }
         }
     ]
 }
