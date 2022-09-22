@@ -17,7 +17,9 @@ namespace Stickers.Service.Tests
         public void CommonTest()
         {
             OfficialStickersSearchHandler searchHandler = new OfficialStickersSearchHandler();
+
             searchHandler.Search("love");
+            searchHandler.Search("noth");
         }
     }
 }
