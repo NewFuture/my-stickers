@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Stickers.Entities;
-using Stickers.Search;
+using Stickers.Models;
 using Stickers.Service;
 
 namespace Stickers.Controllers;
@@ -22,7 +22,7 @@ public class AdminStickersController : ControllerBase
         this.blobService = blobService;
         this.stickerStorage.SetAdmin();
         _logger = logger;
-   }
+    }
     [HttpPost("commit")]
     public async Task<Sticker> Commit([FromQuery] string userId, [FromBody] PostStickerBlobRequest request)
     {
@@ -39,19 +39,22 @@ public class AdminStickersController : ControllerBase
 
     }
     [HttpGet("/api/admin/stickers")]
-    public async Task<List<Sticker>> Get(Guid userId)
+    public async Task<Page<Sticker>> Get(Guid userId)
     {
-        return await this.stickerStorage.getUserStickers(userId);
+        var stickers = await this.stickerStorage.getUserStickers(userId);
+        return new Page<Sticker>(stickers);
     }
     [HttpDelete("{id}")]
-    public async Task<bool> Delete(string id, Guid userId)
+    public async Task<Result> Delete(string id, Guid userId)
     {
-        return await this.stickerStorage.deleteUserSticker(userId, id);
+        var result = await this.stickerStorage.deleteUserSticker(userId, id);
+        return new Result(result);
     }
     [HttpPatch("{id}")]
-    public async Task<bool> UpdateSticker(string id, string userId, string name)
+    public async Task<Result> UpdateSticker(string id, string userId, string name)
     {
-        return await this.stickerStorage.updateStickerName(userId, id, name);
+        var result = await this.stickerStorage.updateStickerName(userId, id, name);
+        return new Result(result);
     }
 
 }
