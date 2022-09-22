@@ -87,5 +87,9 @@
                 "file": "zh-cn.json"
             }
         ]
+    },
+    "webApplicationInfo": {
+        "id": "${AAD_APP_ID}",
+        "resource": "api://${WEBSITE}/${AAD_APP_ID}"
     }
 }

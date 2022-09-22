@@ -8,14 +8,15 @@ import { Sticker } from "../model/sticker";
 export interface ListProps {
     loading: boolean;
     stickes: Sticker[];
+    isTenant: boolean;
 }
 
-export const List: React.FC<ListProps> = ({ loading, stickes }: ListProps): JSX.Element => {
+export const List: React.FC<ListProps> = ({ loading, stickes, isTenant }: ListProps): JSX.Element => {
     const { t } = useTranslation();
     return loading ? (
         <Loader styles={{ paddingTop: "5em" }} label={t(ConfigPage.loading)} size="larger" />
     ) : (
-        <ImageList items={stickes} />
+        <ImageList items={stickes} isTenant={isTenant} />
     );
 };
 
