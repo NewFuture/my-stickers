@@ -50,7 +50,7 @@ namespace Stickers.Bot
             else
             {
                 List<Img> temp = null;
-                var officialImgs = this.officialStickersSearchHandler.Get().Select(os => new Img { Alt = os.name, Src = os.url });
+                var officialImgs = this.officialStickersSearchHandler.GetAllOfficialStickers().Select(os => new Img { Alt = os.name, Src = os.url });
                 temp = imageEntities.Select(entity => new Img { Src = entity.src, Alt = entity.name }).ToList();
                 temp.AddRange(officialImgs);
                 imageFiles = temp.GetRange(skip, count + skip < imageEntities.Count ? count : imageEntities.Count - skip);
