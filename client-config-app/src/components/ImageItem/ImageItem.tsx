@@ -1,8 +1,8 @@
 import React, { ChangeEvent } from "react";
 import { Image, Button, Input, InputOnChangeData } from "@fluentui/react-components";
-import { Sticker, StickerStatus } from "../model/sticker";
-import { useImageListStyles } from "./image-list.styles";
+import { Sticker, StickerStatus } from "../../model/sticker";
 import { Delete16Regular } from "@fluentui/react-icons";
+import { useImageItemStyles } from "./ImageItem.styles";
 
 const ImageItem: React.FC<
     Sticker & {
@@ -11,7 +11,7 @@ const ImageItem: React.FC<
     }
 > = (props) => {
     const { src, name, status, onEdit, onDelete } = props;
-    const imageListStyles = useImageListStyles();
+    const imageListStyles = useImageItemStyles();
     const isDeleting = status === StickerStatus.delete;
     const isMoving = status === StickerStatus.moving;
     return (

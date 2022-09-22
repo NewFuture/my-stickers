@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import ImageItem from "./image-item";
-import { Sticker } from "../model/sticker";
-import { deleteSticker, editSticker } from "../services/stickers";
-import { UploadButton } from "./UploadButton";
+import ImageItem from "../ImageItem/ImageItem";
+import { Sticker } from "../../model/sticker";
+import { deleteSticker, editSticker } from "../../services/stickers";
+import { UploadButton } from "../UploadButton/UploadButton";
 
-import { useImageListStyles } from "./image-list.styles";
+import { useImageListStyles } from "./ImageList.styles";
 import { useSWRConfig } from "swr";
-import { UploadImageItem } from "./UploadImageItem";
+import { UploadImageItem } from "../ImageItem/UploadImageItem";
+import { MAX_NUM } from "../../lib/env";
+
 interface ImageListProps {
     items: Sticker[];
     isTenant: boolean;
@@ -21,9 +23,11 @@ const ImageList: React.FC<ImageListProps> = ({ isTenant }: ImageListProps) => {
         setUploadFiles(uploadFiles.filter((f) => file !== f));
         mutate("stickers");
     };
+
+    const maxUploadCount = MAX_NUM - stickers?.length ?? 0 - uploadFiles.length;
     return (
         <div className={imageListStyles.grid}>
-            {!isTenant && <UploadButton onUploadListChange={setUploadFiles} />}
+            {!isTenant && <UploadButton onUploadListChange={setUploadFiles} maxNum={maxUploadCount} />}
             {uploadFiles?.map((item: File, index) => (
                 <UploadImageItem key={index} file={item} onFinsh={onFinshUpload} />
             ))}
@@ -36,7 +40,7 @@ const ImageList: React.FC<ImageListProps> = ({ isTenant }: ImageListProps) => {
                             mutate("stickers");
                         })
                     }
-                    onEdit={(name) => {
+                    onEdit={(name: string) => {
                         editSticker(item.id, name).then(() => {
                             mutate("stickers");
                         });

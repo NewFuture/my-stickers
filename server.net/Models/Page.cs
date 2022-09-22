@@ -1,6 +1,6 @@
 namespace Stickers.Models
 {
-    public struct Page<T>
+    public class Page<T>
     {
         public List<T> values;
 

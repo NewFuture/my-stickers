@@ -42,7 +42,7 @@ namespace Stickers.Bot
                 List<Img> temp = null;
                 Regex regex = new Regex(search.Trim().Replace("\\s+", ".*"));
                 imageEntities = imageEntities.Where(i => !string.IsNullOrEmpty(i.name) && regex.IsMatch(i.name)).ToList();
-                var officialImgs = this.officialStickersSearchHandler.Search(search).Select(os => new Img { Alt = os.name, Src = os.url });
+                var officialImgs = this.officialStickersSearchHandler.Search(search).Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
                 temp = imageEntities.Select(entity => new Img { Src = entity.src, Alt = entity.name }).ToList();
                 temp.AddRange(officialImgs);
                 imageFiles = temp.GetRange(skip, count + skip < imageEntities.Count ? count : imageEntities.Count - skip);
@@ -50,7 +50,7 @@ namespace Stickers.Bot
             else
             {
                 List<Img> temp = null;
-                var officialImgs = this.officialStickersSearchHandler.GetAllOfficialStickers().Select(os => new Img { Alt = os.name, Src = os.url });
+                var officialImgs = this.officialStickersSearchHandler.GetAllOfficialStickers().Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
                 temp = imageEntities.Select(entity => new Img { Src = entity.src, Alt = entity.name }).ToList();
                 temp.AddRange(officialImgs);
                 imageFiles = temp.GetRange(skip, count + skip < imageEntities.Count ? count : imageEntities.Count - skip);
