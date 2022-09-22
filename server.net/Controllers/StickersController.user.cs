@@ -66,7 +66,7 @@ public class StickersController : ControllerBase
     }
 
     [HttpPatch("{id}")]
-    public async Task<Result> UpdateSticker(string id, string userId, string name)
+    public async Task<Result> UpdateSticker(string id, Guid userId, string name)
     {
         userId = this.GetUserId(userId);
         var result = await this.stickerStorage.updateStickerName(userId, id, name);
