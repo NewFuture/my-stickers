@@ -17,6 +17,11 @@ namespace Stickers.Search
             return jObject["stickers"].ToObject<List<OfficialSticker>>();
         }, LazyThreadSafetyMode.PublicationOnly);
 
+        public List<OfficialSticker> GetAllOfficialStickers()
+        {
+            return data.Value;
+        }
+
         public List<OfficialSticker> Search(string keyword)
         {
             var lowerKeyword = keyword.ToLower();

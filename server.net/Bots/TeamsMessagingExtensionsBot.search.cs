@@ -39,13 +39,21 @@ namespace Stickers.Bot
 
             if (search != null)
             {
+                List<Img> temp = null;
                 Regex regex = new Regex(search.Trim().Replace("\\s+", ".*"));
                 imageEntities = imageEntities.Where(i => !string.IsNullOrEmpty(i.name) && regex.IsMatch(i.name)).ToList();
-                imageFiles = imageEntities.GetRange(skip, count + skip < imageEntities.Count ? count : imageEntities.Count - skip).Select(entity => new Img { Src = entity.src, Alt = entity.name });
+                var officialImgs = this.officialStickersSearchHandler.Search(search).Select(os => new Img { Alt = os.name, Src = os.url });
+                temp = imageEntities.Select(entity => new Img { Src = entity.src, Alt = entity.name }).ToList();
+                temp.AddRange(officialImgs);
+                imageFiles = temp.GetRange(skip, count + skip < imageEntities.Count ? count : imageEntities.Count - skip);
             }
             else
             {
-                imageFiles = imageEntities.GetRange(skip, count + skip < imageEntities.Count ? count : imageEntities.Count - skip).Select(entity => new Img { Src = entity.src, Alt = entity.name });
+                List<Img> temp = null;
+                var officialImgs = this.officialStickersSearchHandler.GetAllOfficialStickers().Select(os => new Img { Alt = os.name, Src = os.url });
+                temp = imageEntities.Select(entity => new Img { Src = entity.src, Alt = entity.name }).ToList();
+                temp.AddRange(officialImgs);
+                imageFiles = temp.GetRange(skip, count + skip < imageEntities.Count ? count : imageEntities.Count - skip);
             }
 
 
