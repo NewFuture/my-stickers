@@ -11,11 +11,11 @@
         "termsOfUseUrl": "https://${WEBSITE}/terms.html"
     },
     "name": {
-        "short": "Custom Stickers[test]",
-        "full": "Custom Stickers[test]"
+        "short": "${APP_PRE_FIX}Custom Stickers",
+        "full": "${APP_PRE_FIX}Custom Stickers"
     },
     "description": {
-        "short": "Add Custom Stickers in Teams ❤",
+        "short": "Add your Stickers in Teams ❤",
         "full": "Express complex emotions in ways beyond words. Custom Stickers app helps you to save and send your own stickers in Microsoft Teams.\n[#LI] You can upload your stickers from PC or cell phones;[/#LI]\n[#LI] You can save stickers from others' messages;[/#LI]\n[#LI] You can send your own stickers in chat;[/#LI]\n[#LI] You can manage and edit your stickers' name.[/#LI]\nCustom Stickers provides a management tool inside of Teams for all users to save and send GIFs to friends, which is an effective form of visual communication because of the animation that provides a greater range of expression.\nThe tool facilities a place to help users upload stickers/GIFs from PCs or mobile devices. Users could select one or more saved stickers and choose to upload them. Once uploaded successfully, all materials could be found by clicking ♥ icon from the toolbar to launch the Sticker window.\nTo better manage all stickers, the tool also makes it easy to rename, delete or search a GIF.\nUsers could send GIFs to Teams friends by selecting one from Stickers list while chatting with them, with above management capabilities, browsing to find a GIF becomes more efficient.\nUsers also can save a GIF shared by others if they’re using the same tool. By clicking “…” from the right-up corner of the messaging card, there’s a button of “Save to Sticker”. Click the button and it’ll be added to user’s list."
     },
     "icons": {
@@ -32,13 +32,13 @@
             "commands": [
                 {
                     "id": "mycollection",
-                    "title": "My Collections",
-                    "description": "All stickes I saved",
+                    "title": "My Stickers",
+                    "description": "All the stickers",
                     "initialRun": true,
                     "parameters": [
                         {
                             "name": "query",
-                            "description": "search my stickers by name",
+                            "description": "search stickers by name",
                             "title": "search"
                         }
                     ],
