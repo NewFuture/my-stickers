@@ -5,11 +5,14 @@ export const auth = {
     token: "",
 };
 
-app.initialize().then(() => {
-    console.debug("teams initialized");
-}, () => {
-    console.error("teams not initialize");
-});
+app.initialize().then(
+    () => {
+        console.debug("teams initialized");
+    },
+    () => {
+        console.error("teams not initialize");
+    },
+);
 
 export function init() {
     auth.id = new URLSearchParams(window.location.search).get("id")!;
