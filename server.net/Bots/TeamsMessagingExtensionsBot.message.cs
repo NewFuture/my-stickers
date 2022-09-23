@@ -23,6 +23,23 @@ namespace Stickers.Bot
     {
         protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionFetchTaskAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
         {
+            var command = action.CommandId;
+
+            switch (command)
+            {
+                case "management":
+                    return await this.ManageTaskModule(turnContext);
+                case "collect":
+                    return await this.SaveCollection(turnContext);
+                default:
+                    this.logger.LogError("unkwon comand " + command);
+                    throw new Exception("unkwon bot action comand " + command);
+            }
+
+        }
+
+        private async Task<MessagingExtensionActionResponse> SaveCollection(ITurnContext<IInvokeActivity> turnContext)
+        {
             var value = (JObject)turnContext.Activity.Value;
             var payload = value?["messagePayload"].ToObject<JObject>();
             var body = payload?["body"].ToObject<JObject>();
@@ -30,13 +47,13 @@ namespace Stickers.Bot
             var content = body?["content"].ToString();
             List<MessagingExtensionAttachment> attachments = payload?["attachments"].ToObject<List<MessagingExtensionAttachment>>();
             var imgs = this.GetImages(content);
-            foreach(var attachment in attachments)
+            foreach (var attachment in attachments)
             {
                 imgs.AddRange(this.getImageFromAttachment(attachment));
             }
             var saveImgs = imgs.Count > 0;
             var entities = new List<Sticker>();
-            foreach(var img in imgs)
+            foreach (var img in imgs)
             {
                 entities.Add(new Sticker { src = img.Src, name = img.Alt, id = Guid.NewGuid() });
             }
@@ -45,17 +62,19 @@ namespace Stickers.Bot
             if (saveImgs)
             {
                 cardJson = this.GetAdaptiveCardJsonObject(new { Imgs = imgs }, "SaveCard.json");
-            } else
+            }
+            else
             {
                 cardJson = this.GetAdaptiveCardJsonObject(new { BlankText = LocalizationHelper.LookupString("collect_save_no_images_found", GetCultureInfoFromBotActivity(turnContext.Activity)) }, "BlankCard.json");
             }
-            
+
             var a = new Microsoft.Bot.Schema.Attachment()
             {
                 ContentType = "application/vnd.microsoft.card.adaptive",
                 Content = cardJson,
             };
-            return await Task.FromResult(new MessagingExtensionActionResponse() {
+            return new MessagingExtensionActionResponse()
+            {
                 Task = new TaskModuleContinueResponse
                 {
                     Value = new TaskModuleTaskInfo()
@@ -66,7 +85,7 @@ namespace Stickers.Bot
                         Card = a,
                     },
                 },
-            });
+            };
         }
 
         private JObject GetAdaptiveCardJsonObject(object cardPayload, string cardFileName)
@@ -97,7 +116,7 @@ namespace Stickers.Bot
             Regex srcRegex = new Regex("<img[^>]+src=\"([^\"\\s]+)\"[^>]*>");
             Regex altRegex = new Regex("<img[^>]+alt=\"([^\"]+)\"[^>]*>");
             var result = srcRegex.Matches(content);
-            foreach(Match match in result)
+            foreach (Match match in result)
             {
                 var alt = altRegex.Match(match.Groups[0].Value)?.Groups?[1].Value;
                 imgs.Add(new Img { Src = match.Groups[1].Value, Alt = alt });
@@ -122,7 +141,7 @@ namespace Stickers.Bot
 
                 var content = (JObject)JsonConvert.DeserializeObject(attachment.Content.ToString());
                 var body = content?["body"].ToObject<List<JObject>>();
-                foreach(var item in body)
+                foreach (var item in body)
                 {
                     if (item["type"].ToString() == "Image")
                     {
@@ -134,5 +153,29 @@ namespace Stickers.Bot
             return imgs;
         }
 
+
+        /// <summary>
+        /// configuration taskmodule
+        /// </summary>
+        /// <param name="turnContext"></param>
+        /// <returns></returns>
+        private async Task<MessagingExtensionActionResponse> ManageTaskModule(ITurnContext<IInvokeActivity> turnContext)
+        {
+            var userId = turnContext.Activity?.From?.AadObjectId;
+            return new MessagingExtensionActionResponse()
+            {
+                Task = new TaskModuleContinueResponse
+                {
+                    Type = "continue",
+                    Value = new TaskModuleTaskInfo
+                    {
+                        Title = LocalizationHelper.LookupString("upload_task_module_title", GetCultureInfoFromBotActivity(turnContext.Activity)),
+                        Url = this.GetConfigUrl(Guid.Parse(userId!)),
+                        Width = "large",
+                        Height = "large",
+                    }
+                },
+            };
+        }
     }
 }

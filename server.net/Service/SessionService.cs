@@ -2,7 +2,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Stickers.Service
 {
-    public class SesssionService
+    public class SessionService
     {
         private readonly IMemoryCache _cache;
         public readonly static TimeSpan TTL = TimeSpan.FromMinutes(30);
@@ -12,7 +12,7 @@ namespace Stickers.Service
             Priority = CacheItemPriority.High,
             AbsoluteExpirationRelativeToNow = TTL,
         };
-        public SesssionService(IMemoryCache cache)
+        public SessionService(IMemoryCache cache)
         {
             _cache = cache;
 

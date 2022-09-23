@@ -7,7 +7,10 @@ using Stickers.Search;
 using Stickers.Service;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json")
+    .AddJsonFile("appsettings.local.json",true);
+
 builder.Configuration.AddEnvironmentVariables();
 // Add services to the container.
 
@@ -31,6 +34,7 @@ builder.Services.AddTransient<IBot, TeamsMessagingExtensionsBot>();
 
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddSingleton<BlobService>();
+builder.Services.AddSingleton<SessionService>();
 builder.Services.AddSingleton<StickerStorage>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 // Adding Authentication  

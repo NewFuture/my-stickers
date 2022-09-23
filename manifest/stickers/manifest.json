@@ -57,9 +57,9 @@
                     "id": "management",
                     "title": "Upload",
                     "description": "upload and management stickers",
+                    "fetchTask": true,
                     "taskInfo": {
                         "title": "Upload, delete and edit your favorite stickers",
-                        "url": "https://${WEBSITE}/config/",
                         "height": "large",
                         "width": "large"
                     },

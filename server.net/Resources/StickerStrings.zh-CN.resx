@@ -129,4 +129,7 @@
   <data name="initial_run_upload_stickers" xml:space="preserve">
     <value>上传表情</value>
   </data>
+  <data name="upload_task_module_title" xml:space="preserve">
+    <value>上传修改删除你的表情包</value>
+  </data>
 </root>
