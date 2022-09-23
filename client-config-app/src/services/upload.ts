@@ -10,8 +10,8 @@ export interface SasInfo {
 }
 
 export interface UploadRequest {
-    // user: string,
-    // token: string,
+    user: string,
+    token: string,
     exts: string[];
 }
 

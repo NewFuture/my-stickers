@@ -23,6 +23,8 @@ export function useStickersList(isTenant: boolean) {
 
 export async function uploadSticker(file: File, onProgressUpdate: (percent: number) => void) {
     const sasInfo = await getUploadSAS({
+        user: auth.id,
+        token: auth.id,
         exts: [file.name.split(".").pop()!],
     });
     return await upload(file, sasInfo[0], (p) => onProgressUpdate(p.percent));

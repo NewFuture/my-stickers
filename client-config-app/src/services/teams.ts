@@ -1,4 +1,6 @@
 import { authentication, app } from "@microsoft/teams-js";
+import { getTeamsContext } from "../utilities/teams";
+import * as microsoftTeams from '@microsoft/teams-js';
 
 export const auth = {
     id: "00000000-0000-0000-000000000000", //test id
@@ -15,8 +17,10 @@ app.initialize().then(
 );
 
 export function init() {
-    auth.id = new URLSearchParams(window.location.search).get("id")!;
-    auth.token = window.location.hash.replace("#", "");
+    getTeamsContext().then((context: microsoftTeams.Context): void => {
+        auth.id = context.userObjectId!;
+    });
+    
     return Promise.resolve(auth);
 }
 
