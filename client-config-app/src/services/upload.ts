@@ -52,7 +52,7 @@ export async function upload(file: File, sas: SasInfo, onProgress: (p: { percent
     //         "x-ms-blob-content-type": contentType
     //     }
     // })
-    return await API.post("/stickers/commit", {
+    return await API.post(`/me/stickers/commit?userId=${auth.id}`, {
         userId: auth.id,
         id: sas.id,
         name: file.name,
