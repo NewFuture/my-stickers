@@ -129,4 +129,7 @@
   <data name="initial_run_upload_stickers" xml:space="preserve">
     <value>upload stickers</value>
   </data>
+  <data name="upload_task_module_title" xml:space="preserve">
+    <value>Upload, delete and edit your favorite stickers</value>
+  </data>
 </root>

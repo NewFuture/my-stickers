@@ -9,7 +9,7 @@ namespace Stickers.Service.Tests
         [TestMethod()]
         public void SeesionTest()
         {
-            SesssionService session = new SesssionService(new MemoryCache(new MemoryCacheOptions { }));
+            SessionService session = new SessionService(new MemoryCache(new MemoryCacheOptions { }));
 
             var id = Guid.NewGuid();
             var s = session.GenerateSession(id);

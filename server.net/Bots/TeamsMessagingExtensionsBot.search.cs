@@ -18,6 +18,7 @@ namespace Stickers.Bot
 
         protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionConfigurationQuerySettingUrlAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
         {
+            var userId = turnContext.Activity?.From?.AadObjectId;
             return await Task.FromResult(
                 new MessagingExtensionResponse
                 {
@@ -31,8 +32,8 @@ namespace Stickers.Bot
                            new CardAction
                            {
                                Type = "openApp",
-                               Title = "Settings",
-                               Value = this.GetConfigUrl()
+                               Title = LocalizationHelper.LookupString("upload_task_module_title", GetCultureInfoFromBotActivity(turnContext.Activity)),
+                               Value = this.GetConfigUrl(Guid.Parse(userId!))
                            }
                        }
                         }
@@ -129,9 +130,6 @@ namespace Stickers.Bot
             return query.Parameters?.SingleOrDefault(q => q.Name.Equals(name))?.Value.ToString();
         }
 
-        private string GetConfigUrl()
-        {
-            return $"{this.WebUrl}/config/";
-        }
+
     }
 }

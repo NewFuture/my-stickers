@@ -11,14 +11,34 @@ namespace Stickers.Bot
     public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
     {
         public readonly string WebUrl;
-        private StickerStorage stickerStorage = null;
-        private OfficialStickersSearchHandler officialStickersSearchHandler = null;
+        private StickerStorage stickerStorage;
+        private OfficialStickersSearchHandler officialStickersSearchHandler;
+        private ILogger<TeamsMessagingExtensionsBot> logger;
+        private SessionService session;
 
-        public TeamsMessagingExtensionsBot(IConfiguration configuration, StickerStorage stickerStorage, OfficialStickersSearchHandler officialStickersSearchHandler) : base()
+
+        public TeamsMessagingExtensionsBot(
+            IConfiguration configuration,
+            StickerStorage stickerStorage,
+            OfficialStickersSearchHandler officialStickersSearchHandler,
+            ILogger<TeamsMessagingExtensionsBot> logger,
+            SessionService sessionService) : base()
         {
             this.WebUrl = configuration["WebUrl"];
             this.stickerStorage = stickerStorage;
             this.officialStickersSearchHandler = officialStickersSearchHandler;
+            this.logger = logger;
+            this.session = sessionService;
+        }
+
+        /// <summary>
+        /// Get Config URL with sessio Key
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        private string GetConfigUrl(Guid userId)
+        {
+            return $"{this.WebUrl}/config/#{this.session.GenerateSession(userId)}";
         }
     }
 }
