@@ -16,6 +16,30 @@ namespace Stickers.Bot
     public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
     {
 
+        protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionConfigurationQuerySettingUrlAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
+        {
+            return await Task.FromResult(
+                new MessagingExtensionResponse
+                {
+                    ComposeExtension = new MessagingExtensionResult
+                    {
+                        Type = "config",
+                        SuggestedActions = new MessagingExtensionSuggestedAction
+                        {
+                            Actions = new List<CardAction>
+                       {
+                           new CardAction
+                           {
+                               Type = "openApp",
+                               Title = "Settings",
+                               Value = this.GetConfigUrl()
+                           }
+                       }
+                        }
+                    }
+                });
+        }
+
         protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
         {
             var text = query?.Parameters?[0]?.Value as string ?? string.Empty;
