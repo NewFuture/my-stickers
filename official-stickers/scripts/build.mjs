@@ -44,11 +44,12 @@ const buildStickers = (filePath) => {
             await mkdir(path.join(OUTPU_FOLDER, collentionFolder), {recursive: true});
             const stickers = await Promise.all(index.stickers.map(async (s) => {
                 const newPath = `${OUTPU_FOLDER}/${collentionFolder}/${s.img}`; // to do build with content hash
+                const generatedUrl = `${URL_PREFIX}${collentionFolder}/${s.img}`
                 await copyFile(`${collentionFolder}/${s.img}`, newPath)
                 return ({
                     type: index.type, // allow overwrite by s
                     ...s,
-                    url: `${URL_PREFIX}${newPath}`,
+                    url: generatedUrl,
                     collection: index.collection,
                 })
             }));
