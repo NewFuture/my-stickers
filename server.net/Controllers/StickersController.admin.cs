@@ -28,7 +28,7 @@ public class AdminStickersController : ControllerBase
         _logger = logger;
         this.httpContextAccessor = httpContextAccessor;
    }
-    public Guid GetUserId()
+    private Guid GetUserId()
     {
         var userId = this.httpContextAccessor.HttpContext?.User.FindFirstValue("http://schemas.microsoft.com/identity/claims/tenantid");
         return new Guid(userId);
