@@ -6,7 +6,7 @@ import { auth } from "./teams";
 
 const fetcher = (url: string) =>
     axios
-        .get(`${process.env.REACT_APP_API_ROOT}${url}?${auth.id}` || `/api/${url}?${auth.id}`, {
+        .get(`${process.env.REACT_APP_API_ROOT}${url}?userId=${auth.id}` || `/api/${url}?userId=${auth.id}`, {
             headers: { Authorization: `${auth.id} ${auth.token}` },
         })
         .then((res) => res.data);
