@@ -45,14 +45,14 @@ namespace Stickers.Bot
                 var officialImgs = this.officialStickersSearchHandler.Search(search).Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
                 temp = imageEntities.Select(entity => new Img { Src = entity.src, Alt = entity.name }).ToList();
                 temp.AddRange(officialImgs);
-                imageFiles = temp.GetRange(skip, count + skip < imageEntities.Count ? count : imageEntities.Count - skip);
+                imageFiles = temp.GetRange(skip, count + skip < temp.Count ? count : temp.Count - skip);
             }
             else
             {
                 List<Img> temp = imageEntities.Select(entity => new Img { Src = entity.src, Alt = entity.name }).ToList();
                 var officialImgs = this.officialStickersSearchHandler.GetAllOfficialStickers().Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
                 temp.AddRange(officialImgs);
-                imageFiles = temp.GetRange(skip, count + skip < imageEntities.Count ? count : imageEntities.Count - skip);
+                imageFiles = temp.GetRange(skip, count + skip < temp.Count ? count : temp.Count - skip);
             }
 
 
