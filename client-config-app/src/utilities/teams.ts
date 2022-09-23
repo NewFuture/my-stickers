@@ -1,6 +1,6 @@
-import * as microsoftTeams from '@microsoft/teams-js';
+import * as microsoftTeams from "@microsoft/teams-js";
 
-export { HostClientType } from '@microsoft/teams-js';
+export { HostClientType } from "@microsoft/teams-js";
 
 let teamsInitPromise: Promise<void> | undefined;
 interface FallbackData {
@@ -22,11 +22,11 @@ export type AnyThemeString = string & { theme?: any };
 /**
  * teams theme
  */
-export type TeamsContextTheme = 'default' | 'dark' | 'contrast' | AnyThemeString;
+export type TeamsContextTheme = "default" | "dark" | "contrast" | AnyThemeString;
 
 export function initTeams(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-        const timer = setTimeout((): void => reject(new Error('Timeout')), 10 * 1000);
+        const timer = setTimeout((): void => reject(new Error("Timeout")), 10 * 1000);
         microsoftTeams.initialize((): void => {
             clearTimeout(timer);
             resolve();
@@ -34,7 +34,7 @@ export function initTeams(): Promise<void> {
     });
 }
 
-export const SDK_ERROR_NAME = 'TeamsSDKError';
+export const SDK_ERROR_NAME = "TeamsSDKError";
 /**
  * warpper teams sdk error
  *
@@ -72,9 +72,9 @@ function awaitInitialize<T>(func: () => Promise<T> | T, fallback?: T): Promise<T
 export function getTeamsContext(): Promise<microsoftTeams.Context> {
     return awaitInitialize(
         () =>
-            new Promise(resolve => {
+            new Promise((resolve) => {
                 microsoftTeams.getContext(resolve);
             }),
-        fallbackData.getContext
+        fallbackData.getContext,
     );
 }
