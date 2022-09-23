@@ -19,7 +19,7 @@ const HeaderBtns: React.FC<HeaderButtonProps> = ({ radio, onRadioChange }: Heade
     return (
         <header className={styles.root}>
             <RadioGroup value={radio} onChange={(_, data) => onRadioChange(data.value)} layout="horizontal">
-                <Radio value="Tenant" label="Tenant" />
+                {/* <Radio value="Tenant" label="Tenant" /> */}
                 <Radio value="Personal" label="Personal" />
             </RadioGroup>
         </header>
