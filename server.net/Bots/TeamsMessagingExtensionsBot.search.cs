@@ -37,7 +37,7 @@ namespace Stickers.Bot
             var count = query.QueryOptions.Count ?? imageEntities.Count;
             IEnumerable<Img> imageFiles = null;
 
-            if (search != null)
+            if (!String.IsNullOrWhiteSpace(search))
             {
                 List<Img> temp = null;
                 Regex regex = new Regex(search.Trim().Replace("\\s+", ".*"));
@@ -45,15 +45,14 @@ namespace Stickers.Bot
                 var officialImgs = this.officialStickersSearchHandler.Search(search).Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
                 temp = imageEntities.Select(entity => new Img { Src = entity.src, Alt = entity.name }).ToList();
                 temp.AddRange(officialImgs);
-                imageFiles = temp.GetRange(skip, count + skip < imageEntities.Count ? count : imageEntities.Count - skip);
+                imageFiles = temp.GetRange(skip, count + skip < temp.Count ? count : temp.Count - skip);
             }
             else
             {
-                List<Img> temp = null;
+                List<Img> temp = imageEntities.Select(entity => new Img { Src = entity.src, Alt = entity.name }).ToList();
                 var officialImgs = this.officialStickersSearchHandler.GetAllOfficialStickers().Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
-                temp = imageEntities.Select(entity => new Img { Src = entity.src, Alt = entity.name }).ToList();
                 temp.AddRange(officialImgs);
-                imageFiles = temp.GetRange(skip, count + skip < imageEntities.Count ? count : imageEntities.Count - skip);
+                imageFiles = temp.GetRange(skip, count + skip < temp.Count ? count : temp.Count - skip);
             }
 
 
@@ -74,28 +73,30 @@ namespace Stickers.Bot
             }
             return new MessagingExtensionResponse
             {
-                ComposeExtension = attachments.Count > 0 ? new MessagingExtensionResult
+                ComposeExtension = new MessagingExtensionResult
                 {
                     Type = "result",
                     AttachmentLayout = "grid",
                     Attachments = attachments
-                } : new MessagingExtensionResult
-                {
-                    Type = "config",
-                    Text = LocalizationHelper.LookupString("initial_run_upload_stickers", GetCultureInfoFromBotActivity(turnContext.Activity)),
-                    SuggestedActions = new MessagingExtensionSuggestedAction
-                    {
-                        Actions = new List<CardAction>
-                        {
-                            new CardAction
-                            {
-                                Type = "openUrl",
-                                Title = "Settings",
-                                Value = this.GetConfigUrl()
-                            }
-                        }
-                    }
                 }
+                // :
+                //  new MessagingExtensionResult
+                // {
+                //     Type = "config",
+                //     Text = LocalizationHelper.LookupString("initial_run_upload_stickers", GetCultureInfoFromBotActivity(turnContext.Activity)),
+                //     SuggestedActions = new MessagingExtensionSuggestedAction
+                //     {
+                //         Actions = new List<CardAction>
+                //         {
+                //             new CardAction
+                //             {
+                //                 Type = "openUrl",
+                //                 Title = "Settings",
+                //                 Value = this.GetConfigUrl()
+                //             }
+                //         }
+                //     }
+                // }
             };
         }
 
