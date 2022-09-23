@@ -39,7 +39,7 @@ namespace Stickers.Service
         public async Task<string> commitBlocks(Guid userId, string id, string extWithDot, string contentType)
         {
             string fileName = $"{userId}/{id}{extWithDot}";
-            var encodeId = Convert.ToBase64String(System.Text.Encoding.Default.GetBytes(id));
+            var encodeId = Convert.ToBase64String(System.Text.Encoding.GetEncoding(28591).GetBytes(id));
             var blockclient = client.GetBlobContainerClient(this.containerName).GetBlockBlobClient(fileName);
             var item = await blockclient.CommitBlockListAsync(new List<string> { encodeId });
             return $"https://${ENV.AZURE_STORAGE_CDN}/${this.containerName}/${fileName}";
