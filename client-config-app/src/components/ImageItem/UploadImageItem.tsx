@@ -23,7 +23,7 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
 
     useEffect((): void => {
         uploadSticker(file, (progress) => setSticker((s) => ({ ...s, progress }))).then(
-            () => {
+            (data) => {
                 setSticker((s) => ({ ...s, status: StickerStatus.success, progress: undefined }));
                 onFinsh(file);
             },
