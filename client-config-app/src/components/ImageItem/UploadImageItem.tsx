@@ -29,6 +29,7 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
             },
             () => {
                 setSticker((s) => ({ ...s, status: StickerStatus.upload_fail, progress: undefined }));
+                onFinsh(file);
             },
         );
     }, [file, onFinsh]);

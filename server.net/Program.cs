@@ -1,13 +1,10 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.IdentityModel.Tokens;
 using Stickers.Bot;
 using Stickers.Search;
 using Stickers.Service;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
@@ -55,6 +52,7 @@ builder.Services
         o.Authority = "https://login.microsoftonline.com/a0783b62-a438-4df4-b01a-1922ce21ddbe/v2.0";
     });
 builder.Services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
+builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 

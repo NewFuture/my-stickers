@@ -6,7 +6,7 @@ import { auth } from "./teams";
 
 const fetcher = (url: string) =>
     axios
-        .get(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`, {
+        .get(`${process.env.REACT_APP_API_ROOT}${url}?userId=${auth.id}` || `/api/${url}?userId=${auth.id}`, {
             headers: { Authorization: `${auth.id} ${auth.token}` },
         })
         .then((res) => res.data);
@@ -23,6 +23,8 @@ export function useStickersList(isTenant: boolean) {
 
 export async function uploadSticker(file: File, onProgressUpdate: (percent: number) => void) {
     const sasInfo = await getUploadSAS({
+        user: auth.id,
+        token: auth.id,
         exts: [file.name.split(".").pop()!],
     });
     return await upload(file, sasInfo[0], (p) => onProgressUpdate(p.percent));
