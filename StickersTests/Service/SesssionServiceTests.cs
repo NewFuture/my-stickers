@@ -1,26 +1,19 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Stickers.Service;
 
-namespace StickersTests.Service
+namespace Stickers.Service.Tests
 {
-    [TestClass]
-    internal class SesssionServiceTests
+    [TestClass()]
+    public class SesssionServiceTests
     {
-        [TestMethod]
-        public void CommonTest()
+        [TestMethod()]
+        public void SeesionTest()
         {
-            SesssionService session = new SesssionService(new MemoryCache(new MemoryCacheOptions
-
-            {
-
-                SizeLimit = 1024
-
-            }));
+            SesssionService session = new SesssionService(new MemoryCache(new MemoryCacheOptions { }));
 
             var id = Guid.NewGuid();
             var s = session.GenerateSession(id);
-            Assert.Equals(id, session.GetSessionInfo(s));
+            Assert.AreEqual(id, session.GetSessionInfo(s));
         }
     }
 }
