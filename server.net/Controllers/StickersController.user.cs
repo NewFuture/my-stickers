@@ -25,7 +25,7 @@ public class StickersController : ControllerBase
         _logger = logger;
         this.httpContextAccessor = httpContextAccessor;
     }
-    public Guid GetUserId(Guid oldId)
+    private Guid GetUserId(Guid oldId)
     {
         //var userId = this.httpContextAccessor.HttpContext?.User.FindFirstValue("http://schemas.microsoft.com/identity/claims/objectidentifier");
         //return new Guid(userId);
