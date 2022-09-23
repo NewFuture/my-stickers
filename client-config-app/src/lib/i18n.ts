@@ -2,8 +2,8 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
-import * as zh from "../locales/zh";
-import * as en from "../locales/en";
+import zhCN from "../locales/zh-cn.json";
+import en from "../locales/en.json";
 
 i18n
     // load translation using xhr -> see /public/locales
@@ -24,7 +24,7 @@ i18n
         },
         resources: {
             en,
-            zh,
+            zh: zhCN,
         },
         // react i18next special options (optional)
         // override if needed - omit if ok with defaults

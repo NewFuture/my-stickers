@@ -1,9 +1,9 @@
-import ImageList from "./image-list";
+import ImageList from "./ImageList";
 import React from "react";
-import { Loader } from "@stardust-ui/react";
 import { useTranslation } from "react-i18next";
-import { ConfigPage } from "../locales";
-import { Sticker } from "../model/sticker";
+import { TransKeys } from "../../locales";
+import { Sticker } from "../../model/sticker";
+import { Spinner } from "@fluentui/react-components";
 
 export interface ListProps {
     loading: boolean;
@@ -14,7 +14,7 @@ export interface ListProps {
 export const List: React.FC<ListProps> = ({ loading, stickes, isTenant }: ListProps): JSX.Element => {
     const { t } = useTranslation();
     return loading ? (
-        <Loader styles={{ paddingTop: "5em" }} label={t(ConfigPage.loading)} size="larger" />
+        <Spinner label={t(TransKeys.loading)} size="extra-large" />
     ) : (
         <ImageList items={stickes} isTenant={isTenant} />
     );

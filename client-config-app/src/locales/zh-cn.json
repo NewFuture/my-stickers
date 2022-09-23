@@ -1,0 +1,12 @@
+{
+    "privacyTitle": "隐私声明",
+    "termsTitle": "使用条款",
+    "feedback": "反馈",
+    "upload": "上传",
+    "delete": "删除",
+    "loading": "加载中...",
+    "maxsize": "表情图片大小不能超过 {{size}}",
+    "maxnum": "最多可保存{{n}}张表情",
+    "inputLabel": "修改表情标签",
+    "inputPlaceholder": "输入名称以便搜索"
+}

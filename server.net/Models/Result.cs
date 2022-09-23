@@ -1,6 +1,6 @@
 namespace Stickers.Models
 {
-    public struct Result
+    public class Result
     {
         public Boolean result;
 

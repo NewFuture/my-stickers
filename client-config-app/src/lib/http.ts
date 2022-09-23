@@ -1,7 +1,8 @@
 import axios from "axios";
 import { auth } from "../services/teams";
+import { BASE_URL } from "./env";
 export const API = axios.create({
-    baseURL: process.env.REACT_APP_API_ROOT || "/api/",
+    baseURL: BASE_URL,
     headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
