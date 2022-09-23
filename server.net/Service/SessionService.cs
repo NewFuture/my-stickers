@@ -1,22 +1,32 @@
+using Microsoft.Extensions.Caching.Memory;
+
 namespace Stickers.Service
 {
     public class SesssionService
     {
         private readonly IMemoryCache _cache;
-        public SesssionService(IMemoryCache configuration)
+        public readonly static TimeSpan TTL = TimeSpan.FromMinutes(30);
+
+        private static readonly MemoryCacheEntryOptions options = new MemoryCacheEntryOptions()
         {
-            _cache = configuration;
+            Priority = CacheItemPriority.High,
+            AbsoluteExpirationRelativeToNow = TTL,
+        };
+        public SesssionService(IMemoryCache cache)
+        {
+            _cache = cache;
+
         }
 
-        public Guid GetSessionInfo(string key)
+        public Guid GetSessionInfo(Guid key)
         {
-            return Guid.NewGuid();
+            return this._cache.Get<Guid>(key);
         }
 
         public Guid GenerateSession(Guid userId)
         {
             var key = Guid.NewGuid();
-            this._cache.
+            this._cache.Set(key, userId, options);
             return key;
         }
 
