@@ -70,7 +70,7 @@
         {
             "img": "09.png",
             "name": "Boss",
-            "keywords": ["Boss","老大"],
+            "keywords": ["Boss", "老大"],
             "localName": {
                 "zhCN": "老大"
             }
@@ -86,7 +86,7 @@
         {
             "img": "11.png",
             "name": "Hmm",
-            "keywords": ["Hmm","呃"],
+            "keywords": ["Hmm", "呃"],
             "localName": {
                 "zhCN": "嗯"
             }
@@ -94,7 +94,7 @@
         {
             "img": "12.png",
             "name": "gourmet",
-            "keywords": ["gourmet", "delicious", "drool", "谗", "流口水","好吃"],
+            "keywords": ["gourmet", "delicious", "drool", "谗", "流口水", "好吃"],
             "localName": {
                 "zhCN": "流口水"
             }

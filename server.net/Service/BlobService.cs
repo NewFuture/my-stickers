@@ -36,7 +36,7 @@ namespace Stickers.Service
 
             };
         }
-        public async Task<string> commitBlocks(string userId, string id, string extWithDot, string contentType)
+        public async Task<string> commitBlocks(Guid userId, string id, string extWithDot, string contentType)
         {
             string fileName = $"{userId}/{id}{extWithDot}";
             var blockclient = client.GetBlobContainerClient(this.containerName).GetBlockBlobClient(fileName);

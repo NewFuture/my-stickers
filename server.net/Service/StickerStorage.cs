@@ -10,14 +10,19 @@
     public class StickerStorage
     {
         private DapperContext context = null;
+        private string tableName = ENV.SQL_TABEL_NAME;
 
+        public void SetAdmin()
+        {
+            tableName = ENV.ADMINSQL_TABEL_NAME;
+        }
         public StickerStorage(DapperContext context)
         {
             this.context = context;
         }
         public async Task<List<Sticker>>  getUserStickers(Guid userId)
         {
-            var query = $"SELECT * FROM {ENV.SQL_TABEL_NAME} where userId = @userId order by weight desc ";
+            var query = $"SELECT * FROM {this.tableName} where userId = @userId order by weight desc ";
             using (var connection = context.CreateConnection())
             {
                 var companies = await connection.QueryAsync<Sticker>(query, new { userId });
@@ -27,7 +32,7 @@
 
         public async Task<List<Sticker>> search(string keyword)
         {
-            var query = $"SELECT * FROM {ENV.SQL_TABEL_NAME} where name like CONCAT('%',@keyword,'%') order by weight desc";
+            var query = $"SELECT * FROM {this.tableName} where name like CONCAT('%',@keyword,'%') order by weight desc";
             using (var connection = context.CreateConnection())
             {
                 var companies = await connection.QueryAsync<Sticker>(query, new { keyword });
@@ -37,7 +42,7 @@
 
         public async Task<bool> deleteUserSticker(Guid userId, string stickerId)
         {
-            var query = $"delete FROM {ENV.SQL_TABEL_NAME} where userId = @userId and Id=@Id";
+            var query = $"delete FROM {this.tableName} where userId = @userId and Id=@Id";
             using (var connection = context.CreateConnection())
             {
                 var ItemCount = await connection.ExecuteAsync(query, new { userId = userId, Id = stickerId });
@@ -45,18 +50,18 @@
             }
         }
 
-        public async Task<bool> updateStickerName(string userId, string stickerId, string name)
+        public async Task<bool> updateStickerName(Guid userId, string stickerId, string name)
         {
-            var query = $"update {ENV.SQL_TABEL_NAME} set name = @name where userId = @userId and Id=@Id";
+            var query = $"update {this.tableName} set name = @name where userId = @userId and Id=@Id";
             using (var connection = context.CreateConnection())
             {
                 var ItemCount = await connection.ExecuteAsync(query, new { userId = userId, Id = stickerId, Name=name });
                 return ItemCount > 0;
             }
         }
-        public async Task<List<Sticker>> addUserStickers(string userId, List<Sticker> stickers)
+        public async Task<List<Sticker>> addUserStickers(Guid userId, List<Sticker> stickers)
         {
-            var oldstickers = await this.getUserStickers(Guid.Parse(userId));
+            var oldstickers = await this.getUserStickers(userId);
             List<Sticker> result = new List<Sticker>();
             using (var connection = context.CreateConnection())
             {
@@ -74,7 +79,7 @@
                             userId = userId,
                             weight = DateTime.Now.Ticks,
                         };
-                        string sql = $"update {ENV.SQL_TABEL_NAME} set weight = @weight where userId = @userId and Id=@Id";
+                        string sql = $"update {this.tableName} set weight = @weight where userId = @userId and Id=@Id";
                         await connection.ExecuteAsync(sql, updateItem);
                         stickers.Remove(item);
                         result.Add(item);
@@ -91,7 +96,7 @@
                         userId= userId,
                         weight = DateTime.Now.Ticks,
                     };
-                    string sql = $"INSERT\r\nINTO {ENV.SQL_TABEL_NAME} (id,userId,src,name,weight)\r\nVALUES (@id,@userId,@src,@name,@weight)";
+                    string sql = $"INSERT\r\nINTO {this.tableName} (id,userId,src,name,weight)\r\nVALUES (@id,@userId,@src,@name,@weight)";
                     await connection.ExecuteAsync(sql, newItem);
                     result.Add(item);
                 }

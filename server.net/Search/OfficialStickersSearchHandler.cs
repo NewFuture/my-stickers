@@ -7,13 +7,19 @@ namespace Stickers.Search
 {
     public class OfficialStickersSearchHandler
     {
-        private static readonly List<OfficialSticker> data;
-
-        static OfficialStickersSearchHandler()
+        private readonly Lazy<List<OfficialSticker>> data = new Lazy<List<OfficialSticker>>(() =>
         {
-            var officialStickersJson = File.ReadAllText(Path.Combine("Statics", "index.json"));
-            var jObject = JsonConvert.DeserializeObject(officialStickersJson) as JObject;
-            data = jObject["stickers"].ToObject<List<OfficialSticker>>();
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = client.GetAsync("https://stickerstestblob.z7.web.core.windows.net/official-stickers/index.json").Result;
+            response.EnsureSuccessStatusCode();
+            string responseBody = response.Content.ReadAsStringAsync().Result;
+            var jObject = JsonConvert.DeserializeObject(responseBody) as JObject;
+            return jObject["stickers"].ToObject<List<OfficialSticker>>();
+        }, LazyThreadSafetyMode.PublicationOnly);
+
+        public List<OfficialSticker> GetAllOfficialStickers()
+        {
+            return data.Value;
         }
 
         public List<OfficialSticker> Search(string keyword)
@@ -26,7 +32,7 @@ namespace Stickers.Search
                 return result;
             }
 
-            foreach (var sticker in data)
+            foreach (var sticker in data.Value)
             {
                 if(sticker.keywords.Any(t => t.ToLower().Contains(lowerKeyword)))
                 {

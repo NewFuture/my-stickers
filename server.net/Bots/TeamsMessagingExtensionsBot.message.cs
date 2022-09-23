@@ -40,7 +40,7 @@ namespace Stickers.Bot
             {
                 entities.Add(new Sticker { src = img.Src, name = img.Alt, id = Guid.NewGuid() });
             }
-            await this.stickerStorage.addUserStickers(userId, entities);
+            await this.stickerStorage.addUserStickers(new Guid(userId), entities);
             JObject cardJson;
             if (saveImgs)
             {

@@ -1,12 +1,17 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.IdentityModel.Tokens;
 using Stickers.Bot;
 using Stickers.Search;
 using Stickers.Service;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
-
+builder.Configuration.AddEnvironmentVariables();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -30,6 +35,27 @@ builder.Services.AddTransient<IBot, TeamsMessagingExtensionsBot>();
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddSingleton<BlobService>();
 builder.Services.AddSingleton<StickerStorage>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+// Adding Authentication  
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("EmployeeOnly", policy =>
+    {
+        policy.RequireClaim("oid");
+        policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+        policy.AddRequirements(new AuthorizationRequirement("EmployeeOnly", JwtBearerDefaults.AuthenticationScheme));
+    });
+});
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(o =>
+    {
+        o.Audience = "9df8d009-4540-47e2-8711-36adb219fedb";
+        o.Authority = "https://login.microsoftonline.com/a0783b62-a438-4df4-b01a-1922ce21ddbe/v2.0";
+    });
+builder.Services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
+
 var app = builder.Build();
 
 
@@ -41,6 +67,7 @@ app.UseSwaggerUI();
 
 // app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

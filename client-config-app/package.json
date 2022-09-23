@@ -4,7 +4,6 @@
     "private": true,
     "license": "MS-PL",
     "homepage": "/config/",
-    "proxy": "http://localhost:3007/",
     "dependencies": {
         "@fluentui/react-components": "^9.3.0",
         "@fluentui/react-icons": "^2.0.182",

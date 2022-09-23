@@ -1,22 +1,10 @@
-import React, { useEffect } from "react";
-import { FluentProvider, Divider, teamsLightTheme } from "@fluentui/react-components";
-import ImageList from "./list";
-import { init } from "./services/teams";
-import { useStickersList } from "./services/stickers";
-import HeaderBtns from "./header/headerBtns";
 import "./lib/i18n";
-import { SWRConfig } from "swr";
 
-function Sticker({ isTenant }: React.PropsWithChildren<{ isTenant: boolean }>): JSX.Element {
-    const { stickers, isLoading } = useStickersList(isTenant);
-    return (
-        <>
-            <HeaderBtns disabled={isLoading} />
-            <Divider />
-            <ImageList loading={isLoading} stickes={stickers} />
-        </>
-    );
-}
+import { useEffect } from "react";
+import { FluentProvider, teamsLightTheme } from "@fluentui/react-components";
+import { init } from "./services/teams";
+import { SWRConfig } from "swr";
+import { Sticker } from "./components/StickerApp";
 
 export default function ConfigApp() {
     useEffect(() => {
@@ -25,7 +13,7 @@ export default function ConfigApp() {
     return (
         <FluentProvider theme={teamsLightTheme}>
             <SWRConfig>
-                <Sticker isTenant={false} />
+                <Sticker />
             </SWRConfig>
         </FluentProvider>
     );

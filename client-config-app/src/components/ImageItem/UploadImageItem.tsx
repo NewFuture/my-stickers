@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Image, Label } from "@fluentui/react-components";
-import { Sticker, StickerStatus } from "../model/sticker";
-import { useImageListStyles } from "./image-list.styles";
-import { uploadSticker } from "../services/stickers";
+import { Sticker, StickerStatus } from "../../model/sticker";
+import { uploadSticker } from "../../services/stickers";
 import { ArrowRepeatAll16Regular } from "@fluentui/react-icons";
+import { useImageItemStyles } from "./ImageItem.styles";
 
 interface UploadImageItemProps {
     file: File;
@@ -14,12 +14,12 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
     file,
     onFinsh,
 }: UploadImageItemProps): JSX.Element => {
-    const imageListStyles = useImageListStyles();
-    const [sticker, setSticker] = useState<Sticker>({
+    const imageListStyles = useImageItemStyles();
+    const [sticker, setSticker] = useState<Sticker>(() => ({
         id: `${Math.random()}`,
         src: URL.createObjectURL(file),
         name: file.name.replace(/\..*$/, ""),
-    });
+    }));
 
     useEffect((): void => {
         uploadSticker(file, (progress) => setSticker((s) => ({ ...s, progress }))).then(
@@ -39,7 +39,7 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
             {sticker.progress && (
                 <div className={imageListStyles.uploadingBar}>
                     <ArrowRepeatAll16Regular className={imageListStyles.icon} />
-                    <Label>Uploading……{sticker.progress}</Label>
+                    <Label>{sticker.progress}%</Label>
                 </div>
             )}
         </div>
