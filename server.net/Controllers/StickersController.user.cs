@@ -11,33 +11,38 @@ namespace Stickers.Controllers;
 [Route("api/me/stickers")]
 public class StickersController : ControllerBase
 {
-
+    private const string userHeaderKey = "userId";
 
     private readonly ILogger<StickersController> _logger;
     private StickerStorage stickerStorage;
     private BlobService blobService;
+    private SessionService sessionService;
     private IHttpContextAccessor httpContextAccessor = null;
 
-    public StickersController(StickerStorage stickerStorage, BlobService blobService, ILogger<StickersController> logger, IHttpContextAccessor httpContextAccessor)
+    public StickersController(StickerStorage stickerStorage, BlobService blobService, ILogger<StickersController> logger, IHttpContextAccessor httpContextAccessor ,SessionService sessionService)
     {
         this.stickerStorage = stickerStorage;
         this.blobService = blobService;
         _logger = logger;
         this.httpContextAccessor = httpContextAccessor;
+        this.sessionService = sessionService;
     }
-    private Guid GetUserId(Guid oldId)
+    private Guid GetUserId()
     {
-        //var userId = this.httpContextAccessor.HttpContext?.User.FindFirstValue("http://schemas.microsoft.com/identity/claims/objectidentifier");
-        //return new Guid(userId);
-
-        //should call hulin's function
-        return oldId;
+        
+        var haveValue = Request.Headers.TryGetValue(userHeaderKey, out var headerValue);
+        if (!string.IsNullOrEmpty(headerValue))
+        {
+            var sessionInfo = this.sessionService.GetSessionInfo(Guid.Parse(headerValue));
+            return sessionInfo;
+        }
+        throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Forbidden);
     }
 
     [HttpPost("commit")]
-    public async Task<Sticker> Commit([FromQuery]Guid userId, [FromBody] PostStickerBlobRequest request)
+    public async Task<Sticker> Commit([FromBody] PostStickerBlobRequest request)
     {
-        userId = GetUserId(userId);
+        var userId = GetUserId();
         string extendName = System.IO.Path.GetExtension(request.name);
         string src = await this.blobService.commitBlocks(userId, request.id, extendName, request.contentType);
         var newSticker = new Sticker()
@@ -51,24 +56,24 @@ public class StickersController : ControllerBase
 
     }
     [HttpGet("/api/me/stickers")]
-    public async Task<Page<Sticker>> Get(Guid userId)
+    public async Task<Page<Sticker>> Get()
     {
-        userId = this.GetUserId(userId);
+        var userId = this.GetUserId();
         var stickers = await this.stickerStorage.getUserStickers(userId);
         return new Page<Sticker>(stickers);
     }
     [HttpDelete("{id}")]
-    public async Task<Result> Delete(string id, Guid userId)
+    public async Task<Result> Delete(string id)
     {
-        userId = this.GetUserId(userId);
+        var userId = this.GetUserId();
         var result = await this.stickerStorage.deleteUserSticker(userId, id);
         return new Result(result);
     }
 
     [HttpPatch("{id}")]
-    public async Task<Result> UpdateSticker(string id, Guid userId, string name)
+    public async Task<Result> UpdateSticker(string id, string name)
     {
-        userId = this.GetUserId(userId);
+        var userId = this.GetUserId();
         var result = await this.stickerStorage.updateStickerName(userId, id, name);
         return new Result(result);
     }
