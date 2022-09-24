@@ -3,7 +3,9 @@ import useSWR, { SWRResponse } from "swr";
 import type { Sticker } from "../model/sticker";
 
 const fetcher = (url: string) =>
-    API.get<{ values: Sticker[] }>(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`).then((res) => res.data?.values);
+    API.get<{ values: Sticker[] }>(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`).then(
+        (res) => res.data?.values,
+    );
 
 interface StickerListResult extends SWRResponse<Sticker[], any> {
     isLoading?: boolean;

@@ -5,7 +5,6 @@ import { getContext, getTeamsTheme } from "./services/teams";
 import { SWRConfig } from "swr";
 import { Sticker } from "./components/StickerApp";
 
-
 export default function ConfigApp() {
     const [theme, setTheme] = useState(teamsLightTheme);
     useEffect(() => {

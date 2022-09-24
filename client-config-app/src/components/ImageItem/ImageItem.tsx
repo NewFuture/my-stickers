@@ -11,7 +11,6 @@ const ImageItem: React.FC<
         onEdit?: (name: string) => void;
     }
 > = ({ src, name, status, isEditable, onEdit, onDelete }) => {
-
     const [currentName, setName] = useState(name);
     const imageListStyles = useImageItemStyles();
     const isDeleting = status === StickerStatus.delete;

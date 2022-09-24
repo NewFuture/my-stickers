@@ -37,8 +37,8 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
         sticker.status === StickerStatus.success
             ? "available"
             : sticker.status === StickerStatus.upload_fail
-                ? "offline"
-                : undefined;
+            ? "offline"
+            : undefined;
     return (
         <div className={imageListStyles.item}>
             <Image className={imageListStyles.img} src={sticker.src} />

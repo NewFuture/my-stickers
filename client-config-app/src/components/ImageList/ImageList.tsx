@@ -14,9 +14,9 @@ function getPatchItemByIdFunc(id: string, props: Partial<Sticker>) {
             item.id !== id
                 ? item
                 : {
-                    ...item,
-                    ...props,
-                },
+                      ...item,
+                      ...props,
+                  },
         )!;
 }
 interface ImageListProps {
