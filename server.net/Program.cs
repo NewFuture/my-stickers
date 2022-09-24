@@ -59,6 +59,9 @@ builder.Services
 builder.Services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
 builder.Services.AddMemoryCache();
 
+// Add http services to the container.
+builder.Services.AddHttpClient();
+
 var app = builder.Build();
 
 
