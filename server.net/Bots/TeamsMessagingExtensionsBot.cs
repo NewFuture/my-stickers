@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 // @see https://github.com/microsoft/BotBuilder-Samples/blob/main/samples/csharp_dotnetcore/50.teams-messaging-extensions-search/Bots/TeamsMessagingExtensionsSearchBot.cs
 
+using Microsoft.Bot.Builder.Teams;
 using Stickers.Search;
 using Stickers.Service;
 using Stickers.Utils;

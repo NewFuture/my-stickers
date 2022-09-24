@@ -12,7 +12,7 @@ export const Alert: FC<React.PropsWithChildren> = ({ children }) => {
                 onClick: () => setHidden(true),
             }}
         >
-            Save failed
+            {children}
         </FUIAlert>
     );
 };

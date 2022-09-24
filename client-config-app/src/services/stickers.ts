@@ -22,7 +22,7 @@ export async function uploadSticker(file: File, onProgressUpdate: (percent: numb
     return await upload(file, sasInfo[0], (p) => onProgressUpdate(p.percent));
 }
 
-export async function deleteSticker( id: string): Promise<string> {
+export async function deleteSticker(id: string): Promise<string> {
     return await API.delete(`/me/stickers/${id}`);
 }
 

@@ -1,4 +1,7 @@
-﻿using Stickers.Utils;
+﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Specialized;
+using Azure.Storage.Sas;
+using Stickers.Utils;
 namespace Stickers.Service
 {
     public class BlobService
