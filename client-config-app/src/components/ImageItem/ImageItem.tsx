@@ -36,15 +36,17 @@ const ImageItem: React.FC<
                     size="medium"
                     disabled={disabled}
                     defaultValue={name}
-                    onFocus={(e) => { e.target?.select?.() }}
+                    onFocus={(e) => {
+                        e.target?.select?.();
+                    }}
                     onBlur={() => {
                         const currentName = nameRef.current;
                         if (currentName && name?.trim() !== currentName?.trim() && onEdit) {
-                            onEdit?.(currentName)
+                            onEdit?.(currentName);
                         }
                     }}
                     onChange={(ev: ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
-                        nameRef.current = data.value
+                        nameRef.current = data.value;
                     }}
                 />
             </div>

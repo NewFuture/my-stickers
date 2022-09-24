@@ -18,7 +18,7 @@ export function getContext() {
     return app.getContext();
 }
 export function registerOnThemeChangeHandler(handler: (theme: Theme) => void) {
-    return app.registerOnThemeChangeHandler(theme => handler(getTeamsTheme(theme)))
+    return app.registerOnThemeChangeHandler((theme) => handler(getTeamsTheme(theme)));
 }
 
 export function getTeamsTheme(themeName: string) {
