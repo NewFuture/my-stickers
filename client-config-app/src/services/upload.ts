@@ -1,6 +1,5 @@
 import Axios from "axios";
 import { API } from "../lib/http";
-import { auth } from "./teams";
 
 const blob = Axios.create();
 export interface SasInfo {
@@ -11,8 +10,8 @@ export interface SasInfo {
 }
 
 export interface UploadRequest {
-    user: string;
-    token: string;
+    user?: string;
+    token?: string;
     exts: string[];
 }
 
@@ -52,8 +51,8 @@ export async function upload(file: File, sas: SasInfo, onProgress: (p: { percent
     //         "x-ms-blob-content-type": contentType
     //     }
     // })
-    return await API.post(`/me/stickers/commit?userId=${auth.id}`, {
-        userId: auth.id,
+    return await API.post(`/me/stickers/commit`, {
+        // userId: auth.id,
         id: sas.id,
         name: file.name,
         contentType,

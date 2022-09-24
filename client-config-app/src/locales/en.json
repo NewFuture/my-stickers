@@ -5,6 +5,8 @@
     "upload": "upload",
     "delete": "delete",
     "loading": "Loading...",
+    "title_user": "My Favorite Stickers",
+    "title_company": "My Company's Stickers",
     "maxsize": "The size of sticker images should less than {{size}}.",
     "maxnum": "Save {{n}} stickers at most.",
     "inputLabel": "Edit the sticker's name",

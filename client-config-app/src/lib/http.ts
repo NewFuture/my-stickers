@@ -1,6 +1,8 @@
 import axios from "axios";
-import { auth } from "../services/teams";
 import { BASE_URL } from "./env";
+
+const SessionKey = window.location.hash?.substring(1);
+const USER_SEESION_HEADER = "Session-Key";
 export const API = axios.create({
     baseURL: BASE_URL,
     headers: {
@@ -9,7 +11,7 @@ export const API = axios.create({
     },
     // auth,
     transformRequest: (data, headers) => {
-        headers["authorization"] = `${auth.id} ${auth.token}`;
-        return JSON.stringify(data);
+        headers[USER_SEESION_HEADER] = SessionKey;
+        return data;
     },
 });
