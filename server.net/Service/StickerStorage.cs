@@ -9,7 +9,7 @@
 
     public class StickerStorage
     {
-        private DapperContext context = null;
+        private DapperContext context;
         private string tableName = ENV.SQL_TABEL_NAME;
 
         public void SetAdmin()
@@ -55,7 +55,7 @@
             var query = $"update {this.tableName} set name = @name where userId = @userId and Id=@Id";
             using (var connection = context.CreateConnection())
             {
-                var ItemCount = await connection.ExecuteAsync(query, new { userId = userId, Id = stickerId, Name=name });
+                var ItemCount = await connection.ExecuteAsync(query, new { userId = userId, Id = stickerId, name=name });
                 return ItemCount > 0;
             }
         }
