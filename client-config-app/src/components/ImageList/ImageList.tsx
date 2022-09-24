@@ -1,49 +1,64 @@
 import React, { useState } from "react";
 import ImageItem from "../ImageItem/ImageItem";
-import { Sticker } from "../../model/sticker";
+import { Sticker, StickerStatus } from "../../model/sticker";
 import { deleteSticker, editSticker } from "../../services/stickers";
 import { UploadButton } from "../UploadButton/UploadButton";
 
 import { useImageListStyles } from "./ImageList.styles";
-import { useSWRConfig } from "swr";
 import { UploadImageItem } from "../ImageItem/UploadImageItem";
 import { MAX_NUM } from "../../lib/env";
 
+function getPatchItemByIdFunc(id: string, props: Partial<Sticker>) {
+    return (list?: Sticker[]) =>
+        list?.map((item) =>
+            item.id !== id
+                ? item
+                : {
+                      ...item,
+                      ...props,
+                  },
+        )!;
+}
 interface ImageListProps {
     items: Sticker[];
-    isTenant: boolean;
+    isEditable: boolean;
+    onMutate: (updateCallback: (items?: Sticker[]) => Sticker[]) => void;
 }
 
-const ImageList: React.FC<ImageListProps> = ({ isTenant }: ImageListProps) => {
+const ImageList: React.FC<ImageListProps> = ({ isEditable, items, onMutate }: ImageListProps) => {
     const imageListStyles = useImageListStyles();
-    const { cache, mutate } = useSWRConfig();
-    const stickers = cache.get("stickers")?.values;
     const [uploadFiles, setUploadFiles] = useState<File[]>([]);
     const onFinshUpload = (file: File) => {
         setUploadFiles(uploadFiles.filter((f) => file !== f));
-        mutate("stickers");
     };
 
-    const maxUploadCount = MAX_NUM - stickers?.length ?? 0 - uploadFiles.length;
+    const maxUploadCount = MAX_NUM - items?.length ?? 0 - uploadFiles.length;
     return (
         <div className={imageListStyles.grid}>
-            {!isTenant && <UploadButton onUploadListChange={setUploadFiles} maxNum={maxUploadCount} />}
+            {!isEditable && <UploadButton onUploadListChange={setUploadFiles} maxNum={maxUploadCount} />}
             {uploadFiles?.map((item: File, index) => (
-                <UploadImageItem key={index} file={item} onFinsh={onFinshUpload} />
+                <UploadImageItem key={index} file={item} onDelete={onFinshUpload} />
             ))}
-            {stickers?.map((item: Sticker) => (
+            {items?.map((item: Sticker) => (
                 <ImageItem
+                    isEditable
                     key={item.id}
                     {...item}
-                    onDelete={() =>
-                        deleteSticker(item.id).then(() => {
-                            mutate("stickers");
-                        })
-                    }
+                    onDelete={() => {
+                        onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete }));
+                        deleteSticker(item.id).then(
+                            // 删除成功
+                            () => onMutate((list) => list?.filter((v) => v.id !== item.id)!),
+                            // 删除失败
+                            () => onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete_fail })),
+                        );
+                    }}
                     onEdit={(name: string) => {
-                        editSticker(item.id, name).then(() => {
-                            mutate("stickers");
-                        });
+                        onMutate(getPatchItemByIdFunc(item.id, { name, status: StickerStatus.editing }));
+                        editSticker(item.id, name).then(
+                            () => onMutate(getPatchItemByIdFunc(item.id, { status: undefined })),
+                            () => onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.edit_fail })),
+                        );
                     }}
                 />
             ))}

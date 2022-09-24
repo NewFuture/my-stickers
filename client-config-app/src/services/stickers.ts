@@ -1,19 +1,5 @@
 import { API } from "../lib/http";
 import { getUploadSAS, upload } from "./upload";
-import useSWR from "swr";
-
-const fetcher = (url: string) =>
-    API.get(`${process.env.REACT_APP_API_ROOT}${url}` || `/api/${url}`).then((res) => res.data);
-
-export function useStickersList(isTenant: boolean) {
-    const url = isTenant ? "tenant/stickers" : "me/stickers";
-    const { data, error } = useSWR("stickers", () => fetcher(url));
-    return {
-        stickers: data?.values,
-        isLoading: !error && !data,
-        isError: error,
-    };
-}
 
 export async function uploadSticker(file: File, onProgressUpdate: (percent: number) => void) {
     const sasInfo = await getUploadSAS({

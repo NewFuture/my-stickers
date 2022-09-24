@@ -1,21 +1,28 @@
-import { Divider } from "@fluentui/react-components";
+import { Divider, makeStyles, Spinner } from "@fluentui/react-components";
 import { useState } from "react";
-import { useStickersList } from "../services/stickers";
-import { UserType } from "../model/sticker";
 
+import type { UserType } from "../model/sticker";
+import { useStickersList } from "../hooks/useStickersList";
 import Header from "./Header/Header";
 import ImageList from "./ImageList";
 
-export function Sticker(): JSX.Element {
+const useAppStyles = makeStyles({
+    loader: {
+        height: "calc(100vh - 16px)",
+    },
+});
+export function StickerApp(): JSX.Element {
     const [currentRadio, setCurrentRadio] = useState<UserType>("user");
     const isTenant = currentRadio === "company";
-    const { stickers, isLoading } = useStickersList(isTenant);
-
-    return (
+    const { data, isLoading, mutate } = useStickersList(isTenant);
+    const styles = useAppStyles();
+    return isLoading ? (
+        <Spinner size="extra-large" className={styles.loader} />
+    ) : (
         <>
             <Header type={currentRadio} onRadioChange={setCurrentRadio} />
             <Divider />
-            <ImageList loading={isLoading} stickes={stickers} isTenant={isTenant} />
+            <ImageList items={data!} onMutate={mutate} isEditable={isTenant} />
         </>
     );
 }

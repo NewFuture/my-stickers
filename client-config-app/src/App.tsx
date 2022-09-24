@@ -1,14 +1,9 @@
 import i18n from "./lib/i18n";
-
 import { useEffect, useState } from "react";
-import { FluentProvider, teamsDarkTheme, teamsHighContrastTheme, teamsLightTheme } from "@fluentui/react-components";
-import { getContext } from "./services/teams";
-import { SWRConfig } from "swr";
-import { Sticker } from "./components/StickerApp";
+import { FluentProvider, teamsLightTheme } from "@fluentui/react-components";
+import { getContext, getTeamsTheme } from "./services/teams";
+import { StickerApp } from "./components/StickerApp";
 
-function getTeamsTheme(themeName: string) {
-    return themeName === "dark" ? teamsDarkTheme : themeName === "contrast" ? teamsHighContrastTheme : teamsLightTheme;
-}
 export default function ConfigApp() {
     const [theme, setTheme] = useState(teamsLightTheme);
     useEffect(() => {
@@ -19,9 +14,7 @@ export default function ConfigApp() {
     }, []);
     return (
         <FluentProvider theme={theme}>
-            <SWRConfig>
-                <Sticker />
-            </SWRConfig>
+            <StickerApp />
         </FluentProvider>
     );
 }

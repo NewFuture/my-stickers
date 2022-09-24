@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { Image, Button, Input, InputOnChangeData } from "@fluentui/react-components";
 import { Sticker, StickerStatus } from "../../model/sticker";
 import { Delete16Regular } from "@fluentui/react-icons";
@@ -6,14 +6,16 @@ import { useImageItemStyles } from "./ImageItem.styles";
 
 const ImageItem: React.FC<
     Sticker & {
+        isEditable?: boolean;
         onDelete?: () => void;
         onEdit?: (name: string) => void;
     }
-> = (props) => {
-    const { src, name, status, onEdit, onDelete } = props;
+> = ({ src, name, status, isEditable, onEdit, onDelete }) => {
+    const [currentName, setName] = useState(name);
     const imageListStyles = useImageItemStyles();
     const isDeleting = status === StickerStatus.delete;
     const isMoving = status === StickerStatus.moving;
+    const disabled = isDeleting || isMoving || !isEditable;
     return (
         <div className={imageListStyles.item}>
             <Image className={imageListStyles.img} src={src} />
@@ -22,7 +24,7 @@ const ImageItem: React.FC<
                     className={imageListStyles.close}
                     icon={<Delete16Regular />}
                     size="medium"
-                    disabled={isDeleting || isMoving}
+                    disabled={disabled}
                     appearance="transparent"
                     onClick={onDelete}
                 />
@@ -32,11 +34,11 @@ const ImageItem: React.FC<
                     className={imageListStyles.input}
                     appearance="underline"
                     size="medium"
+                    disabled={disabled}
                     defaultValue={name}
+                    onBlur={() => onEdit?.(currentName!)}
                     onChange={(ev: ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
-                        if (onEdit && data && data.value !== name) {
-                            onEdit(data.value);
-                        }
+                        setName(data.value);
                     }}
                 />
             </div>
