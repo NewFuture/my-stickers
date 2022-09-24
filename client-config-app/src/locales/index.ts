@@ -4,6 +4,7 @@ export const enum TransKeys {
     // feedback = "feedback",
     // upload = "upload",
     // delete = "delete",
+    title = "title",
     loading = "loading",
     maxsize = "maxsize",
     maxnum = "maxnum",

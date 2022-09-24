@@ -1,17 +1,17 @@
 import { Divider } from "@fluentui/react-components";
 import { useState } from "react";
 import { useStickersList } from "../services/stickers";
-import HeaderBtns from "./header/headerBtns";
+import Header, { StickersType } from "./Header/Header";
 import ImageList from "./ImageList";
 
 export function Sticker(): JSX.Element {
-    const [currentRadio, setCurrentRadio] = useState<string>("Personal");
-    const isTenant = currentRadio === "Tenant";
+    const [currentRadio, setCurrentRadio] = useState<StickersType>("user");
+    const isTenant = currentRadio === "company";
     const { stickers, isLoading } = useStickersList(isTenant);
 
     return (
         <>
-            <HeaderBtns radio={currentRadio} onRadioChange={setCurrentRadio} />
+            <Header type={currentRadio} onRadioChange={setCurrentRadio} />
             <Divider />
             <ImageList loading={isLoading} stickes={stickers} isTenant={isTenant} />
         </>

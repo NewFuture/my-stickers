@@ -23,8 +23,8 @@ i18n
             escapeValue: false, // not needed for react as it escapes by default
         },
         resources: {
-            en,
-            zh: zhCN,
+            en: { translation: en },
+            zh: { translation: zhCN },
         },
         // react i18next special options (optional)
         // override if needed - omit if ok with defaults
