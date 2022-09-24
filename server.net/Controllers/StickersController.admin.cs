@@ -27,7 +27,7 @@ public class AdminStickersController : ControllerBase
         this.stickerStorage.SetAdmin();
         _logger = logger;
         this.httpContextAccessor = httpContextAccessor;
-   }
+    }
     private Guid GetUserId()
     {
         var userId = this.httpContextAccessor.HttpContext?.User.FindFirstValue("http://schemas.microsoft.com/identity/claims/tenantid");

@@ -1,24 +1,32 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Specialized;
 using Azure.Storage.Sas;
-using static System.Net.WebRequestMethods;
 
 namespace Stickers.Service
 {
     public class BlobService
     {
-        private BlobServiceClient client = null;
+        private BlobServiceClient client;
         private string containerName = "container";
+
+        private string[] supportExtList = new string[] { "png", "gif", "jpg", "jpeg" };
         public BlobService(IConfiguration configuration)
         {
             var blobConnection = configuration["BlobConnection"];
             client = new BlobServiceClient(blobConnection);
-
         }
-        public async Task<SasInfo> getSasToken(string userId, string ext)
+
+        public SasInfo getSasToken(Guid userId, string ext)
         {
             var id = Guid.NewGuid().ToString().ToLower();
-            string fileName = $"{userId}/{id}.{ext}";
+            ext = ext.ToLower();
+            string fileName = $"{userId}/{id}";
+            if (supportExtList.Contains(ext))
+            {
+                // add ext
+                fileName += $".{ext}";
+            }
+
             BlobSasBuilder sasBuilder = new BlobSasBuilder();
             sasBuilder.BlobContainerName = containerName;
             sasBuilder.BlobName = fileName;
@@ -32,8 +40,7 @@ namespace Stickers.Service
             {
                 id = id,
                 url = sasUri.ToString(),
-                token = null,
-
+                token = String.Empty,
             };
         }
         public async Task<string> commitBlocks(Guid userId, string id, string extWithDot, string contentType)
