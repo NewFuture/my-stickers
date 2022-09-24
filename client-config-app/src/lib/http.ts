@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BASE_URL } from "./env";
 
-const SessionKey = window.location.hash;
+const SessionKey = window.location.hash?.substring(1);
 const USER_SEESION_HEADER = "Session-Key";
 export const API = axios.create({
     baseURL: BASE_URL,
