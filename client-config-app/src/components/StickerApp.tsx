@@ -11,7 +11,7 @@ const useAppStyles = makeStyles({
         height: "calc(100vh - 16px)",
     },
 });
-export function Sticker(): JSX.Element {
+export function StickerApp(): JSX.Element {
     const [currentRadio, setCurrentRadio] = useState<UserType>("user");
     const isTenant = currentRadio === "company";
     const { data, isLoading, mutate } = useStickersList(isTenant);
