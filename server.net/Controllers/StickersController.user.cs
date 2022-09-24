@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stickers.Entities;
 using Stickers.Models;
 using Stickers.Service;
-using System.Security.Claims;
 
 namespace Stickers.Controllers;
 
@@ -56,17 +54,12 @@ public class StickersController : ControllerSession<StickersController>
     }
 
     [HttpPatch("{id}")]
-    public async Task<Result> UpdateSticker(string id, string name)
+    public async Task<Result> UpdateSticker(string id, [FromBody] PatchStickerRequest request)
     {
         var userId = this.GetUserId();
-        var result = await this.stickerStorage.updateStickerName(userId, id, name);
+        var result = await this.stickerStorage.updateStickerName(userId, id, request.name);
         return new Result(result);
     }
 
 }
-public class PostStickerBlobRequest
-{
-    public string? id { get; set; }
-    public string? name { get; set; }
-    public string? contentType { get; set; }
-}
+
