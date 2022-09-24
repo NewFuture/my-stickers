@@ -10,5 +10,5 @@ export const useHeaderStyles = makeStyles({
         display: "inline-block",
         marginTop: 0,
         marginBottom: 0,
-    }
+    },
 });

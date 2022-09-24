@@ -9,7 +9,6 @@ import * as en from "../locales/en";
 // have a look at the Quick start guide
 // for passing in lng and translations on init
 
-
 i18n
     // load translation using xhr -> see /public/locales
     // learn more: https://github.com/i18next/i18next-xhr-backend
@@ -27,7 +26,7 @@ i18n
         resources: {
             en,
             zh,
-            'zh-CN': zh
+            "zh-CN": zh,
         },
         // react i18next special options (optional)
         // override if needed - omit if ok with defaults
