@@ -1,8 +1,8 @@
 ﻿using Microsoft.Bot.Builder.Integration.AspNet.Core;
 
-public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
+public class AdapterWithErrorHandler : CloudAdapter
 {
-    public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger = null) : base(configuration, logger)
+    public AdapterWithErrorHandler(IConfiguration configuration, IHttpClientFactory httpClientFactory, ILogger<AdapterWithErrorHandler>? logger = null) : base(configuration, httpClientFactory, logger)
     {
     }
 }

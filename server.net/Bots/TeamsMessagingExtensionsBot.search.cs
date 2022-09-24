@@ -56,15 +56,15 @@ namespace Stickers.Bot
         {
 
             var userId = turnContext.Activity?.From?.AadObjectId;
-            var imageEntities = await this.stickerStorage.getUserStickers(Guid.Parse(userId));
+            var imageEntities = await this.stickerStorage.getUserStickers(Guid.Parse(userId!));
             var search = this.GetQueryParameters(query, "query");
             var skip = query.QueryOptions.Skip ?? 0;
             var count = query.QueryOptions.Count ?? imageEntities.Count;
-            IEnumerable<Img> imageFiles = null;
+            IEnumerable<Img> imageFiles;
 
             if (!String.IsNullOrWhiteSpace(search))
             {
-                List<Img> temp = null;
+                List<Img> temp;
                 Regex regex = new Regex(search.Trim().Replace("\\s+", ".*"));
                 imageEntities = imageEntities.Where(i => !string.IsNullOrEmpty(i.name) && regex.IsMatch(i.name)).ToList();
                 var officialImgs = this.officialStickersSearchHandler.Search(search).Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
@@ -125,7 +125,7 @@ namespace Stickers.Bot
             };
         }
 
-        private string GetQueryParameters(MessagingExtensionQuery query, string name)
+        private string? GetQueryParameters(MessagingExtensionQuery query, string name)
         {
             return query.Parameters?.SingleOrDefault(q => q.Name.Equals(name))?.Value.ToString();
         }
