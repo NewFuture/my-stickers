@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useRef } from "react";
 import { Image, Button, Input, InputOnChangeData } from "@fluentui/react-components";
 import { Sticker, StickerStatus } from "../../model/sticker";
 import { Delete16Regular } from "@fluentui/react-icons";
@@ -11,7 +11,7 @@ const ImageItem: React.FC<
         onEdit?: (name: string) => void;
     }
 > = ({ src, name, status, isEditable, onEdit, onDelete }) => {
-    const [currentName, setName] = useState(name);
+    const nameRef = useRef(name);
     const imageListStyles = useImageItemStyles();
     const isDeleting = status === StickerStatus.delete;
     const isMoving = status === StickerStatus.moving;
@@ -36,9 +36,15 @@ const ImageItem: React.FC<
                     size="medium"
                     disabled={disabled}
                     defaultValue={name}
-                    onBlur={() => onEdit?.(currentName!)}
+                    onFocus={(e) => { e.target?.select?.() }}
+                    onBlur={() => {
+                        const currentName = nameRef.current;
+                        if (currentName && name?.trim() !== currentName?.trim() && onEdit) {
+                            onEdit?.(currentName)
+                        }
+                    }}
                     onChange={(ev: ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
-                        setName(data.value);
+                        nameRef.current = data.value
                     }}
                 />
             </div>
