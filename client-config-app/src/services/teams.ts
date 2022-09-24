@@ -1,4 +1,4 @@
-import { teamsDarkTheme, teamsHighContrastTheme, teamsLightTheme } from "@fluentui/react-components";
+import { teamsDarkTheme, teamsHighContrastTheme, teamsLightTheme, Theme } from "@fluentui/react-components";
 import { authentication, app } from "@microsoft/teams-js";
 
 app.initialize().then(
@@ -16,6 +16,9 @@ export function getAuthToken(): Promise<string> {
 
 export function getContext() {
     return app.getContext();
+}
+export function registerOnThemeChangeHandler(handler: (theme: Theme) => void) {
+    return app.registerOnThemeChangeHandler(theme => handler(getTeamsTheme(theme)))
 }
 
 export function getTeamsTheme(themeName: string) {
