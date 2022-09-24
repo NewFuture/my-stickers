@@ -37,7 +37,7 @@
     "homepage": "https://github.com/NewFuture/custom-stickers-teams-extension#readme",
     "packageManager": "yarn@3.2.3",
     "devDependencies": {
-        "eslint": "^8.23.1",
+        "eslint": "^8.24.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-config-react-app": "^7.0.1",
         "prettier": "^2.7.1",

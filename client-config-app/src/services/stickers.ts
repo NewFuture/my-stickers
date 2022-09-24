@@ -23,9 +23,9 @@ export async function uploadSticker(file: File, onProgressUpdate: (percent: numb
 }
 
 export async function deleteSticker(id: string): Promise<string> {
-    return await API.delete(`/stickers/${id}`);
+    return await API.delete(`/me/stickers/${id}`);
 }
 
 export async function editSticker(id: string, name: string) {
-    await API.patch(`/stickers/${id}`, { name });
+    await API.patch(`/me/stickers/${id}`, { name });
 }

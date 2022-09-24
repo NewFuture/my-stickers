@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Stickers.Bot;
+using Stickers.Utils;
 using Stickers.Search;
 using Stickers.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json")
-    .AddJsonFile("appsettings.local.json",true);
+    .AddJsonFile("appsettings.local.json", true);
 
 builder.Configuration.AddEnvironmentVariables();
 // Add services to the container.
@@ -66,6 +67,8 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+// Eror Handler
+app.UseMiddleware(typeof(GlobalErrorHandling));
 
 // app.UseHttpsRedirection();
 

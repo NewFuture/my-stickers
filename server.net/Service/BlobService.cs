@@ -1,19 +1,23 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Specialized;
 using Azure.Storage.Sas;
-
+using Stickers.Utils;
 namespace Stickers.Service
 {
     public class BlobService
     {
         private BlobServiceClient client;
-        private string containerName = "container";
+        private string containerName = "stickers";
+        private string cdn;
+
 
         private string[] supportExtList = new string[] { "png", "gif", "jpg", "jpeg" };
         public BlobService(IConfiguration configuration)
         {
-            var blobConnection = configuration["BlobConnection"];
-            client = new BlobServiceClient(blobConnection);
+            var blobConnection = configuration[ConfigKeys.BLOB_CONNECTION_STRING];
+            this.client = new BlobServiceClient(blobConnection);
+            this.cdn = configuration[ConfigKeys.CDN_DOMAIN];
+
         }
 
         public SasInfo getSasToken(Guid userId, string ext)
@@ -49,7 +53,7 @@ namespace Stickers.Service
             var encodeId = Convert.ToBase64String(System.Text.Encoding.GetEncoding(28591).GetBytes(id));
             var blockclient = client.GetBlobContainerClient(this.containerName).GetBlockBlobClient(fileName);
             var item = await blockclient.CommitBlockListAsync(new List<string> { encodeId });
-            return $"https://{ENV.AZURE_STORAGE_CDN}/{this.containerName}/{fileName}";
+            return $"https://{this.cdn}/{this.containerName}/{fileName}";
 
         }
     }
@@ -59,9 +63,9 @@ namespace Stickers.Service
         /**
          * Base64编码的ID
          */
-        public string id { get; set; }
+        public string? id { get; set; }
         // base64?: string;
-        public string token { get; set; }
-        public string url { get; set; }
+        public string? token { get; set; }
+        public string? url { get; set; }
     }
 }
