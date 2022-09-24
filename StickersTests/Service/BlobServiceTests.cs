@@ -18,7 +18,7 @@ namespace Stickers.Service.Tests
         public void getSasTokenTest()
         {
             BlobService blob = new BlobService(this.getConfig());
-            var uri =blob.getSasToken("testuser", "jpg").ConfigureAwait(false).GetAwaiter().GetResult();
+            var uri =blob.getSasToken(Guid.NewGuid(), "jpg");
         }
         [TestMethod()]
         public void commitTest()

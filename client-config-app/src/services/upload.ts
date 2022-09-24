@@ -18,7 +18,7 @@ export interface UploadRequest {
 export async function getUploadSAS(request: UploadRequest): Promise<SasInfo[]> {
     // TODO: You need to implement this
     // return "?newSAS";
-    const result = await API.post("/upload", request);
+    const result = await API.post("/upload/me", request);
     // const json = ;
     return result.data;
 }

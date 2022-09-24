@@ -9,34 +9,19 @@ namespace Stickers.Controllers;
 
 [ApiController]
 [Route("api/me/stickers")]
-public class StickersController : ControllerBase
+public class StickersController : ControllerSession<StickersController>
 {
-    private const string userHeaderKey = "Session-Key";
 
-    private readonly ILogger<StickersController> _logger;
     private StickerStorage stickerStorage;
     private BlobService blobService;
-    private SessionService sessionService;
     private IHttpContextAccessor httpContextAccessor;
 
-    public StickersController(StickerStorage stickerStorage, BlobService blobService, ILogger<StickersController> logger, IHttpContextAccessor httpContextAccessor, SessionService sessionService)
+    public StickersController(StickerStorage stickerStorage, BlobService blobService, ILogger<StickersController> logger, IHttpContextAccessor httpContextAccessor, SessionService sessionService) : base(sessionService, logger)
     {
         this.stickerStorage = stickerStorage;
         this.blobService = blobService;
-        _logger = logger;
         this.httpContextAccessor = httpContextAccessor;
-        this.sessionService = sessionService;
-    }
-    private Guid GetUserId()
-    {
 
-        var haveValue = Request.Headers.TryGetValue(userHeaderKey, out var headerValue);
-        if (!string.IsNullOrEmpty(headerValue))
-        {
-            var sessionInfo = this.sessionService.GetSessionInfo(Guid.Parse(headerValue));
-            return sessionInfo;
-        }
-        throw new System.Web.Http.HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
     }
 
     [HttpPost("commit")]
