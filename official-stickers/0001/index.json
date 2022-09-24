@@ -70,7 +70,7 @@
         {
             "img": "09.png",
             "name": "Boss",
-            "keywords": ["Boss","老大"],
+            "keywords": ["Boss", "老大"],
             "localName": {
                 "zhCN": "老大"
             }
@@ -86,7 +86,7 @@
         {
             "img": "11.png",
             "name": "Hmm",
-            "keywords": ["Hmm","呃"],
+            "keywords": ["Hmm", "呃"],
             "localName": {
                 "zhCN": "嗯"
             }
@@ -94,7 +94,7 @@
         {
             "img": "12.png",
             "name": "gourmet",
-            "keywords": ["gourmet", "delicious", "drool", "谗", "流口水","好吃"],
+            "keywords": ["gourmet", "delicious", "drool", "谗", "流口水", "好吃"],
             "localName": {
                 "zhCN": "流口水"
             }
@@ -118,7 +118,7 @@
         {
             "img": "15.png",
             "name": "Sleepy",
-            "keywords": ["Sleepy","lazy", "困", "想睡觉"],
+            "keywords": ["Sleepy", "lazy", "困", "想睡觉"],
             "localName": {
                 "zhCN": "困"
             }
@@ -126,7 +126,7 @@
         {
             "img": "16.png",
             "name": "Ah",
-            "keywords": ["Scream","Ahah","啊啊啊", "尖叫"],
+            "keywords": ["Scream", "Ahah", "啊啊啊", "尖叫"],
             "localName": {
                 "zhCN": "啊啊啊"
             }
@@ -134,15 +134,15 @@
         {
             "img": "17.png",
             "name": "Yeah",
-            "keywords": ["Yeah","Good","耶"],
+            "keywords": ["Yeah", "Good", "耶"],
             "localName": {
                 "zhCN": "耶"
             }
-        },    
+        },
         {
             "img": "18.png",
             "name": "Er",
-            "keywords": ["Er","呃"],
+            "keywords": ["Er", "呃"],
             "localName": {
                 "zhCN": "呃"
             }
@@ -150,7 +150,7 @@
         {
             "img": "19.png",
             "name": "Cry",
-            "keywords": ["Cry","Wuwuwu","哭","呜呜呜"],
+            "keywords": ["Cry", "Wuwuwu", "哭", "呜呜呜"],
             "localName": {
                 "zhCN": "呜呜呜"
             }
@@ -158,7 +158,7 @@
         {
             "img": "20.png",
             "name": "What",
-            "keywords": ["What","How","你说什么","什么"],
+            "keywords": ["What", "How", "你说什么", "什么"],
             "localName": {
                 "zhCN": "你说什么"
             }
@@ -166,7 +166,7 @@
         {
             "img": "21.png",
             "name": "Milk team",
-            "keywords": ["Milk team","Boba tea","奶茶","珍珠奶茶"],
+            "keywords": ["Milk team", "Boba tea", "奶茶", "珍珠奶茶"],
             "localName": {
                 "zhCN": "奶茶"
             }
@@ -174,7 +174,7 @@
         {
             "img": "22.png",
             "name": "Wronged",
-            "keywords": ["Wronged","委屈"],
+            "keywords": ["Wronged", "委屈"],
             "localName": {
                 "zhCN": "委屈"
             }
@@ -182,7 +182,7 @@
         {
             "img": "23.png",
             "name": "Full",
-            "keywords": ["Full","饱","撑"],
+            "keywords": ["Full", "饱", "撑"],
             "localName": {
                 "zhCN": "饱"
             }
@@ -190,7 +190,7 @@
         {
             "img": "24.png",
             "name": "admorable",
-            "keywords": ["admorable","cute", "可爱","乖巧"],
+            "keywords": ["admorable", "cute", "可爱", "乖巧"],
             "localName": {
                 "zhCN": "乖巧"
             }
