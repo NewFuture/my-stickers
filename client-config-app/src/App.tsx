@@ -7,7 +7,7 @@ import { SWRConfig } from "swr";
 import { Sticker } from "./components/StickerApp";
 
 function getTeamsTheme(themeName: string) {
-    return themeName === "dark" ? teamsDarkTheme : themeName == "contrast" ? teamsHighContrastTheme : teamsLightTheme;
+    return themeName === "dark" ? teamsDarkTheme : themeName === "contrast" ? teamsHighContrastTheme : teamsLightTheme;
 }
 export default function ConfigApp() {
     const [theme, setTheme] = useState(teamsLightTheme);
