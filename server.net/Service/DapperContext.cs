@@ -1,5 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
-using System.Data;
+﻿using System.Data;
+using Stickers.Utils;
 
 namespace Stickers.Service
 {
@@ -10,7 +10,7 @@ namespace Stickers.Service
         public DapperContext(IConfiguration configuration)
         {
             _configuration = configuration;
-            _connectionString = _configuration["SqlConnection"];
+            _connectionString = _configuration[ConfigKeys.SQL_CONNECTION_STRING];
         }
         public IDbConnection CreateConnection()
             => new SqlConnection(_connectionString);

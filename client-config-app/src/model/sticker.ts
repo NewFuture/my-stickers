@@ -21,3 +21,5 @@ export interface Sticker {
     status?: StickerStatus;
     progress?: number;
 }
+
+export type UserType = "user" | "company";

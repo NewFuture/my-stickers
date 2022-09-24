@@ -1,11 +1,13 @@
 import { Divider } from "@fluentui/react-components";
 import { useState } from "react";
 import { useStickersList } from "../services/stickers";
-import Header, { StickersType } from "./Header/Header";
+import { UserType } from "../model/sticker";
+
+import Header from "./Header/Header";
 import ImageList from "./ImageList";
 
 export function Sticker(): JSX.Element {
-    const [currentRadio, setCurrentRadio] = useState<StickersType>("user");
+    const [currentRadio, setCurrentRadio] = useState<UserType>("user");
     const isTenant = currentRadio === "company";
     const { stickers, isLoading } = useStickersList(isTenant);
 

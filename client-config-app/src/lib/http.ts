@@ -13,6 +13,6 @@ export const API = axios.create({
 });
 
 API.interceptors.request.use((c) => {
-    c.headers[USER_SEESION_HEADER] = SessionKey;
+    c.headers![USER_SEESION_HEADER] = SessionKey;
     return c;
 });

@@ -5,22 +5,22 @@
     "license": "MS-PL",
     "dependencies": {
         "@stardust-ui/react": "^0.40.4",
-        "i18next": "^21.9.1",
+        "i18next": "^21.9.2",
         "i18next-browser-languagedetector": "^6.1.5",
         "javascript-time-ago": "^2.5.7",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-i18next": "^11.18.5",
+        "react-i18next": "^11.18.6",
         "react-markdown": "^8.0.3",
-        "react-router-dom": "^6.4.0"
+        "react-router-dom": "^6.4.1"
     },
     "devDependencies": {
         "@types/jest": "^27",
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "react-scripts": "^5.0.1",
-        "sass": "^1.35.1",
-        "typescript": "^4.8.2"
+        "sass": "^1.55.0",
+        "typescript": "^4.8.3"
     },
     "scripts": {
         "start": "react-scripts start",
