@@ -2,15 +2,15 @@ import { makeStyles } from "@fluentui/react-components";
 
 export const useWelcomePageStyles = makeStyles({
     root: {
-        textAlign: 'center',
-        justifyContent: 'center',
+        textAlign: "center",
+        justifyContent: "center",
     },
     img: {
-        width: '332px',
-        height: '190px',
-        marginBottom: '28px',
+        width: "332px",
+        height: "190px",
+        marginBottom: "28px",
     },
     description: {
-        marginBottom: '28px',
-    }
+        marginBottom: "28px",
+    },
 });

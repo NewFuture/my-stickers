@@ -1,6 +1,6 @@
 import { makeStyles, Spinner } from "@fluentui/react-components";
 import { useStickersList } from "../../hooks/useStickersList";
-import { deleteSticker, patchSticker } from "../../services/stickers";
+import { deleteSticker, patchSticker, uploadSticker } from "../../services/stickers";
 import ImageList from "./ImageList";
 
 const useStyles = makeStyles({
@@ -13,5 +13,14 @@ export function UserImageList(): JSX.Element {
     const styles = useStyles();
     return isLoading ? (
         <Spinner size="extra-large" className={styles.loader} />
-    ) : <ImageList items={data!} onMutate={mutate} isEditable={true} onDelete={deleteSticker} onPatch={patchSticker} />
+    ) : (
+        <ImageList
+            items={data!}
+            onMutate={mutate}
+            isEditable={true}
+            onDelete={deleteSticker}
+            onPatch={patchSticker}
+            onUpload={uploadSticker}
+        />
+    );
 }

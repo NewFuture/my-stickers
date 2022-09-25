@@ -15,11 +15,11 @@ export const API = axios.create({
 
 API.interceptors.request.use((c) => {
     c.headers![USER_SEESION_HEADER] = SessionKey;
-    if(c.url?.indexOf('admin')! >= 0  ) {
-        return getAuthToken().then( (token) =>{
-            c.headers!['authorization'] = `Bearer ${token}`
+    if (c.url?.indexOf("admin")! >= 0) {
+        return getAuthToken().then((token) => {
+            c.headers!["authorization"] = `Bearer ${token}`;
             return c;
-        })
+        });
     }
     return c;
 });

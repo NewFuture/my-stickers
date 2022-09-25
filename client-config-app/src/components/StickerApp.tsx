@@ -12,10 +12,7 @@ export function StickerApp(): JSX.Element {
         <>
             <Header type={currentRadio} onRadioChange={setCurrentRadio} />
             <Divider />
-            {isTenant ?
-                <TenantImageList />
-                :
-                <UserImageList />}
+            {isTenant ? <TenantImageList /> : <UserImageList />}
         </>
     );
 }
