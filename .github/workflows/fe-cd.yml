@@ -18,7 +18,7 @@ env:
     WEBSITE: stickers-test.azureedge.net
     MICROSOFT_APP_ID: "b967aed7-3ba9-48fb-ae52-2df66d237844"
     REACT_APP_API_ROOT: https://stickers-int-server-linux.azurewebsites.net/api/
-    REACT_APP_AAD_ID: "b967aed7-3ba9-48fb-ae52-2df66d237844"
+    REACT_APP_AAD_ID: "8af7d61a-0099-43bf-86e7-ee317d1d2f57"
     APP_PRE_FIX: "[I]"
 
 # This allows a subsequently queued workflow run to interrupt previous runs
