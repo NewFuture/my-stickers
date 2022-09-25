@@ -13,9 +13,9 @@ function getPatchItemByIdFunc(id: string, props: Partial<Sticker>) {
             item.id !== id
                 ? item
                 : {
-                    ...item,
-                    ...props,
-                },
+                      ...item,
+                      ...props,
+                  },
         )!;
 }
 interface ImageListProps {
@@ -23,7 +23,7 @@ interface ImageListProps {
     isEditable: boolean;
     onMutate: (updateCallback: (items?: Sticker[]) => Sticker[]) => void;
     onDelete: (id: string) => Promise<any>;
-    onPatch: (id: string, data: Partial<Sticker>) => Promise<any>
+    onPatch: (id: string, data: Partial<Sticker>) => Promise<any>;
 }
 
 const ImageList: React.FC<ImageListProps> = ({ isEditable, items, onMutate, onPatch, onDelete }: ImageListProps) => {

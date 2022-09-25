@@ -23,7 +23,13 @@ export function StickerApp(): JSX.Element {
         <>
             <Header type={currentRadio} onRadioChange={setCurrentRadio} />
             <Divider />
-            <ImageList items={data!} onMutate={mutate} isEditable={isTenant} onDelete={deleteSticker} onPatch={patchSticker} />
+            <ImageList
+                items={data!}
+                onMutate={mutate}
+                isEditable={isTenant}
+                onDelete={deleteSticker}
+                onPatch={patchSticker}
+            />
         </>
     );
 }
