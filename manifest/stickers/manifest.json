@@ -89,7 +89,7 @@
         ]
     },
     "webApplicationInfo": {
-        "id": "${AAD_APP_ID}",
-        "resource": "api://${WEBSITE}/${AAD_APP_ID}"
+        "id": "${REACT_APP_AAD_ID}",
+        "resource": "api://${WEBSITE}/${REACT_APP_AAD_ID}"
     }
 }

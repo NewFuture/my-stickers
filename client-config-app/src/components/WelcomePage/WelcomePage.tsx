@@ -19,7 +19,7 @@ export const WelcomePage: React.FC<WelcomePageProps> = (props) => {
   useEffect(() => {
     getContext().then((c) => {
       const tenantId = c.user?.tenant?.id;
-      const link = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize?client_id=${process.env.AAD_APP_ID}&response_type=code&redirect_uri=${window.location.origin}&scope=openid`;
+      const link = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize?client_id=${process.env.REACT_APP_AAD_ID}&response_type=code&redirect_uri=${window.location.origin}&scope=openid`;
       setLink(link);
     });
   }, []);
