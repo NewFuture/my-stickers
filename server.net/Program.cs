@@ -19,7 +19,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<StickerStorage>();
+builder.Services.AddSingleton<StickerService>();
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddSingleton<OfficialStickersSearchHandler>();
 builder.Services.AddSingleton<BlobService>();
@@ -35,8 +35,9 @@ builder.Services.AddTransient<IBot, TeamsMessagingExtensionsBot>();
 
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddSingleton<BlobService>();
+builder.Services.AddSingleton<StickerDatabase>();
 builder.Services.AddSingleton<SessionService>();
-builder.Services.AddSingleton<StickerStorage>();
+builder.Services.AddSingleton<StickerService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 // Adding Authentication  
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);

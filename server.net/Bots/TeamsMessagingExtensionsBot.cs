@@ -13,7 +13,7 @@ namespace Stickers.Bot
     public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
     {
         public readonly string WebUrl;
-        private StickerStorage stickerStorage;
+        private StickerService stickerService;
         private OfficialStickersSearchHandler officialStickersSearchHandler;
         private ILogger<TeamsMessagingExtensionsBot> logger;
         private SessionService session;
@@ -21,13 +21,13 @@ namespace Stickers.Bot
 
         public TeamsMessagingExtensionsBot(
             IConfiguration configuration,
-            StickerStorage stickerStorage,
+            StickerService stickerStorage,
             OfficialStickersSearchHandler officialStickersSearchHandler,
             ILogger<TeamsMessagingExtensionsBot> logger,
             SessionService sessionService) : base()
         {
             this.WebUrl = configuration[ConfigKeys.WEB_URL];
-            this.stickerStorage = stickerStorage;
+            this.stickerService = stickerStorage;
             this.officialStickersSearchHandler = officialStickersSearchHandler;
             this.logger = logger;
             this.session = sessionService;
