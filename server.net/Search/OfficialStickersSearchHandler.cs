@@ -1,46 +1,59 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stickers.Models;
-using Stickers.Resources;
+using Stickers.Utils;
+using Microsoft.Extensions.Caching.Memory;
+
 
 namespace Stickers.Search
 {
     public class OfficialStickersSearchHandler
     {
-        private readonly Lazy<List<OfficialSticker>> data = new Lazy<List<OfficialSticker>>(() =>
+        private IHttpClientFactory httpClientFactory;
+        private readonly IMemoryCache cache;
+
+        private string indexUrl;
+
+        private const string CACHE_KEY = "official-stickers";
+
+        private static readonly MemoryCacheEntryOptions options = new MemoryCacheEntryOptions()
         {
-            HttpClient client = new HttpClient();
-            HttpResponseMessage response = client.GetAsync("https://stickerstestblob.z7.web.core.windows.net/official-stickers/index.json").Result;
+            Priority = CacheItemPriority.High,
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12),
+        };
+        public OfficialStickersSearchHandler(IHttpClientFactory httpClientFactory, IConfiguration configuration, IMemoryCache cache)
+        {
+            this.httpClientFactory = httpClientFactory;
+            this.cache = cache;
+            this.indexUrl = configuration[ConfigKeys.WEB_URL] + "/official-stickers/index.json";
+        }
+
+        public async Task<List<OfficialSticker>> GetOfficialStickers()
+        {
+            if (cache.TryGetValue<List<OfficialSticker>>(CACHE_KEY, out var list))
+            {
+                return list;
+            }
+            var client = httpClientFactory.CreateClient("official-stickers");
+            var response = await client.GetAsync(this.indexUrl);
             response.EnsureSuccessStatusCode();
             string responseBody = response.Content.ReadAsStringAsync().Result;
             var jObject = JsonConvert.DeserializeObject(responseBody) as JObject;
+            cache.Set(CACHE_KEY, jObject);
             return jObject["stickers"].ToObject<List<OfficialSticker>>();
-        }, LazyThreadSafetyMode.PublicationOnly);
 
-        public List<OfficialSticker> GetAllOfficialStickers()
-        {
-            return data.Value;
         }
 
-        public List<OfficialSticker> Search(string keyword)
+        public async Task<List<OfficialSticker>> Search(string keyword)
         {
+            var list = await this.GetOfficialStickers();
+            if (String.IsNullOrWhiteSpace(keyword))
+            {
+                return list;
+            }
+
             var lowerKeyword = keyword.ToLower();
-            var result = new List<OfficialSticker>();
-
-            if (string.IsNullOrWhiteSpace(keyword))
-            {
-                return result;
-            }
-
-            foreach (var sticker in data.Value)
-            {
-                if(sticker.keywords.Any(t => t.ToLower().Contains(lowerKeyword)))
-                {
-                    result.Add(sticker);
-                }
-            }
-
-            return result;
+            return list.FindAll(s => s.keywords.Any(k => k.Contains(lowerKeyword)));
         }
     }
 }

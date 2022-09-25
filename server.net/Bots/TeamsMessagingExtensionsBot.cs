@@ -3,7 +3,6 @@
 // @see https://github.com/microsoft/BotBuilder-Samples/blob/main/samples/csharp_dotnetcore/50.teams-messaging-extensions-search/Bots/TeamsMessagingExtensionsSearchBot.cs
 
 using Microsoft.Bot.Builder.Teams;
-using Stickers.Search;
 using Stickers.Service;
 using Stickers.Utils;
 
@@ -14,7 +13,7 @@ namespace Stickers.Bot
     {
         public readonly string WebUrl;
         private StickerService stickerService;
-        private OfficialStickersSearchHandler officialStickersSearchHandler;
+        private SearchService searchService;
         private ILogger<TeamsMessagingExtensionsBot> logger;
         private SessionService session;
 
@@ -22,13 +21,14 @@ namespace Stickers.Bot
         public TeamsMessagingExtensionsBot(
             IConfiguration configuration,
             StickerService stickerStorage,
-            OfficialStickersSearchHandler officialStickersSearchHandler,
-            ILogger<TeamsMessagingExtensionsBot> logger,
-            SessionService sessionService) : base()
+            SearchService searchService,
+            SessionService sessionService,
+            ILogger<TeamsMessagingExtensionsBot> logger
+            ) : base()
         {
             this.WebUrl = configuration[ConfigKeys.WEB_URL];
             this.stickerService = stickerStorage;
-            this.officialStickersSearchHandler = officialStickersSearchHandler;
+            this.searchService = searchService;
             this.logger = logger;
             this.session = sessionService;
         }

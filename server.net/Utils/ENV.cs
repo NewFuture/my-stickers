@@ -1,4 +1,4 @@
-﻿namespace Stickers.Service
+﻿namespace Stickers.Utils
 {
     public class ENV
     {
