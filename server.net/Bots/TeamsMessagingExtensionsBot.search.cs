@@ -57,11 +57,11 @@ namespace Stickers.Bot
 
             var keyword = this.GetQueryParameters(query, "query");
             var skip = query.QueryOptions.Skip ?? 0;
-
-            if (!String.IsNullOrEmpty(keyword) && skip > 0)
+            var isSearch = String.IsNullOrWhiteSpace(keyword);
+            if (!isSearch && skip > 0)
             {
                 // search 最多支持一页
-                return this.GetMessagingExtensionResponse(new Img[0]);
+                return this.GetMessagingExtensionResponse(new Img[0], isSearch);
             }
             var count = query.QueryOptions.Count ?? 0;
 
@@ -72,17 +72,17 @@ namespace Stickers.Bot
             if (count + skip <= stickers.Count)
             {
                 var imgs = stickers.GetRange(skip, count + skip).Select(StickerToImg);
-                return GetMessagingExtensionResponse(imgs);
+                return GetMessagingExtensionResponse(imgs, isSearch);
             }
 
             // tenant search
             var tenantId = Guid.Parse(turnContext.Activity.Conversation.TenantId);
             var tenantStickers = await searchService.SearchTenantStickers(tenantId, keyword);
-            stickers.AddRange(tenantStickers);
+            stickers = stickers.Concat(tenantStickers).ToList();
             if (count + skip <= stickers.Count)
             {
                 var imgs = stickers.GetRange(skip, count + skip).Select(StickerToImg);
-                return GetMessagingExtensionResponse(imgs);
+                return GetMessagingExtensionResponse(imgs, isSearch);
             }
 
 
@@ -102,20 +102,20 @@ namespace Stickers.Bot
             {
                 // only officials to return
                 var imgs = officialStickers.GetRange(skip, skip + count).Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
-                return GetMessagingExtensionResponse(imgs);
+                return GetMessagingExtensionResponse(imgs, isSearch);
             }
             else
             {
                 var imgs = stickers.Select(StickerToImg);
                 var officialImgs = officialStickers.GetRange(0, count - stickers.Count)
                 .Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
-                return GetMessagingExtensionResponse(imgs.Concat(officialImgs));
+                return GetMessagingExtensionResponse(imgs.Concat(officialImgs), isSearch);
             }
 
 
         }
 
-        private MessagingExtensionResponse GetMessagingExtensionResponse(IEnumerable<Img> images)
+        private MessagingExtensionResponse GetMessagingExtensionResponse(IEnumerable<Img> images, Boolean isSearch)
         {
             List<MessagingExtensionAttachment> attachments = images.Select(img => new MessagingExtensionAttachment()
             {
@@ -129,12 +129,8 @@ namespace Stickers.Bot
 
             return new MessagingExtensionResponse
             {
-                ComposeExtension = new MessagingExtensionResult
-                {
-                    Type = "result",
-                    AttachmentLayout = "grid",
-                    Attachments = attachments
-                }
+                ComposeExtension = new MessagingExtensionResult("grid", "result", attachments),
+                CacheInfo = new CacheInfo("CACHE", isSearch ? 600 : 120),
             };
         }
         private string? GetQueryParameters(MessagingExtensionQuery query, string name)
