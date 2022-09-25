@@ -18,6 +18,17 @@ export function TenantImageList(): JSX.Element {
     const { data, isLoading, mutate } = useStickersList(true);
     const styles = useStyles();
     useEffect(() => {
+        const getFocus = () => {
+            getAuthToken().then((token) => {
+                setIdToken(token);
+            });
+        };
+        window.addEventListener("focus", getFocus);
+        return () => {
+            window.removeEventListener("focus", getFocus);
+        };
+    }, []);
+    useEffect(() => {
         getAuthToken().then(
             (token) => {
                 setIdToken(token);
@@ -29,22 +40,27 @@ export function TenantImageList(): JSX.Element {
             },
         );
     }, []);
-    return !idToken ? (
-        <WelcomePage
-            onLogin={(token: string) => {
-                setIdToken(token);
-            }}
-        />
-    ) : isLoading ? (
-        <Spinner size="extra-large" className={styles.loader} />
-    ) : (
-        <ImageList
-            items={data!}
-            onMutate={mutate}
-            isEditable={isAdmin}
-            onDelete={deleteTenantSticker}
-            onPatch={patchTenantSticker}
-            onUpload={uploadTenantSticker}
-        />
-    );
+    return <WelcomePage
+        onLogin={(token: string) => {
+            setIdToken(token);
+        }}
+    />
+    // !idToken ? (
+    //     <WelcomePage
+    //         onLogin={(token: string) => {
+    //             setIdToken(token);
+    //         }}
+    //     />
+    // ) : isLoading ? (
+    //     <Spinner size="extra-large" className={styles.loader} />
+    // ) : (
+    //     <ImageList
+    //         items={data!}
+    //         onMutate={mutate}
+    //         isEditable={isAdmin}
+    //         onDelete={deleteTenantSticker}
+    //         onPatch={patchTenantSticker}
+    //         onUpload={uploadTenantSticker}
+    //     />
+    // );
 }

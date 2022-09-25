@@ -6,11 +6,12 @@ export const useWelcomePageStyles = makeStyles({
         justifyContent: "center",
     },
     img: {
-        width: "332px",
-        height: "190px",
-        marginBottom: "28px",
+        width: "300px",
+        height: "300px",
+        marginBottom: "16px",
+        marginTop: "16px",
     },
     description: {
-        marginBottom: "28px",
+        marginBottom: "16px",
     },
 });

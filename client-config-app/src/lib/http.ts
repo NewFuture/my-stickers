@@ -14,7 +14,7 @@ export const API = axios.create({
 });
 
 API.interceptors.request.use((c) => {
-    c.headers![USER_SEESION_HEADER] = SessionKey;
+    c.headers![USER_SEESION_HEADER] = '0823da70-e86e-4d61-93ae-0523fec174ab';
     if (c.url?.indexOf("admin")! >= 0) {
         return getAuthToken().then((token) => {
             c.headers!["authorization"] = `Bearer ${token}`;
