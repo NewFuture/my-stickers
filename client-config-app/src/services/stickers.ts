@@ -1,4 +1,5 @@
 import { API } from "../lib/http";
+import type { Sticker } from "../model/sticker";
 import { getUploadSAS, upload } from "./upload";
 
 export async function uploadSticker(file: File, onProgressUpdate: (percent: number) => void) {
@@ -12,6 +13,6 @@ export async function deleteSticker(id: string): Promise<string> {
     return await API.delete(`/me/stickers/${id}`);
 }
 
-export async function editSticker(id: string, name: string) {
-    await API.patch(`/me/stickers/${id}`, { name });
+export async function patchSticker(id: string, data: Partial<Sticker>) {
+    await API.patch(`/me/stickers/${id}`, data);
 }

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ImageItem from "../ImageItem/ImageItem";
 import { Sticker, StickerStatus } from "../../model/sticker";
-import { deleteSticker, editSticker } from "../../services/stickers";
 import { UploadButton } from "../UploadButton/UploadButton";
 
 import { useImageListStyles } from "./ImageList.styles";
@@ -23,9 +22,11 @@ interface ImageListProps {
     items: Sticker[];
     isEditable: boolean;
     onMutate: (updateCallback: (items?: Sticker[]) => Sticker[]) => void;
+    onDelete: (id: string) => Promise<any>;
+    onPatch: (id: string, data: Partial<Sticker>) => Promise<any>;
 }
 
-const ImageList: React.FC<ImageListProps> = ({ isEditable, items, onMutate }: ImageListProps) => {
+const ImageList: React.FC<ImageListProps> = ({ isEditable, items, onMutate, onPatch, onDelete }: ImageListProps) => {
     const imageListStyles = useImageListStyles();
     const [uploadFiles, setUploadFiles] = useState<File[]>([]);
     const onFinshUpload = (file: File) => {
@@ -46,7 +47,7 @@ const ImageList: React.FC<ImageListProps> = ({ isEditable, items, onMutate }: Im
                     {...item}
                     onDelete={() => {
                         onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete }));
-                        deleteSticker(item.id).then(
+                        onDelete(item.id).then(
                             // 删除成功
                             () => onMutate((list) => list?.filter((v) => v.id !== item.id)!),
                             // 删除失败
@@ -55,7 +56,7 @@ const ImageList: React.FC<ImageListProps> = ({ isEditable, items, onMutate }: Im
                     }}
                     onEdit={(name: string) => {
                         onMutate(getPatchItemByIdFunc(item.id, { name, status: StickerStatus.editing }));
-                        editSticker(item.id, name).then(
+                        onPatch(item.id, { name }).then(
                             () => onMutate(getPatchItemByIdFunc(item.id, { status: undefined })),
                             () => onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.edit_fail })),
                         );

@@ -25,11 +25,9 @@ const MAX_SIZE = 1000 * 1024;
  * @returns
  */
 export const UploadButton: React.FC<UploadButtonProps> = ({ maxNum, onUploadListChange }): JSX.Element => {
-    const picCount = 0;
     const [messages, setMessages] = useState<Msg[]>([]);
     const { t } = useTranslation();
     const styles = useUploadButtonStyles();
-    const inputDisabled = picCount >= maxNum;
 
     const imageUploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const msg = [];
@@ -48,9 +46,8 @@ export const UploadButton: React.FC<UploadButtonProps> = ({ maxNum, onUploadList
             });
         }
         setMessages(msg);
-        console.log(messages);
         if (filtered.length) {
-            onUploadListChange(filtered.slice(0, MAX_NUM - picCount));
+            onUploadListChange(filtered.slice(0, maxNum));
         }
     };
 
@@ -62,7 +59,7 @@ export const UploadButton: React.FC<UploadButtonProps> = ({ maxNum, onUploadList
                 </label>
                 <input
                     hidden
-                    disabled={inputDisabled}
+                    disabled={maxNum <= 0}
                     type="file"
                     id="image-upload"
                     onChange={imageUploadHandler}
