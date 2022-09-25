@@ -15,59 +15,61 @@ public class AdminStickersController : ControllerBase
 
 
     private readonly ILogger<StickersController> _logger;
-    private StickerStorage stickerStorage;
+    private StickerService stickerService;
     private BlobService blobService;
-    private string tableName;
     private IHttpContextAccessor httpContextAccessor = null;
 
-    public AdminStickersController(StickerStorage stickerStorage, BlobService blobService, ILogger<StickersController> logger, IHttpContextAccessor httpContextAccessor)
+    public AdminStickersController(StickerService stickers, BlobService blobService, ILogger<StickersController> logger, IHttpContextAccessor httpContextAccessor)
     {
-        this.stickerStorage = stickerStorage;
+        this.stickerService = stickers;
         this.blobService = blobService;
-        this.stickerStorage.SetAdmin();
         _logger = logger;
         this.httpContextAccessor = httpContextAccessor;
     }
-    private Guid GetUserId()
+    private Guid GetTenantId()
     {
-        var userId = this.httpContextAccessor.HttpContext?.User.FindFirstValue("http://schemas.microsoft.com/identity/claims/tenantid");
-        return new Guid(userId);
+        var id = this.httpContextAccessor.HttpContext?.User.FindFirstValue("http://schemas.microsoft.com/identity/claims/tenantid");
+        if (String.IsNullOrWhiteSpace(id))
+        {
+            throw new UnauthorizedAccessException("cannot get tenant form token");
+        }
+        return new Guid(id);
     }
     [HttpPost("commit")]
-    public async Task<Sticker> Commit([FromQuery] Guid userId, [FromBody] PostStickerBlobRequest request)
+    public async Task<Sticker> Commit([FromBody] PostStickerBlobRequest request)
     {
-        userId = this.GetUserId();
+        var tenantId = this.GetTenantId();
         string extendName = System.IO.Path.GetExtension(request.name);
-        string src = await this.blobService.commitBlocks(userId, request.id, extendName, request.contentType);
+        string src = await this.blobService.commitBlocks(tenantId, request.id, extendName, request.contentType);
         var newSticker = new Sticker()
         {
             src = src,
             name = Path.GetFileNameWithoutExtension(request.name) + extendName,
             id = Guid.Parse(request.id)
         };
-        var list = await this.stickerStorage.addUserStickers(userId, new List<Sticker>() { newSticker });
+        var list = await this.stickerService.addTenantStickers(tenantId, new List<Sticker>() { newSticker });
         return list[0];
 
     }
-    [HttpGet("/api/admin/stickers")]
-    public async Task<Page<Sticker>> Get(Guid userId)
+    [HttpGet]
+    public async Task<Page<Sticker>> Get()
     {
-        userId = this.GetUserId();
-        var stickers = await this.stickerStorage.getUserStickers(userId);
+        var tenantId = this.GetTenantId();
+        var stickers = await this.stickerService.getTenantStickers(tenantId);
         return new Page<Sticker>(stickers);
     }
     [HttpDelete("{id}")]
-    public async Task<Result> Delete(string id, Guid userId)
+    public async Task<Result> Delete(string id)
     {
-        userId = this.GetUserId();
-        var result = await this.stickerStorage.deleteUserSticker(userId, id);
+        var tenantId = this.GetTenantId();
+        var result = await this.stickerService.deleteTanentSticker(tenantId, id);
         return new Result(result);
     }
     [HttpPatch("{id}")]
-    public async Task<Result> UpdateSticker(string id, Guid userId, string name)
+    public async Task<Result> UpdateSticker(string id, [FromBody] PatchStickerRequest request)
     {
-        userId = this.GetUserId();
-        var result = await this.stickerStorage.updateStickerName(userId, id, name);
+        var tenantId = this.GetTenantId();
+        var result = await this.stickerService.updateTenantSticker(tenantId, id, request);
         return new Result(result);
     }
 
