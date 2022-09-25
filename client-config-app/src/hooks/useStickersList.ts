@@ -12,7 +12,7 @@ interface StickerListResult extends SWRResponse<Sticker[], any> {
 }
 
 export function useStickersList(isTenant: boolean): StickerListResult {
-    const url = isTenant ? "tenant/stickers" : "me/stickers";
+    const url = isTenant ? `admin/stickers` : "me/stickers";
     const result: StickerListResult = useSWR(url, fetcher);
     result.isLoading = !result.data && !result.error;
     return result;

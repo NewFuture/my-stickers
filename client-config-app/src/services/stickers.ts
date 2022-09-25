@@ -6,7 +6,14 @@ export async function uploadSticker(file: File, onProgressUpdate: (percent: numb
     const sasInfo = await getUploadSAS({
         exts: [file.name.split(".").pop()!],
     });
-    return await upload(file, sasInfo[0], (p) => onProgressUpdate(p.percent));
+    return await upload(file, sasInfo[0], "/me/stickers/commit", (p) => onProgressUpdate(p.percent));
+}
+
+export async function uploadTenantSticker(file: File, onProgressUpdate: (percent: number) => void) {
+    const sasInfo = await getUploadSAS({
+        exts: [file.name.split(".").pop()!],
+    });
+    return await upload(file, sasInfo[0], "/admin/stickers/commit", (p) => onProgressUpdate(p.percent));
 }
 
 export async function deleteSticker(id: string): Promise<string> {
@@ -15,4 +22,12 @@ export async function deleteSticker(id: string): Promise<string> {
 
 export async function patchSticker(id: string, data: Partial<Sticker>) {
     await API.patch(`/me/stickers/${id}`, data);
+}
+
+export async function deleteTenantSticker(id: string): Promise<string> {
+    return await API.delete(`/admin/stickers/${id}`);
+}
+
+export async function patchTenantSticker(id: string, data: Partial<Sticker>) {
+    await API.patch(`/admin/stickers/${id}`, data);
 }

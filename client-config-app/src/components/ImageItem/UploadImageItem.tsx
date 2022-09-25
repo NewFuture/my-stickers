@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Image, Label, PresenceBadge } from "@fluentui/react-components";
 import { Sticker, StickerStatus } from "../../model/sticker";
-import { uploadSticker } from "../../services/stickers";
 import { ArrowRepeatAll16Regular } from "@fluentui/react-icons";
 import { useImageItemStyles } from "./ImageItem.styles";
 
 interface UploadImageItemProps {
     file: File;
     onDelete: (file: File) => void;
+    onUpload: (file: File, onProgressUpdate: (percent: number) => void) => Promise<any>;
 }
 
 export const UploadImageItem: React.FC<UploadImageItemProps> = ({
     file,
     onDelete,
+    onUpload,
 }: UploadImageItemProps): JSX.Element => {
     const imageListStyles = useImageItemStyles();
     const [sticker, setSticker] = useState<Sticker>(() => ({
@@ -22,7 +23,7 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
     }));
 
     useEffect((): void => {
-        uploadSticker(file, (progress) => setSticker((s) => ({ ...s, progress }))).then(
+        onUpload(file, (progress) => setSticker((s) => ({ ...s, progress }))).then(
             (data) => {
                 setSticker((s) => ({ ...s, status: StickerStatus.success, progress: undefined }));
             },
@@ -31,7 +32,7 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
                 setSticker((s) => ({ ...s, status: StickerStatus.upload_fail, progress: undefined }));
             },
         );
-    }, [file]);
+    }, [file, onUpload]);
 
     const status =
         sticker.status === StickerStatus.success

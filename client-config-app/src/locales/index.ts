@@ -10,4 +10,6 @@ export const enum TransKeys {
     maxnum = "maxnum",
     inputLabel = "inputLabel",
     inputPlaceholder = "inputPlaceholder",
+    login = "login",
+    loginDescription = "loginDescription",
 }

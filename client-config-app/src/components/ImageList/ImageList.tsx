@@ -24,9 +24,17 @@ interface ImageListProps {
     onMutate: (updateCallback: (items?: Sticker[]) => Sticker[]) => void;
     onDelete: (id: string) => Promise<any>;
     onPatch: (id: string, data: Partial<Sticker>) => Promise<any>;
+    onUpload: (file: File, onProgressUpdate: (percent: number) => void) => Promise<any>;
 }
 
-const ImageList: React.FC<ImageListProps> = ({ isEditable, items, onMutate, onPatch, onDelete }: ImageListProps) => {
+const ImageList: React.FC<ImageListProps> = ({
+    isEditable,
+    items,
+    onMutate,
+    onPatch,
+    onDelete,
+    onUpload,
+}: ImageListProps) => {
     const imageListStyles = useImageListStyles();
     const [uploadFiles, setUploadFiles] = useState<File[]>([]);
     const onFinshUpload = (file: File) => {
@@ -36,9 +44,9 @@ const ImageList: React.FC<ImageListProps> = ({ isEditable, items, onMutate, onPa
     const maxUploadCount = MAX_NUM - items?.length ?? 0 - uploadFiles.length;
     return (
         <div className={imageListStyles.grid}>
-            {!isEditable && <UploadButton onUploadListChange={setUploadFiles} maxNum={maxUploadCount} />}
+            {isEditable && <UploadButton onUploadListChange={setUploadFiles} maxNum={maxUploadCount} />}
             {uploadFiles?.map((item: File, index) => (
-                <UploadImageItem key={index} file={item} onDelete={onFinshUpload} />
+                <UploadImageItem key={index} file={item} onDelete={onFinshUpload} onUpload={onUpload} />
             ))}
             {items?.map((item: Sticker) => (
                 <ImageItem

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getAuthToken } from "../services/teams";
 import { BASE_URL } from "./env";
 
 const SessionKey = window.location.hash?.substring(1);
@@ -14,5 +15,11 @@ export const API = axios.create({
 
 API.interceptors.request.use((c) => {
     c.headers![USER_SEESION_HEADER] = SessionKey;
+    if (c.url?.indexOf("admin")! >= 0) {
+        return getAuthToken().then((token) => {
+            c.headers!["authorization"] = `Bearer ${token}`;
+            return c;
+        });
+    }
     return c;
 });
