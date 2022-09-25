@@ -13,15 +13,12 @@ const useStyles = makeStyles({
     },
 });
 export function TenantImageList(): JSX.Element {
-    const [idToken, setIdToken] = useState<string>();
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
-    const { data, isLoading, mutate } = useStickersList(true);
+    const { data, isLoading, mutate, error } = useStickersList(true);
     const styles = useStyles();
     useEffect(() => {
         const getFocus = () => {
-            getAuthToken().then((token) => {
-                setIdToken(token);
-            });
+            getAuthToken().then(() => {});
         };
         window.addEventListener("focus", getFocus);
         return () => {
@@ -31,7 +28,6 @@ export function TenantImageList(): JSX.Element {
     useEffect(() => {
         getAuthToken().then(
             (token) => {
-                setIdToken(token);
                 const admin = IsAdmin(token);
                 setIsAdmin(admin);
             },
@@ -40,27 +36,18 @@ export function TenantImageList(): JSX.Element {
             },
         );
     }, []);
-    return <WelcomePage
-        onLogin={(token: string) => {
-            setIdToken(token);
-        }}
-    />
-    // !idToken ? (
-    //     <WelcomePage
-    //         onLogin={(token: string) => {
-    //             setIdToken(token);
-    //         }}
-    //     />
-    // ) : isLoading ? (
-    //     <Spinner size="extra-large" className={styles.loader} />
-    // ) : (
-    //     <ImageList
-    //         items={data!}
-    //         onMutate={mutate}
-    //         isEditable={isAdmin}
-    //         onDelete={deleteTenantSticker}
-    //         onPatch={patchTenantSticker}
-    //         onUpload={uploadTenantSticker}
-    //     />
-    // );
+    return error ? (
+        <WelcomePage onLogin={(token: string) => {}} />
+    ) : isLoading ? (
+        <Spinner size="extra-large" className={styles.loader} />
+    ) : (
+        <ImageList
+            items={data!}
+            onMutate={mutate}
+            isEditable={isAdmin}
+            onDelete={deleteTenantSticker}
+            onPatch={patchTenantSticker}
+            onUpload={uploadTenantSticker}
+        />
+    );
 }
