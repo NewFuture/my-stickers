@@ -3,16 +3,22 @@ import type { Sticker } from "../model/sticker";
 import { getUploadSAS, upload } from "./upload";
 
 export async function uploadSticker(file: File, onProgressUpdate: (percent: number) => void) {
-    const sasInfo = await getUploadSAS({
-        exts: [file.name.split(".").pop()!],
-    });
+    const sasInfo = await getUploadSAS(
+        {
+            exts: [file.name.split(".").pop()!],
+        },
+        "/me/stickers/upload",
+    );
     return await upload(file, sasInfo[0], "/me/stickers/commit", (p) => onProgressUpdate(p.percent));
 }
 
 export async function uploadTenantSticker(file: File, onProgressUpdate: (percent: number) => void) {
-    const sasInfo = await getUploadSAS({
-        exts: [file.name.split(".").pop()!],
-    });
+    const sasInfo = await getUploadSAS(
+        {
+            exts: [file.name.split(".").pop()!],
+        },
+        "/admin/stickers/upload",
+    );
     return await upload(file, sasInfo[0], "/admin/stickers/commit", (p) => onProgressUpdate(p.percent));
 }
 
