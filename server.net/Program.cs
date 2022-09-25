@@ -54,8 +54,9 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(o =>
     {
-        o.Audience = "9df8d009-4540-47e2-8711-36adb219fedb";
-        o.Authority = "https://login.microsoftonline.com/a0783b62-a438-4df4-b01a-1922ce21ddbe/v2.0";
+        // Microsoft Issuer
+        o.ClaimsIssuer = "9188040d-6c67-4c5b-b112-36a304b66dad";
+        o.Audience = builder.Configuration[ConfigKeys.AAD_APP_ID];
     });
 builder.Services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
 builder.Services.AddMemoryCache();
