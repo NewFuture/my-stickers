@@ -18,7 +18,6 @@ env:
     WEBSITE: stickerstestblob.z7.web.core.windows.net
     MICROSOFT_APP_ID: "b967aed7-3ba9-48fb-ae52-2df66d237844"
     REACT_APP_API_ROOT: https://stickers-int-server-linux.azurewebsites.net/api/
-    REDIRECT_URI: https://stickers-int-server-linux.azurewebsites.net/admin.html
     AAD_APP_ID: "963a3218-68a8-4a64-bd82-988a02788cfb"
     APP_PRE_FIX: "INT"
 
