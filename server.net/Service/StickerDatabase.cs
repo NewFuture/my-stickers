@@ -2,6 +2,7 @@ namespace Stickers.Service
 {
     using Dapper;
     using Stickers.Entities;
+    using Stickers.Utils;
 
     public class StickerDatabase
     {
@@ -84,53 +85,6 @@ namespace Stickers.Service
                 return ItemCount > 0;
             }
         }
-
-
-
-        // public async Task<List<Sticker>> addSticker(Boolean isTenant, Guid userId, List<Sticker> stickers)
-        // {
-        //     var oldstickers = await this.getUserStickers(userId);
-        //     List<Sticker> result = new List<Sticker>();
-        //     using (var connection = context.CreateConnection())
-        //     {
-        //         if (oldstickers != null && oldstickers.Count > 0)
-        //         {
-        //             var needUpdate = stickers.FindAll(o => oldstickers.Exists(s => s.src == o.src));
-        //             foreach (var item in needUpdate)
-        //             {
-        //                 //update and remove from list
-        //                 var updateItem = new
-        //                 {
-        //                     id = item.id,
-        //                     name = item.name,
-        //                     src = item.src,
-        //                     userId = userId,
-        //                     weight = DateTime.Now.Ticks,
-        //                 };
-        //                 string sql = $"update {userTableName} set weight = @weight where userId = @userId and Id=@Id";
-        //                 await connection.ExecuteAsync(sql, updateItem);
-        //                 stickers.Remove(item);
-        //                 result.Add(item);
-        //             }
-        //         }
-
-        //         foreach (var item in stickers)
-        //         {
-        //             var newItem = new
-        //             {
-        //                 id = Guid.NewGuid(),
-        //                 name = item.name,
-        //                 src = item.src,
-        //                 userId = userId,
-        //                 weight = DateTime.Now.Ticks,
-        //             };
-        //             string sql = $"INSERT\r\nINTO {userTableName} (id,userId,src,name,weight)\r\nVALUES (@id,@userId,@src,@name,@weight)";
-        //             await connection.ExecuteAsync(sql, newItem);
-        //             result.Add(item);
-        //         }
-        //     }
-        //     return result;
-        // }
 
         private static (string tableName, string fieldName) GetTableAndFiled(bool isTenant)
         {
