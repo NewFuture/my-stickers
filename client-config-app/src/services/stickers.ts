@@ -16,3 +16,12 @@ export async function deleteSticker(id: string): Promise<string> {
 export async function patchSticker(id: string, data: Partial<Sticker>) {
     await API.patch(`/me/stickers/${id}`, data);
 }
+
+
+export async function deleteTenantSticker(id: string): Promise<string> {
+    return await API.delete(`/admin/stickers/${id}`);
+}
+
+export async function patchTenantSticker(id: string, data: Partial<Sticker>) {
+    await API.patch(`/admin/stickers/${id}`, data);
+}

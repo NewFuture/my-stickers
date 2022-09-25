@@ -14,9 +14,10 @@ export interface HeaderButtonProps {
 const Header: React.FC<HeaderButtonProps> = ({ type, onRadioChange }: HeaderButtonProps): JSX.Element => {
     const styles = useHeaderStyles();
     const { t } = useTranslation();
+    const header = t(TransKeys.title, { context: type });
     return (
         <header className={styles.root}>
-            <h1 className={styles.h}>{t(TransKeys.title, { context: type })}</h1>
+            <h1 className={styles.h}>{header}</h1>
             <RadioGroup value={type} onChange={(_, data) => onRadioChange(data.value as UserType)} layout="horizontal">
                 <Radio value="user" title={t(TransKeys.title, { context: "user" })} label={<StarFilled />} />
                 <Radio value="company" title={t(TransKeys.title, { context: "company" })} label={<BuildingFilled />} />

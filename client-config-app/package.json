@@ -5,7 +5,7 @@
     "license": "MS-PL",
     "homepage": "/config/",
     "dependencies": {
-        "@fluentui/react-components": "^9.3.0",
+        "@fluentui/react-components": "^9.3.2",
         "@fluentui/react-icons": "^2.0.182",
         "@microsoft/teams-js": "^2.3.0",
         "axios": "^0.27.2",

@@ -10,5 +10,7 @@
     "maxsize": "The size of sticker images should less than {{size}}.",
     "maxnum": "Save {{n}} stickers at most.",
     "inputLabel": "Edit the sticker's name",
-    "inputPlaceholder": "Input a name for search"
+    "inputPlaceholder": "Input a name for search",
+    "login": "Login",
+    "loginDescription":"Welcome, please sign in with Microsoft account"
 }
