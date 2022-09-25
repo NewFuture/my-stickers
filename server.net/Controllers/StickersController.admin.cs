@@ -13,17 +13,16 @@ namespace Stickers.Controllers;
 public class AdminStickersController : ControllerBase
 {
 
-
-    private readonly ILogger<StickersController> _logger;
+    private readonly ILogger<StickersController> logger;
     private StickerService stickerService;
     private BlobService blobService;
-    private IHttpContextAccessor httpContextAccessor = null;
+    private IHttpContextAccessor httpContextAccessor;
 
     public AdminStickersController(StickerService stickers, BlobService blobService, ILogger<StickersController> logger, IHttpContextAccessor httpContextAccessor)
     {
         this.stickerService = stickers;
         this.blobService = blobService;
-        _logger = logger;
+        this.logger = logger;
         this.httpContextAccessor = httpContextAccessor;
     }
     private Guid GetTenantId()
@@ -71,6 +70,19 @@ public class AdminStickersController : ControllerBase
         var tenantId = this.GetTenantId();
         var result = await this.stickerService.updateTenantSticker(tenantId, id, request);
         return new Result(result);
+    }
+
+    [HttpPost("upload")]
+    public IEnumerable<SasInfo> UploadTenant([FromBody] UploadRequest request)
+    {
+        var tenantId = this.GetTenantId();
+        var list = new List<SasInfo>();
+        foreach (var item in request.exts!)
+        {
+            var token = this.blobService.getSasToken(tenantId, item);
+            list.Add(token);
+        }
+        return list;
     }
 
 }

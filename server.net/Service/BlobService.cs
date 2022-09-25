@@ -17,14 +17,13 @@ namespace Stickers.Service
             var blobConnection = configuration[ConfigKeys.BLOB_CONNECTION_STRING];
             this.client = new BlobServiceClient(blobConnection);
             this.cdn = configuration[ConfigKeys.CDN_DOMAIN];
-
         }
 
         public SasInfo getSasToken(Guid userId, string ext)
         {
-            var id = Guid.NewGuid().ToString().ToLower();
+            var id = Guid.NewGuid().ToString("N").ToLower();
             ext = ext.ToLower();
-            string fileName = $"{userId}/{id}";
+            string fileName = $"{userId.ToString("N")}/{id}";
             if (supportExtList.Contains(ext))
             {
                 // add ext
@@ -49,7 +48,12 @@ namespace Stickers.Service
         }
         public async Task<string> commitBlocks(Guid userId, string id, string extWithDot, string contentType)
         {
-            string fileName = $"{userId}/{id}{extWithDot}";
+            if (!supportExtList.Contains(extWithDot.TrimStart('.')))
+            {
+                // remove ext
+                extWithDot = "";
+            }
+            string fileName = $"{userId.ToString("N")}/{id}{extWithDot}";
             var encodeId = Convert.ToBase64String(System.Text.Encoding.GetEncoding(28591).GetBytes(id));
             var blockclient = client.GetBlobContainerClient(this.containerName).GetBlockBlobClient(fileName);
             var item = await blockclient.CommitBlockListAsync(new List<string> { encodeId });

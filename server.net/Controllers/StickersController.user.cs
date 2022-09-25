@@ -61,5 +61,16 @@ public class StickersController : ControllerSession<StickersController>
         return new Result(result);
     }
 
+    [HttpPost("upload")]
+    public IEnumerable<SasInfo> Upload([FromBody] UploadRequest request)
+    {
+        var list = new List<SasInfo>();
+        foreach (var item in request.exts!)
+        {
+            var token = this.blobService.getSasToken(this.GetUserId(), item);
+            list.Add(token);
+        }
+        return list;
+    }
 }
 
