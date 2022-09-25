@@ -43,7 +43,7 @@ namespace Stickers.Service
 
         public async Task<bool> updateSticker(Boolean isTenant, Guid filterId, string stickerId, string? name, long? weight)
         {
-            var hasName = string.IsNullOrWhiteSpace(name);
+            var hasName = !string.IsNullOrWhiteSpace(name);
             var hasWeight = weight.HasValue;
             if (!hasName && !hasWeight)
             {

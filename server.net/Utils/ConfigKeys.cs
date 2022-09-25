@@ -8,8 +8,9 @@ namespace Stickers.Utils
 
         public const string WEB_URL = "WebUrl";
 
-
         public const string CDN_DOMAIN = "CDNDomain";
+
+        public const string AAD_APP_ID = "AadAppId";
 
 
         // public const string CONAINER_NAME = "container";
