@@ -57,7 +57,7 @@ namespace Stickers.Bot
             {
                 entities.Add(new Sticker { src = img.Src, name = img.Alt, id = Guid.NewGuid() });
             }
-            await this.stickerStorage.addUserStickers(new Guid(userId), entities);
+            await this.stickerService.addUserStickers(new Guid(userId), entities);
             JObject cardJson;
             if (saveImgs)
             {
@@ -162,7 +162,7 @@ namespace Stickers.Bot
         private async Task<MessagingExtensionActionResponse> ManageTaskModule(ITurnContext<IInvokeActivity> turnContext)
         {
             var userId = turnContext.Activity?.From?.AadObjectId;
-            return new MessagingExtensionActionResponse()
+            var response = new MessagingExtensionActionResponse()
             {
                 Task = new TaskModuleContinueResponse
                 {
@@ -176,6 +176,7 @@ namespace Stickers.Bot
                     }
                 },
             };
+            return await Task.FromResult(response);
         }
     }
 }

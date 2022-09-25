@@ -56,7 +56,7 @@ namespace Stickers.Bot
         {
 
             var userId = turnContext.Activity?.From?.AadObjectId;
-            var imageEntities = await this.stickerStorage.getUserStickers(Guid.Parse(userId!));
+            var imageEntities = await this.stickerService.getUserStickers(Guid.Parse(userId!));
             var search = this.GetQueryParameters(query, "query");
             var skip = query.QueryOptions.Skip ?? 0;
             var count = query.QueryOptions.Count ?? imageEntities.Count;
