@@ -19,28 +19,25 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<StickerService>();
-builder.Services.AddSingleton<DapperContext>();
-builder.Services.AddSingleton<OfficialStickersSearchHandler>();
-builder.Services.AddSingleton<BlobService>();
 
+builder.Services
+    .AddSingleton<DapperContext>()
+    .AddSingleton<OfficialStickersSearchHandler>()
+    .AddSingleton<BlobService>()
+    .AddSingleton<StickerDatabase>()
+    .AddSingleton<SessionService>()
+    .AddSingleton<StickerService>()
+    .AddSingleton<SearchService>();
 // Create the Bot Framework Authentication to be used with the Bot Adapter.
 //builder.Services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 // Create the Bot Adapter with error handling enabled.
 builder.Services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
-
 // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
 builder.Services.AddTransient<IBot, TeamsMessagingExtensionsBot>();
-
-builder.Services.AddSingleton<DapperContext>();
-builder.Services.AddSingleton<BlobService>();
-builder.Services.AddSingleton<StickerDatabase>();
-builder.Services.AddSingleton<SessionService>();
-builder.Services.AddSingleton<StickerService>();
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 // Adding Authentication  
-//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("EmployeeOnly", policy =>
