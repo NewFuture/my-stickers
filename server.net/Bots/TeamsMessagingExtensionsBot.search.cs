@@ -43,31 +43,64 @@ namespace Stickers.Bot
 
         protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
         {
+            var initialRun = this.GetQueryParameters(query, "initialRun");
+
+            if (initialRun == "true" && (query.QueryOptions.Skip ?? 0) == 0)
+            {
+                return await initialResultGrid(turnContext);
+            }
             // var text = query?.Parameters?[0]?.Value as string ?? string.Empty;
 
             // We take every row of the results and wrap them in cards wrapped in MessagingExtensionAttachment objects.
             // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
 
             // The list of MessagingExtensionAttachments must we wrapped in a MessagingExtensionResult wrapped in a MessagingExtensionResponse.
-            return await GetResultGrid(turnContext, query);
+            return await QueryResultGrid(turnContext, query);
         }
 
-        private async Task<MessagingExtensionResponse> GetResultGrid(ITurnContext turnContext, MessagingExtensionQuery query)
+        // show more list in init Run
+        private async Task<MessagingExtensionResponse> initialResultGrid(ITurnContext turnContext)
+        {
+            var minCount = 60;
+            // user search
+            var userId = Guid.Parse(turnContext.Activity.From.AadObjectId);
+            var stickers = await searchService.SearchUserStickers(userId, null);
+            if (stickers.Count < minCount)
+            {
+                // tenant
+                var tenantId = Guid.Parse(turnContext.Activity.Conversation.TenantId);
+                var tenantStickers = await searchService.SearchTenantStickers(tenantId, null);
+                stickers = stickers.Concat(tenantStickers).ToList();
+            }
+
+            var imgs = stickers.Select(StickerToImg);
+            if (stickers.Count < minCount)
+            {
+                // official images
+                var officialStickers = await searchService.SearchOfficialStickers(null);
+                var officialImgs = officialStickers.GetRange(0, minCount - stickers.Count).Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
+                imgs = imgs.Concat(officialImgs);
+
+            }
+            return GetMessagingExtensionResponse(imgs, false);
+        }
+
+
+
+        private async Task<MessagingExtensionResponse> QueryResultGrid(ITurnContext turnContext, MessagingExtensionQuery query)
         {
 
             var keyword = this.GetQueryParameters(query, "query");
             var skip = query.QueryOptions.Skip ?? 0;
-            var isSearch = String.IsNullOrWhiteSpace(keyword);
-            if (!isSearch && skip > 0)
+            var isSearch = !String.IsNullOrWhiteSpace(keyword);
+            if (isSearch && skip > 0)
             {
                 // search 最多支持一页
                 return this.GetMessagingExtensionResponse(new Img[0], isSearch);
             }
-            var count = query.QueryOptions.Count ?? 0;
-
-
+            var count = query.QueryOptions.Count ?? 30;
             // user search
-            var userId = Guid.Parse(turnContext.Activity?.From?.AadObjectId);
+            var userId = Guid.Parse(turnContext.Activity.From.AadObjectId);
             var stickers = await searchService.SearchUserStickers(userId, keyword);
             if (count + skip <= stickers.Count)
             {
@@ -111,8 +144,6 @@ namespace Stickers.Bot
                 .Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
                 return GetMessagingExtensionResponse(imgs.Concat(officialImgs), isSearch);
             }
-
-
         }
 
         private MessagingExtensionResponse GetMessagingExtensionResponse(IEnumerable<Img> images, Boolean isSearch)
