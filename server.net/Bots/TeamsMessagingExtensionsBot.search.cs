@@ -50,7 +50,7 @@ namespace Stickers.Bot
 
             if (initialRun == "true" && skip == 0)
             {
-                return await initialResultGrid(userId, tenantId);
+                return await InitialResultGrid(userId, tenantId);
             }
             // var text = query?.Parameters?[0]?.Value as string ?? string.Empty;
 
@@ -64,7 +64,7 @@ namespace Stickers.Bot
         }
 
         // show more list in init Run
-        private async Task<MessagingExtensionResponse> initialResultGrid(Guid userId, Guid tenantId)
+        private async Task<MessagingExtensionResponse> InitialResultGrid(Guid userId, Guid tenantId)
         {
             var minCount = 60;
             // user search
