@@ -6,6 +6,7 @@ using Stickers.Bot;
 using Stickers.Utils;
 using Stickers.Search;
 using Stickers.Service;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
@@ -51,9 +52,13 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(o =>
     {
-        // Microsoft Issuer
-        o.ClaimsIssuer = "9188040d-6c67-4c5b-b112-36a304b66dad";
-        o.Audience = builder.Configuration[ConfigKeys.AAD_APP_ID];
+        o.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidAudiences = builder.Configuration[ConfigKeys.AAD_APP_ID].Split(","),
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidateIssuer = true,
+        };
     });
 builder.Services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
 builder.Services.AddMemoryCache();
