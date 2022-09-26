@@ -43,11 +43,14 @@ namespace Stickers.Bot
 
         protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
         {
+            var userId = Guid.Parse(turnContext.Activity.From.AadObjectId);
+            var tenantId = Guid.Parse(turnContext.Activity.Conversation.TenantId);
+            var skip = query.QueryOptions.Skip ?? 0;
             var initialRun = this.GetQueryParameters(query, "initialRun");
 
-            if (initialRun == "true" && (query.QueryOptions.Skip ?? 0) == 0)
+            if (initialRun == "true" && skip == 0)
             {
-                return await initialResultGrid(turnContext);
+                return await initialResultGrid(userId, tenantId);
             }
             // var text = query?.Parameters?[0]?.Value as string ?? string.Empty;
 
@@ -55,20 +58,20 @@ namespace Stickers.Bot
             // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
 
             // The list of MessagingExtensionAttachments must we wrapped in a MessagingExtensionResult wrapped in a MessagingExtensionResponse.
-            return await QueryResultGrid(turnContext, query);
+            var keyword = this.GetQueryParameters(query, "query");
+            var count = query.QueryOptions.Count ?? 30;
+            return await QueryResultGrid(userId, tenantId, keyword, skip, count);
         }
 
         // show more list in init Run
-        private async Task<MessagingExtensionResponse> initialResultGrid(ITurnContext turnContext)
+        private async Task<MessagingExtensionResponse> initialResultGrid(Guid userId, Guid tenantId)
         {
             var minCount = 60;
             // user search
-            var userId = Guid.Parse(turnContext.Activity.From.AadObjectId);
             var stickers = await searchService.SearchUserStickers(userId, null);
             if (stickers.Count < minCount)
             {
                 // tenant
-                var tenantId = Guid.Parse(turnContext.Activity.Conversation.TenantId);
                 var tenantStickers = await searchService.SearchTenantStickers(tenantId, null);
                 stickers = stickers.Concat(tenantStickers).ToList();
             }
@@ -87,20 +90,16 @@ namespace Stickers.Bot
 
 
 
-        private async Task<MessagingExtensionResponse> QueryResultGrid(ITurnContext turnContext, MessagingExtensionQuery query)
+        private async Task<MessagingExtensionResponse> QueryResultGrid(Guid userId, Guid tenantId, string? keyword, int skip, int count)
         {
 
-            var keyword = this.GetQueryParameters(query, "query");
-            var skip = query.QueryOptions.Skip ?? 0;
             var isSearch = !String.IsNullOrWhiteSpace(keyword);
             if (isSearch && skip > 0)
             {
                 // search 最多支持一页
                 return this.GetMessagingExtensionResponse(new Img[0], isSearch);
             }
-            var count = query.QueryOptions.Count ?? 30;
             // user search
-            var userId = Guid.Parse(turnContext.Activity.From.AadObjectId);
             var stickers = await searchService.SearchUserStickers(userId, keyword);
             if (count + skip <= stickers.Count)
             {
@@ -109,7 +108,6 @@ namespace Stickers.Bot
             }
 
             // tenant search
-            var tenantId = Guid.Parse(turnContext.Activity.Conversation.TenantId);
             var tenantStickers = await searchService.SearchTenantStickers(tenantId, keyword);
             stickers = stickers.Concat(tenantStickers).ToList();
             if (count + skip <= stickers.Count)
