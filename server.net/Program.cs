@@ -6,7 +6,7 @@ using Stickers.Bot;
 using Stickers.Utils;
 using Stickers.Search;
 using Stickers.Service;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
@@ -50,16 +50,19 @@ builder.Services.AddAuthorization(options =>
 });
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(o =>
-    {
-        o.TokenValidationParameters = new TokenValidationParameters()
-        {
-            ValidAudiences = builder.Configuration[ConfigKeys.AAD_APP_ID].Split(","),
-            ValidateAudience = true,
-            ValidateIssuerSigningKey = true,
-            ValidateIssuer = true,
-        };
-    });
+    .AddMicrosoftIdentityWebApi(builder.Configuration, ConfigKeys.AAD_SECTION);
+// .AddJwtBearer(o =>builder.Configuration
+// {
+//     o.TokenValidationParameters = new TokenValidationParameters()
+//     {
+
+//         // IssuerValidator = (string issuer, SecurityToken securityToken, TokenValidationParameters validationParameters) => "true",
+//         ValidAudiences = builder.Configuration[ConfigKeys.AAD_APP_ID].Split(","),
+//         ValidateAudience = true,
+//         ValidateIssuerSigningKey = true,
+//         ValidateIssuer = true,
+//     };
+// });
 builder.Services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
 builder.Services.AddMemoryCache();
 

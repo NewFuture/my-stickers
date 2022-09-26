@@ -10,7 +10,7 @@ namespace Stickers.Utils
 
         public const string CDN_DOMAIN = "CDNDomain";
 
-        public const string AAD_APP_ID = "AadAppId";
+        public const string AAD_SECTION = "AzureAd";
 
 
         // public const string CONAINER_NAME = "container";
