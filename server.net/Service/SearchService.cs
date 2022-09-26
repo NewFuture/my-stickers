@@ -11,9 +11,7 @@ namespace Stickers.Service
         {
             this.stickerService = stickerService;
             this.officialStickersSearch = officialStickersSearchHandler;
-
         }
-
 
         public async Task<List<Sticker>> SearchUserStickers(Guid userId, string? keyword)
         {
@@ -24,7 +22,7 @@ namespace Stickers.Service
             }
             //  Regex regex = new Regex(search.Trim().Replace("\\s+", ".*"));
             // imageEntities = imageEntities.Where(i => !string.IsNullOrEmpty(i.name) && regex.IsMatch(i.name)).ToList();
-            return userStickers.FindAll(s => s.name.Contains(keyword));
+            return userStickers.FindAll(s => s.name?.ToLower().Contains(keyword) ?? false);
         }
 
         public async Task<List<Sticker>> SearchTenantStickers(Guid tenantId, string? keyword)
@@ -37,12 +35,12 @@ namespace Stickers.Service
             }
             //  Regex regex = new Regex(search.Trim().Replace("\\s+", ".*"));
             // imageEntities = imageEntities.Where(i => !string.IsNullOrEmpty(i.name) && regex.IsMatch(i.name)).ToList();
-            return stickers.FindAll(s => s.name.Contains(keyword));
+            return stickers.FindAll(s => s.name?.ToLower().Contains(keyword) ?? false);
         }
 
         public async Task<List<Models.OfficialSticker>> SearchOfficialStickers(string? keyword, int top = 30)
         {
-            return await this.officialStickersSearch.Search(keyword);
+            return await this.officialStickersSearch.Search(keyword!);
         }
 
     }

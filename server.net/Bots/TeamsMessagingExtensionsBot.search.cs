@@ -16,6 +16,13 @@ namespace Stickers.Bot
     public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
     {
 
+        /// <summary>
+        /// Query Settings
+        /// </summary>
+        /// <param name="turnContext"></param>
+        /// <param name="query"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionConfigurationQuerySettingUrlAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
         {
             var userId = turnContext.Activity?.From?.AadObjectId;
@@ -41,6 +48,13 @@ namespace Stickers.Bot
                 });
         }
 
+        /// <summary>
+        /// Search
+        /// </summary>
+        /// <param name="turnContext"></param>
+        /// <param name="query"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(turnContext.Activity.From.AadObjectId);
@@ -51,20 +65,20 @@ namespace Stickers.Bot
 
             if (initialRun == "true")
             {
-                return await InitialResultGrid(userId, tenantId, skip, count);
+                var imgs = await InitialResultGrid(userId, tenantId, skip, count);
+                return GetMessagingExtensionResponse(imgs, false);
             }
-            // var text = query?.Parameters?[0]?.Value as string ?? string.Empty;
-
-            // We take every row of the results and wrap them in cards wrapped in MessagingExtensionAttachment objects.
-            // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
-
-            // The list of MessagingExtensionAttachments must we wrapped in a MessagingExtensionResult wrapped in a MessagingExtensionResponse.
-            var keyword = this.GetQueryParameters(query, "query");
-            return await QueryResultGrid(userId, tenantId, keyword, skip, count);
+            else
+            {
+                // The list of MessagingExtensionAttachments must we wrapped in a MessagingExtensionResult wrapped in a MessagingExtensionResponse.
+                var keyword = this.GetQueryParameters(query, "query");
+                var imgs = await QueryResultGrid(userId, tenantId, keyword, skip, count);
+                return GetMessagingExtensionResponse(imgs, true);
+            }
         }
 
         // show more list in init Run
-        private async Task<MessagingExtensionResponse> InitialResultGrid(Guid userId, Guid tenantId, int skip, int count)
+        private async Task<IEnumerable<Img>> InitialResultGrid(Guid userId, Guid tenantId, int skip, int count)
         {
             // user search
             var stickers = await searchService.SearchUserStickers(userId, null);
@@ -78,26 +92,24 @@ namespace Stickers.Bot
             IEnumerable<Img> imgs = new Img[] { };
             if (stickers.Count > skip)
             {
-                imgs = stickers.GetRange(skip, stickers.Count).Select(StickerToImg);
+                imgs = stickers.Skip(skip).Select(StickerToImg);
             }
             if (stickers.Count < skip + count)
             {
                 // official images
                 var officialStickers = await searchService.SearchOfficialStickers(null);
-                var officialImgs = officialStickers.GetRange(0, skip + count - stickers.Count).Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
+                var officialImgs = officialStickers.Take(skip + count - stickers.Count).Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
                 imgs = imgs.Concat(officialImgs);
             }
-            return GetMessagingExtensionResponse(imgs, false);
+            return imgs;
         }
 
-
-
-        private async Task<MessagingExtensionResponse> QueryResultGrid(Guid userId, Guid tenantId, string? keyword, int skip, int count)
+        private async Task<IEnumerable<Img>> QueryResultGrid(Guid userId, Guid tenantId, string? keyword, int skip, int count)
         {
             if (skip > 0)
             {
                 // search 最多支持一页
-                return this.GetMessagingExtensionResponse(new Img[0], true);
+                return new Img[0];
             }
             // user search
             var stickers = await searchService.SearchUserStickers(userId, keyword);
@@ -108,16 +120,16 @@ namespace Stickers.Bot
             }
             if (count <= stickers.Count)
             {
-                var imgs = stickers.GetRange(0, count).Select(StickerToImg);
-                return GetMessagingExtensionResponse(imgs, true);
+                var imgs = stickers.Take(count).Select(StickerToImg);
+                return imgs;
             }
 
             // official search
             var officialStickers = await searchService.SearchOfficialStickers(keyword);
             var allimgs = stickers.Select(StickerToImg);
-            var officialImgs = officialStickers.GetRange(0, count - stickers.Count)
+            var officialImgs = officialStickers.Take(count - stickers.Count)
             .Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
-            return GetMessagingExtensionResponse(allimgs.Concat(officialImgs), true);
+            return allimgs.Concat(officialImgs);
         }
 
         private MessagingExtensionResponse GetMessagingExtensionResponse(IEnumerable<Img> images, Boolean isSearch)
@@ -147,6 +159,5 @@ namespace Stickers.Bot
         {
             return new Img { Src = s.src, Alt = s.name };
         }
-
     }
 }
