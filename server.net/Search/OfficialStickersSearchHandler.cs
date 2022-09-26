@@ -39,8 +39,13 @@ namespace Stickers.Search
             response.EnsureSuccessStatusCode();
             string responseBody = response.Content.ReadAsStringAsync().Result;
             var jObject = JsonConvert.DeserializeObject(responseBody) as JObject;
-            cache.Set(CACHE_KEY, jObject);
-            return jObject["stickers"].ToObject<List<OfficialSticker>>();
+            var stickers = jObject["stickers"].ToObject<List<OfficialSticker>>();
+            if (stickers == null)
+            {
+                return new List<OfficialSticker>();
+            }
+            cache.Set(CACHE_KEY, stickers);
+            return stickers;
 
         }
 
