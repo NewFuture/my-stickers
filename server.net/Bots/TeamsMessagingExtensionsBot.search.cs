@@ -51,7 +51,7 @@ namespace Stickers.Bot
 
             if (initialRun == "true")
             {
-                return await InitialResultGrid(userId, tenantId, skip, skip == 0 ? 120 : count);
+                return await InitialResultGrid(userId, tenantId, skip, count);
             }
             // var text = query?.Parameters?[0]?.Value as string ?? string.Empty;
 
