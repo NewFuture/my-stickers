@@ -15,7 +15,7 @@ namespace Stickers.Service
         }
 
 
-        public async Task<List<Sticker>> SearchUserStickers(Guid userId, string keyword)
+        public async Task<List<Sticker>> SearchUserStickers(Guid userId, string? keyword)
         {
             var userStickers = await stickerService.getUserStickers(userId);
             if (String.IsNullOrWhiteSpace(keyword))
@@ -27,7 +27,7 @@ namespace Stickers.Service
             return userStickers.FindAll(s => s.name.Contains(keyword));
         }
 
-        public async Task<List<Sticker>> SearchTenantStickers(Guid tenantId, string keyword)
+        public async Task<List<Sticker>> SearchTenantStickers(Guid tenantId, string? keyword)
         {
 
             var stickers = await stickerService.getTenantStickers(tenantId);
@@ -40,7 +40,7 @@ namespace Stickers.Service
             return stickers.FindAll(s => s.name.Contains(keyword));
         }
 
-        public async Task<List<Models.OfficialSticker>> SearchOfficialStickers(string keyword, int top = 30)
+        public async Task<List<Models.OfficialSticker>> SearchOfficialStickers(string? keyword, int top = 30)
         {
             return await this.officialStickersSearch.Search(keyword);
         }

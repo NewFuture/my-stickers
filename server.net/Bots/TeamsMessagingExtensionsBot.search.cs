@@ -43,76 +43,81 @@ namespace Stickers.Bot
 
         protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
         {
+            var userId = Guid.Parse(turnContext.Activity.From.AadObjectId);
+            var tenantId = Guid.Parse(turnContext.Activity.Conversation.TenantId);
+            var skip = query.QueryOptions.Skip ?? 0;
+            var count = query.QueryOptions.Count ?? 30;
+            var initialRun = this.GetQueryParameters(query, "initialRun");
+
+            if (initialRun == "true")
+            {
+                return await InitialResultGrid(userId, tenantId, skip, skip == 0 ? 120 : count);
+            }
             // var text = query?.Parameters?[0]?.Value as string ?? string.Empty;
 
             // We take every row of the results and wrap them in cards wrapped in MessagingExtensionAttachment objects.
             // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
 
             // The list of MessagingExtensionAttachments must we wrapped in a MessagingExtensionResult wrapped in a MessagingExtensionResponse.
-            return await GetResultGrid(turnContext, query);
+            var keyword = this.GetQueryParameters(query, "query");
+            return await QueryResultGrid(userId, tenantId, keyword, skip, count);
         }
 
-        private async Task<MessagingExtensionResponse> GetResultGrid(ITurnContext turnContext, MessagingExtensionQuery query)
+        // show more list in init Run
+        private async Task<MessagingExtensionResponse> InitialResultGrid(Guid userId, Guid tenantId, int skip, int count)
         {
+            // user search
+            var stickers = await searchService.SearchUserStickers(userId, null);
+            if (stickers.Count < skip + count)
+            {
+                // tenant
+                var tenantStickers = await searchService.SearchTenantStickers(tenantId, null);
+                stickers = stickers.Concat(tenantStickers).ToList();
+            }
 
-            var keyword = this.GetQueryParameters(query, "query");
-            var skip = query.QueryOptions.Skip ?? 0;
-            var isSearch = String.IsNullOrWhiteSpace(keyword);
-            if (!isSearch && skip > 0)
+            IEnumerable<Img> imgs = new Img[] { };
+            if (stickers.Count > skip)
+            {
+                imgs = stickers.GetRange(skip, stickers.Count).Select(StickerToImg);
+            }
+            if (stickers.Count < skip + count)
+            {
+                // official images
+                var officialStickers = await searchService.SearchOfficialStickers(null);
+                var officialImgs = officialStickers.GetRange(0, skip + count - stickers.Count).Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
+                imgs = imgs.Concat(officialImgs);
+            }
+            return GetMessagingExtensionResponse(imgs, false);
+        }
+
+
+
+        private async Task<MessagingExtensionResponse> QueryResultGrid(Guid userId, Guid tenantId, string? keyword, int skip, int count)
+        {
+            if (skip > 0)
             {
                 // search 最多支持一页
-                return this.GetMessagingExtensionResponse(new Img[0], isSearch);
+                return this.GetMessagingExtensionResponse(new Img[0], true);
             }
-            var count = query.QueryOptions.Count ?? 0;
-
-
             // user search
-            var userId = Guid.Parse(turnContext.Activity?.From?.AadObjectId);
             var stickers = await searchService.SearchUserStickers(userId, keyword);
-            if (count + skip <= stickers.Count)
+            if (count > stickers.Count)
             {
-                var imgs = stickers.GetRange(skip, count + skip).Select(StickerToImg);
-                return GetMessagingExtensionResponse(imgs, isSearch);
+                var tenantStickers = await searchService.SearchTenantStickers(tenantId, keyword);
+                stickers = stickers.Concat(tenantStickers).ToList();
             }
-
-            // tenant search
-            var tenantId = Guid.Parse(turnContext.Activity.Conversation.TenantId);
-            var tenantStickers = await searchService.SearchTenantStickers(tenantId, keyword);
-            stickers = stickers.Concat(tenantStickers).ToList();
-            if (count + skip <= stickers.Count)
+            if (count <= stickers.Count)
             {
-                var imgs = stickers.GetRange(skip, count + skip).Select(StickerToImg);
-                return GetMessagingExtensionResponse(imgs, isSearch);
-            }
-
-
-            if (skip > stickers.Count)
-            {
-                skip -= stickers.Count;
-            }
-            else
-            {
-                stickers = stickers.GetRange(skip, stickers.Count);
-                skip = 0;
+                var imgs = stickers.GetRange(0, count).Select(StickerToImg);
+                return GetMessagingExtensionResponse(imgs, true);
             }
 
             // official search
             var officialStickers = await searchService.SearchOfficialStickers(keyword);
-            if (skip > 0)
-            {
-                // only officials to return
-                var imgs = officialStickers.GetRange(skip, skip + count).Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
-                return GetMessagingExtensionResponse(imgs, isSearch);
-            }
-            else
-            {
-                var imgs = stickers.Select(StickerToImg);
-                var officialImgs = officialStickers.GetRange(0, count - stickers.Count)
-                .Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
-                return GetMessagingExtensionResponse(imgs.Concat(officialImgs), isSearch);
-            }
-
-
+            var allimgs = stickers.Select(StickerToImg);
+            var officialImgs = officialStickers.GetRange(0, count - stickers.Count)
+            .Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
+            return GetMessagingExtensionResponse(allimgs.Concat(officialImgs), true);
         }
 
         private MessagingExtensionResponse GetMessagingExtensionResponse(IEnumerable<Img> images, Boolean isSearch)
