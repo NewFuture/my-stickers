@@ -4,7 +4,7 @@ import { useStickersList } from "../../hooks/useStickersList";
 import { deleteTenantSticker, patchTenantSticker, uploadTenantSticker } from "../../services/stickers";
 import { getAuthToken } from "../../services/teams";
 import { IsAdmin } from "../../utilities/RoleUtils";
-import { WelcomePage } from "../WelcomePage/WelcomePage";
+import { LoginPage } from "../LoginPage/LoginPage";
 import ImageList from "./ImageList";
 
 const useStyles = makeStyles({
@@ -37,7 +37,7 @@ export function TenantImageList(): JSX.Element {
         );
     }, []);
     return error ? (
-        <WelcomePage onLogin={(token: string) => {}} />
+        <LoginPage onLogin={(token: string) => {}} />
     ) : isLoading ? (
         <Spinner size="extra-large" className={styles.loader} />
     ) : (

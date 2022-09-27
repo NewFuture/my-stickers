@@ -28,7 +28,7 @@
     "composeExtensions": [
         {
             "botId": "${MICROSOFT_APP_ID}",
-            "canUpdateConfiguration": true,
+            "canUpdateConfiguration": false,
             "commands": [
                 {
                     "id": "mycollection",

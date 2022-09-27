@@ -2,24 +2,27 @@ using Microsoft.AspNetCore.Mvc;
 using Stickers.Entities;
 using Stickers.Models;
 using Stickers.Service;
+using Stickers.Utils;
 
 namespace Stickers.Controllers;
 
 [ApiController]
 [Route("api/me/stickers")]
-public class StickersController : ControllerSession<StickersController>
+public class StickersController : ControllerBase
 {
-
+    private readonly SessionService sessionService;
+    protected readonly ILogger<StickersController> logger;
     private StickerService stickerService;
     private BlobService blobService;
     private IHttpContextAccessor httpContextAccessor;
 
-    public StickersController(StickerService stickers, BlobService blobService, ILogger<StickersController> logger, IHttpContextAccessor httpContextAccessor, SessionService sessionService) : base(sessionService, logger)
+    public StickersController(StickerService stickers, BlobService blobService, ILogger<StickersController> logger, IHttpContextAccessor httpContextAccessor, SessionService sessionService)
     {
         this.stickerService = stickers;
         this.blobService = blobService;
         this.httpContextAccessor = httpContextAccessor;
-
+        this.logger = logger;
+        this.sessionService = sessionService;
     }
 
     [HttpPost("commit")]
@@ -71,6 +74,24 @@ public class StickersController : ControllerSession<StickersController>
             list.Add(token);
         }
         return list;
+    }
+
+    protected Guid GetUserId()
+    {
+        Request.Headers.TryGetValue(ENV.SESSION_HEADER_KEY, out var headerValue);
+        if (!string.IsNullOrEmpty(headerValue))
+        {
+            Guid.TryParse(headerValue, out var sessionKey);
+            var sessionInfo = this.sessionService.GetSessionInfo(sessionKey);
+            if (sessionInfo == Guid.Empty)
+            {
+                logger.LogWarning("Invalid SessionKey" + headerValue);
+                throw new UnauthorizedAccessException("invalidate session");
+            }
+            return sessionInfo;
+        }
+        logger.LogWarning("Empty Session Key");
+        throw new UnauthorizedAccessException("SessionKey required");
     }
 }
 

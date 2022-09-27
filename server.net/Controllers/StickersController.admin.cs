@@ -34,7 +34,47 @@ public class AdminStickersController : ControllerBase
         }
         return new Guid(id);
     }
+
+    [HttpGet]
+    public async Task<Page<Sticker>> Get()
+    {
+        var tenantId = this.GetTenantId();
+        var stickers = await this.stickerService.getTenantStickers(tenantId);
+        return new Page<Sticker>(stickers);
+    }
+    [HttpDelete("{id}")]
+    [Authorize(Policy = "Admin")]
+    public async Task<Result> Delete(string id)
+    {
+        var tenantId = this.GetTenantId();
+        var result = await this.stickerService.deleteTanentSticker(tenantId, id);
+        return new Result(result);
+    }
+    [HttpPatch("{id}")]
+    [Authorize(Policy = "Admin")]
+    public async Task<Result> UpdateSticker(string id, [FromBody] PatchStickerRequest request)
+    {
+        var tenantId = this.GetTenantId();
+        var result = await this.stickerService.updateTenantSticker(tenantId, id, request);
+        return new Result(result);
+    }
+
+    [HttpPost("upload")]
+    [Authorize(Policy = "Admin")]
+    public IEnumerable<SasInfo> UploadTenant([FromBody] UploadRequest request)
+    {
+        var tenantId = this.GetTenantId();
+        var list = new List<SasInfo>();
+        foreach (var item in request.exts!)
+        {
+            var token = this.blobService.getSasToken(tenantId, item);
+            list.Add(token);
+        }
+        return list;
+    }
+
     [HttpPost("commit")]
+    [Authorize(Policy = "Admin")]
     public async Task<Sticker> Commit([FromBody] PostStickerBlobRequest request)
     {
         var tenantId = this.GetTenantId();
@@ -48,42 +88,6 @@ public class AdminStickersController : ControllerBase
         };
         var list = await this.stickerService.addTenantStickers(tenantId, new List<Sticker>() { newSticker });
         return list[0];
-
     }
-    [HttpGet]
-    public async Task<Page<Sticker>> Get()
-    {
-        var tenantId = this.GetTenantId();
-        var stickers = await this.stickerService.getTenantStickers(tenantId);
-        return new Page<Sticker>(stickers);
-    }
-    [HttpDelete("{id}")]
-    public async Task<Result> Delete(string id)
-    {
-        var tenantId = this.GetTenantId();
-        var result = await this.stickerService.deleteTanentSticker(tenantId, id);
-        return new Result(result);
-    }
-    [HttpPatch("{id}")]
-    public async Task<Result> UpdateSticker(string id, [FromBody] PatchStickerRequest request)
-    {
-        var tenantId = this.GetTenantId();
-        var result = await this.stickerService.updateTenantSticker(tenantId, id, request);
-        return new Result(result);
-    }
-
-    [HttpPost("upload")]
-    public IEnumerable<SasInfo> UploadTenant([FromBody] UploadRequest request)
-    {
-        var tenantId = this.GetTenantId();
-        var list = new List<SasInfo>();
-        foreach (var item in request.exts!)
-        {
-            var token = this.blobService.getSasToken(tenantId, item);
-            list.Add(token);
-        }
-        return list;
-    }
-
 }
 

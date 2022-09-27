@@ -11,6 +11,6 @@
     "maxnum": "最多可保存{{n}}张表情",
     "inputLabel": "修改表情标签",
     "inputPlaceholder": "输入名称以便搜索",
-    "login": "登录",
-    "loginDescription": "欢迎，请使用管理员账号进行登录"
+    "login": "管理员登录",
+    "loginDescription": "欢迎，请使用管理员账号进行验证，在本公司启用公司管理"
 }
