@@ -11,6 +11,6 @@
     "maxnum": "Save {{n}} stickers at most.",
     "inputLabel": "Edit the sticker's name",
     "inputPlaceholder": "Input a name for search",
-    "login": "Login",
-    "loginDescription": "Welcome, please sign in with admin account"
+    "login": "Login with admin",
+    "loginDescription": "Welcome, please sign in with admin account to enable the Company features for your company"
 }
