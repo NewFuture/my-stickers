@@ -44,7 +44,7 @@ async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
 export async function upload(
     file: File,
     sas: SasInfo,
-    url: string,
+    url: "/admin/stickers/commit" | "/me/stickers/commit",
     onProgress: (p: { percent: number; p: number }) => void,
 ) {
     const contentType = file.type;

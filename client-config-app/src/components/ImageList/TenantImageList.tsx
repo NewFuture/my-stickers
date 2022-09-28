@@ -20,6 +20,7 @@ export function TenantImageList(): JSX.Element {
     const onLogin = useCallback((token: string) => setIsAdmin(IsAdmin(token)), []);
 
     // todo detect the error type
+    console.log(data, isLoading, error);
     const isUnAuthorized = !!error;
     return isUnAuthorized ? (
         <LoginPage onLogin={onLogin} />
