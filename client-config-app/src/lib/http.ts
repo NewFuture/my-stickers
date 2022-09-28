@@ -14,12 +14,14 @@ export const API = axios.create({
 });
 
 API.interceptors.request.use((c) => {
-    c.headers![USER_SEESION_HEADER] = SessionKey;
-    if (c.url?.indexOf("admin")! >= 0) {
+    if (c.url?.startsWith("/admin/")) {
+        // id token token
         return getAuthToken().then((token) => {
             c.headers!["authorization"] = `Bearer ${token}`;
             return c;
         });
+    } else {
+        c.headers![USER_SEESION_HEADER] = SessionKey;
     }
     return c;
 });

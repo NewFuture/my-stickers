@@ -10,13 +10,10 @@ app.initialize().then(
     },
 );
 
-export function getAuthToken(): Promise<string> {
-    return authentication.getAuthToken({ silent: false });
-}
+export const getAuthToken = authentication.getAuthToken;
 
-export function getContext() {
-    return app.getContext();
-}
+export const getContext = app.getContext;
+
 export function registerOnThemeChangeHandler(handler: (theme: Theme) => void) {
     return app.registerOnThemeChangeHandler((theme) => handler(getTeamsTheme(theme)));
 }

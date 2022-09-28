@@ -3,15 +3,16 @@ import { Button, Text, Image } from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
 import { useWelcomePageStyles } from "./LoginPage.styles";
 import { TransKeys } from "../../locales";
-import { getContext } from "../../services/teams";
-import LoginPic from "../../assets/LoginPagePic.png";
+import { getAuthToken, getContext } from "../../services/teams";
 import { AAD_ID } from "../../lib/env";
 
-interface WelcomePageProps {
+import LoginPic from "../../assets/LoginPagePic.png";
+
+interface LoginPageProps {
     onLogin: (token: string) => void;
 }
 
-export const LoginPage: React.FC<WelcomePageProps> = (props) => {
+export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     const { t } = useTranslation();
     const styles = useWelcomePageStyles();
     const [link, setLink] = useState<string>();
@@ -23,6 +24,17 @@ export const LoginPage: React.FC<WelcomePageProps> = (props) => {
             setLink(link);
         });
     }, []);
+
+    useEffect(() => {
+        const getFocus = () => {
+            getAuthToken().then(onLogin);
+        };
+        window.addEventListener("focus", getFocus);
+        return () => {
+            window.removeEventListener("focus", getFocus);
+        };
+    }, [onLogin]);
+
     return (
         <div className={styles.root}>
             <Image className={styles.img} src={LoginPic} />

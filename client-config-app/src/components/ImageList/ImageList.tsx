@@ -53,15 +53,22 @@ const ImageList: React.FC<ImageListProps> = ({
                     isEditable
                     key={item.id}
                     {...item}
-                    onDelete={() => {
-                        onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete }));
-                        onDelete(item.id).then(
-                            // 删除成功
-                            () => onMutate((list) => list?.filter((v) => v.id !== item.id)!),
-                            // 删除失败
-                            () => onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete_fail })),
-                        );
-                    }}
+                    onDelete={
+                        isEditable
+                            ? () => {
+                                  onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete }));
+                                  onDelete(item.id).then(
+                                      // 删除成功
+                                      () => onMutate((list) => list?.filter((v) => v.id !== item.id)!),
+                                      // 删除失败
+                                      () =>
+                                          onMutate(
+                                              getPatchItemByIdFunc(item.id, { status: StickerStatus.delete_fail }),
+                                          ),
+                                  );
+                              }
+                            : undefined
+                    }
                     onEdit={(name: string) => {
                         onMutate(getPatchItemByIdFunc(item.id, { name, status: StickerStatus.editing }));
                         onPatch(item.id, { name }).then(
