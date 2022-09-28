@@ -14,7 +14,7 @@ export function IsAdmin(idToken: string) {
             return false;
         }
         const role = (decode.wids as string[]).find((value) => directoryRoleTemplateIds.includes(value));
-        return !role;
+        return !!role;
     } catch (e) {
         return false;
     }
