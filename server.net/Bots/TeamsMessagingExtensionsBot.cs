@@ -5,8 +5,8 @@
 using Microsoft.Bot.Builder.Teams;
 using Stickers.Service;
 using Stickers.Utils;
-
-
+using AdaptiveCards.Templating;
+using Newtonsoft.Json.Linq;
 namespace Stickers.Bot
 {
     public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
@@ -16,6 +16,8 @@ namespace Stickers.Bot
         private SearchService searchService;
         private ILogger<TeamsMessagingExtensionsBot> logger;
         private SessionService session;
+
+        private Dictionary<string, AdaptiveCardTemplate> CardDict = new Dictionary<string, AdaptiveCardTemplate>();
 
 
         public TeamsMessagingExtensionsBot(
@@ -32,6 +34,23 @@ namespace Stickers.Bot
             this.logger = logger;
             this.session = sessionService;
         }
+
+
+        private JObject GetAdaptiveCardJsonObject<T>(T cardPayload, string cardFileName)
+        {
+            if (!this.CardDict.TryGetValue(cardFileName, out var template))
+            {
+
+                string cardPath = ResourceFilePathHelper.GetFilePath(Path.Combine("Cards", cardFileName));
+                var cardJsonString = File.ReadAllText(cardPath);
+
+                template = new AdaptiveCardTemplate(cardJsonString);
+                this.CardDict.Add(cardFileName, template);
+            }
+            var cardJson = template.Expand(cardPayload);
+            return JObject.Parse(cardJson);
+        }
+
 
         /// <summary>
         /// Get Config URL with sessio Key

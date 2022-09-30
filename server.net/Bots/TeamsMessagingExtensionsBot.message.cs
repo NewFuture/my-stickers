@@ -88,16 +88,6 @@ namespace Stickers.Bot
             };
         }
 
-        private JObject GetAdaptiveCardJsonObject(object cardPayload, string cardFileName)
-        {
-            string cardPath = ResourceFilePathHelper.GetFilePath(Path.Combine("Cards", cardFileName));
-            var cardJsonString = File.ReadAllText(cardPath);
-
-            AdaptiveCardTemplate template = new AdaptiveCardTemplate(cardJsonString);
-            var cardJson = template.Expand(cardPayload);
-            return JObject.Parse(cardJson);
-        }
-
         private static CultureInfo GetCultureInfoFromBotActivity(IActivity activity)
         {
             if (activity.Entities[0].Properties.TryGetValue("locale", out JToken locale))
