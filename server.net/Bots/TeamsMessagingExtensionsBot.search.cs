@@ -81,11 +81,11 @@ namespace Stickers.Bot
         private async Task<IEnumerable<Img>> InitialResultGrid(Guid userId, Guid tenantId, int skip, int count)
         {
             // user search
-            var stickers = await searchService.SearchUserStickers(userId, null);
+            var stickers = await this.searchService.SearchUserStickers(userId, null);
             if (stickers.Count < skip + count)
             {
                 // tenant
-                var tenantStickers = await searchService.SearchTenantStickers(tenantId, null);
+                var tenantStickers = await this.searchService.SearchTenantStickers(tenantId, null);
                 stickers = stickers.Concat(tenantStickers).ToList();
             }
 
@@ -97,7 +97,7 @@ namespace Stickers.Bot
             if (stickers.Count < skip + count)
             {
                 // official images
-                var officialStickers = await searchService.SearchOfficialStickers(null);
+                var officialStickers = await this.searchService.SearchOfficialStickers(null);
                 var officialImgs = officialStickers.Take(skip + count - stickers.Count).Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
                 imgs = imgs.Concat(officialImgs);
             }
@@ -112,10 +112,10 @@ namespace Stickers.Bot
                 return new Img[0];
             }
             // user search
-            var stickers = await searchService.SearchUserStickers(userId, keyword);
+            var stickers = await this.searchService.SearchUserStickers(userId, keyword);
             if (count > stickers.Count)
             {
-                var tenantStickers = await searchService.SearchTenantStickers(tenantId, keyword);
+                var tenantStickers = await this.searchService.SearchTenantStickers(tenantId, keyword);
                 stickers = stickers.Concat(tenantStickers).ToList();
             }
             if (count <= stickers.Count)
@@ -125,7 +125,7 @@ namespace Stickers.Bot
             }
 
             // official search
-            var officialStickers = await searchService.SearchOfficialStickers(keyword);
+            var officialStickers = await this.searchService.SearchOfficialStickers(keyword);
             var allimgs = stickers.Select(StickerToImg);
             var officialImgs = officialStickers.Take(count - stickers.Count)
             .Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });

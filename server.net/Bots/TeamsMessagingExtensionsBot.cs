@@ -17,7 +17,7 @@ namespace Stickers.Bot
         private ILogger<TeamsMessagingExtensionsBot> logger;
         private SessionService session;
 
-        private Dictionary<string, AdaptiveCardTemplate> CardDict = new Dictionary<string, AdaptiveCardTemplate>();
+        private static readonly Dictionary<string, AdaptiveCardTemplate> cardDict = new Dictionary<string, AdaptiveCardTemplate>();
 
 
         public TeamsMessagingExtensionsBot(
@@ -35,17 +35,16 @@ namespace Stickers.Bot
             this.session = sessionService;
         }
 
-
-        private JObject GetAdaptiveCardJsonObject<T>(T cardPayload, string cardFileName)
+        private JObject GetAdaptiveCardJsonObject(object cardPayload, string cardFileName)
         {
-            if (!this.CardDict.TryGetValue(cardFileName, out var template))
+            if (!cardDict.TryGetValue(cardFileName, out var template))
             {
 
                 string cardPath = ResourceFilePathHelper.GetFilePath(Path.Combine("Cards", cardFileName));
                 var cardJsonString = File.ReadAllText(cardPath);
 
                 template = new AdaptiveCardTemplate(cardJsonString);
-                this.CardDict.Add(cardFileName, template);
+                cardDict.Add(cardFileName, template);
             }
             var cardJson = template.Expand(cardPayload);
             return JObject.Parse(cardJson);
