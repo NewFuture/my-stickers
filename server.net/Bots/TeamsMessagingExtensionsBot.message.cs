@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 // @see https://github.com/microsoft/BotBuilder-Samples/blob/main/samples/csharp_dotnetcore/51.teams-messaging-extensions-action/Bots/TeamsMessagingExtensionsActionBot.cs
 
-using AdaptiveCards.Templating;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Schema;
@@ -12,7 +11,6 @@ using Newtonsoft.Json.Linq;
 using Stickers.Entities;
 using Stickers.Models;
 using Stickers.Resources;
-using Stickers.Utils;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -86,16 +84,6 @@ namespace Stickers.Bot
                     },
                 },
             };
-        }
-
-        private JObject GetAdaptiveCardJsonObject(object cardPayload, string cardFileName)
-        {
-            string cardPath = ResourceFilePathHelper.GetFilePath(Path.Combine("Cards", cardFileName));
-            var cardJsonString = File.ReadAllText(cardPath);
-
-            AdaptiveCardTemplate template = new AdaptiveCardTemplate(cardJsonString);
-            var cardJson = template.Expand(cardPayload);
-            return JObject.Parse(cardJson);
         }
 
         private static CultureInfo GetCultureInfoFromBotActivity(IActivity activity)
