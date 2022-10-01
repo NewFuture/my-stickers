@@ -14,9 +14,9 @@ function getPatchItemByIdFunc(id: string, props: Partial<Sticker>) {
             item.id !== id
                 ? item
                 : {
-                    ...item,
-                    ...props,
-                },
+                      ...item,
+                      ...props,
+                  },
         )!;
 }
 interface ImageListProps {
@@ -42,7 +42,7 @@ const ImageList: React.FC<ImageListProps> = ({
         setUploadFiles(uploadFiles.filter((f) => file !== f));
         if (sticker) {
             // 插入新表情
-            onMutate(items => [sticker, ...(items || [])]);
+            onMutate((items) => [sticker, ...(items || [])]);
         }
     };
 
@@ -61,21 +61,25 @@ const ImageList: React.FC<ImageListProps> = ({
                     onDelete={
                         isEditable
                             ? () => {
-                                onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete }), { revalidate: false });
-                                onDelete(item.id).then(
-                                    // 删除成功
-                                    () => onMutate((list) => list?.filter((v) => v.id !== item.id)!),
-                                    // 删除失败
-                                    () =>
-                                        onMutate(
-                                            getPatchItemByIdFunc(item.id, { status: StickerStatus.delete_fail }),
-                                        ),
-                                );
-                            }
+                                  onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete }), {
+                                      revalidate: false,
+                                  });
+                                  onDelete(item.id).then(
+                                      // 删除成功
+                                      () => onMutate((list) => list?.filter((v) => v.id !== item.id)!),
+                                      // 删除失败
+                                      () =>
+                                          onMutate(
+                                              getPatchItemByIdFunc(item.id, { status: StickerStatus.delete_fail }),
+                                          ),
+                                  );
+                              }
                             : undefined
                     }
                     onEdit={(name: string) => {
-                        onMutate(getPatchItemByIdFunc(item.id, { name, status: StickerStatus.editing }), { revalidate: false });
+                        onMutate(getPatchItemByIdFunc(item.id, { name, status: StickerStatus.editing }), {
+                            revalidate: false,
+                        });
                         onPatch(item.id, { name }).then(
                             () => onMutate(getPatchItemByIdFunc(item.id, { status: undefined }), { revalidate: false }),
                             () => onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.edit_fail })),

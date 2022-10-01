@@ -26,7 +26,9 @@ export function TenantImageList(): JSX.Element {
         <LoginPage onLogin={onLogin} />
     ) : isLoading ? (
         <Spinner size="extra-large" />
-    ) : error ? <ErrorPage error={error} /> : (
+    ) : error ? (
+        <ErrorPage error={error} />
+    ) : (
         <ImageList
             items={data!}
             onMutate={mutate}

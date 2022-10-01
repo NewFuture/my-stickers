@@ -8,7 +8,9 @@ export function UserImageList(): JSX.Element {
     const { data, isLoading, mutate, error } = useStickersList(false);
     return isLoading ? (
         <Spinner size="extra-large" />
-    ) : error ? <ErrorPage error={error} /> : (
+    ) : error ? (
+        <ErrorPage error={error} />
+    ) : (
         <ImageList
             items={data!}
             onMutate={mutate}

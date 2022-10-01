@@ -13,8 +13,8 @@ interface UploadImageItemProps {
 function getStickerDataFromBlob(file: File) {
     return {
         src: URL.createObjectURL(file),
-        name: file.name.replace(/\..*$/, "")
-    }
+        name: file.name.replace(/\..*$/, ""),
+    };
 }
 export const UploadImageItem: React.FC<UploadImageItemProps> = ({
     file,
@@ -29,30 +29,32 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
 
     const actionsRef = useRef({ onFinish, onUpload });
     actionsRef.current.onFinish = onFinish;
-    actionsRef.current.onUpload = onUpload
+    actionsRef.current.onUpload = onUpload;
 
     useEffect((): void => {
-        actionsRef.current.onUpload(file, (progress) => setSticker((s) => ({ ...s, progress }))).then(
-            (data) => {
-                actionsRef.current.onFinish(file, {
-                    ...data,
-                    ...getStickerDataFromBlob(file),
-                    status: StickerStatus.success,
-                })
-            },
-            (err) => {
-                // error message
-                setSticker((s) => ({ ...s, status: StickerStatus.upload_fail, progress: undefined }));
-            },
-        );
+        actionsRef.current
+            .onUpload(file, (progress) => setSticker((s) => ({ ...s, progress })))
+            .then(
+                (data) => {
+                    actionsRef.current.onFinish(file, {
+                        ...data,
+                        ...getStickerDataFromBlob(file),
+                        status: StickerStatus.success,
+                    });
+                },
+                (err) => {
+                    // error message
+                    setSticker((s) => ({ ...s, status: StickerStatus.upload_fail, progress: undefined }));
+                },
+            );
     }, [file]);
 
     const status =
         sticker.status === StickerStatus.success
             ? "available"
             : sticker.status === StickerStatus.upload_fail
-                ? "offline"
-                : undefined;
+            ? "offline"
+            : undefined;
     return (
         <div className={imageListStyles.item}>
             <Image className={imageListStyles.img} src={sticker.src} />
