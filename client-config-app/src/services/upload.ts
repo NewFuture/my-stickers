@@ -55,5 +55,5 @@ export async function upload(
         id: sas.id,
         name: file.name,
         contentType,
-    });
+    }).then(r => r.data);
 }

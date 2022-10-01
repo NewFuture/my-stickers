@@ -6,6 +6,7 @@ import { UploadButton } from "../UploadButton/UploadButton";
 import { useImageListStyles } from "./ImageList.styles";
 import { UploadImageItem } from "../ImageItem/UploadImageItem";
 import { MAX_NUM } from "../../lib/env";
+import { MutatorOptions } from "swr";
 
 function getPatchItemByIdFunc(id: string, props: Partial<Sticker>) {
     return (list?: Sticker[]) =>
@@ -13,15 +14,15 @@ function getPatchItemByIdFunc(id: string, props: Partial<Sticker>) {
             item.id !== id
                 ? item
                 : {
-                      ...item,
-                      ...props,
-                  },
+                    ...item,
+                    ...props,
+                },
         )!;
 }
 interface ImageListProps {
     items: Sticker[];
     isEditable: boolean;
-    onMutate: (updateCallback: (items?: Sticker[]) => Sticker[]) => void;
+    onMutate: (updateCallback: (items?: Sticker[]) => Sticker[], options?: MutatorOptions) => void;
     onDelete: (id: string) => Promise<any>;
     onPatch: (id: string, data: Partial<Sticker>) => Promise<any>;
     onUpload: (file: File, onProgressUpdate: (percent: number) => void) => Promise<any>;
@@ -37,8 +38,12 @@ const ImageList: React.FC<ImageListProps> = ({
 }: ImageListProps) => {
     const imageListStyles = useImageListStyles();
     const [uploadFiles, setUploadFiles] = useState<File[]>([]);
-    const onFinshUpload = (file: File) => {
+    const onFinshUpload = (file: File, sticker?: Sticker) => {
         setUploadFiles(uploadFiles.filter((f) => file !== f));
+        if (sticker) {
+            // 插入新表情
+            onMutate(items => [sticker, ...(items || [])]);
+        }
     };
 
     const maxUploadCount = MAX_NUM - items?.length ?? 0 - uploadFiles.length;
@@ -46,7 +51,7 @@ const ImageList: React.FC<ImageListProps> = ({
         <div className={imageListStyles.grid}>
             {isEditable && <UploadButton onUploadListChange={setUploadFiles} maxNum={maxUploadCount} />}
             {uploadFiles?.map((item: File, index) => (
-                <UploadImageItem key={index} file={item} onDelete={onFinshUpload} onUpload={onUpload} />
+                <UploadImageItem key={index} file={item} onFinish={onFinshUpload} onUpload={onUpload} />
             ))}
             {items?.map((item: Sticker) => (
                 <ImageItem
@@ -56,23 +61,23 @@ const ImageList: React.FC<ImageListProps> = ({
                     onDelete={
                         isEditable
                             ? () => {
-                                  onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete }));
-                                  onDelete(item.id).then(
-                                      // 删除成功
-                                      () => onMutate((list) => list?.filter((v) => v.id !== item.id)!),
-                                      // 删除失败
-                                      () =>
-                                          onMutate(
-                                              getPatchItemByIdFunc(item.id, { status: StickerStatus.delete_fail }),
-                                          ),
-                                  );
-                              }
+                                onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete }), { revalidate: false });
+                                onDelete(item.id).then(
+                                    // 删除成功
+                                    () => onMutate((list) => list?.filter((v) => v.id !== item.id)!),
+                                    // 删除失败
+                                    () =>
+                                        onMutate(
+                                            getPatchItemByIdFunc(item.id, { status: StickerStatus.delete_fail }),
+                                        ),
+                                );
+                            }
                             : undefined
                     }
                     onEdit={(name: string) => {
-                        onMutate(getPatchItemByIdFunc(item.id, { name, status: StickerStatus.editing }));
+                        onMutate(getPatchItemByIdFunc(item.id, { name, status: StickerStatus.editing }), { revalidate: false });
                         onPatch(item.id, { name }).then(
-                            () => onMutate(getPatchItemByIdFunc(item.id, { status: undefined })),
+                            () => onMutate(getPatchItemByIdFunc(item.id, { status: undefined }), { revalidate: false }),
                             () => onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.edit_fail })),
                         );
                     }}
