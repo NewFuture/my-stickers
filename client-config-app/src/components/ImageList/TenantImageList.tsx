@@ -21,7 +21,7 @@ export function TenantImageList(): JSX.Element {
     }, []);
     const onLogin = useCallback((token: string) => setIsAdmin(IsAdmin(token)), []);
 
-    const needLogin = !axios.isAxiosError(error);
+    const needLogin = error && !axios.isAxiosError(error);
     return needLogin ? (
         <LoginPage onLogin={onLogin} />
     ) : isLoading ? (
