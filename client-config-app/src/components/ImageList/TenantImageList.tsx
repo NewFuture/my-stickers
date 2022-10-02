@@ -1,9 +1,11 @@
 import { Spinner } from "@fluentui/react-components";
+import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useStickersList } from "../../hooks/useStickersList";
 import { deleteTenantSticker, patchTenantSticker, uploadTenantSticker } from "../../services/stickers";
 import { getAuthToken } from "../../services/teams";
 import { IsAdmin } from "../../utilities/isAdmin";
+import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoginPage } from "../LoginPage/LoginPage";
 import ImageList from "./ImageList";
 
@@ -19,13 +21,13 @@ export function TenantImageList(): JSX.Element {
     }, []);
     const onLogin = useCallback((token: string) => setIsAdmin(IsAdmin(token)), []);
 
-    // todo detect the error type
-    console.log(data, isLoading, error);
-    const isUnAuthorized = !!error;
-    return isUnAuthorized ? (
+    const needLogin = !axios.isAxiosError(error);
+    return needLogin ? (
         <LoginPage onLogin={onLogin} />
     ) : isLoading ? (
         <Spinner size="extra-large" />
+    ) : error ? (
+        <ErrorPage error={error} />
     ) : (
         <ImageList
             items={data!}
