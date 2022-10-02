@@ -51,9 +51,9 @@ export async function upload(
     await blob.put(`${sas.url}&comp=block&blockid=${btoa(sas.id)}`, await blobToArrayBuffer(file), {
         onUploadProgress: (p) => onProgress({ percent: 100 * (p.loaded / p.total), p: p }),
     });
-    return await API.post(`${url}`, {
+    return await API.post(url, {
         id: sas.id,
-        name: file.name.replace(/\..*$/, ""),
+        name: file.name,
         contentType,
     }).then((r) => r.data);
 }

@@ -78,12 +78,12 @@ public class AdminStickersController : ControllerBase
     public async Task<Sticker> Commit([FromBody] PostStickerBlobRequest request)
     {
         var tenantId = this.GetTenantId();
-        string extendName = System.IO.Path.GetExtension(request.name);
+        string extendName = Path.GetExtension(request.name);
         string src = await this.blobService.commitBlocks(tenantId, request.id, extendName, request.contentType);
         var newSticker = new Sticker()
         {
             src = src,
-            name = Path.GetFileNameWithoutExtension(request.name) + extendName,
+            name = Path.GetFileNameWithoutExtension(request.name),
             id = Guid.Parse(request.id)
         };
         var list = await this.stickerService.addTenantStickers(tenantId, new List<Sticker>() { newSticker });
