@@ -16,7 +16,7 @@ export const API = axios.create({
 API.interceptors.request.use((c) => {
     if (c.url?.startsWith("/admin/")) {
         // id token token
-        return getAuthToken().then((token) => {
+        return getAuthToken({ silent: true }).then((token) => {
             c.headers!["authorization"] = `Bearer ${token}`;
             return c;
         });
