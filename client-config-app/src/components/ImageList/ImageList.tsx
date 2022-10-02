@@ -81,7 +81,10 @@ const ImageList: React.FC<ImageListProps> = ({
                             revalidate: false,
                         });
                         onPatch(item.id, { name }).then(
-                            () => onMutate(getPatchItemByIdFunc(item.id, { status: undefined }), { revalidate: false }),
+                            () =>
+                                onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.success }), {
+                                    revalidate: false,
+                                }),
                             () => onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.edit_fail })),
                         );
                     }}
