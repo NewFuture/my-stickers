@@ -53,7 +53,7 @@ export async function upload(
     });
     return await API.post(`${url}`, {
         id: sas.id,
-        name: file.name,
+        name: file.name.replace(/\..*$/, ""),
         contentType,
     }).then((r) => r.data);
 }
