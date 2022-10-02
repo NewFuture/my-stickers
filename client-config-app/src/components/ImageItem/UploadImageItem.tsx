@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Image, Label, PresenceBadge } from "@fluentui/react-components";
+import { Button, Image, Spinner, Text } from "@fluentui/react-components";
 import { Sticker, StickerStatus } from "../../model/sticker";
-import { ArrowRepeatAll16Regular } from "@fluentui/react-icons";
-import { useImageItemStyles } from "./ImageItem.styles";
+import { DeleteRegular } from "@fluentui/react-icons";
+import { useUploadItemStyles } from "./UploadImageItem.styles";
 
 interface UploadImageItemProps {
     file: File;
@@ -16,16 +16,15 @@ function getStickerDataFromBlob(file: File) {
         name: file.name.replace(/\..*$/, ""),
     };
 }
+
 export const UploadImageItem: React.FC<UploadImageItemProps> = ({
     file,
     onFinish,
     onUpload,
 }: UploadImageItemProps): JSX.Element => {
-    const imageListStyles = useImageItemStyles();
-    const [sticker, setSticker] = useState<Sticker>(() => ({
-        id: `${Math.random()}`,
-        ...getStickerDataFromBlob(file),
-    }));
+    const styles = useUploadItemStyles();
+    const [sticker, setSticker] = useState<Sticker>(() => getStickerDataFromBlob(file) as Sticker);
+    const [errMsg, setErrMsg] = useState<string>();
 
     const actionsRef = useRef({ onFinish, onUpload });
     actionsRef.current.onFinish = onFinish;
@@ -43,28 +42,42 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
                     });
                 },
                 (err) => {
-                    // error message
+                    setErrMsg(err + "");
                     setSticker((s) => ({ ...s, status: StickerStatus.upload_fail, progress: undefined }));
                 },
             );
     }, [file]);
 
-    const status =
-        sticker.status === StickerStatus.success
-            ? "available"
-            : sticker.status === StickerStatus.upload_fail
-            ? "offline"
-            : undefined;
+    const isFailed = sticker.status === StickerStatus.upload_fail;
     return (
-        <div className={imageListStyles.item}>
-            <Image className={imageListStyles.img} src={sticker.src} />
-            <div className={imageListStyles.uploadingBar}>
-                {status && <PresenceBadge size="large" status={status} className={imageListStyles.icon} />}
-                {sticker.progress && (
-                    <progress value={sticker.progress} max="100">
-                        <ArrowRepeatAll16Regular className={imageListStyles.icon} />
-                        <Label>{sticker.progress}%</Label>
-                    </progress>
+        <div className={styles.root}>
+            <Image className={styles.img} src={sticker.src} />
+            <Text className={styles.name} size={500}>
+                {sticker.name}
+            </Text>
+            <div className={styles.overlay}>
+                {isFailed ? (
+                    <>
+                        <Button
+                            className={styles.error}
+                            icon={<DeleteRegular />}
+                            size="large"
+                            appearance="transparent"
+                            onClick={() => actionsRef.current.onFinish(file)}
+                        />
+                        <Text className={styles.error} size={600} truncate>
+                            {errMsg}
+                        </Text>
+                    </>
+                ) : sticker.progress ? (
+                    <>
+                        <Text className={styles.progressText} size={600}>
+                            {sticker.progress + "%"}
+                        </Text>
+                        <progress className={styles.progress} value={sticker.progress} max="100" />
+                    </>
+                ) : (
+                    <Spinner size="large" />
                 )}
             </div>
         </div>

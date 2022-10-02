@@ -1,37 +1,70 @@
 import React, { ChangeEvent, useRef } from "react";
-import { Image, Button, Input, InputOnChangeData } from "@fluentui/react-components";
+import {
+    Image,
+    Button,
+    Input,
+    InputOnChangeData,
+    PresenceBadge,
+    PresenceBadgeStatus,
+    mergeClasses,
+    Spinner,
+} from "@fluentui/react-components";
 import { Sticker, StickerStatus } from "../../model/sticker";
-import { Delete16Regular } from "@fluentui/react-icons";
+import { DeleteRegular } from "@fluentui/react-icons";
 import { useImageItemStyles } from "./ImageItem.styles";
+function mapStatus(status: Sticker["status"]): PresenceBadgeStatus | undefined {
+    switch (status) {
+        case StickerStatus.delete_fail:
+        case StickerStatus.upload_fail:
+        case StickerStatus.edit_fail:
+            return "offline";
+        case StickerStatus.editing:
+        case StickerStatus.moving:
+            return "busy";
+        case StickerStatus.success:
+            return "available";
+        default:
+            return undefined;
+    }
+}
 
 const ImageItem: React.FC<
     Sticker & {
+        className?: string;
         isEditable?: boolean;
         onDelete?: () => void;
         onEdit?: (name: string) => void;
     }
-> = ({ src, name, status, isEditable, onEdit, onDelete }) => {
+> = ({ src, name, status, isEditable, className, onEdit, onDelete }) => {
     const nameRef = useRef(name);
     const imageListStyles = useImageItemStyles();
-    const isDeleting = status === StickerStatus.delete;
-    const isMoving = status === StickerStatus.moving;
-    const disabled = isDeleting || isMoving || !isEditable;
+    const badgeStatus = mapStatus(status);
+    const isBusy = badgeStatus === "busy";
+    const disabled = isBusy || !isEditable;
     return (
-        <div className={imageListStyles.item}>
-            <Image className={imageListStyles.img} src={src} />
+        <div className={mergeClasses(imageListStyles.root, className)}>
+            <Image className={imageListStyles.img} src={src} alt={name} title={name} />
+            {isBusy ? (
+                <Spinner className={imageListStyles.status} size="tiny" />
+            ) : (
+                badgeStatus && <PresenceBadge className={imageListStyles.status} status={badgeStatus} size="large" />
+            )}
             {onDelete && (
                 <Button
-                    className={imageListStyles.close}
-                    icon={<Delete16Regular />}
+                    className={imageListStyles.del}
+                    icon={<DeleteRegular />}
                     size="medium"
                     disabled={disabled}
                     appearance="transparent"
                     onClick={onDelete}
                 />
             )}
-            <div className={imageListStyles.bar}>
+            <div className={imageListStyles.bottom}>
                 <Input
-                    className={imageListStyles.input}
+                    className={imageListStyles.inputWrapper}
+                    input={{
+                        className: imageListStyles.input,
+                    }}
                     appearance="underline"
                     size="medium"
                     disabled={disabled}
