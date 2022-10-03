@@ -11,12 +11,12 @@
         "termsOfUseUrl": "https://${WEBSITE}/terms.html"
     },
     "name": {
-        "short": "${APP_PRE_FIX}Custom Stickers",
-        "full": "${APP_PRE_FIX}Custom Stickers"
+        "short": "${APP_PRE_FIX}My Stickers",
+        "full": "${APP_PRE_FIX}My Custom Stickers"
     },
     "description": {
         "short": "Add your Stickers in Teams ❤",
-        "full": "Express complex emotions in ways beyond words. Custom Stickers app helps you to save and send your own stickers in Microsoft Teams.\n[#LI] You can upload your stickers from PC or cell phones;[/#LI]\n[#LI] You can save stickers from others' messages;[/#LI]\n[#LI] You can send your own stickers in chat;[/#LI]\n[#LI] You can manage and edit your stickers' name.[/#LI]\nCustom Stickers provides a management tool inside of Teams for all users to save and send GIFs to friends, which is an effective form of visual communication because of the animation that provides a greater range of expression.\nThe tool facilities a place to help users upload stickers/GIFs from PCs or mobile devices. Users could select one or more saved stickers and choose to upload them. Once uploaded successfully, all materials could be found by clicking ♥ icon from the toolbar to launch the Sticker window.\nTo better manage all stickers, the tool also makes it easy to rename, delete or search a GIF.\nUsers could send GIFs to Teams friends by selecting one from Stickers list while chatting with them, with above management capabilities, browsing to find a GIF becomes more efficient.\nUsers also can save a GIF shared by others if they’re using the same tool. By clicking “…” from the right-up corner of the messaging card, there’s a button of “Save to Sticker”. Click the button and it’ll be added to user’s list."
+        "full": "Express complex emotions in ways beyond words. Custom Stickers app helps you to save and send your own stickers in Microsoft Teams.\n[#LI] You can upload your stickers (GIFs and PNGs) from PC or mobile phones;[/#LI]\n[#LI] You can save stickers from others' messages;[/#LI]\n[#LI] You can send your own stickers in chat;[/#LI]\n[#LI] You can manage and edit your stickers' name.[/#LI]\n[#LI] Administrators can manage and edit the org-wide stickers.[/#LI]\n[#LI] Administrators can customized this app logo and display name[/#LI]\nCustom Stickers provides a management tool inside of Teams for all users to save and send GIFs to friends, which is an effective form of visual communication because of the animation that provides a greater range of expression.\nThe tool facilities a place to help users upload stickers/GIFs from PCs or mobile devices. Users could select one or more saved stickers and choose to upload them. Once uploaded successfully, all materials could be found by clicking ♥ icon from the toolbar to launch the Sticker window.\nTo better manage all stickers, the tool also makes it easy to rename, delete or search a GIF.\nUsers could send GIFs to Teams friends by selecting one from Stickers list while chatting with them, with above management capabilities, browsing to find a GIF becomes more efficient.\nUsers also can save a GIF shared by others if they’re using the same tool. By clicking “…” from the right-up corner of the messaging card, there’s a button of “Save Stickers”. Click the button and it’ll be added to user’s list.\nAdministrators can enable the Org-wide Stickers by login and verify with the admin account. Administrators can upload and manage the Org-wide Stickers. All users in this org can use Org-wide Stickers.\nAdministrators can customize this app logo and name in Teams Admin Portal."
     },
     "icons": {
         "outline": "icon-outline.png",
@@ -33,7 +33,7 @@
                 {
                     "id": "mycollection",
                     "title": "My Stickers",
-                    "description": "All the stickers",
+                    "description": "All my stickers and org-wide stickers",
                     "initialRun": true,
                     "parameters": [
                         {
@@ -47,7 +47,7 @@
                 },
                 {
                     "id": "collect",
-                    "description": "collect the sticke images from messages",
+                    "description": "collect the sticker images from messages",
                     "title": "Save Stickers",
                     "type": "action",
                     "fetchTask": true,
@@ -56,10 +56,10 @@
                 {
                     "id": "management",
                     "title": "Upload",
-                    "description": "upload and management stickers",
+                    "description": "Upload and management my stickers",
                     "fetchTask": true,
                     "taskInfo": {
-                        "title": "Upload, delete and edit your favorite stickers",
+                        "title": "Upload, delete and edit my favorite stickers",
                         "height": "large",
                         "width": "large"
                     },
