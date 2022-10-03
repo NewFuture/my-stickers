@@ -1,5 +1,5 @@
 import { Radio, RadioGroup } from "@fluentui/react-components";
-import { BuildingFilled, StarFilled } from "@fluentui/react-icons";
+import { BuildingFilled, PersonHeartFilled } from "@fluentui/react-icons";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { TransKeys } from "../../locales";
@@ -19,7 +19,7 @@ const Header: React.FC<HeaderButtonProps> = ({ type, onRadioChange }: HeaderButt
         <header className={styles.root}>
             <h1 className={styles.h}>{header}</h1>
             <RadioGroup value={type} onChange={(_, data) => onRadioChange(data.value as UserType)} layout="horizontal">
-                <Radio value="user" title={t(TransKeys.title, { context: "user" })} label={<StarFilled />} />
+                <Radio value="user" title={t(TransKeys.title, { context: "user" })} label={<PersonHeartFilled />} />
                 <Radio value="company" title={t(TransKeys.title, { context: "company" })} label={<BuildingFilled />} />
             </RadioGroup>
         </header>

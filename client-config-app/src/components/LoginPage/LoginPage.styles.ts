@@ -1,6 +1,6 @@
-import { makeStyles } from "@fluentui/react-components";
+import { makeStyles, tokens } from "@fluentui/react-components";
 
-export const useWelcomePageStyles = makeStyles({
+export const useLoginPageStyles = makeStyles({
     root: {
         textAlign: "center",
         justifyContent: "center",
@@ -8,6 +8,7 @@ export const useWelcomePageStyles = makeStyles({
     img: {
         width: "300px",
         height: "300px",
+        color: tokens.colorBrandForeground1,
         marginBottom: "16px",
         marginTop: "16px",
     },
