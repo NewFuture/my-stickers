@@ -3,6 +3,7 @@
     using Microsoft.Extensions.Caching.Memory;
     using Stickers.Entities;
     using Stickers.Models;
+    using Stickers.Utils;
 
     public class StickerService
     {
@@ -122,7 +123,7 @@
                     result.Add(item);
                 }
             }
-            foreach (var item in stickers)
+            foreach (var item in stickers.Take(ENV.USER_STICKERS_MAX_NUM - (oldstickers?.Count ?? 0)))
             {
                 await database.InsertSticker(isTenant, filterId, item);
                 result.Add(item);
