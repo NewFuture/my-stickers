@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { MutatorOptions } from "swr";
+
 import ImageItem from "../ImageItem/ImageItem";
 import { Sticker, StickerStatus } from "../../model/sticker";
 import { UploadButton } from "../UploadButton/UploadButton";
@@ -6,7 +8,6 @@ import { UploadButton } from "../UploadButton/UploadButton";
 import { useImageListStyles } from "./ImageList.styles";
 import { UploadImageItem } from "../ImageItem/UploadImageItem";
 import { MAX_NUM } from "../../lib/env";
-import { MutatorOptions } from "swr";
 
 function getPatchItemByIdFunc(id: string, props: Partial<Sticker>) {
     return (list?: Sticker[]) =>
@@ -36,7 +37,7 @@ const ImageList: React.FC<ImageListProps> = ({
     onDelete,
     onUpload,
 }: ImageListProps) => {
-    const imageListStyles = useImageListStyles();
+    const styles = useImageListStyles();
     const [uploadFiles, setUploadFiles] = useState<File[]>([]);
     const onFinshUpload = (file: File, sticker?: Sticker) => {
         setUploadFiles(uploadFiles.filter((f) => file !== f));
@@ -48,13 +49,22 @@ const ImageList: React.FC<ImageListProps> = ({
 
     const maxUploadCount = MAX_NUM - items?.length ?? 0 - uploadFiles.length;
     return (
-        <div className={imageListStyles.grid}>
-            {isEditable && <UploadButton onUploadListChange={setUploadFiles} maxNum={maxUploadCount} />}
+        <div className={styles.grid}>
+            {isEditable && (
+                <UploadButton className={styles.item} onUploadListChange={setUploadFiles} maxNum={maxUploadCount} />
+            )}
             {uploadFiles?.map((item: File, index) => (
-                <UploadImageItem key={index} file={item} onFinish={onFinshUpload} onUpload={onUpload} />
+                <UploadImageItem
+                    key={index}
+                    className={styles.item}
+                    file={item}
+                    onFinish={onFinshUpload}
+                    onUpload={onUpload}
+                />
             ))}
             {items?.map((item: Sticker) => (
                 <ImageItem
+                    className={styles.item}
                     isEditable
                     key={item.id}
                     {...item}

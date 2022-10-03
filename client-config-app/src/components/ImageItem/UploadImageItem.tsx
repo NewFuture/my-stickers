@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Image, Spinner, Text } from "@fluentui/react-components";
+import { Button, Image, mergeClasses, Spinner, Text } from "@fluentui/react-components";
 import { Sticker, StickerStatus } from "../../model/sticker";
 import { DeleteRegular } from "@fluentui/react-icons";
 import { useUploadItemStyles } from "./UploadImageItem.styles";
@@ -8,6 +8,7 @@ interface UploadImageItemProps {
     file: File;
     onFinish: (file: File, sticker?: Sticker) => void;
     onUpload: (file: File, onProgressUpdate: (percent: number) => void) => Promise<any>;
+    className?: string;
 }
 
 function getStickerDataFromBlob(file: File) {
@@ -21,6 +22,7 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
     file,
     onFinish,
     onUpload,
+    className,
 }: UploadImageItemProps): JSX.Element => {
     const styles = useUploadItemStyles();
     const [sticker, setSticker] = useState<Sticker>(() => getStickerDataFromBlob(file) as Sticker);
@@ -50,7 +52,7 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
 
     const isFailed = sticker.status === StickerStatus.upload_fail;
     return (
-        <div className={styles.root}>
+        <div className={mergeClasses(styles.root, className)}>
             <Image className={styles.img} src={sticker.src} />
             <Text className={styles.name} size={500}>
                 {sticker.name}

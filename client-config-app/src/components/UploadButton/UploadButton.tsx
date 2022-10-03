@@ -1,8 +1,9 @@
 import React, { ChangeEvent, useState } from "react";
+import { mergeClasses } from "@fluentui/react-components";
 import { AddRegular } from "@fluentui/react-icons";
 import { useTranslation } from "react-i18next";
-import { TransKeys } from "../../locales";
 
+import { TransKeys } from "../../locales";
 import { useUploadButtonStyles } from "./UploadButton.styles";
 import { MAX_NUM } from "../../lib/env";
 import { Alert } from "../Alert/Alert";
@@ -10,6 +11,7 @@ import { Alert } from "../Alert/Alert";
 export interface UploadButtonProps {
     onUploadListChange: (file: File[]) => void;
     maxNum: number;
+    className?: string;
 }
 
 interface Msg {
@@ -24,10 +26,10 @@ const MAX_SIZE = 1000 * 1024;
 
  * @returns
  */
-export const UploadButton: React.FC<UploadButtonProps> = ({ maxNum, onUploadListChange }): JSX.Element => {
-    const [messages, setMessages] = useState<Msg[]>([]);
-    const { t } = useTranslation();
+export const UploadButton: React.FC<UploadButtonProps> = ({ maxNum, onUploadListChange, className }): JSX.Element => {
     const styles = useUploadButtonStyles();
+    const { t } = useTranslation();
+    const [messages, setMessages] = useState<Msg[]>([]);
 
     const imageUploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const msg = [];
@@ -53,7 +55,7 @@ export const UploadButton: React.FC<UploadButtonProps> = ({ maxNum, onUploadList
 
     return (
         <>
-            <div className={styles.root}>
+            <div className={mergeClasses(styles.root, className)}>
                 <label htmlFor="image-upload">
                     <AddRegular className={styles.icon} />
                 </label>

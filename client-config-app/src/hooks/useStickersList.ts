@@ -17,6 +17,7 @@ export function useStickersList(isTenant: boolean): StickerListResult {
         refreshInterval: 5 * 60 * 1000, // 5 mins
         revalidateOnFocus: isTenant, // only for tenant
         revalidateIfStale: false, // automatically revalidate even if there is stale data
+        revalidateOnMount: true,
         errorRetryCount: 4,
         shouldRetryOnError: (err) => !isUnauthorizedError(err),
     });
