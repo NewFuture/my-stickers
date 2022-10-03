@@ -8,8 +8,8 @@ export const useHeaderStyles = makeStyles({
         flexWrap: "wrap",
         "@media screen and (min-width: 400px)": {
             justifyContent: "space-between",
-            paddingLeft: "10px",
-            paddingRight: "10px",
+            paddingLeft: "2%",
+            paddingRight: "2%",
         },
     },
 });
