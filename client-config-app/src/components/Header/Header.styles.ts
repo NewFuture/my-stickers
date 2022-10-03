@@ -1,4 +1,4 @@
-import { makeStyles } from "@fluentui/react-components";
+import { makeStyles, tokens } from "@fluentui/react-components";
 
 export const useHeaderStyles = makeStyles({
     root: {
@@ -6,6 +6,7 @@ export const useHeaderStyles = makeStyles({
         justifyContent: "center",
         alignItems: "center",
         flexWrap: "wrap",
+        color: tokens.colorBrandForeground1,
         "@media (min-width: 400px)": {
             justifyContent: "space-between",
             paddingLeft: "2%",
