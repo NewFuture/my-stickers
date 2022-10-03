@@ -9,9 +9,11 @@ interface ErrMsg {
     key: number;
     content: string;
 }
-export function useFileUploadHandler(maxNum: number, setFiles: (callback: (files: File[]) => File[]) => any) {
-    const [errMessages, setMessages] = useState<ErrMsg[]>([]);
+export function useFileUploadHandler(maxNum: number) {
+    const [files, setFiles] = useState<File[]>([]);
+    const [errors, setErrors] = useState<ErrMsg[]>([]);
     const { t } = useTranslation();
+    const remaining = maxNum - files.length;
     const uploadHandler = useCallback(
         (files: File[]) => {
             const msg = [];
@@ -30,22 +32,25 @@ export function useFileUploadHandler(maxNum: number, setFiles: (callback: (files
                     content: t(TransKeys.maxsize, { size: MAX_SIZE / 1024 + "K" }),
                 });
             }
-            if (filtered.length > maxNum) {
+            if (filtered.length > remaining) {
                 msg.push({
                     key: Math.random(),
                     content: t(TransKeys.maxnum, { n: MAX_NUM }),
                 });
             }
-            setMessages(msg);
+            setErrors(msg);
             if (filtered.length) {
-                const newFiles = filtered.slice(0, maxNum);
-                setFiles((fList) => fList.concat(newFiles));
+                const newFiles = filtered.slice(0, remaining);
+                setFiles((fList) => newFiles.concat(fList));
             }
         },
-        [t, maxNum, setFiles],
+        [t, remaining],
     );
     return {
-        errMessages,
+        files,
+        errors,
         uploadHandler,
+        enable: remaining > 0,
+        removeFile: useCallback((file: File) => setFiles((fileList) => fileList.filter((f) => f !== file)), []),
     };
 }
