@@ -14,7 +14,7 @@ interface UploadImageItemProps {
 function getStickerDataFromBlob(file: File) {
     return {
         src: URL.createObjectURL(file),
-        name: file.name.replace(/\..*$/, ""),
+        name: file.name.replace(/\.[^/.]+$/, ""),
     };
 }
 
@@ -54,7 +54,7 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
     return (
         <div className={mergeClasses(styles.root, className)}>
             <Image className={styles.img} src={sticker.src} />
-            <Text className={styles.name} size={500}>
+            <Text className={styles.name} size={400} truncate>
                 {sticker.name}
             </Text>
             <div className={styles.overlay}>
@@ -67,7 +67,7 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
                             appearance="transparent"
                             onClick={() => actionsRef.current.onFinish(file)}
                         />
-                        <Text className={styles.error} size={600} truncate>
+                        <Text className={styles.error} size={200} font="monospace" truncate>
                             {errMsg}
                         </Text>
                     </>

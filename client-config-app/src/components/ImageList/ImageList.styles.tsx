@@ -9,27 +9,42 @@ export const useImageListStyles = makeStyles({
         "@media (max-width: 400px)": {
             gridTemplateColumns: "repeat(2, 1fr)",
         },
-        "@media (min-width: 400px) and (max-width: 600px)": {
+        "@media (min-width: 400px) and (max-width: 599px)": {
             gridTemplateColumns: "repeat(3, 1fr)",
         },
-        "@media (min-width: 600px) and (max-width: 800px)": {
+        "@media (min-width: 600px) and (max-width: 799px)": {
             gridTemplateColumns: "repeat(4, 1fr)",
         },
-        "@media (min-width: 800px) and (max-width: 1800px)": {
+        "@media (min-width: 800px) and (max-width: 1299px)": {
             gridTemplateColumns: "repeat(5, 1fr)",
         },
-        "@media (min-width: 1800px)": {
-            gridTemplateColumns: "repeat(auto-fit, 300px)",
+        "@media (min-width: 1300px) and (max-width: 1499px)": {
+            gridTemplateColumns: "repeat(6, 1fr)",
+        },
+        "@media (min-width: 1500px) and (max-width: 2000px)": {
+            gridTemplateColumns: "repeat(7, 1fr)",
+        },
+        "@media (min-width: 2001px)": {
+            gridTemplateColumns: "repeat(auto-fit, calc(250px + 1%))",
         },
     },
     item: {
-        minWidth: "150px",
-        minHeight: "150px",
+        minWidth: "120px",
+        minHeight: "120px",
         maxHeight: "300px",
         maxWidth: "300px",
         aspectRatio: "1/1",
         boxShadow: tokens.shadow64Brand,
         ...shorthands.overflow("hidden"),
         ...shorthands.borderRadius(tokens.borderRadiusMedium),
+    },
+    errors: {
+        position: "fixed",
+        top: 0,
+        paddingLeft: "1em",
+        paddingRight: "1em",
+        width: "100%",
+        zIndex: 1000,
+        boxSizing: "border-box",
     },
 });

@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { SyntheticEvent } from "react";
 import { MutatorOptions } from "swr";
 
 import ImageItem from "../ImageItem/ImageItem";
 import { Sticker, StickerStatus } from "../../model/sticker";
 import { UploadButton } from "../UploadButton/UploadButton";
-
 import { useImageListStyles } from "./ImageList.styles";
 import { UploadImageItem } from "../ImageItem/UploadImageItem";
 import { MAX_NUM } from "../../lib/env";
+import { useFileUploadHandler } from "../../hooks/useFileUploadHandler";
+import { Alert } from "../Alert/Alert";
 
 function getPatchItemByIdFunc(id: string, props: Partial<Sticker>) {
     return (list?: Sticker[]) =>
@@ -19,6 +20,11 @@ function getPatchItemByIdFunc(id: string, props: Partial<Sticker>) {
                       ...props,
                   },
         )!;
+}
+
+function dragOverHandler(ev: SyntheticEvent) {
+    ev.preventDefault();
+    ev.stopPropagation();
 }
 interface ImageListProps {
     items: Sticker[];
@@ -38,69 +44,88 @@ const ImageList: React.FC<ImageListProps> = ({
     onUpload,
 }: ImageListProps) => {
     const styles = useImageListStyles();
-    const [uploadFiles, setUploadFiles] = useState<File[]>([]);
+    const { files, errors, uploadHandler, removeFile, enable } = useFileUploadHandler(MAX_NUM - items?.length ?? 0);
     const onFinshUpload = (file: File, sticker?: Sticker) => {
-        setUploadFiles(uploadFiles.filter((f) => file !== f));
+        removeFile(file);
         if (sticker) {
             // 插入新表情
             onMutate((items) => [sticker, ...(items || [])]);
         }
     };
-
-    const maxUploadCount = MAX_NUM - items?.length ?? 0 - uploadFiles.length;
     return (
-        <div className={styles.grid}>
-            {isEditable && (
-                <UploadButton className={styles.item} onUploadListChange={setUploadFiles} maxNum={maxUploadCount} />
-            )}
-            {uploadFiles?.map((item: File, index) => (
-                <UploadImageItem
-                    key={index}
-                    className={styles.item}
-                    file={item}
-                    onFinish={onFinshUpload}
-                    onUpload={onUpload}
-                />
-            ))}
-            {items?.map((item: Sticker) => (
-                <ImageItem
-                    className={styles.item}
-                    isEditable
-                    key={item.id}
-                    {...item}
-                    onDelete={
-                        isEditable
-                            ? () => {
-                                  onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete }), {
-                                      revalidate: false,
-                                  });
-                                  onDelete(item.id).then(
-                                      // 删除成功
-                                      () => onMutate((list) => list?.filter((v) => v.id !== item.id)!),
-                                      // 删除失败
-                                      () =>
-                                          onMutate(
-                                              getPatchItemByIdFunc(item.id, { status: StickerStatus.delete_fail }),
-                                          ),
-                                  );
+        <>
+            <div
+                className={styles.grid}
+                onDrop={
+                    enable
+                        ? (ev) => {
+                              if (ev.dataTransfer.items?.length) {
+                                  uploadHandler(Array.from(ev.dataTransfer.files));
+                                  ev.preventDefault();
+                                  ev.stopPropagation();
                               }
-                            : undefined
-                    }
-                    onEdit={(name: string) => {
-                        onMutate(getPatchItemByIdFunc(item.id, { name, status: StickerStatus.editing }), {
-                            revalidate: false,
-                        });
-                        onPatch(item.id, { name }).then(
-                            () =>
-                                onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.success }), {
-                                    revalidate: false,
-                                }),
-                            () => onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.edit_fail })),
-                        );
-                    }}
-                />
-            ))}
-        </div>
+                          }
+                        : undefined
+                }
+                onDragOver={dragOverHandler}
+            >
+                {isEditable && (
+                    <UploadButton className={styles.item} onUploadChangeHandler={uploadHandler} disbaled={!enable} />
+                )}
+                {files?.map((item: File) => (
+                    <UploadImageItem
+                        key={`#${item.lastModified}#${item.webkitRelativePath}`}
+                        className={styles.item}
+                        file={item}
+                        onFinish={onFinshUpload}
+                        onUpload={onUpload}
+                    />
+                ))}
+                {items?.map((item: Sticker) => (
+                    <ImageItem
+                        className={styles.item}
+                        isEditable
+                        key={item.id}
+                        {...item}
+                        onDelete={
+                            isEditable
+                                ? () => {
+                                      onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete }), {
+                                          revalidate: false,
+                                      });
+                                      onDelete(item.id).then(
+                                          // 删除成功
+                                          () => onMutate((list) => list?.filter((v) => v.id !== item.id)!),
+                                          // 删除失败
+                                          () =>
+                                              onMutate(
+                                                  getPatchItemByIdFunc(item.id, { status: StickerStatus.delete_fail }),
+                                              ),
+                                      );
+                                  }
+                                : undefined
+                        }
+                        onEdit={(name: string) => {
+                            onMutate(getPatchItemByIdFunc(item.id, { name, status: StickerStatus.editing }), {
+                                revalidate: false,
+                            });
+                            onPatch(item.id, { name }).then(
+                                () =>
+                                    onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.success }), {
+                                        revalidate: false,
+                                    }),
+                                () => onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.edit_fail })),
+                            );
+                        }}
+                    />
+                ))}
+            </div>
+            <div className={styles.errors}>
+                {errors.map((m) => (
+                    <Alert key={m.key}>{m.content}</Alert>
+                ))}
+            </div>
+        </>
     );
 };
 

@@ -9,6 +9,7 @@
     "title_company": "我公司的表情包",
     "maxsize": "表情图片大小不能超过 {{size}}",
     "maxnum": "最多可保存{{n}}张表情",
+    "filetype": "仅可上传图片格式文件(GIF JPG PNG 等)",
     "inputLabel": "修改表情标签",
     "inputPlaceholder": "输入名称以便搜索",
     "login": "管理员登录验证",

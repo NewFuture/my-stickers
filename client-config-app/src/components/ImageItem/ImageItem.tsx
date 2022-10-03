@@ -12,6 +12,8 @@ import {
 import { Sticker, StickerStatus } from "../../model/sticker";
 import { DeleteRegular } from "@fluentui/react-icons";
 import { useImageItemStyles } from "./ImageItem.styles";
+import { useTranslation } from "react-i18next";
+import { TransKeys } from "../../locales";
 function mapStatus(status: Sticker["status"]): PresenceBadgeStatus | undefined {
     switch (status) {
         case StickerStatus.delete_fail:
@@ -36,6 +38,7 @@ const ImageItem: React.FC<
         onEdit?: (name: string) => void;
     }
 > = ({ src, name, status, isEditable, className, onEdit, onDelete }) => {
+    const { t } = useTranslation();
     const nameRef = useRef(name);
     const imageListStyles = useImageItemStyles();
     const badgeStatus = mapStatus(status);
@@ -69,9 +72,8 @@ const ImageItem: React.FC<
                     size="medium"
                     disabled={disabled}
                     defaultValue={name}
-                    onFocus={(e) => {
-                        e.target?.select?.();
-                    }}
+                    placeholder={t(TransKeys.inputPlaceholder)}
+                    onFocus={(e) => e.target?.select?.()}
                     maxLength={64}
                     onBlur={() => {
                         const currentName = nameRef.current;
