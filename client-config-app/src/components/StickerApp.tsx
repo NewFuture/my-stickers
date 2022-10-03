@@ -1,4 +1,4 @@
-import { Divider, makeStyles } from "@fluentui/react-components";
+import { makeStyles, shorthands, tokens } from "@fluentui/react-components";
 import { useState } from "react";
 import type { UserType } from "../model/sticker";
 import Header from "./Header/Header";
@@ -6,10 +6,11 @@ import { TenantImageList } from "./ImageList/TenantImageList";
 import { UserImageList } from "./ImageList/UserImageList";
 
 const useStyles = makeStyles({
-    content: {
-        minHeight: "calc(100vh - 64px)",
+    main: {
+        flexGrow: 1,
+        ...shorthands.borderTop("1px", "solid", tokens.colorNeutralStroke2),
         "&>.fui-Spinner": {
-            minHeight: "calc(100vh - 64px)",
+            minHeight: "100%",
         },
     },
 });
@@ -21,8 +22,7 @@ export function StickerApp(): JSX.Element {
     return (
         <>
             <Header type={currentRadio} onRadioChange={setCurrentRadio} />
-            <Divider />
-            <main className={styles.content}>{isTenant ? <TenantImageList /> : <UserImageList />}</main>
+            <main className={styles.main}>{isTenant ? <TenantImageList /> : <UserImageList />}</main>
         </>
     );
 }
