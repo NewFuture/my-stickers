@@ -13,8 +13,8 @@ export const useUploadButtonStyles = makeStyles({
         color: tokens.colorNeutralForeground2,
         ...shorthands.transition("scale", "0.3s"),
         ":hover": {
-            scale: '1.1',
+            scale: "1.1",
             color: tokens.colorBrandForeground1,
-        }
+        },
     },
 });
