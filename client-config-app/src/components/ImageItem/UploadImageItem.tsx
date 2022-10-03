@@ -14,7 +14,7 @@ interface UploadImageItemProps {
 function getStickerDataFromBlob(file: File) {
     return {
         src: URL.createObjectURL(file),
-        name: file.name.replace(/\..*$/, ""),
+        name: file.name.replace(/\.[^/.]+$/, ""),
     };
 }
 
