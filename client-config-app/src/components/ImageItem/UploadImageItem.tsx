@@ -67,7 +67,7 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
                             appearance="transparent"
                             onClick={() => actionsRef.current.onFinish(file)}
                         />
-                        <Text className={styles.error} truncate>
+                        <Text className={styles.error} size={200} font="monospace" truncate>
                             {errMsg}
                         </Text>
                     </>

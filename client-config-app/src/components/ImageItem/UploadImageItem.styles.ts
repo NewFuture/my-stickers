@@ -36,7 +36,7 @@ export const useUploadItemStyles = makeStyles({
     },
     progressText: {
         color: tokens.colorBrandBackground,
-        textShadow: tokens.shadow4Brand,
+        boxShadow: tokens.shadow4Brand,
     },
     progress: {
         width: "90%",
