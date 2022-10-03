@@ -4,7 +4,6 @@ import { MutatorOptions } from "swr";
 import ImageItem from "../ImageItem/ImageItem";
 import { Sticker, StickerStatus } from "../../model/sticker";
 import { UploadButton } from "../UploadButton/UploadButton";
-
 import { useImageListStyles } from "./ImageList.styles";
 import { UploadImageItem } from "../ImageItem/UploadImageItem";
 import { MAX_NUM } from "../../lib/env";
@@ -17,9 +16,9 @@ function getPatchItemByIdFunc(id: string, props: Partial<Sticker>) {
             item.id !== id
                 ? item
                 : {
-                    ...item,
-                    ...props,
-                },
+                      ...item,
+                      ...props,
+                  },
         )!;
 }
 
@@ -60,12 +59,12 @@ const ImageList: React.FC<ImageListProps> = ({
                 onDrop={
                     enable
                         ? (ev) => {
-                            if (ev.dataTransfer.items?.length) {
-                                uploadHandler(Array.from(ev.dataTransfer.files));
-                                ev.preventDefault();
-                                ev.stopPropagation();
-                            }
-                        }
+                              if (ev.dataTransfer.items?.length) {
+                                  uploadHandler(Array.from(ev.dataTransfer.files));
+                                  ev.preventDefault();
+                                  ev.stopPropagation();
+                              }
+                          }
                         : undefined
                 }
                 onDragOver={dragOverHandler}
@@ -91,19 +90,19 @@ const ImageList: React.FC<ImageListProps> = ({
                         onDelete={
                             isEditable
                                 ? () => {
-                                    onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete }), {
-                                        revalidate: false,
-                                    });
-                                    onDelete(item.id).then(
-                                        // 删除成功
-                                        () => onMutate((list) => list?.filter((v) => v.id !== item.id)!),
-                                        // 删除失败
-                                        () =>
-                                            onMutate(
-                                                getPatchItemByIdFunc(item.id, { status: StickerStatus.delete_fail }),
-                                            ),
-                                    );
-                                }
+                                      onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete }), {
+                                          revalidate: false,
+                                      });
+                                      onDelete(item.id).then(
+                                          // 删除成功
+                                          () => onMutate((list) => list?.filter((v) => v.id !== item.id)!),
+                                          // 删除失败
+                                          () =>
+                                              onMutate(
+                                                  getPatchItemByIdFunc(item.id, { status: StickerStatus.delete_fail }),
+                                              ),
+                                      );
+                                  }
                                 : undefined
                         }
                         onEdit={(name: string) => {
