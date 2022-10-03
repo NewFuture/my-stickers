@@ -12,4 +12,5 @@ export const enum TransKeys {
     inputPlaceholder = "inputPlaceholder",
     login = "login",
     loginDescription = "loginDescription",
+    error = "error",
 }
