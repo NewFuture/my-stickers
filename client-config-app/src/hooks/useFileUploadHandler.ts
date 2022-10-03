@@ -15,8 +15,16 @@ export function useFileUploadHandler(maxNum: number, setFiles: (callback: (files
     const uploadHandler = useCallback(
         (files: File[]) => {
             const msg = [];
+            const imageFiles = files.filter(({ type }) => !type || type.startsWith("image"));
+
+            if (imageFiles.length !== files.length) {
+                msg.push({
+                    key: Math.random(),
+                    content: t(TransKeys.filetype),
+                });
+            }
             const filtered = files.filter(({ size, type }) => size < MAX_SIZE && (!type || type.startsWith("image")));
-            if (filtered.length !== files.length) {
+            if (filtered.length !== imageFiles.length) {
                 msg.push({
                     key: Math.random(),
                     content: t(TransKeys.maxsize, { size: MAX_SIZE / 1024 + "K" }),

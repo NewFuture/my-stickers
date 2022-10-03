@@ -9,6 +9,7 @@
     "title_company": "My Company's Stickers",
     "maxsize": "The size of sticker images should less than {{size}}.",
     "maxnum": "Save {{n}} stickers at most.",
+    "filetype": "Only image files are supported (GIF JPG PNG ...)",
     "inputLabel": "Edit the sticker's name",
     "inputPlaceholder": "Input a name for search",
     "login": "Verify with admin",
