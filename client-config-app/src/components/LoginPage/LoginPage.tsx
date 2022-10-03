@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Text, Image } from "@fluentui/react-components";
+import { Button, Text } from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
 import { useLoginPageStyles } from "./LoginPage.styles";
 import { TransKeys } from "../../locales";
@@ -37,12 +37,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     return (
         <div className={styles.root}>
             <ShieldKeyholeRegular className={styles.img} />
-            <div className={styles.description}>
-                <Text>{t(TransKeys.loginDescription)}</Text>
-            </div>
+            <Text className={styles.desc}>{t(TransKeys.loginDescription)}</Text>
             <Button
                 icon={<PersonAccountsFilled />}
                 appearance="primary"
+                size="large"
                 as="a"
                 onClick={() => getAuthToken({ silent: false }).then(onLogin)}
                 disabled={!link}
