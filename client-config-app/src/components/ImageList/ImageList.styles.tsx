@@ -38,4 +38,13 @@ export const useImageListStyles = makeStyles({
         ...shorthands.overflow("hidden"),
         ...shorthands.borderRadius(tokens.borderRadiusMedium),
     },
+    errors: {
+        position: "fixed",
+        top: 0,
+        paddingLeft: "1em",
+        paddingRight: "1em",
+        width: "100%",
+        zIndex: 1000,
+        boxSizing: "border-box",
+    },
 });
