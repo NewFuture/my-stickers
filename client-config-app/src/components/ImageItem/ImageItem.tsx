@@ -72,6 +72,7 @@ const ImageItem: React.FC<
                     onFocus={(e) => {
                         e.target?.select?.();
                     }}
+                    maxLength={64}
                     onBlur={() => {
                         const currentName = nameRef.current;
                         if (currentName && name?.trim() !== currentName?.trim() && onEdit) {

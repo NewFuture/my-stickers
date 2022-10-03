@@ -6,7 +6,7 @@ export const useHeaderStyles = makeStyles({
         justifyContent: "center",
         alignItems: "center",
         flexWrap: "wrap",
-        "@media screen and (min-width: 400px)": {
+        "@media (min-width: 400px)": {
             justifyContent: "space-between",
             paddingLeft: "2%",
             paddingRight: "2%",

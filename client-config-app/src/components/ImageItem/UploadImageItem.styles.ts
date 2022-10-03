@@ -3,8 +3,6 @@ import { makeStyles, tokens } from "@fluentui/react-components";
 export const useUploadItemStyles = makeStyles({
     root: {
         position: "relative",
-        overFlow: "hidden",
-        boxShadow: tokens.shadow64Brand,
     },
     img: {
         width: "100%",
