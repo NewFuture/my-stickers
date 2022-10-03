@@ -11,6 +11,8 @@
     "maxnum": "Save {{n}} stickers at most.",
     "inputLabel": "Edit the sticker's name",
     "inputPlaceholder": "Input a name for search",
-    "login": "Login with admin",
-    "loginDescription": "Welcome, please sign in with admin account to enable the Company features for your company"
+    "login": "Verify with admin",
+    "loginDescription": "Welcome, please sign in with Admin Account to enable the Company features for your company",
+    "error": "Something went wrong: {{message}}",
+    "error_expire": "The session expires. Please reopen this page in Teams."
 }

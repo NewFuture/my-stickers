@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Button, Text, Image } from "@fluentui/react-components";
+import { Button, Text } from "@fluentui/react-components";
 import { useTranslation } from "react-i18next";
-import { useWelcomePageStyles } from "./LoginPage.styles";
+import { useLoginPageStyles } from "./LoginPage.styles";
 import { TransKeys } from "../../locales";
 import { getAuthToken, getContext } from "../../services/teams";
 import { AAD_ID } from "../../lib/env";
-
-import LoginPic from "../../assets/LoginPagePic.png";
+import { PersonAccountsFilled, ShieldKeyholeRegular } from "@fluentui/react-icons";
 
 interface LoginPageProps {
     onLogin: (token: string) => void;
@@ -14,7 +13,7 @@ interface LoginPageProps {
 
 export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     const { t } = useTranslation();
-    const styles = useWelcomePageStyles();
+    const styles = useLoginPageStyles();
     const [link, setLink] = useState<string>();
     useEffect(() => {
         getContext().then((c) => {
@@ -27,7 +26,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
     useEffect(() => {
         const getFocus = () => {
-            getAuthToken().then(onLogin);
+            getAuthToken({ silent: true }).then(onLogin);
         };
         window.addEventListener("focus", getFocus);
         return () => {
@@ -37,11 +36,18 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
     return (
         <div className={styles.root}>
-            <Image className={styles.img} src={LoginPic} />
-            <div className={styles.description}>
-                <Text>{t(TransKeys.loginDescription)}</Text>
-            </div>
-            <Button appearance="primary" as="a" disabled={!link} href={link} target="_blank">
+            <ShieldKeyholeRegular className={styles.img} />
+            <Text className={styles.desc}>{t(TransKeys.loginDescription)}</Text>
+            <Button
+                icon={<PersonAccountsFilled />}
+                appearance="primary"
+                size="large"
+                as="a"
+                onClick={() => getAuthToken({ silent: false }).then(onLogin)}
+                disabled={!link}
+                href={link}
+                target="_blank"
+            >
                 {t(TransKeys.login)}
             </Button>
         </div>

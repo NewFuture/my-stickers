@@ -11,6 +11,8 @@
     "maxnum": "最多可保存{{n}}张表情",
     "inputLabel": "修改表情标签",
     "inputPlaceholder": "输入名称以便搜索",
-    "login": "管理员登录",
-    "loginDescription": "欢迎，请使用管理员账号进行验证，在本公司启用公司管理"
+    "login": "管理员登录验证",
+    "loginDescription": "欢迎，请使用管理员账号进行验证，在本公司启用公司管理",
+    "error": "发生错误: {{message}}",
+    "error_expire": "此窗口已过期，请在Teams里重新打开此页面"
 }
