@@ -8,6 +8,8 @@ namespace Stickers.Utils
 
         public const string WEB_URL = "WEB_URL";
 
+        public const string STICKERS_INDEX_URL = "STICKERS_INDEX_URL";
+
         public const string CDN_DOMAIN = "AZURE_STORAGE_CDN";
 
         public const string AAD_SECTION = "AAD";
