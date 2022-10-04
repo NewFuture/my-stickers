@@ -46,7 +46,7 @@ jobs:
     server-deploy:
         needs: [server-build]
         environment:
-            name: Integration
+            name: ${{ fromJSON('["Integration","Production"]')[ github.ref_name == 'v2'] }}
             url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}/swagger/index.html
         runs-on: ubuntu-latest
         timeout-minutes: 6
