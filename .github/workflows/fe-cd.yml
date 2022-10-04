@@ -15,11 +15,11 @@ permissions:
     contents: read
 
 env:
-    WEBSITE: stickers-test.azureedge.net
-    MICROSOFT_APP_ID: "b967aed7-3ba9-48fb-ae52-2df66d237844"
-    REACT_APP_API_ROOT: https://stickers-int-server-linux.azurewebsites.net/api/
-    REACT_APP_AAD_ID: "9df8d009-4540-47e2-8711-36adb219fedb"
-    APP_PRE_FIX: "[I]"
+    WEBSITE: ${{ fromJSON('["stickers-test.azureedge.net","sticker.newfuture.cc"]')[ github.ref_name == 'v2'] }}
+    MICROSOFT_APP_ID: ${{ fromJSON('["df0e11e9-b58d-4143-a5ea-37cc44ade294","b967aed7-3ba9-48fb-ae52-2df66d237844"]')[ github.ref_name == 'v2'] }}
+    REACT_APP_API_ROOT: ${{ fromJSON('["https://stickers-api2.newfuture.cc/api/","https://stickers-int-server-linux.azurewebsites.net/api/"]')[ github.ref_name == 'v2'] }}
+    REACT_APP_AAD_ID: ${{ fromJSON('["695d3f13-6131-4224-aacd-26c8aff039d2",""9df8d009-4540-47e2-8711-36adb219fedb""]')[ github.ref_name == 'v2'] }}
+    APP_PRE_FIX: ${{ fromJSON('["","[I]"]')[ github.ref_name == 'v2'] }}
 
 # This allows a subsequently queued workflow run to interrupt previous runs
 concurrency:
@@ -60,7 +60,7 @@ jobs:
     front-end-deploy:
         needs: [front-end-build]
         environment:
-            name: Integration
+            name: ${{ fromJSON('["Production","Integration"]')[ github.ref_name == 'v2'] }}
             url: https://${{env.WEBSITE}}/
         runs-on: ubuntu-latest
         timeout-minutes: 5
