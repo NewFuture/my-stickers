@@ -13,6 +13,8 @@ namespace Stickers.Utils
         public const string CDN_DOMAIN = "AZURE_STORAGE_CDN";
 
         public const string AAD_SECTION = "AAD";
+        public const string AAD_CLINET_ID = "AAD:ClientId";
+
 
 
         // public const string CONAINER_NAME = "container";
