@@ -6,7 +6,6 @@ using Stickers.Bot;
 using Stickers.Utils;
 using Stickers.Search;
 using Stickers.Service;
-using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
@@ -42,6 +41,7 @@ builder.Services.AddTransient<IBot, TeamsMessagingExtensionsBot>();
 // Adding Authentication  
 builder.Services.AddAuthorization(options =>
 {
+    //  admin
     options.AddPolicy("Admin", policy =>
     {
         // https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference#role-template-ids
@@ -52,12 +52,25 @@ builder.Services.AddAuthorization(options =>
             "2b745bdf-0803-4d80-aa65-822c4493daac", // Office Apps Administrator
             });
         policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
-        policy.AddRequirements(new AuthorizationRequirement("AdminOnly", JwtBearerDefaults.AuthenticationScheme));
+        policy.AddRequirements(new AuthorizationRequirement("Admin", JwtBearerDefaults.AuthenticationScheme));
     });
-});
-builder.Services
+})
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration, ConfigKeys.AAD_SECTION);
+    .AddJwtBearer(options =>
+    {
+        var clientId = builder.Configuration[ConfigKeys.AAD_CLINET_ID];
+        var webURL = builder.Configuration[ConfigKeys.WEB_URL];
+        options.Authority = $"https://login.microsoftonline.com/common/v2.0";
+        options.TokenValidationParameters.ValidAudiences = new string[]
+        {
+            $"{webURL.Replace("https:","api:")}/{clientId}", // teams sso
+            clientId,
+            $"{webURL}/{clientId}",
+        };
+        options.TokenValidationParameters.ValidateIssuerSigningKey = true;
+        // options.TokenValidationParameters.ValidIssuers = {};
+    });
+// .AddMicrosoftIdentityWebApi(builder.Configuration, ConfigKeys.AAD_SECTION);
 builder.Services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
 
 builder.Services.AddMemoryCache();
@@ -90,7 +103,6 @@ app.UseSwaggerUI();
 app.UseMiddleware(typeof(GlobalErrorHandling));
 
 // app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
