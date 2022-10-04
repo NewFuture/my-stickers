@@ -67,8 +67,8 @@ builder.Services.AddAuthorization(options =>
             clientId,
             $"{webURL}/{clientId}",
         };
+        options.TokenValidationParameters.IssuerValidator = IssuerValidatorHelper.ValidateIssuerWithPlaceholder;
         options.TokenValidationParameters.ValidateIssuerSigningKey = true;
-        // options.TokenValidationParameters.ValidIssuers = {};
     });
 // .AddMicrosoftIdentityWebApi(builder.Configuration, ConfigKeys.AAD_SECTION);
 builder.Services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
