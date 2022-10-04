@@ -25,7 +25,7 @@ namespace Stickers.Search
         {
             this.httpClientFactory = httpClientFactory;
             this.cache = cache;
-            this.indexUrl = configuration[ConfigKeys.WEB_URL] + "/official-stickers/index.json";
+            this.indexUrl = configuration[ConfigKeys.STICKERS_INDEX_URL];
         }
 
         public async Task<List<OfficialSticker>> GetOfficialStickers()
