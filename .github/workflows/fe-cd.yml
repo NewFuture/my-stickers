@@ -18,7 +18,7 @@ env:
     # [INT_CONFIG, PROD_CONFIG]
     WEBSITE: ${{ fromJSON('["stickers-test.azureedge.net","sticker.newfuture.cc"]')[ github.ref_name == 'v2'] }}
     REACT_APP_API_ROOT: ${{ fromJSON('["https://stickers-int-server-linux.azurewebsites.net/api/","https://stickers-api2.newfuture.cc/api/"]')[ github.ref_name == 'v2'] }}
-    REACT_APP_AAD_ID: ${{ fromJSON('["9df8d009-4540-47e2-8711-36adb219fedb","695d3f13-6131-4224-aacd-26c8aff039d2"]')[ github.ref_name == 'v2'] }}
+    REACT_APP_AAD_ID: ${{ fromJSON('["8765be9c-f2c0-44d8-8ece-82a816441a10","695d3f13-6131-4224-aacd-26c8aff039d2"]')[ github.ref_name == 'v2'] }}
     APP_PRE_FIX: ${{ fromJSON('["[I]",""]')[ github.ref_name == 'v2'] }}
 
 # This allows a subsequently queued workflow run to interrupt previous runs
