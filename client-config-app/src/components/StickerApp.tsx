@@ -17,11 +17,11 @@ const useStyles = makeStyles({
 
 export function StickerApp(): JSX.Element {
     const styles = useStyles();
-    const [currentRadio, setCurrentRadio] = useState<UserType>("user");
-    const isTenant = currentRadio === "company";
+    const [currentType, setCurrentType] = useState<UserType>("user");
+    const isTenant = currentType === "company";
     return (
         <>
-            <Header type={currentRadio} onRadioChange={setCurrentRadio} />
+            <Header type={currentType} onTypeChange={setCurrentType} />
             <main className={styles.main}>{isTenant ? <TenantImageList /> : <UserImageList />}</main>
         </>
     );

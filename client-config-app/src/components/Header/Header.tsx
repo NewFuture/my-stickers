@@ -1,5 +1,14 @@
 import React from "react";
-import { mergeClasses, Radio, RadioGroup, Text } from "@fluentui/react-components";
+import {
+    Menu,
+    MenuItemRadio,
+    MenuList,
+    MenuPopover,
+    MenuTrigger,
+    mergeClasses,
+    SplitButton,
+    Text,
+} from "@fluentui/react-components";
 import { BuildingFilled, PersonHeartFilled } from "@fluentui/react-icons";
 import { useTranslation } from "react-i18next";
 import { TransKeys } from "../../locales";
@@ -7,24 +16,42 @@ import { UserType } from "../../model/sticker";
 import { useHeaderStyles } from "./Header.styles";
 
 export interface HeaderButtonProps {
-    onRadioChange: (value: UserType) => void;
+    onTypeChange: (value: UserType) => void;
     type: UserType;
     className?: string;
 }
 
-const Header: React.FC<HeaderButtonProps> = ({ type, onRadioChange, className }: HeaderButtonProps): JSX.Element => {
+const Header: React.FC<HeaderButtonProps> = ({ type, onTypeChange, className }: HeaderButtonProps): JSX.Element => {
     const styles = useHeaderStyles();
     const { t } = useTranslation();
-    const header = t(TransKeys.title, { context: type });
     return (
         <header className={mergeClasses(styles.root, className)}>
             <Text as="h1" size={600} weight="bold">
-                {header}
+                {t(TransKeys.title, { context: type })}
             </Text>
-            <RadioGroup value={type} onChange={(_, data) => onRadioChange(data.value as UserType)} layout="horizontal">
-                <Radio value="user" title={t(TransKeys.title, { context: "user" })} label={<PersonHeartFilled />} />
-                <Radio value="company" title={t(TransKeys.title, { context: "company" })} label={<BuildingFilled />} />
-            </RadioGroup>
+            <Menu>
+                <MenuTrigger>
+                    <SplitButton
+                        title={t(TransKeys.radioLabel)}
+                        icon={type === "company" ? <BuildingFilled /> : <PersonHeartFilled />}
+                    >
+                        {t(TransKeys.radio, { context: type })}
+                    </SplitButton>
+                </MenuTrigger>
+                <MenuPopover>
+                    <MenuList
+                        checkedValues={{ type: [type] }}
+                        onCheckedValueChange={(_, { checkedItems }) => onTypeChange(checkedItems[0] as UserType)}
+                    >
+                        <MenuItemRadio icon={<PersonHeartFilled />} name="type" value="user">
+                            {t(TransKeys.radio, { context: "user" })}
+                        </MenuItemRadio>
+                        <MenuItemRadio icon={<BuildingFilled />} name="type" value="company">
+                            {t(TransKeys.radio, { context: "company" })}
+                        </MenuItemRadio>
+                    </MenuList>
+                </MenuPopover>
+            </Menu>
         </header>
     );
 };
