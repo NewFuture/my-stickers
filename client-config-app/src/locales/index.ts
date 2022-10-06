@@ -5,6 +5,8 @@ export const enum TransKeys {
     // upload = "upload",
     // delete = "delete",
     title = "title",
+    radio = "radio",
+    radioLabel = "radioLabel",
     loading = "loading",
     maxsize = "maxsize",
     maxnum = "maxnum",

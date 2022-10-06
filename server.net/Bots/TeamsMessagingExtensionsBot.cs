@@ -58,7 +58,8 @@ namespace Stickers.Bot
         /// <returns></returns>
         private string GetConfigUrl(Guid userId)
         {
-            return $"{this.WebUrl}/config/#{this.session.GenerateSession(userId)}";
+            const string queryString = "lng={locale}&theme={theme}";
+            return $"{this.WebUrl}/config/?{queryString}#{this.session.GenerateSession(userId)}";
         }
     }
 }

@@ -1,11 +1,12 @@
 import i18n from "./lib/i18n";
 import { useEffect, useState } from "react";
-import { FluentProvider, teamsLightTheme } from "@fluentui/react-components";
+import { FluentProvider } from "@fluentui/react-components";
 import { getContext, getTeamsTheme, registerOnThemeChangeHandler } from "./services/teams";
 import { StickerApp } from "./components/StickerApp";
+import { INIT_QUERY } from "./lib/env";
 
 export default function ConfigApp() {
-    const [theme, setTheme] = useState(teamsLightTheme);
+    const [theme, setTheme] = useState(() => getTeamsTheme(INIT_QUERY.get("theme")!));
     useEffect(() => {
         getContext().then((c) => {
             i18n.changeLanguage(c.app.locale);

@@ -14,13 +14,14 @@ export const useLoginPageStyles = makeStyles({
         minWidth: "150px",
         maxHeight: "800px",
         maxWidth: "800px",
-        width: "min(50vh,50vw)",
-        height: "min(50vh,50vw)",
+        width: "min(40vh,40vw)",
+        height: "min(40vh,40vw)",
         marginTop: "-2em",
         color: tokens.colorBrandForeground1,
     },
     desc: {
         paddingLeft: "1em",
         paddingRight: "1em",
+        whiteSpace: "pre-wrap",
     },
 });
