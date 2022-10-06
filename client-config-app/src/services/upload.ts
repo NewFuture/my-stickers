@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios, { AxiosProgressEvent } from "axios";
 import { API } from "../lib/http";
 
 const blob = Axios.create();
@@ -45,11 +45,11 @@ export async function upload(
     file: File,
     sas: SasInfo,
     url: "/admin/stickers/commit" | "/me/stickers/commit",
-    onProgress: (p: { percent: number; p: number }) => void,
+    onProgress: (p: { percent: number; p: AxiosProgressEvent }) => void,
 ) {
     const contentType = file.type;
     await blob.put(`${sas.url}&comp=block&blockid=${btoa(sas.id)}`, await blobToArrayBuffer(file), {
-        onUploadProgress: (p) => onProgress({ percent: 100 * (p.loaded / p.total), p: p }),
+        onUploadProgress: (p) => onProgress({ percent: 100 * (p.loaded / (p.total || p.bytes)), p }),
     });
     return await API.post(url, {
         id: sas.id,
