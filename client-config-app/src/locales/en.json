@@ -16,7 +16,7 @@
     "inputLabel": "Edit the sticker's name",
     "inputPlaceholder": "Input a name for search",
     "login": "Verify with admin",
-    "loginDescription": "Welcome, please sign in with Admin Account to enable the Company features for your company",
+    "loginDescription": "Welcome to Org-Wide Stickers, this feature needs the Administrator's verification.\n  ① Enable: Global Admin clicks the button then signs in and consents\n  ② Manage: Global Admin and Teams Admin can change the org-wide stickers.\n  ③ Use: All members in this organization can use the org-wide stickers (pre-installed).\n  * tips: This App only needs id-token permission for login.",
     "error": "Something went wrong: {{message}}",
     "error_expire": "The session expires. Please reopen this page in Teams."
 }
