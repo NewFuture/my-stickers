@@ -39,7 +39,7 @@ namespace Stickers.Bot
                            new CardAction
                            {
                                Type = "openApp",
-                               Title = LocalizationHelper.LookupString("upload_task_module_title", GetCultureInfoFromBotActivity(turnContext.Activity)),
+                               Title = LocalizationHelper.LookupString("upload_task_module_title", turnContext.Activity.GetLocale()),
                                Value = this.GetConfigUrl(Guid.Parse(userId!))
                            }
                        }
@@ -61,7 +61,7 @@ namespace Stickers.Bot
             var tenantId = Guid.Parse(turnContext.Activity.Conversation.TenantId);
             var skip = query.QueryOptions.Skip ?? 0;
             var count = query.QueryOptions.Count ?? 30;
-            var initialRun = this.GetQueryParameters(query, "initialRun");
+            var initialRun = GetQueryParameters(query, "initialRun");
 
             if (initialRun == "true")
             {
@@ -71,7 +71,7 @@ namespace Stickers.Bot
             else
             {
                 // The list of MessagingExtensionAttachments must we wrapped in a MessagingExtensionResult wrapped in a MessagingExtensionResponse.
-                var keyword = this.GetQueryParameters(query, "query");
+                var keyword = GetQueryParameters(query, "query");
                 var imgs = await QueryResultGrid(userId, tenantId, keyword, skip, count);
                 return GetMessagingExtensionResponse(imgs, true);
             }
@@ -132,15 +132,15 @@ namespace Stickers.Bot
             return allimgs.Concat(officialImgs);
         }
 
-        private MessagingExtensionResponse GetMessagingExtensionResponse(IEnumerable<Img> images, Boolean isSearch)
+        private static MessagingExtensionResponse GetMessagingExtensionResponse(IEnumerable<Img> images, bool isSearch)
         {
             List<MessagingExtensionAttachment> attachments = images.Select(img => new MessagingExtensionAttachment()
             {
                 ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = this.GetAdaptiveCardJsonObject(img, "StickerCard.json"),
+                Content = GetAdaptiveCardJsonObject(img, "StickerCard.json"),
                 Preview = new ThumbnailCard()
                 {
-                    Images = new List<CardImage>() { new CardImage(img.Src) }
+                    Images = new List<CardImage>() { new CardImage(img.Src, img.Alt) }
                 }.ToAttachment()
             }).ToList();
 
@@ -150,7 +150,7 @@ namespace Stickers.Bot
                 CacheInfo = new CacheInfo("CACHE", isSearch ? 600 : 120),
             };
         }
-        private string? GetQueryParameters(MessagingExtensionQuery query, string name)
+        private static string? GetQueryParameters(MessagingExtensionQuery query, string name)
         {
             return query.Parameters?.SingleOrDefault(q => q.Name.Equals(name))?.Value.ToString();
         }

@@ -7,6 +7,7 @@ using Stickers.Service;
 using Stickers.Utils;
 using AdaptiveCards.Templating;
 using Newtonsoft.Json.Linq;
+
 namespace Stickers.Bot
 {
     public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
@@ -35,7 +36,7 @@ namespace Stickers.Bot
             this.session = sessionService;
         }
 
-        private JObject GetAdaptiveCardJsonObject(object cardPayload, string cardFileName)
+        private static JObject GetAdaptiveCardJsonObject(object cardPayload, string cardFileName)
         {
             if (!cardDict.TryGetValue(cardFileName, out var template))
             {

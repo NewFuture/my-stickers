@@ -11,7 +11,6 @@ using Newtonsoft.Json.Linq;
 using Stickers.Entities;
 using Stickers.Models;
 using Stickers.Resources;
-using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Stickers.Bot
@@ -19,6 +18,11 @@ namespace Stickers.Bot
 
     public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
     {
+
+        private static Regex IMG_SRC_REGEX = new Regex("<img[^>]+src=\"([^\"\\s]+)\"[^>]*>");
+        private static Regex IMG_ALT_REGEX = new Regex("<img[^>]+alt=\"([^\"]+)\"[^>]*>");
+        private static Regex IMAGE_URL_REGEX = new Regex("^http(s?):\\/\\/.*\\.(?:jpg|gif|png)$");
+
         protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionFetchTaskAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
         {
             var command = action.CommandId;
@@ -26,9 +30,9 @@ namespace Stickers.Bot
             switch (command)
             {
                 case "management":
-                    return await this.ManageTaskModule(turnContext);
+                    return this.ManageTaskModule(turnContext.Activity);
                 case "collect":
-                    return await this.SaveCollection(turnContext);
+                    return await this.SaveCollection(turnContext.Activity);
                 default:
                     this.logger.LogError("unkwon comand " + command);
                     throw new Exception("unkwon bot action comand " + command);
@@ -36,34 +40,37 @@ namespace Stickers.Bot
 
         }
 
-        private async Task<MessagingExtensionActionResponse> SaveCollection(ITurnContext<IInvokeActivity> turnContext)
+        private async Task<MessagingExtensionActionResponse> SaveCollection(IInvokeActivity activity)
         {
-            var value = (JObject)turnContext.Activity.Value;
+            var value = (JObject)activity.Value;
             var payload = value?["messagePayload"].ToObject<JObject>();
             var body = payload?["body"].ToObject<JObject>();
-            var userId = turnContext.Activity?.From?.AadObjectId;
+            var userId = activity.From.AadObjectId;
             var content = body?["content"].ToString();
-            List<MessagingExtensionAttachment> attachments = payload?["attachments"].ToObject<List<MessagingExtensionAttachment>>();
-            var imgs = this.GetImages(content);
+            var imgs = GetImages(content);
+
+            List<Attachment> attachments = payload?["attachments"].ToObject<List<Attachment>>();
             foreach (var attachment in attachments)
             {
-                imgs.AddRange(this.getImageFromAttachment(attachment));
+                imgs.AddRange(this.GetImageFromAttachment(attachment));
             }
-            var saveImgs = imgs.Count > 0;
+            var hasImg = imgs.Count > 0;
             var entities = new List<Sticker>();
             foreach (var img in imgs)
             {
                 entities.Add(new Sticker { src = img.Src, name = img.Alt, id = Guid.NewGuid() });
             }
             await this.stickerService.addUserStickers(new Guid(userId), entities);
+            var locale = activity.GetLocale();
             JObject cardJson;
-            if (saveImgs)
+            if (hasImg)
             {
-                cardJson = this.GetAdaptiveCardJsonObject(new { Imgs = imgs }, "SaveCard.json");
+                // a workround for template can not handler josn array
+                cardJson = GetAdaptiveCardJsonObject(new { Imgs = imgs, src = imgs[0].Src }, "SaveCard.json");
             }
             else
             {
-                cardJson = this.GetAdaptiveCardJsonObject(new { BlankText = LocalizationHelper.LookupString("collect_save_no_images_found", GetCultureInfoFromBotActivity(turnContext.Activity)) }, "BlankCard.json");
+                cardJson = GetAdaptiveCardJsonObject(new { BlankText = LocalizationHelper.LookupString("collect_save_no_images_found", locale) }, "BlankCard.json");
             }
 
             var a = new Microsoft.Bot.Schema.Attachment()
@@ -77,8 +84,8 @@ namespace Stickers.Bot
                 {
                     Value = new TaskModuleTaskInfo()
                     {
-                        Title = saveImgs ? LocalizationHelper.LookupString("collect_save_success", GetCultureInfoFromBotActivity(turnContext.Activity)) : LocalizationHelper.LookupString("collect_save_fail", GetCultureInfoFromBotActivity(turnContext.Activity)),
-                        Height = saveImgs ? 300 : 60,
+                        Title = hasImg ? LocalizationHelper.LookupString("collect_save_success", locale) : LocalizationHelper.LookupString("collect_save_fail", locale),
+                        Height = hasImg ? 300 : 60,
                         Width = 300,
                         Card = a,
                     },
@@ -86,37 +93,24 @@ namespace Stickers.Bot
             };
         }
 
-        private static CultureInfo GetCultureInfoFromBotActivity(IActivity activity)
-        {
-            if (activity.Entities[0].Properties.TryGetValue("locale", out JToken locale))
-            {
-                return new CultureInfo(locale.ToString(), false);
-            }
-            else
-            {
-                return new CultureInfo("en-US", false);
-            }
-        }
 
-        private List<Img> GetImages(string content)
+
+        private static List<Img> GetImages(string content)
         {
             List<Img> imgs = new List<Img>();
-            Regex srcRegex = new Regex("<img[^>]+src=\"([^\"\\s]+)\"[^>]*>");
-            Regex altRegex = new Regex("<img[^>]+alt=\"([^\"]+)\"[^>]*>");
-            var result = srcRegex.Matches(content);
+            var result = IMG_SRC_REGEX.Matches(content);
             foreach (Match match in result)
             {
-                var alt = altRegex.Match(match.Groups[0].Value)?.Groups?[1].Value;
+                var alt = IMG_ALT_REGEX.Match(match.Groups[0].Value)?.Groups?[1].Value;
                 imgs.Add(new Img { Src = match.Groups[1].Value, Alt = alt });
             };
             return imgs;
         }
 
-        private List<Img> getImageFromAttachment(MessagingExtensionAttachment attachment)
+        private List<Img> GetImageFromAttachment(Attachment attachment)
         {
             List<Img> imgs = new List<Img>();
-            Regex imageRegex = new Regex("^http(s?):\\/\\/.*\\.(?:jpg|gif|png)$");
-            if (attachment.ContentType.StartsWith("image") || (attachment.ContentUrl != null && imageRegex.IsMatch(attachment.ContentUrl)))
+            if (attachment.ContentType.StartsWith("image") || (attachment.ContentUrl != null && IMAGE_URL_REGEX.IsMatch(attachment.ContentUrl)))
             {
                 imgs.Add(new Img { Src = attachment.ContentUrl });
             }
@@ -125,15 +119,26 @@ namespace Stickers.Bot
                 if (attachment.Content == null)
                 {
                     return imgs;
-                }
+                };
 
-                var content = (JObject)JsonConvert.DeserializeObject(attachment.Content.ToString());
+                var content = JsonConvert.DeserializeObject<JObject>(attachment.Content.ToString());
                 var body = content?["body"].ToObject<List<JObject>>();
                 foreach (var item in body)
                 {
-                    if (item["type"].ToString() == "Image")
+                    Img img;
+                    if (item["type"].ToString() == "Container")
                     {
-                        imgs.Add(new Img { Src = item["url"].ToString(), Alt = item["alt"] == null ? item["altText"].ToString() : item["alt"].ToString() });
+                        // wrap with container
+                        var card = item["items"]?.ToObject<List<JObject>>().First();
+                        img = ParseImgFromImgCard(card);
+                    }
+                    else
+                    {
+                        img = ParseImgFromImgCard(item);
+                    }
+                    if (img != null)
+                    {
+                        imgs.Add(img);
                     }
                 }
             }
@@ -141,15 +146,38 @@ namespace Stickers.Bot
             return imgs;
         }
 
+        private static Img? ParseImgFromImgCard(JObject item)
+        {
+            if (item != null && item["type"].ToString() == "Image")
+            {
+                var url = GetWrapUrl(item["url"].ToString());
+                return new Img { Src = url, Alt = item["alt"] == null ? item["altText"].ToString() : item["alt"].ToString() };
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// https://us-prod.asyncgw.teams.microsoft.com/urlp/v1/url/content?url=https%3a%2f%2fsticker.newfuture.cc%2fofficial-stickers%2f0001%2f03.png
+        /// </summary>
+        /// <returns></returns>
+        private static string GetWrapUrl(string url)
+        {
+            var split = url.Split('?', 2);
+            if (split.Length == 2 && split[0].EndsWith("/url/content") && split[1].StartsWith("url=http"))
+            {
+                return Uri.UnescapeDataString(split[1].Substring(4));
+            }
+            return url;
+        }
 
         /// <summary>
         /// configuration taskmodule
         /// </summary>
-        /// <param name="turnContext"></param>
+        /// <param name="activity"></param>
         /// <returns></returns>
-        private async Task<MessagingExtensionActionResponse> ManageTaskModule(ITurnContext<IInvokeActivity> turnContext)
+        private MessagingExtensionActionResponse ManageTaskModule(IInvokeActivity activity)
         {
-            var userId = turnContext.Activity?.From?.AadObjectId;
+            var userId = activity.From.AadObjectId;
             var response = new MessagingExtensionActionResponse()
             {
                 Task = new TaskModuleContinueResponse
@@ -157,14 +185,14 @@ namespace Stickers.Bot
                     Type = "continue",
                     Value = new TaskModuleTaskInfo
                     {
-                        Title = LocalizationHelper.LookupString("upload_task_module_title", GetCultureInfoFromBotActivity(turnContext.Activity)),
+                        Title = LocalizationHelper.LookupString("upload_task_module_title", activity.GetLocale()),
                         Url = this.GetConfigUrl(Guid.Parse(userId!)),
                         Width = "large",
                         Height = "large",
                     }
                 },
             };
-            return await Task.FromResult(response);
+            return response;
         }
     }
 }
