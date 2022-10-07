@@ -30,7 +30,7 @@ const Header: React.FC<HeaderButtonProps> = ({ type, onTypeChange, className }: 
                 {t(TransKeys.title, { context: type })}
             </Text>
             <div hidden>
-                <Menu >
+                <Menu>
                     <MenuTrigger>
                         <SplitButton
                             title={t(TransKeys.radioLabel)}
