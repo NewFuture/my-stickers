@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Connector.Authentication;
 using Stickers.Bot;
 using Stickers.Utils;
 using Stickers.Search;
 using Stickers.Service;
+using Microsoft.Bot.Connector.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
@@ -54,7 +54,7 @@ builder.Services.AddAuthorization(options =>
             "2b745bdf-0803-4d80-aa65-822c4493daac", // Office Apps Administrator
             });
         policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
-        policy.AddRequirements(new AuthorizationRequirement("Admin", JwtBearerDefaults.AuthenticationScheme));
+        policy.AddRequirements(new AuthorizationRequirement("Admin", "idToken"));
     });
 })
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
