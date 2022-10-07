@@ -29,29 +29,31 @@ const Header: React.FC<HeaderButtonProps> = ({ type, onTypeChange, className }: 
             <Text as="h1" size={600} weight="bold">
                 {t(TransKeys.title, { context: type })}
             </Text>
-            <Menu>
-                <MenuTrigger>
-                    <SplitButton
-                        title={t(TransKeys.radioLabel)}
-                        icon={type === "company" ? <BuildingFilled /> : <PersonHeartFilled />}
-                    >
-                        {t(TransKeys.radio, { context: type })}
-                    </SplitButton>
-                </MenuTrigger>
-                <MenuPopover>
-                    <MenuList
-                        checkedValues={{ type: [type] }}
-                        onCheckedValueChange={(_, { checkedItems }) => onTypeChange(checkedItems[0] as UserType)}
-                    >
-                        <MenuItemRadio icon={<PersonHeartFilled />} name="type" value="user">
-                            {t(TransKeys.radio, { context: "user" })}
-                        </MenuItemRadio>
-                        <MenuItemRadio icon={<BuildingFilled />} name="type" value="company">
-                            {t(TransKeys.radio, { context: "company" })}
-                        </MenuItemRadio>
-                    </MenuList>
-                </MenuPopover>
-            </Menu>
+            <div hidden>
+                <Menu>
+                    <MenuTrigger>
+                        <SplitButton
+                            title={t(TransKeys.radioLabel)}
+                            icon={type === "company" ? <BuildingFilled /> : <PersonHeartFilled />}
+                        >
+                            {t(TransKeys.radio, { context: type })}
+                        </SplitButton>
+                    </MenuTrigger>
+                    <MenuPopover>
+                        <MenuList
+                            checkedValues={{ type: [type] }}
+                            onCheckedValueChange={(_, { checkedItems }) => onTypeChange(checkedItems[0] as UserType)}
+                        >
+                            <MenuItemRadio icon={<PersonHeartFilled />} name="type" value="user">
+                                {t(TransKeys.radio, { context: "user" })}
+                            </MenuItemRadio>
+                            <MenuItemRadio icon={<BuildingFilled />} name="type" value="company">
+                                {t(TransKeys.radio, { context: "company" })}
+                            </MenuItemRadio>
+                        </MenuList>
+                    </MenuPopover>
+                </Menu>
+            </div>
         </header>
     );
 };
