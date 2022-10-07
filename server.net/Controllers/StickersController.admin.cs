@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Stickers.Entities;
 using Stickers.Models;
 using Stickers.Service;
+using Stickers.Utils;
 using System.Security.Claims;
 
 namespace Stickers.Controllers;
 
 [ApiController]
+[Authorize(AuthenticationSchemes = ENV.ID_TOKEN_DEFINITION)]
 [Route("api/admin/stickers")]
-[Authorize]
 public class AdminStickersController : ControllerBase
 {
 
@@ -43,7 +44,7 @@ public class AdminStickersController : ControllerBase
         return new Page<Sticker>(stickers);
     }
     [HttpDelete("{id}")]
-    [Authorize(Policy = "Admin")]
+    [Authorize(AuthenticationSchemes = "idtoken", Policy = "Admin")]
     public async Task<Result> Delete(string id)
     {
         var tenantId = this.GetTenantId();
@@ -51,7 +52,7 @@ public class AdminStickersController : ControllerBase
         return new Result(result);
     }
     [HttpPatch("{id}")]
-    [Authorize(Policy = "Admin")]
+    [Authorize(AuthenticationSchemes = "idtoken", Policy = "Admin")]
     public async Task<Result> UpdateSticker(string id, [FromBody] PatchStickerRequest request)
     {
         var tenantId = this.GetTenantId();
@@ -60,7 +61,7 @@ public class AdminStickersController : ControllerBase
     }
 
     [HttpPost("upload")]
-    [Authorize(Policy = "Admin")]
+    [Authorize(AuthenticationSchemes = "idtoken", Policy = "Admin")]
     public IEnumerable<SasInfo> UploadTenant([FromBody] UploadRequest request)
     {
         var tenantId = this.GetTenantId();
@@ -74,7 +75,7 @@ public class AdminStickersController : ControllerBase
     }
 
     [HttpPost("commit")]
-    [Authorize(Policy = "Admin")]
+    [Authorize(AuthenticationSchemes = "idtoken", Policy = "Admin")]
     public async Task<Sticker> Commit([FromBody] PostStickerBlobRequest request)
     {
         var tenantId = this.GetTenantId();

@@ -12,10 +12,9 @@ namespace Stickers.Service
 
 
         private string[] supportExtList = new string[] { "png", "gif", "jpg", "jpeg" };
-        public BlobService(IConfiguration configuration)
+        public BlobService(BlobServiceClient client, IConfiguration configuration)
         {
-            var blobConnection = configuration.GetConnectionString(ConfigKeys.BLOB_CONNECTION_STRING);
-            this.client = new BlobServiceClient(blobConnection);
+            this.client = client;
             this.cdn = configuration[ConfigKeys.CDN_DOMAIN];
         }
 
