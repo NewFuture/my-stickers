@@ -102,7 +102,7 @@ namespace Stickers.Bot
             foreach (Match match in result)
             {
                 var alt = IMG_ALT_REGEX.Match(match.Groups[0].Value)?.Groups?[1].Value;
-                imgs.Add(new Img { Src = match.Groups[1].Value, Alt = alt });
+                imgs.Add(new Img { Src = GetWrapUrl(match.Groups[1].Value), Alt = alt });
             };
             return imgs;
         }
@@ -112,7 +112,7 @@ namespace Stickers.Bot
             List<Img> imgs = new List<Img>();
             if (attachment.ContentType.StartsWith("image") || (attachment.ContentUrl != null && IMAGE_URL_REGEX.IsMatch(attachment.ContentUrl)))
             {
-                imgs.Add(new Img { Src = attachment.ContentUrl });
+                imgs.Add(new Img { Src = GetWrapUrl(attachment.ContentUrl) });
             }
             if (attachment.ContentType == "application/vnd.microsoft.card.adaptive" || attachment.ContentType == "application/vnd.microsoft.card.hero")
             {
