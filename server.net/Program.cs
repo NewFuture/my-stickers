@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Connector.Authentication;
 using Stickers.Bot;
 using Stickers.Utils;
 using Stickers.Search;
@@ -28,8 +29,6 @@ builder.Services
     .AddSingleton<SessionService>()
     .AddSingleton<StickerService>()
     .AddSingleton<SearchService>();
-// Create the Bot Framework Authentication to be used with the Bot Adapter.
-//builder.Services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -38,7 +37,10 @@ builder.Services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>
 // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
 builder.Services.AddTransient<IBot, TeamsMessagingExtensionsBot>();
 
-// Adding Authentication  
+
+// Create the Bot Framework Authentication to be used with the Bot Adapter.
+builder.Services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
+// Adding Admin Authentication  
 builder.Services.AddAuthorization(options =>
 {
     //  admin
@@ -56,7 +58,7 @@ builder.Services.AddAuthorization(options =>
     });
 })
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+    .AddJwtBearer("idtoken", options =>
     {
         var clientId = builder.Configuration[ConfigKeys.AAD_CLINET_ID];
         var webURL = builder.Configuration[ConfigKeys.WEB_URL];
