@@ -8,8 +8,8 @@ using System.Security.Claims;
 namespace Stickers.Controllers;
 
 [ApiController]
+[Authorize(AuthenticationSchemes = "idtoken")]
 [Route("api/admin/stickers")]
-[Authorize]
 public class AdminStickersController : ControllerBase
 {
 
