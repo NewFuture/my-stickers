@@ -10,6 +10,5 @@
         public Dictionary<string, string> localName { get; set; }
         public string url { get; set; }
         public string collection { get; set; }
-
     }
 }

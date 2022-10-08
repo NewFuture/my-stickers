@@ -15,15 +15,17 @@ using System.Text.RegularExpressions;
 
 namespace Stickers.Bot
 {
-
     public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
     {
-
         private static Regex IMG_SRC_REGEX = new Regex("<img[^>]+src=\"([^\"\\s]+)\"[^>]*>");
         private static Regex IMG_ALT_REGEX = new Regex("<img[^>]+alt=\"([^\"]+)\"[^>]*>");
         private static Regex IMAGE_URL_REGEX = new Regex("^http(s?):\\/\\/.*\\.(?:jpg|gif|png)$");
 
-        protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionFetchTaskAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
+        protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionFetchTaskAsync(
+            ITurnContext<IInvokeActivity> turnContext,
+            MessagingExtensionAction action,
+            CancellationToken cancellationToken
+        )
         {
             var command = action.CommandId;
 
@@ -37,10 +39,11 @@ namespace Stickers.Bot
                     this.logger.LogError("unkwon comand " + command);
                     throw new Exception("unkwon bot action comand " + command);
             }
-
         }
 
-        private async Task<MessagingExtensionActionResponse> SaveCollection(IInvokeActivity activity)
+        private async Task<MessagingExtensionActionResponse> SaveCollection(
+            IInvokeActivity activity
+        )
         {
             var value = (JObject)activity.Value;
             var payload = value?["messagePayload"].ToObject<JObject>();
@@ -58,7 +61,14 @@ namespace Stickers.Bot
             var entities = new List<Sticker>();
             foreach (var img in imgs)
             {
-                entities.Add(new Sticker { src = img.Src, name = img.Alt, id = Guid.NewGuid() });
+                entities.Add(
+                    new Sticker
+                    {
+                        src = img.Src,
+                        name = img.Alt,
+                        id = Guid.NewGuid()
+                    }
+                );
             }
             await this.stickerService.addUserStickers(new Guid(userId), entities);
             var locale = activity.GetLocale();
@@ -66,11 +76,23 @@ namespace Stickers.Bot
             if (hasImg)
             {
                 // a workround for template can not handler josn array
-                cardJson = GetAdaptiveCardJsonObject(new { Imgs = imgs, src = imgs[0].Src }, "SaveCard.json");
+                cardJson = GetAdaptiveCardJsonObject(
+                    new { Imgs = imgs, src = imgs[0].Src },
+                    "SaveCard.json"
+                );
             }
             else
             {
-                cardJson = GetAdaptiveCardJsonObject(new { BlankText = LocalizationHelper.LookupString("collect_save_no_images_found", locale) }, "BlankCard.json");
+                cardJson = GetAdaptiveCardJsonObject(
+                    new
+                    {
+                        BlankText = LocalizationHelper.LookupString(
+                            "collect_save_no_images_found",
+                            locale
+                        )
+                    },
+                    "BlankCard.json"
+                );
             }
 
             var a = new Microsoft.Bot.Schema.Attachment()
@@ -84,7 +106,9 @@ namespace Stickers.Bot
                 {
                     Value = new TaskModuleTaskInfo()
                     {
-                        Title = hasImg ? LocalizationHelper.LookupString("collect_save_success", locale) : LocalizationHelper.LookupString("collect_save_fail", locale),
+                        Title = hasImg
+                            ? LocalizationHelper.LookupString("collect_save_success", locale)
+                            : LocalizationHelper.LookupString("collect_save_fail", locale),
                         Height = hasImg ? 300 : 60,
                         Width = 300,
                         Card = a,
@@ -92,8 +116,6 @@ namespace Stickers.Bot
                 },
             };
         }
-
-
 
         private static List<Img> GetImages(string content)
         {
@@ -103,23 +125,31 @@ namespace Stickers.Bot
             {
                 var alt = IMG_ALT_REGEX.Match(match.Groups[0].Value)?.Groups?[1].Value;
                 imgs.Add(new Img { Src = GetWrapUrl(match.Groups[1].Value), Alt = alt });
-            };
+            }
+            ;
             return imgs;
         }
 
         private List<Img> GetImageFromAttachment(Attachment attachment)
         {
             List<Img> imgs = new List<Img>();
-            if (attachment.ContentType.StartsWith("image") || (attachment.ContentUrl != null && IMAGE_URL_REGEX.IsMatch(attachment.ContentUrl)))
+            if (
+                attachment.ContentType.StartsWith("image")
+                || (attachment.ContentUrl != null && IMAGE_URL_REGEX.IsMatch(attachment.ContentUrl))
+            )
             {
                 imgs.Add(new Img { Src = GetWrapUrl(attachment.ContentUrl) });
             }
-            if (attachment.ContentType == "application/vnd.microsoft.card.adaptive" || attachment.ContentType == "application/vnd.microsoft.card.hero")
+            if (
+                attachment.ContentType == "application/vnd.microsoft.card.adaptive"
+                || attachment.ContentType == "application/vnd.microsoft.card.hero"
+            )
             {
                 if (attachment.Content == null)
                 {
                     return imgs;
-                };
+                }
+                ;
 
                 var content = JsonConvert.DeserializeObject<JObject>(attachment.Content.ToString());
                 var body = content?["body"].ToObject<List<JObject>>();
@@ -151,7 +181,11 @@ namespace Stickers.Bot
             if (item != null && item["type"].ToString() == "Image")
             {
                 var url = GetWrapUrl(item["url"].ToString());
-                return new Img { Src = url, Alt = item["alt"] == null ? item["altText"].ToString() : item["alt"].ToString() };
+                return new Img
+                {
+                    Src = url,
+                    Alt = item["alt"] == null ? item["altText"].ToString() : item["alt"].ToString()
+                };
             }
             return null;
         }
@@ -163,7 +197,11 @@ namespace Stickers.Bot
         private static string GetWrapUrl(string url)
         {
             var split = url.Split('?', 2);
-            if (split.Length == 2 && split[0].EndsWith("/url/content") && split[1].StartsWith("url=http"))
+            if (
+                split.Length == 2
+                && split[0].EndsWith("/url/content")
+                && split[1].StartsWith("url=http")
+            )
             {
                 return Uri.UnescapeDataString(split[1].Substring(4));
             }
@@ -185,7 +223,10 @@ namespace Stickers.Bot
                     Type = "continue",
                     Value = new TaskModuleTaskInfo
                     {
-                        Title = LocalizationHelper.LookupString("upload_task_module_title", activity.GetLocale()),
+                        Title = LocalizationHelper.LookupString(
+                            "upload_task_module_title",
+                            activity.GetLocale()
+                        ),
                         Url = this.GetConfigUrl(Guid.Parse(userId!)),
                         Width = "large",
                         Height = "large",

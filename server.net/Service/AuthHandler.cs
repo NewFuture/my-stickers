@@ -10,7 +10,10 @@ namespace Stickers.Service
         /// <param name="context">AuthorizationHandlerContext instance.</param>
         /// <param name="requirement">AuthorizationRequirement instance.</param>
         /// <returns>Async Task.</returns>
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthorizationRequirement requirement)
+        protected override Task HandleRequirementAsync(
+            AuthorizationHandlerContext context,
+            AuthorizationRequirement requirement
+        )
         {
             // Check if the current user token was authenticated. If true then authorize the user.
             context.Succeed(requirement);

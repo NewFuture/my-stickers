@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Stickers.Search;
+
 namespace Stickers.Service.Tests
 {
     [TestClass]

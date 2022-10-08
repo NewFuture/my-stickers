@@ -8,12 +8,15 @@ namespace Stickers.Service
     {
         private readonly IConfiguration _configuration;
         private readonly string _connectionString;
+
         public DapperContext(IConfiguration configuration)
         {
             _configuration = configuration;
-            _connectionString = _configuration.GetConnectionString(ConfigKeys.SQL_CONNECTION_STRING);
+            _connectionString = _configuration.GetConnectionString(
+                ConfigKeys.SQL_CONNECTION_STRING
+            );
         }
-        public IDbConnection CreateConnection()
-            => new SqlConnection(_connectionString);
+
+        public IDbConnection CreateConnection() => new SqlConnection(_connectionString);
     }
 }

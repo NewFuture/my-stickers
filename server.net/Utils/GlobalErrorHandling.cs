@@ -6,10 +6,12 @@ namespace Stickers.Utils
     public class GlobalErrorHandling
     {
         private readonly RequestDelegate _next;
+
         public GlobalErrorHandling(RequestDelegate next)
         {
             _next = next;
         }
+
         public async Task Invoke(HttpContext context)
         {
             try
@@ -21,6 +23,7 @@ namespace Stickers.Utils
                 await HandleExceptionAsync(context, ex);
             }
         }
+
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             HttpStatusCode status;
@@ -57,13 +60,15 @@ namespace Stickers.Utils
                 message = exception.Message;
                 stackTrace = exception.StackTrace;
             }
-            var exceptionResult = JsonSerializer.Serialize(new
-            {
-                error = message,
+            var exceptionResult = JsonSerializer.Serialize(
+                new
+                {
+                    error = message,
 #if DEBUG
-                stackTrace
+                    stackTrace
 #endif
-            });
+                }
+            );
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)status;
             return context.Response.WriteAsync(exceptionResult);
