@@ -4,7 +4,6 @@ using Stickers.Models;
 using Stickers.Utils;
 using Microsoft.Extensions.Caching.Memory;
 
-
 namespace Stickers.Search
 {
     public class OfficialStickersSearchHandler
@@ -21,7 +20,12 @@ namespace Stickers.Search
             Priority = CacheItemPriority.High,
             AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12),
         };
-        public OfficialStickersSearchHandler(IHttpClientFactory httpClientFactory, IConfiguration configuration, IMemoryCache cache)
+
+        public OfficialStickersSearchHandler(
+            IHttpClientFactory httpClientFactory,
+            IConfiguration configuration,
+            IMemoryCache cache
+        )
         {
             this.httpClientFactory = httpClientFactory;
             this.cache = cache;
@@ -46,7 +50,6 @@ namespace Stickers.Search
             }
             cache.Set(CACHE_KEY, stickers);
             return stickers;
-
         }
 
         public async Task<List<OfficialSticker>> Search(string keyword)

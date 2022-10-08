@@ -18,8 +18,8 @@ namespace Stickers.Bot
         private ILogger<TeamsMessagingExtensionsBot> logger;
         private SessionService session;
 
-        private static readonly Dictionary<string, AdaptiveCardTemplate> cardDict = new Dictionary<string, AdaptiveCardTemplate>();
-
+        private static readonly Dictionary<string, AdaptiveCardTemplate> cardDict =
+            new Dictionary<string, AdaptiveCardTemplate>();
 
         public TeamsMessagingExtensionsBot(
             IConfiguration configuration,
@@ -27,7 +27,7 @@ namespace Stickers.Bot
             SearchService searchService,
             SessionService sessionService,
             ILogger<TeamsMessagingExtensionsBot> logger
-            ) : base()
+        ) : base()
         {
             this.WebUrl = configuration[ConfigKeys.WEB_URL];
             this.stickerService = stickerStorage;
@@ -40,8 +40,9 @@ namespace Stickers.Bot
         {
             if (!cardDict.TryGetValue(cardFileName, out var template))
             {
-
-                string cardPath = ResourceFilePathHelper.GetFilePath(Path.Combine("Cards", cardFileName));
+                string cardPath = ResourceFilePathHelper.GetFilePath(
+                    Path.Combine("Cards", cardFileName)
+                );
                 var cardJsonString = File.ReadAllText(cardPath);
 
                 template = new AdaptiveCardTemplate(cardJsonString);
@@ -50,7 +51,6 @@ namespace Stickers.Bot
             var cardJson = template.Expand(cardPayload);
             return JObject.Parse(cardJson);
         }
-
 
         /// <summary>
         /// Get Config URL with sessio Key

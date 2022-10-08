@@ -1,5 +1,4 @@
-﻿
-namespace Stickers.Resources
+﻿namespace Stickers.Resources
 {
     using System.Collections.Generic;
     using System.Globalization;
@@ -10,7 +9,6 @@ namespace Stickers.Resources
     /// </summary>
     public class LocalizationHelper
     {
-
         /// <summary>
         /// String representation of the default culture.
         /// </summary>
@@ -19,11 +17,13 @@ namespace Stickers.Resources
         /// <summary>
         /// Default culture to use if the request culture could not be determined.
         /// </summary>
-        public static readonly CultureInfo DefaultCulture = new CultureInfo(DefaultCultureString,false);
+        public static readonly CultureInfo DefaultCulture = new CultureInfo(
+            DefaultCultureString,
+            false
+        );
 
-
-        private static readonly Dictionary<string, ResourceSet> LngMap = new Dictionary<string, ResourceSet>();
-
+        private static readonly Dictionary<string, ResourceSet> LngMap =
+            new Dictionary<string, ResourceSet>();
 
         /// <summary>
         /// Looks up localized version of the string based on the key, using the current culture.
@@ -44,12 +44,10 @@ namespace Stickers.Resources
                 return resourceSet;
             }
 
-
             var culture = new CultureInfo(locale, false);
             resourceSet = StickerStrings.ResourceManager.GetResourceSet(culture, true, true);
             LngMap.Add(locale, resourceSet);
             return resourceSet;
-
         }
     }
 }
