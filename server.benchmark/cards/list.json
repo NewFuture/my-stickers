@@ -1,43 +1,43 @@
 {
-  "composeExtension": {
-    "attachments": [
-      {
-        "$data": "${Imgs}",
-        "content": {
-          "type": "AdaptiveCard",
-          "body": [
+    "composeExtension": {
+        "attachments": [
             {
-              "altText": "${alt}",
-              "horizontalAlignment": "center",
-              "style": null,
-              "url": "${src}",
-              "height": "auto",
-              "msTeams": { "allowExpand": true },
-              "separator": false,
-              "type": "Image"
+                "$data": "${Imgs}",
+                "content": {
+                    "type": "AdaptiveCard",
+                    "body": [
+                        {
+                            "altText": "${alt}",
+                            "horizontalAlignment": "center",
+                            "style": null,
+                            "url": "${src}",
+                            "height": "auto",
+                            "msTeams": { "allowExpand": true },
+                            "separator": false,
+                            "type": "Image"
+                        }
+                    ],
+                    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                    "version": "1.5",
+                    "verticalContentAlignment": "center",
+                    "minHeight": "150px"
+                },
+                "contentType": "application/vnd.microsoft.card.adaptive",
+                "preview": {
+                    "content": {
+                        "images": [
+                            {
+                                "alt": "${$data.Alt}",
+                                "url": "${$data.Src}"
+                            }
+                        ]
+                    },
+                    "contentType": "application/vnd.microsoft.card.thumbnail"
+                }
             }
-          ],
-          "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-          "version": "1.5",
-          "verticalContentAlignment": "center",
-          "minHeight": "150px"
-        },
-        "contentType": "application/vnd.microsoft.card.adaptive",
-        "preview": {
-          "content": {
-            "images": [
-              {
-                "alt": "${$data.Alt}",
-                "url": "${$data.Src}"
-              }
-            ]
-          },
-          "contentType": "application/vnd.microsoft.card.thumbnail"
-        }
-      }
-    ],
-    "type": "result",
-    "attachmentLayout": "grid"
-  },
-  "responseType": "composeExtension"
+        ],
+        "type": "result",
+        "attachmentLayout": "grid"
+    },
+    "responseType": "composeExtension"
 }

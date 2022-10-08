@@ -1,6 +1,7 @@
-client-config-app/build/*
-website/build/*
-server/dist/*
+
+*/build/*
+*/obj/*
+*/bin/*
 
 # Azurite
 __azurite*.json
