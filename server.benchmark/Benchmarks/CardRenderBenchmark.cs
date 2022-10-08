@@ -99,26 +99,28 @@ public class CardRenderBenchmark
                     new MessagingExtensionAttachment()
                     {
                         ContentType = "application/vnd.microsoft.card.adaptive",
-                        Content = new
-                        {
-                            type = "AdaptiveCard",
-                            version = "1.5",
-                            minHeight = "150px",
-                            verticalContentAlignment = "center",
-                            body = new[]
+                        Content = JObject.FromObject(
+                            new
                             {
-                                new
+                                type = "AdaptiveCard",
+                                version = "1.5",
+                                minHeight = "150px",
+                                verticalContentAlignment = "center",
+                                body = new[]
                                 {
-                                    altText = img.Alt,
-                                    horizontalAlignment = "center",
-                                    url = img.Src,
-                                    height = "auto",
-                                    msTeams = new { allowExpand = true, },
-                                    separator = false,
-                                    type = "Image",
+                                    new
+                                    {
+                                        altText = img.Alt,
+                                        horizontalAlignment = "center",
+                                        url = img.Src,
+                                        height = "auto",
+                                        msTeams = new { allowExpand = true, },
+                                        separator = false,
+                                        type = "Image",
+                                    }
                                 }
                             }
-                        },
+                        ),
                         Preview = new ThumbnailCard()
                         {
                             Images = new List<CardImage>() { new CardImage(img.Src, img.Alt) }
