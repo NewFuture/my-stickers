@@ -16,7 +16,13 @@ public class StickersController : ControllerBase
     private BlobService blobService;
     private IHttpContextAccessor httpContextAccessor;
 
-    public StickersController(StickerService stickers, BlobService blobService, ILogger<StickersController> logger, IHttpContextAccessor httpContextAccessor, SessionService sessionService)
+    public StickersController(
+        StickerService stickers,
+        BlobService blobService,
+        ILogger<StickersController> logger,
+        IHttpContextAccessor httpContextAccessor,
+        SessionService sessionService
+    )
     {
         this.stickerService = stickers;
         this.blobService = blobService;
@@ -30,17 +36,25 @@ public class StickersController : ControllerBase
     {
         var userId = GetUserId();
         string extendName = Path.GetExtension(request.name);
-        string src = await this.blobService.commitBlocks(userId, request.id, extendName, request.contentType);
+        string src = await this.blobService.commitBlocks(
+            userId,
+            request.id,
+            extendName,
+            request.contentType
+        );
         var newSticker = new Sticker()
         {
             src = src,
             name = Path.GetFileNameWithoutExtension(request.name),
             id = Guid.Parse(request.id)
         };
-        var list = await this.stickerService.addUserStickers(userId, new List<Sticker>() { newSticker });
+        var list = await this.stickerService.addUserStickers(
+            userId,
+            new List<Sticker>() { newSticker }
+        );
         return list[0];
-
     }
+
     [HttpGet("/api/me/stickers")]
     public async Task<Page<Sticker>> Get()
     {
@@ -48,6 +62,7 @@ public class StickersController : ControllerBase
         var stickers = await this.stickerService.getUserStickers(userId);
         return new Page<Sticker>(stickers);
     }
+
     [HttpDelete("{id}")]
     public async Task<Result> Delete(string id)
     {
@@ -94,4 +109,3 @@ public class StickersController : ControllerBase
         throw new UnauthorizedAccessException("SessionKey required");
     }
 }
-

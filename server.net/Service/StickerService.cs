@@ -10,17 +10,19 @@
         private StickerDatabase database;
         private IMemoryCache cache;
 
-        private static readonly MemoryCacheEntryOptions userCaheOptions = new MemoryCacheEntryOptions()
-        {
-            Priority = CacheItemPriority.Low,
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30),
-        };
+        private static readonly MemoryCacheEntryOptions userCaheOptions =
+            new MemoryCacheEntryOptions()
+            {
+                Priority = CacheItemPriority.Low,
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30),
+            };
 
-        private static readonly MemoryCacheEntryOptions tenantCacheOptions = new MemoryCacheEntryOptions()
-        {
-            Priority = CacheItemPriority.Normal,
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(8),
-        };
+        private static readonly MemoryCacheEntryOptions tenantCacheOptions =
+            new MemoryCacheEntryOptions()
+            {
+                Priority = CacheItemPriority.Normal,
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(8),
+            };
 
         public StickerService(StickerDatabase database, IMemoryCache cache)
         {
@@ -28,11 +30,9 @@
             this.cache = cache;
         }
 
-
         public async Task<List<Sticker>> getUserStickers(Guid userId)
         {
             return await getStickerList(false, userId);
-
         }
 
         public async Task<List<Sticker>> getTenantStickers(Guid tenantId)
@@ -42,7 +42,6 @@
 
         private async Task<List<Sticker>> getStickerList(Boolean isTenant, Guid id)
         {
-
             var cacheKey = GetCacheKey(isTenant, id);
             if (cache.TryGetValue<List<Sticker>>(cacheKey, out var cacheList))
             {
@@ -74,19 +73,40 @@
             return false;
         }
 
-        public async Task<bool> updateUserSticker(Guid userId, string stickerId, PatchStickerRequest sticker)
+        public async Task<bool> updateUserSticker(
+            Guid userId,
+            string stickerId,
+            PatchStickerRequest sticker
+        )
         {
             return await this.updateSticker(false, userId, stickerId, sticker);
         }
 
-        public async Task<bool> updateTenantSticker(Guid tenantId, string stickerId, PatchStickerRequest sticker)
+        public async Task<bool> updateTenantSticker(
+            Guid tenantId,
+            string stickerId,
+            PatchStickerRequest sticker
+        )
         {
             return await this.updateSticker(true, tenantId, stickerId, sticker);
         }
 
-        private async Task<bool> updateSticker(Boolean isTenant, Guid filterId, string stickerId, PatchStickerRequest sticker)
+        private async Task<bool> updateSticker(
+            Boolean isTenant,
+            Guid filterId,
+            string stickerId,
+            PatchStickerRequest sticker
+        )
         {
-            if (await this.database.updateSticker(isTenant, filterId, stickerId, sticker.name, sticker.weight))
+            if (
+                await this.database.updateSticker(
+                    isTenant,
+                    filterId,
+                    stickerId,
+                    sticker.name,
+                    sticker.weight
+                )
+            )
             {
                 var cacheKey = GetCacheKey(isTenant, filterId);
                 cache.Remove(cacheKey);
@@ -105,7 +125,11 @@
             return await this.addStickers(true, tenantId, stickers);
         }
 
-        private async Task<List<Sticker>> addStickers(Boolean isTenant, Guid filterId, List<Sticker> stickers)
+        private async Task<List<Sticker>> addStickers(
+            Boolean isTenant,
+            Guid filterId,
+            List<Sticker> stickers
+        )
         {
             var oldstickers = await this.getStickerList(isTenant, filterId);
             List<Sticker> result = new List<Sticker>();
@@ -123,7 +147,9 @@
                     result.Add(item);
                 }
             }
-            foreach (var item in stickers.Take(ENV.USER_STICKERS_MAX_NUM - (oldstickers?.Count ?? 0)))
+            foreach (
+                var item in stickers.Take(ENV.USER_STICKERS_MAX_NUM - (oldstickers?.Count ?? 0))
+            )
             {
                 await database.InsertSticker(isTenant, filterId, item);
                 result.Add(item);

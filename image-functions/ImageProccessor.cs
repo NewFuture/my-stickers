@@ -18,15 +18,19 @@ namespace Stickers.ImageFunctions
         private const long LATEST_IMAGE_PROCESSOR_VERSION = 1;
         private const int TARGET_SIZE = 256;
         private const int TARGET_COLORS = 256;
-        private static readonly Dictionary<MagickFormat, MagickFormat> FORMAT_MAPPING = new()
-        {
-            { MagickFormat.WebP, MagickFormat.Jpeg },
-            { MagickFormat.WebM, MagickFormat.Gif },
-        };
+        private static readonly Dictionary<MagickFormat, MagickFormat> FORMAT_MAPPING =
+            new()
+            {
+                { MagickFormat.WebP, MagickFormat.Jpeg },
+                { MagickFormat.WebM, MagickFormat.Gif },
+            };
 
         [FunctionName("ImageProcessor")]
-        public void Run([BlobTrigger("stickers/{name}")] BlobClient imageBlobClient,
-                        string name, ILogger log)
+        public void Run(
+            [BlobTrigger("stickers/{name}")] BlobClient imageBlobClient,
+            string name,
+            ILogger log
+        )
         {
             var stopWatch = new Stopwatch();
             var logPrefix = $"[{LOG_TAG}/{name}]";
@@ -39,11 +43,15 @@ namespace Stickers.ImageFunctions
                 var metadata = imageBlobClient.GetProperties().Value.Metadata;
                 string versionString;
                 long version;
-                if (metadata.TryGetValue(IMAGE_PROCESSOR_VERSION_META, out versionString) &&
-                    long.TryParse(versionString, out version) &&
-                    version >= LATEST_IMAGE_PROCESSOR_VERSION)
+                if (
+                    metadata.TryGetValue(IMAGE_PROCESSOR_VERSION_META, out versionString)
+                    && long.TryParse(versionString, out version)
+                    && version >= LATEST_IMAGE_PROCESSOR_VERSION
+                )
                 {
-                    log.LogInformation($"{logPrefix} no-ops due to detecting {IMAGE_PROCESSOR_VERSION_META} metadata");
+                    log.LogInformation(
+                        $"{logPrefix} no-ops due to detecting {IMAGE_PROCESSOR_VERSION_META} metadata"
+                    );
                     return;
                 }
 
@@ -52,7 +60,9 @@ namespace Stickers.ImageFunctions
                 using var images = new MagickImageCollection(inImageBlobStream);
                 images.Coalesce();
                 var pivot = images[0];
-                log.LogInformation($"{logPrefix} read image ({ByteSize.FromBytes(inImageBlobStream.Length)}, format: {pivot.Format}, size: {pivot.Width}x{pivot.Height}x{images.Count})");
+                log.LogInformation(
+                    $"{logPrefix} read image ({ByteSize.FromBytes(inImageBlobStream.Length)}, format: {pivot.Format}, size: {pivot.Width}x{pivot.Height}x{images.Count})"
+                );
 
                 // resize
                 if (pivot.Width > TARGET_SIZE || pivot.Height > TARGET_SIZE)
@@ -96,7 +106,9 @@ namespace Stickers.ImageFunctions
                 };
                 using var outImageBlobStream = imageBlobClient.OpenWrite(true, options);
                 outImageBlobStream.Write(outBytes);
-                log.LogInformation($"{logPrefix} wrote blob ({ByteSize.FromBytes(outBytes.LongLength)}, format: {outFormat}, size: {pivot.Width}x{pivot.Height}x{images.Count}) with compression ratio: {compressionRatio:P2}");
+                log.LogInformation(
+                    $"{logPrefix} wrote blob ({ByteSize.FromBytes(outBytes.LongLength)}, format: {outFormat}, size: {pivot.Width}x{pivot.Height}x{images.Count}) with compression ratio: {compressionRatio:P2}"
+                );
             }
             catch (Exception e)
             {

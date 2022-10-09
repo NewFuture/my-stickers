@@ -12,10 +12,10 @@ namespace Stickers.Service
             Priority = CacheItemPriority.High,
             AbsoluteExpirationRelativeToNow = TTL,
         };
+
         public SessionService(IMemoryCache cache)
         {
             _cache = cache;
-
         }
 
         public Guid GetSessionInfo(Guid key)
@@ -29,6 +29,5 @@ namespace Stickers.Service
             this._cache.Set(key, userId, options);
             return key;
         }
-
     }
 }

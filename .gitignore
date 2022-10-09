@@ -31,13 +31,20 @@ official-stickers/build/*
 server/dist/*
 
 # C#
-server.net/obj/*
-server.net/bin/*
-server.net/.vs/*
-StickersTests/bin/*
-StickersTests/obj/*
+.vs/*
+*/.vs/*
+*/bin/Debug/*
+*/bin/debug/*
+*/bin/Release/*
+*/bin/release/*
+*/obj/*
+*/BenchmarkDotNet.Artifacts/
 
 /build/
 /webapp/
 
 appsettings.local.json
+.fake
+
+*.log
+*.dll

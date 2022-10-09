@@ -2,7 +2,9 @@
 
 public class AdapterWithErrorHandler : CloudAdapter
 {
-    public AdapterWithErrorHandler(IConfiguration configuration, IHttpClientFactory httpClientFactory, ILogger<AdapterWithErrorHandler>? logger = null) : base(configuration, httpClientFactory, logger)
-    {
-    }
+    public AdapterWithErrorHandler(
+        IConfiguration configuration,
+        IHttpClientFactory httpClientFactory,
+        ILogger<AdapterWithErrorHandler>? logger = null
+    ) : base(configuration, httpClientFactory, logger) { }
 }
