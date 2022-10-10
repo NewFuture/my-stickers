@@ -1,14 +1,19 @@
+using Azure.Storage.Blobs;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.ApplicationInsights;
+using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.OpenApi.Models;
+
 using Stickers.Bot;
-using Stickers.Utils;
+using Stickers.Middleware;
 using Stickers.Search;
 using Stickers.Service;
-using Microsoft.Bot.Connector.Authentication;
-using Microsoft.OpenApi.Models;
-using Azure.Storage.Blobs;
+using Stickers.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration
@@ -18,7 +23,18 @@ builder.Configuration
 
 builder.Configuration.AddEnvironmentVariables();
 
-builder.Services.AddApplicationInsightsTelemetry(); // AI
+builder.Services
+    .AddApplicationInsightsTelemetry()
+    // Create the telemetry client.
+    .AddSingleton<IBotTelemetryClient, BotTelemetryClient>()
+    // Add telemetry initializer that will set the correlation context for all telemetry items.
+    .AddSingleton<ITelemetryInitializer, OperationCorrelationTelemetryInitializer>()
+    // Add telemetry initializer that sets the user ID and session ID (in addition to other bot-specific properties such as activity ID)
+    .AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>()
+    // Create the telemetry middleware to initialize telemetry gathering
+    .AddSingleton<TelemetryInitializerMiddleware>()
+    // Create the telemetry middleware (used by the telemetry initializer) to track conversation events
+    .AddSingleton<TelemetryLoggerMiddleware>();
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -70,19 +86,15 @@ builder.Services
     .AddSingleton<StickerService>()
     .AddSingleton<SearchService>();
 
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
 // Create the Bot Adapter with error handling enabled.
-builder.Services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
+builder.Services
+    .AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>()
+    // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
+    .AddTransient<IBot, TeamsMessagingExtensionsBot>()
+    // Create the Bot Framework Authentication to be used with the Bot Adapter.
+    .AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
 
-// Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-builder.Services.AddTransient<IBot, TeamsMessagingExtensionsBot>();
-
-// Create the Bot Framework Authentication to be used with the Bot Adapter.
-builder.Services.AddSingleton<
-    BotFrameworkAuthentication,
-    ConfigurationBotFrameworkAuthentication
->();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 // Adding Admin Authentication
 builder.Services
