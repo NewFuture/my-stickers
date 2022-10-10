@@ -106,18 +106,17 @@ namespace Stickers.ImageFunctions
                 };
                 using var outImageBlobStream = imageBlobClient.OpenWrite(true, options);
                 outImageBlobStream.Write(outBytes);
+                stopWatch.Stop();
                 log.LogInformation(
                     $"{logPrefix} wrote blob ({ByteSize.FromBytes(outBytes.LongLength)}, format: {outFormat}, size: {pivot.Width}x{pivot.Height}x{images.Count}) with compression ratio: {compressionRatio:P2}"
                 );
+                log.LogInformation($"{logPrefix} elapsed {stopWatch.Elapsed:s\\.fff} seconds");
             }
             catch (Exception e)
             {
-                log.LogError(e, $"{logPrefix} exception occurred, {e}");
-            }
-            finally
-            {
                 stopWatch.Stop();
-                log.LogInformation($"{logPrefix} elapsed {stopWatch.Elapsed:s\\.fff} seconds");
+                log.LogError(e, $"{logPrefix} exception occurred, after {stopWatch.Elapsed:s\\.fff} seconds");
+                throw;
             }
         }
     }
