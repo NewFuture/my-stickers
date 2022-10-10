@@ -31,10 +31,10 @@ jobs:
                   dotnet-version: ${{ env.DOTNET_VERSION }}
 
             - name: Build
-              run: dotnet build server.net/Stickers.csproj -c Release
+              run: dotnet build server -c Release
 
             - name: Publish
-              run: dotnet publish server.net/Stickers.csproj -c Release -o webapp
+              run: dotnet publish server -c Release -o webapp
 
             - uses: actions/upload-artifact@v3
               with:
@@ -47,7 +47,7 @@ jobs:
         needs: [server-build]
         environment:
             name: ${{ fromJSON('["Integration","Production"]')[ github.ref_name == 'v2'] }}
-            url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}/swagger/index.html
+            url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}/swagger/
         runs-on: ubuntu-latest
         timeout-minutes: 6
         steps:

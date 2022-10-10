@@ -8,7 +8,7 @@
             "path": "client-config-app"
         },
         {
-            "path": "server.net"
+            "path": "server"
         },
         {
             "path": "image-functions"
@@ -21,6 +21,9 @@
         },
         {
             "path": "official-stickers"
+        },
+        {
+            "path": "server.test"
         }
     ],
     "settings": {
@@ -53,6 +56,7 @@
         "[csharp]": {
             "editor.defaultFormatter": "ms-dotnettools.csharp"
         },
-        "debug.internalConsoleOptions": "neverOpen"
+        "debug.internalConsoleOptions": "neverOpen",
+        "powershell.cwd": "d:\\GitHub\\custom-stickers-teams-extension"
     }
 }
