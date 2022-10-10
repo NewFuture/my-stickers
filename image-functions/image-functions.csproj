@@ -4,6 +4,7 @@
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     <RootNamespace>image_functions</RootNamespace>
     <RuntimeIdentifiers>win10-x64;linux-x64</RuntimeIdentifiers>
+    <MagickCopyNativeLinux>true</MagickCopyNativeLinux>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.13.1" />
@@ -21,10 +22,4 @@
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
   </ItemGroup>
-  <Target Name="CopyRequiredNativeAssets" AfterTargets="_GenerateFunctionsPostBuild">
-    <ItemGroup>
-      <NativeAssetToCopy Include="$(OutDir)\Magick.Native-*.so" />
-    </ItemGroup>
-    <Copy SourceFiles="@(NativeAssetToCopy)" DestinationFolder="$(OutDir)\bin" />
-  </Target>
 </Project>
