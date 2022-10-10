@@ -49,7 +49,7 @@ namespace Stickers.ImageFunctions
                     && version >= LATEST_IMAGE_PROCESSOR_VERSION
                 )
                 {
-                    log.LogInformation(
+                    log.LogWarning(
                         $"{logPrefix} no-ops due to detecting {IMAGE_PROCESSOR_VERSION_META} metadata"
                     );
                     return;
@@ -106,18 +106,17 @@ namespace Stickers.ImageFunctions
                 };
                 using var outImageBlobStream = imageBlobClient.OpenWrite(true, options);
                 outImageBlobStream.Write(outBytes);
+                stopWatch.Stop();
                 log.LogInformation(
                     $"{logPrefix} wrote blob ({ByteSize.FromBytes(outBytes.LongLength)}, format: {outFormat}, size: {pivot.Width}x{pivot.Height}x{images.Count}) with compression ratio: {compressionRatio:P2}"
                 );
+                log.LogDebug($"{logPrefix} elapsed {stopWatch.Elapsed:s\\.fff} seconds");
             }
             catch (Exception e)
             {
-                log.LogError(e, $"{logPrefix} exception occurred, {e}");
-            }
-            finally
-            {
                 stopWatch.Stop();
-                log.LogInformation($"{logPrefix} elapsed {stopWatch.Elapsed:s\\.fff} seconds");
+                log.LogError(e, $"{logPrefix} exception occurred, after {stopWatch.Elapsed:s\\.fff} seconds");
+                throw;
             }
         }
     }
