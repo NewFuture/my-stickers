@@ -1,4 +1,5 @@
 ﻿namespace Stickers.Entities;
+
 public class Sticker
 {
     public string? src { get; set; }
@@ -7,4 +8,3 @@ public class Sticker
 
     public long weight { get; set; }
 }
-

@@ -39,10 +39,7 @@ public class SearchService
         return stickers.FindAll(s => s.name?.ToLower().Contains(keyword) ?? false);
     }
 
-    public async Task<List<OfficialSticker>> SearchOfficialStickers(
-        string? keyword,
-        int top = 30
-    )
+    public async Task<List<OfficialSticker>> SearchOfficialStickers(string? keyword, int top = 30)
     {
         return await this.officialStickersService.Search(keyword!);
     }

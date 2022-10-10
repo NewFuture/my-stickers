@@ -11,4 +11,3 @@ public class OfficialSticker
     public string? url { get; set; }
     public string? collection { get; set; }
 }
-

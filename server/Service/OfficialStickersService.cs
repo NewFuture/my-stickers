@@ -5,7 +5,6 @@ using Newtonsoft.Json.Linq;
 using Stickers.Entities;
 using Stickers.Utils;
 
-
 public class OfficialStickersService
 {
     private IHttpClientFactory httpClientFactory;
