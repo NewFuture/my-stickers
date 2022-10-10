@@ -11,7 +11,6 @@ using Microsoft.OpenApi.Models;
 
 using Stickers.Bot;
 using Stickers.Middleware;
-using Stickers.Search;
 using Stickers.Service;
 using Stickers.Utils;
 
@@ -71,7 +70,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services
     .AddSingleton<DapperContext>()
-    .AddSingleton<OfficialStickersSearchHandler>()
+    .AddSingleton<OfficialStickersService>()
     .AddSingleton<BlobServiceClient>(
         (o) =>
         {
