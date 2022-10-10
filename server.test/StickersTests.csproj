@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\server.net\Stickers.csproj" />
+    <ProjectReference Include="..\server\Stickers.csproj" />
   </ItemGroup>
 
 </Project>
