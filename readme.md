@@ -2,7 +2,7 @@
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=v2&repo=NewFuture/custom-stickers-teams-extension&devcontainer_path=.devcontainer%2Fdevcontainer.json)
 
-## [/client-config-app](./client-config-app/)
+## [/client-config-app](./client-config-app/) (TypeScript + React)
 
 The Web App in Teams for Management Stickers and uploading.
 
@@ -17,7 +17,7 @@ Main Dependencies and Technology:
 -   `@microsoft/teams-js@v2`: for Teams API
 -   `swr`: lightweight hooks for query and cache (like react query)
 
-## [/website](./website/)
+## [/website](./website/) (TypeScript + React)
 
 The Public Static Web Sites for prototypes and Statements.
 
@@ -33,13 +33,15 @@ Main Dependencies and Technology:
 -   `react-markdown`: render markdown files
 -   `react-snap`: pre-render websites
 
-## [server](./server)
+## [server](./server) (C# + .Net6 + AzureWebapp)
 
-[![Build Status](https://dev.azure.com/NewFuture-CI/CI/_apis/build/status/custom-stickers.server-api?branchName=master)](https://dev.azure.com/NewFuture-CI/CI/_build/latest?definitionId=5&branchName=master)
+Sever API and bot will be deployed to Azure Webapp
 
-Sever API and bot
+## [image-functions](./image-functions) (C# + .NetCore + AzureFunction)
 
-## [/manifest](./manifest)
+Auto Resize and Compress the image and will be deployed to Azure Function APP
+
+## [/manifest](./manifest) (JSON)
 
 Manifest Package files
 
@@ -51,6 +53,6 @@ Dependencies:
 
 -   `package-teams-app`: package the manifest.zip (auto replace environment vars and validate schemas)
 
-## [/official-stickers](./official-stickers)
+## [/official-stickers](./official-stickers) (js)
 
 Manage the Official Recommened Stickers

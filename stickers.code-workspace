@@ -24,6 +24,9 @@
         },
         {
             "path": "server.test"
+        },
+        {
+            "path": "server.benchmark"
         }
     ],
     "settings": {
