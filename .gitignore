@@ -28,17 +28,40 @@ website/build/*
 manifest/build/*
 official-stickers/build/*
 
-server/dist/*
+# C# Service
+nupkg/
 
-# C#
-.vs/*
-*/.vs/*
-*/bin/Debug/*
-*/bin/debug/*
-*/bin/Release/*
-*/bin/release/*
-*/obj/*
+
+# Rider
+.idea
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+server*/[Dd]ebug/
+server*/[Dd]ebugPublic/
+server*/[Rr]elease/
+server*/[Rr]eleases/
+server*/x64/
+server*/x86/
+server*/build/
+server*/bld/
+server*/[Bb]in/
+server*/[Oo]bj/
+server*/[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# Visual Studio 2015
+.vs/
 */BenchmarkDotNet.Artifacts/
+
+
 
 /build/
 /webapp/
