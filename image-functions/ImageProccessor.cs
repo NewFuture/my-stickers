@@ -49,7 +49,7 @@ namespace Stickers.ImageFunctions
                     && version >= LATEST_IMAGE_PROCESSOR_VERSION
                 )
                 {
-                    log.LogInformation(
+                    log.LogWarning(
                         $"{logPrefix} no-ops due to detecting {IMAGE_PROCESSOR_VERSION_META} metadata"
                     );
                     return;
@@ -110,7 +110,7 @@ namespace Stickers.ImageFunctions
                 log.LogInformation(
                     $"{logPrefix} wrote blob ({ByteSize.FromBytes(outBytes.LongLength)}, format: {outFormat}, size: {pivot.Width}x{pivot.Height}x{images.Count}) with compression ratio: {compressionRatio:P2}"
                 );
-                log.LogInformation($"{logPrefix} elapsed {stopWatch.Elapsed:s\\.fff} seconds");
+                log.LogDebug($"{logPrefix} elapsed {stopWatch.Elapsed:s\\.fff} seconds");
             }
             catch (Exception e)
             {
