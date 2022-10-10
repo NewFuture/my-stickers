@@ -18,14 +18,12 @@ concurrency:
     cancel-in-progress: true
 
 env:
-    AZURE_FUNCTIONAPP_PACKAGE_PATH: image-functions
     DOTNET_VERSION: 6.x
 
 jobs:
     build-and-deploy:
         environment:
-            name: Integration
-            url: https://hack-stickers-v2-image-functions.azurewebsites.net/
+            name: ${{ fromJSON('["Integration","Production"]')[ github.ref_name == 'v2'] }}
         runs-on: windows-latest
         steps:
             - name: Checkout GitHub Action
@@ -36,17 +34,13 @@ jobs:
               with:
                   dotnet-version: ${{ env.DOTNET_VERSION }}
 
-            - name: Resolve Project Dependencies Using Dotnet
-              shell: pwsh
-              run: |
-                  pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-                  dotnet build --configuration Release --output ./output
-                  popd
+            - name: DotNet Build
+              run: dotnet build image-functions --configuration Release --output ./build
 
             - name: Run Azure Functions Action
               uses: Azure/functions-action@v1
               id: fa
               with:
                   app-name: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
-                  package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output
+                  package: ./build
                   publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
