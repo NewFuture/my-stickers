@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Stickers.ImageFunctions
 {
-    [StorageAccount("stickersblob_STORAGE")]
+    [StorageAccount("STICKERS_STORAGE")]
     public class ImageProcessor
     {
         private const string LOG_TAG = $"{nameof(ImageProcessor)}.{nameof(Run)}";

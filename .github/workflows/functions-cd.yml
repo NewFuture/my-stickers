@@ -24,7 +24,7 @@ jobs:
     build-and-deploy:
         environment:
             name: ${{ fromJSON('["Integration","Production"]')[ github.ref_name == 'v2'] }}
-        runs-on: windows-latest
+        runs-on: ubuntu-latest
         steps:
             - name: Checkout GitHub Action
               uses: actions/checkout@v3
