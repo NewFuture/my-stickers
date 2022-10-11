@@ -33,7 +33,7 @@ jobs:
                   dotnet-version: ${{ env.DOTNET_VERSION }}
 
             - name: DotNet Build
-              run: dotnet build image-functions --configuration Release --output ./build
+              run: dotnet build image-functions --configuration Release --no-self-contained --runtime linux-x64 --output ./build
 
             - uses: actions/upload-artifact@v3
               with:
