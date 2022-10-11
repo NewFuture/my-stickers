@@ -32,12 +32,12 @@ namespace Stickers.ImageFunctions
             ILogger log
         )
         {
+            log.LogDebug($"[{LOG_TAG}/{name}] triggered");
+            using var _ = log.BeginScope($"{LOG_TAG}:{{name}}", new { name });
             var stopWatch = new Stopwatch();
-            var logPrefix = $"[{LOG_TAG}/{name}]";
             try
             {
                 stopWatch.Start();
-                log.LogInformation($"{logPrefix} triggered");
 
                 // check
                 var metadata = imageBlobClient.GetProperties().Value.Metadata;
@@ -50,7 +50,7 @@ namespace Stickers.ImageFunctions
                 )
                 {
                     log.LogWarning(
-                        $"{logPrefix} no-ops due to detecting {IMAGE_PROCESSOR_VERSION_META} metadata"
+                        $"no-ops due to detecting {IMAGE_PROCESSOR_VERSION_META} = {versionString} metadata"
                     );
                     return;
                 }
@@ -61,7 +61,7 @@ namespace Stickers.ImageFunctions
                 images.Coalesce();
                 var pivot = images[0];
                 log.LogInformation(
-                    $"{logPrefix} read image ({ByteSize.FromBytes(inImageBlobStream.Length)}, format: {pivot.Format}, size: {pivot.Width}x{pivot.Height}x{images.Count})"
+                    $"read image ({ByteSize.FromBytes(inImageBlobStream.Length)}, format: {pivot.Format}, size: {pivot.Width}x{pivot.Height}x{images.Count})"
                 );
 
                 // resize
@@ -108,14 +108,17 @@ namespace Stickers.ImageFunctions
                 outImageBlobStream.Write(outBytes);
                 stopWatch.Stop();
                 log.LogInformation(
-                    $"{logPrefix} wrote blob ({ByteSize.FromBytes(outBytes.LongLength)}, format: {outFormat}, size: {pivot.Width}x{pivot.Height}x{images.Count}) with compression ratio: {compressionRatio:P2}"
+                    $"wrote blob ({ByteSize.FromBytes(outBytes.LongLength)}, format: {outFormat}, size: {pivot.Width}x{pivot.Height}x{images.Count}) with compression ratio: {compressionRatio:P2}"
                 );
-                log.LogDebug($"{logPrefix} elapsed {stopWatch.Elapsed:s\\.fff} seconds");
+                log.LogDebug($"elapsed {stopWatch.Elapsed:s\\.fff} seconds");
             }
             catch (Exception e)
             {
                 stopWatch.Stop();
-                log.LogError(e, $"{logPrefix} exception occurred, after {stopWatch.Elapsed:s\\.fff} seconds");
+                log.LogError(
+                    e,
+                    $"{name} got exception ${e.Message}, after {stopWatch.Elapsed:s\\.fff} seconds"
+                );
                 throw;
             }
         }
