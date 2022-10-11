@@ -21,13 +21,11 @@ env:
     DOTNET_VERSION: 6.x
 
 jobs:
-    build-and-deploy:
-        environment:
-            name: ${{ fromJSON('["Integration","Production"]')[ github.ref_name == 'v2'] }}
+    functionapp-build:
         runs-on: ubuntu-latest
+        timeout-minutes: 5
         steps:
-            - name: Checkout GitHub Action
-              uses: actions/checkout@v3
+            - uses: actions/checkout@v3
 
             - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
               uses: actions/setup-dotnet@v1
@@ -37,10 +35,29 @@ jobs:
             - name: DotNet Build
               run: dotnet build image-functions --configuration Release --output ./build
 
+            - uses: actions/upload-artifact@v3
+              with:
+                  name: functionapp
+                  path: ./build
+                  if-no-files-found: error
+                  retention-days: 5
+
+    functionapp-deploy:
+        needs: [functionapp-build]
+        environment:
+            name: ${{ fromJSON('["Integration","Production"]')[ github.ref_name == 'v2'] }}
+        runs-on: ubuntu-latest
+        timeout-minutes: 6
+        steps:
+            - uses: actions/download-artifact@v3
+              with:
+                  name: functionapp
+                  path: ./
+
             - name: Run Azure Functions Action
               uses: Azure/functions-action@v1
               id: fa
               with:
                   app-name: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
-                  package: ./build
+                  package: .
                   publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
