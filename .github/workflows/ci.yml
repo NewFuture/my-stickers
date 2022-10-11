@@ -74,5 +74,4 @@ jobs:
               with:
                   dotnet-version: ${{ matrix.dotnet-version }}
 
-            - run: dotnet build server -c Release
-            - run: dotnet build image-functions -c Release
+            - run: dotnet build -c Release
