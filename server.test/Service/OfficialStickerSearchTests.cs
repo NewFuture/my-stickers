@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Stickers.Search;
 
 namespace Stickers.Service.Tests
 {
@@ -7,7 +6,7 @@ namespace Stickers.Service.Tests
     public class OfficialStickerSearchTests
     {
         [TestMethod]
-        public async void CommonTest()
+        public void CommonTest()
         {
             // OfficialStickersSearchHandler searchHandler = new OfficialStickersSearchHandler(,);
             // await searchHandler.Search("love");

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StickersTests", "server.tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "server.benchmark", "server.benchmark\server.benchmark.csproj", "{70D61851-F4C7-4693-8E28-11F7B0570777}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "image-functions", "image-functions\image-functions.csproj", "{10DC4744-4C71-4865-B470-0C259B03D635}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{70D61851-F4C7-4693-8E28-11F7B0570777}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70D61851-F4C7-4693-8E28-11F7B0570777}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70D61851-F4C7-4693-8E28-11F7B0570777}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10DC4744-4C71-4865-B470-0C259B03D635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10DC4744-4C71-4865-B470-0C259B03D635}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10DC4744-4C71-4865-B470-0C259B03D635}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10DC4744-4C71-4865-B470-0C259B03D635}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

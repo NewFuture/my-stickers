@@ -2,7 +2,7 @@
  * 通用语言
  */
 export const common = {
-    title: "自定义表情包",
+    title: "表情包",
     shortTitle: "表情",
     description: "在微软Teams中保存和使用你的自定义表情包。",
     langSetting: "Language",
