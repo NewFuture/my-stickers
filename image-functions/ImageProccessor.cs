@@ -32,7 +32,7 @@ namespace Stickers.ImageFunctions
             ILogger log
         )
         {
-            log.LogDebug($"[{LOG_TAG}/{name}] triggered");
+            log.LogDebug($"[{LOG_TAG}:{name}] triggered");
             using var _ = log.BeginScope($"{LOG_TAG}:{{name}}", new { name });
             var stopWatch = new Stopwatch();
             try
@@ -117,7 +117,7 @@ namespace Stickers.ImageFunctions
                 stopWatch.Stop();
                 log.LogError(
                     e,
-                    $"{name} got exception ${e.Message}, after {stopWatch.Elapsed:s\\.fff} seconds"
+                    $"{name} got exception after {stopWatch.Elapsed:s\\.fff} seconds: {e}"
                 );
                 throw;
             }
