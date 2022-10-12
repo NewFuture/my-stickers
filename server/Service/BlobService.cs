@@ -51,11 +51,11 @@ public class BlobService
     public async Task<string> commitBlocks(
         Guid userId,
         Guid id,
-        string extWithDot,
-        string contentType
+        string? extWithDot,
+        string? contentType
     )
     {
-        if (!supportExtList.Contains(extWithDot.TrimStart('.')))
+        if (string.IsNullOrWhiteSpace(extWithDot) || !supportExtList.Contains(extWithDot.TrimStart('.')))
         {
             // remove ext
             extWithDot = "";
