@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider, themes } from "@stardust-ui/react";
 import ChatMessage from "./index";
 import "../../lib/i18n";
+import { Provider, teamsTheme } from "@fluentui/react-northstar";
 
 if (document) {
     document.createRange = () =>
@@ -18,7 +18,7 @@ if (document) {
 it("Chat renders without crashing", () => {
     const div = document.createElement("div");
     ReactDOM.render(
-        <Provider theme={themes.teams}>
+        <Provider theme={teamsTheme}>
             <ChatMessage />
         </Provider>,
         div,

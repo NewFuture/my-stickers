@@ -1,13 +1,10 @@
-import { Header, Button, Text, Box, Flex, Provider, Video } from "@stardust-ui/react";
+import { Header, Button, Text, Box, Flex, Provider, Video, TeamsMonochromeIcon } from "@fluentui/react-northstar";
 import { useTranslation } from "react-i18next";
-
 import { TransKeys } from "../locales";
 import ChatWithPopover from "../components/chat";
 import Compose from "../components/compose";
 import LanguageButton from "../components/language";
-import HeartSvg from "../icons/heart";
 import Footer from "../components/Footer";
-
 import "./home.scss";
 import { useTitle } from "../lib/useTitle";
 
@@ -56,9 +53,6 @@ export default function Home() {
                         },
                     },
                 },
-                icons: {
-                    heart: HeartSvg,
-                },
             }}
         >
             <LanguageButton
@@ -92,9 +86,9 @@ export default function Home() {
                         styles={{ textDecoration: "none", margin: ".8em" }}
                         as="a"
                         href={APP_LINK}
-                        icon="teams"
+                        icon={<TeamsMonochromeIcon />}
                         content={t(TransKeys.downloadExtension)}
-                        size="largest"
+                        size="medium"
                         primary
                     ></Button>
                 </div>
@@ -107,9 +101,9 @@ export default function Home() {
                     styles={{ textDecoration: "none", padding: "1em", margin: "1em" }}
                     as="a"
                     href={APP_LINK}
-                    icon="teams"
+                    icon={<TeamsMonochromeIcon />}
                     content={t(TransKeys.downloadExtension)}
-                    size="largest"
+                    size="medium"
                     circular
                     secondary
                 ></Button>

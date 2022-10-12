@@ -4,9 +4,9 @@
     "private": true,
     "license": "MS-PL",
     "dependencies": {
-        "@stardust-ui/react": "^0.40.4",
-        "i18next": "^21.10.0",
-        "i18next-browser-languagedetector": "^6.1.6",
+        "@fluentui/react-northstar": "^0.64.0",
+        "i18next": "^21.9.1",
+        "i18next-browser-languagedetector": "^6.1.5",
         "javascript-time-ago": "^2.5.7",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",

@@ -1,4 +1,4 @@
-import { Flex, Button, Divider } from "@stardust-ui/react";
+import { Flex, Button, Divider } from "@fluentui/react-northstar";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
         <footer className="Footer">
             <Divider />
             <Flex vAlign="center" hAlign="center">
-                <Button to="/" as={Link} text secondary size="smallest" color="info">
+                <Button to="/" as={Link} text secondary size="small" color="info">
                     {t(TransKeys.homeTitle)}
                 </Button>
                 <Button
@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
                     href="https://github.com/NewFuture/custom-stickers-teams-extension/issues/new"
                     text
                     secondary
-                    size="smallest"
+                    size="small"
                     target="_blank"
                     rel="noopener noreferrer"
                     color="info"
@@ -30,17 +30,17 @@ const Footer: React.FC = () => {
                     href="https://github.com/NewFuture/custom-stickers-teams-extension"
                     text
                     secondary
-                    size="smallest"
+                    size="small"
                     target="_blank"
                     rel="noopener noreferrer"
                     color="info"
                 >
                     Github
                 </Button>
-                <Button to="/privacy.html" as={Link} text secondary size="smallest" color="info">
+                <Button to="/privacy.html" as={Link} text secondary size="small" color="info">
                     {t(TransKeys.privacyTitle)}
                 </Button>
-                <Button to="/terms.html" as={Link} text secondary size="smallest" color="info">
+                <Button to="/terms.html" as={Link} text secondary size="small" color="info">
                     {t(TransKeys.termsTitle)}
                 </Button>
             </Flex>

@@ -1,8 +1,9 @@
 import React from "react";
-import { Image, Header, Input, Box, Grid, Icon } from "@stardust-ui/react";
+import { Image, Header, Input, Box, Grid } from "@fluentui/react-northstar";
 import { useMessages } from "./useMessages";
 import { useTranslation } from "react-i18next";
 import { TransKeys } from "../../locales";
+import { HeartIcon } from "../../icons/heart";
 
 const helloSticker = process.env.PUBLIC_URL + "/hello.gif";
 
@@ -12,7 +13,7 @@ const SearchBox: React.FC = (props) => {
     return (
         <Box>
             <Header as="h4">
-                <Icon name="heart" color="orange" /> {t(TransKeys.shortTitle)}
+                <HeartIcon styles={{ color: "#cc4a31" }} /* TODO: FIX COLOR */ /> {t(TransKeys.shortTitle)}
             </Header>
             <Header as="h4">
                 <Input fluid icon="search" placeholder="Select a sticker" />

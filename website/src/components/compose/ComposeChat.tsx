@@ -1,5 +1,5 @@
 import React from "react";
-import { TextArea } from "@stardust-ui/react";
+import { TextArea } from "@fluentui/react-northstar";
 
 import { MessageProvider } from "./useMessages";
 import { ChatList } from "./ChatList";

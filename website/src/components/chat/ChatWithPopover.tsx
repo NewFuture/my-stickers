@@ -1,34 +1,30 @@
-import { Chat, ChatMessageProps, ShorthandCollection, ReactionProps, Image, Reaction, Icon } from "@stardust-ui/react";
-import { Trans, Translation, useTranslation } from "react-i18next";
+import { Trans, Translation } from "react-i18next";
 import React from "react";
-
-import Popover from "./Popover";
-// import ReactionPopup from './ReactionPopup'
-import { Ref } from "@stardust-ui/react-component-ref";
 import gutter from "../gutter";
-
 import { TransKeys } from "../../locales";
-import { MoreButton, SaveStickersButton } from "./buttons";
+import { MoreButton, SaveStickersButton, StickersSavedTitle } from "./buttons";
+import {
+    Chat,
+    ChatMessageProps,
+    Dialog,
+    ShorthandCollection,
+    ReactionProps,
+    Image,
+    CloseIcon,
+    LikeIcon,
+    MoreIcon,
+} from "@fluentui/react-northstar";
+import getActionItems from "./actionItems";
 
 const helloSticker = process.env.PUBLIC_URL + "/hello.gif";
 
 const reactions: ShorthandCollection<ReactionProps> = [
     {
-        icon: "like",
-        content: 2333,
+        icon: <LikeIcon />,
+        content: "2333",
         key: "likes",
-        // variables: { meReacting: true },
     },
-    // {
-    //     icon: 'emoji',
-    //     content: 666,
-    //     key: 'smiles',
-    // },
 ];
-
-const reactionsWithPopup = reactions.map(
-    (reaction) => (render: any) => render(reaction, (_: any, props: any) => <Reaction {...props} />),
-);
 
 const ChatWithPopover: React.FC = () => {
     return (
@@ -49,7 +45,9 @@ const ChatWithPopover: React.FC = () => {
                                             <li>{t(TransKeys.protoMsgExtStep1)}</li>
                                             <li>
                                                 <Trans i18nKey={TransKeys.protoMsgExtStep2}>
-                                                    <Icon name="more" color="brand" />
+                                                    {/* <Icon name="more" color="brand" />
+                                                     */}
+                                                    <MoreIcon color="brand" />
                                                 </Trans>
                                             </li>
                                             <li>
@@ -77,9 +75,7 @@ const ChatWithPopover: React.FC = () => {
                                     data-is-focusable
                                     content={<Image className="Sticker" src={helloSticker} />}
                                     dialogContent={<Image className="Sticker" src={helloSticker} />}
-                                    reactionGroup={{
-                                        items: reactionsWithPopup,
-                                    }}
+                                    reactionGroup={reactions}
                                     timestamp={t(TransKeys.protoMsgExtTime)}
                                 />
                             ),
@@ -93,37 +89,46 @@ const ChatWithPopover: React.FC = () => {
 };
 
 const TeamsChatMessage: React.FC<ChatMessageProps & { dialogContent: JSX.Element }> = (props) => {
-    const [showActionMenu, setShowActionMenu] = React.useState(false);
-    const [forceShowActionMenu, setForceShowActionMenu] = React.useState(false);
-    const [chatMessageElement, setChatMessageElement] = React.useState<HTMLElement>();
-
-    const handleBlur = (e: any) => !e.currentTarget.contains(e.relatedTarget) && setShowActionMenu(false);
+    const [openFlag, setOpenFlag] = React.useState(false);
+    const close = () => setOpenFlag(false);
+    const open = () => setOpenFlag(true);
+    const chatElement = React.useRef<any>(null);
+    const popoverClose = () => {
+        close();
+        chatElement?.current?.focus();
+    };
     const { dialogContent, ...rest } = props;
-    const { t } = useTranslation();
+    const actionItems = getActionItems(open);
     return (
-        <Ref innerRef={setChatMessageElement}>
+        <>
+            {/* <Ref innerRef={setChatMessageElementWarpper}> */}
             <Chat.Message
                 as="section"
+                ref={chatElement}
                 {...rest}
-                actionMenu={(render: any) =>
-                    render({}, (ComponentType: any, props: any) => (
-                        <Popover
-                            chatMessageElement={chatMessageElement}
-                            onForceShowActionMenuChange={setForceShowActionMenu}
-                            onShowActionMenuChange={setShowActionMenu}
-                            dialogContent={dialogContent}
-                            t={t}
-                            {...props}
-                        />
-                    ))
-                }
-                onMouseEnter={() => setShowActionMenu(true)}
-                onMouseLeave={() => !forceShowActionMenu && setShowActionMenu(false)}
-                onFocus={() => setShowActionMenu(true)}
-                onBlur={handleBlur}
-                variables={{ showActionMenu }}
+                actionMenu={{
+                    iconOnly: true,
+                    items: actionItems,
+                }}
             />
-        </Ref>
+            <Dialog
+                open={openFlag}
+                onOpen={open}
+                onCancel={popoverClose}
+                onConfirm={close}
+                styles={{ width: "30em", textAlign: "center" }}
+                content={{
+                    styles: { width: "100%" },
+                    content: dialogContent,
+                }}
+                header={<StickersSavedTitle />}
+                headerAction={{
+                    icon: <CloseIcon />,
+                    title: "Close",
+                    onClick: popoverClose,
+                }}
+            />
+        </>
     );
 };
 

@@ -1,8 +1,16 @@
-import { Menu, Dialog } from "@stardust-ui/react";
 import React from "react";
 import { SaveStickersButton, MoreButton, StickersSavedTitle } from "./buttons";
 import { TFunction } from "i18next";
 import { TransKeys } from "../../locales";
+import {
+    BookmarkIcon,
+    Dialog,
+    MarkAsUnreadIcon,
+    Menu,
+    MoreIcon,
+    TranslationIcon,
+    CloseIcon,
+} from "@fluentui/react-northstar";
 
 export interface PopoverProps {
     className?: string;
@@ -19,17 +27,6 @@ interface PopoverState {
     open: boolean;
 }
 
-// const popoverBehavior: Accessibility = (props: any) => {
-//     const behavior = menuAsToolbarBehavior(props)
-
-//     behavior.focusZone!.props!.defaultTabbableElement = (root: HTMLElement): HTMLElement => {
-//         return root.querySelector!('[aria-label="like"]') as HTMLElement
-//     }
-
-//     return behavior
-// }
-
-// const daiglog =
 class Popover extends React.Component<PopoverProps, PopoverState> {
     state = {
         focused: true,
@@ -61,7 +58,7 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                 <Menu
                     {...rest}
                     // accessibility={popoverBehavior}
-                    iconOnly
+                    iconOnly={true}
                     className={this.props.className || "" + this.state.focused ? "focused" : ""}
                     items={[
                         {
@@ -100,7 +97,7 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                         },
                         {
                             key: "c",
-                            icon: "more",
+                            icon: <MoreIcon />,
                             indicator: false,
                             onMenuOpenChange: (e, props) => {
                                 onShowActionMenuChange(true);
@@ -115,25 +112,26 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                                 items: [
                                     {
                                         key: "bookmark",
-                                        icon: "bookmark",
+                                        icon: <BookmarkIcon />,
                                         disabled: true,
                                         content: t<string>(TransKeys.protoMsgExtMenuSaveMsg),
                                     },
                                     {
                                         key: "unread",
-                                        icon: "mark-as-unread",
+                                        icon: <MarkAsUnreadIcon />,
                                         disabled: true,
                                         content: t<string>(TransKeys.protoMsgExtMenuUnread),
                                     },
                                     {
                                         key: "translate",
-                                        icon: "translation",
+                                        icon: <TranslationIcon />,
                                         disabled: true,
                                         content: t<string>(TransKeys.protoMsgExtMenuTranslate),
                                     },
                                     {
                                         "data-is-focusable": true,
-                                        defaultMenuOpen: true,
+                                        defaultMenuOpen: false,
+                                        indicator: false,
                                         key: "more",
                                         content: <MoreButton />,
                                         menu: {
@@ -142,7 +140,7 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                                                 {
                                                     key: "save",
                                                     content: <SaveStickersButton />,
-                                                    menuOpen: true,
+                                                    defaultMenuOpen: false,
                                                     onClick: () => this.open(),
                                                 },
                                             ],
@@ -169,7 +167,7 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                     }}
                     header={<StickersSavedTitle />}
                     headerAction={{
-                        icon: "close",
+                        icon: <CloseIcon />,
                         title: "Close",
                         onClick: this.close,
                     }}
