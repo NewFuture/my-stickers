@@ -1,9 +1,9 @@
 import { Button, Flex, Header } from "@fluentui/react-northstar";
+import { Link } from "react-router-dom";
 import { TransKeys } from "../locales";
 import { useTranslation } from "react-i18next";
 import { useTitle } from "../lib/useTitle";
 import Footer from "../components/Footer";
-import { Link } from "react-router-dom";
 
 export default function NotFound() {
     const { t } = useTranslation();

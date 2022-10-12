@@ -28,6 +28,7 @@ export enum TransKeys {
 
     protoComposeTitle = "protoComposeTitle",
     protoComposeSubTitle = "protoComposeSubTitle",
+    protoComposeInput = "protoComposeInput",
     protoComposeTime = "protoComposeTime",
     protoComposeIntro = "protoComposeIntro",
     protoComposeIntroTip = "protoComposeIntroTip",

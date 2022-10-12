@@ -1,9 +1,9 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import TimeAgo from 'javascript-time-ago';
-import enTime from 'javascript-time-ago/locale/en'
-import zhTime from 'javascript-time-ago/locale/zh';
+import TimeAgo from "javascript-time-ago";
+import enTime from "javascript-time-ago/locale/en";
+import zhTime from "javascript-time-ago/locale/zh";
 import zhCN from "../locales/zh-cn.json";
 import en from "../locales/en.json";
 
@@ -33,10 +33,10 @@ i18n
             escapeValue: false, // not needed for react as it escapes by default
             format: (value, format, lng) => {
                 if (format === "time-ago") {
-                    return new TimeAgo(lng!).format(value)
+                    return new TimeAgo(lng!).format(value);
                 }
                 return value;
-            }
+            },
         },
         // react i18next special options (optional)
         // override if needed - omit if ok with defaults

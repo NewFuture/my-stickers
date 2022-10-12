@@ -26,6 +26,7 @@
     "protoMsgExtStickerSavedTitle": "Stickers are saved",
     "protoComposeTitle": "Send Stickers from compose",
     "protoComposeSubTitle": "Componse editor with popover from Componse Extension",
+    "protoComposeInput": "search stickers by name",
     "protoComposeTime": "6:66 AM",
     "protoComposeIntro": "You can send your own stickers, After you install this extension. ❤",
     "protoComposeIntroTip": "You may need to PIN it to the edit bar, from more extensions icons(...), by left click.",

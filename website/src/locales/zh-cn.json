@@ -10,7 +10,7 @@
     "termsTitle": "使用条款",
     "feedback": "反馈",
     "tips": "Outlook 版表情包插件正在预览中",
-    "downloadExtension": "在Teams中打开表情包",
+    "downloadExtension": "在Teams中试用表情包",
 
     "protoMsgExtTitle": "将聊天中图片存为表情",
     "protoMsgExtSubTitle": "通过消息扩展一键收藏别人的表情",
@@ -28,6 +28,7 @@
 
     "protoComposeTitle": "快速发送表情",
     "protoComposeSubTitle": "点击编辑栏表情选择收藏的自定义表情",
+    "protoComposeInput": "输入名字搜索表情",
     "protoComposeTime": "早上 6:66",
     "protoComposeIntro": "安装完成之后,你就可以发送自己的表情啦 ❤",
     "protoComposeIntroTip": "你可能需要手动把图标,从更多扩展中(...)右键固定到编辑栏。",

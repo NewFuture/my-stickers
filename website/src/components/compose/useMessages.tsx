@@ -1,5 +1,5 @@
 import React, { useReducer, createContext, Dispatch, useContext } from "react";
-import { ChatItemProps, Chat, Divider, Image } from "@fluentui/react-northstar";
+import { ChatItemProps, Chat, Divider, Image, Text } from "@fluentui/react-northstar";
 import gutter from "../gutter";
 import { Trans } from "react-i18next";
 import { TransKeys } from "../../locales";
@@ -7,7 +7,7 @@ import { HeartIcon } from "../../icons/heart";
 type Message = ChatItemProps; // ChatItemProps;
 
 const date = new Date(Date.now() - 60000);
-const now = <Trans values={{ date }} i18nKey={TransKeys.date} />;
+// const now = <Trans values={{ date }} i18nKey={TransKeys.date} />;
 const messages: Message[] = [
     {
         gutter,
@@ -24,9 +24,9 @@ const messages: Message[] = [
         message: (
             <Chat.Message
                 content={
-                    <small>
+                    <Text>
                         <Trans i18nKey={TransKeys.protoComposeIntroTip} />
-                    </small>
+                    </Text>
                 }
             />
         ),
@@ -44,7 +44,7 @@ const messages: Message[] = [
                         <HeartIcon outline={true} />
                     </Trans>
                 }
-                timestamp={now}
+                timestamp={<Trans values={{ date }} i18nKey={TransKeys.date} />}
             />
         ),
     },

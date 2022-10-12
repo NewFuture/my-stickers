@@ -9,7 +9,7 @@ import {
 } from "@fluentui/react-northstar";
 import { t } from "i18next";
 import { HeartIcon } from "../../icons/heart";
-import { HomePage } from "../../locales";
+import { TransKeys } from "../../locales";
 import { MoreButton, SaveStickersButton } from "./buttons";
 
 const getActionItems = (clickEvent: () => void): ShorthandCollection<MenuItemProps, MenuShorthandKinds> => {
@@ -45,19 +45,19 @@ const getActionItems = (clickEvent: () => void): ShorthandCollection<MenuItemPro
                         key: "bookmark",
                         icon: <BookmarkIcon />,
                         disabled: true,
-                        content: t<string>(HomePage.protoMsgExtMenuSaveMsg),
+                        content: t<string>(TransKeys.protoMsgExtMenuSaveMsg),
                     },
                     {
                         key: "unread",
                         icon: <MarkAsUnreadIcon />,
                         disabled: true,
-                        content: t<string>(HomePage.protoMsgExtMenuUnread),
+                        content: t<string>(TransKeys.protoMsgExtMenuUnread),
                     },
                     {
                         key: "translate",
                         icon: <TranslationIcon />,
                         disabled: true,
-                        content: t<string>(HomePage.protoMsgExtMenuTranslate),
+                        content: t<string>(TransKeys.protoMsgExtMenuTranslate),
                     },
                     {
                         "data-is-focusable": true,
