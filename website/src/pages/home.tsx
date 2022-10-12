@@ -1,6 +1,6 @@
 import { Header, Button, Text, Box, Flex, Provider, Video, TeamsMonochromeIcon } from "@fluentui/react-northstar";
 import { useTranslation } from "react-i18next";
-import { HomePage, Common } from "../locales";
+import { TransKeys } from "../locales";
 import ChatWithPopover from "../components/chat";
 import Compose from "../components/compose";
 import LanguageButton from "../components/language";
@@ -12,7 +12,7 @@ const APP_LINK = "https://teams.microsoft.com/l/app/46fae4d0-faf5-11e9-80f3-53ad
 
 export default function Home() {
     const { t } = useTranslation();
-    useTitle(t(Common.title));
+    useTitle(t(TransKeys.title));
     return (
         <Provider
             theme={{
@@ -67,8 +67,8 @@ export default function Home() {
                 color="brand"
                 align="center"
                 styles={{ padding: "2em 0 1em" }}
-                content={t(Common.title)}
-                description={t(Common.description)}
+                content={t(TransKeys.title)}
+                description={t(TransKeys.description)}
             ></Header>
             <Box styles={{ padding: "1em 0", textAlign: "center" }}>
                 <Video
@@ -87,12 +87,12 @@ export default function Home() {
                         as="a"
                         href={APP_LINK}
                         icon={<TeamsMonochromeIcon />}
-                        content={t(HomePage.downloadExtension)}
+                        content={t(TransKeys.downloadExtension)}
                         size="medium"
                         primary
                     ></Button>
                 </div>
-                <Text as="div" size="small" weight="light" important content={t(HomePage.tips)} />
+                <Text as="div" size="small" weight="light" important content={t(TransKeys.tips)} />
             </Box>
             <Compose />
             <ChatWithPopover />
@@ -102,7 +102,7 @@ export default function Home() {
                     as="a"
                     href={APP_LINK}
                     icon={<TeamsMonochromeIcon />}
-                    content={t(HomePage.downloadExtension)}
+                    content={t(TransKeys.downloadExtension)}
                     size="medium"
                     circular
                     secondary
