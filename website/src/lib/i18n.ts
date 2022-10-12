@@ -2,8 +2,8 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
-import * as zh from "../locales/zh";
-import * as en from "../locales/en";
+import zhCN from "../locales/zh-cn.json";
+import en from "../locales/en.json";
 
 // not like to use this?
 // have a look at the Quick start guide
@@ -22,11 +22,11 @@ i18n
     // for all options read: https://www.i18next.com/overview/configuration-options
     .init({
         fallbackLng: "en",
+        lowerCaseLng: true,
         debug: process.env.NODE_ENV === "development",
         resources: {
-            en,
-            zh,
-            "zh-CN": zh,
+            en: { translation: en },
+            "zh-cn": { translation: zhCN },
         },
         // react i18next special options (optional)
         // override if needed - omit if ok with defaults

@@ -2,7 +2,7 @@ import { Flex, Button, Divider } from "@stardust-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { Common } from "../locales";
+import { TransKeys } from "../locales";
 
 const Footer: React.FC = () => {
     const { t } = useTranslation();
@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
             <Divider />
             <Flex vAlign="center" hAlign="center">
                 <Button to="/" as={Link} text secondary size="smallest" color="info">
-                    {t(Common.homeTitle)}
+                    {t(TransKeys.homeTitle)}
                 </Button>
                 <Button
                     as="a"
@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
                     rel="noopener noreferrer"
                     color="info"
                 >
-                    {t(Common.feedback)}
+                    {t(TransKeys.feedback)}
                 </Button>
                 <Button
                     as="a"
@@ -38,10 +38,10 @@ const Footer: React.FC = () => {
                     Github
                 </Button>
                 <Button to="/privacy.html" as={Link} text secondary size="smallest" color="info">
-                    {t(Common.privacyTitle)}
+                    {t(TransKeys.privacyTitle)}
                 </Button>
                 <Button to="/terms.html" as={Link} text secondary size="smallest" color="info">
-                    {t(Common.termsTitle)}
+                    {t(TransKeys.termsTitle)}
                 </Button>
             </Flex>
         </footer>

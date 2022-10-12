@@ -2,10 +2,10 @@ import React from "react";
 import { Menu, Popup, Button, UIComponentProps } from "@stardust-ui/react";
 import SearchBox from "./SearchBox";
 import { useTranslation } from "react-i18next";
-import { NS, Common } from "../../locales";
+import { TransKeys } from "../../locales";
 
 const BottomMenu: React.FC<UIComponentProps> = (props) => {
-    const { t } = useTranslation(NS.common);
+    const { t } = useTranslation();
     return (
         <Menu
             {...props}
@@ -60,7 +60,11 @@ const BottomMenu: React.FC<UIComponentProps> = (props) => {
                             // align='center'
                             content={<SearchBox />}
                             trigger={
-                                <Button title={t(Common.shortTitle)} icon={{ name: "heart", outline: true }} iconOnly />
+                                <Button
+                                    title={t(TransKeys.shortTitle)}
+                                    icon={{ name: "heart", outline: true }}
+                                    iconOnly
+                                />
                             }
                         />
                     ),

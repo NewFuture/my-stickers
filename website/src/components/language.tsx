@@ -1,14 +1,13 @@
 import React from "react";
 import { SplitButton, ICSSInJSStyle } from "@stardust-ui/react";
 import { useTranslation } from "react-i18next";
-import { NS } from "../locales";
 
 const LanguageList = [
     { key: "zh", content: "中文" },
     { key: "en", content: "English" },
 ];
 const LanguageButton: React.FC<{ styles?: ICSSInJSStyle }> = (props) => {
-    const { i18n } = useTranslation(NS.common);
+    const { i18n } = useTranslation();
     return (
         <SplitButton
             styles={props.styles}

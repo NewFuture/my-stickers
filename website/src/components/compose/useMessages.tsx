@@ -2,20 +2,20 @@ import React, { useReducer, createContext, Dispatch, useContext } from "react";
 import { ChatItemProps, Chat, Divider, Image, Icon } from "@stardust-ui/react";
 import gutter from "../gutter";
 import { Trans } from "react-i18next";
-import { HomePage, NS, Common } from "../../locales";
+import { TransKeys } from "../../locales";
 
 type Message = ChatItemProps; // ChatItemProps;
 
 const date = new Date(Date.now() - 60000);
-const now = <Trans ns={NS.common} values={{ date }} i18nKey={Common.date} />;
+const now = <Trans values={{ date }} i18nKey={TransKeys.date} />;
 const messages: Message[] = [
     {
         gutter,
         message: (
             <Chat.Message
                 author="NewFuture"
-                content={<Trans i18nKey={HomePage.protoComposeIntro} />}
-                timestamp={<Trans i18nKey={HomePage.protoMsgExtTime} />}
+                content={<Trans i18nKey={TransKeys.protoComposeIntro} />}
+                timestamp={<Trans i18nKey={TransKeys.protoMsgExtTime} />}
             />
         ),
     },
@@ -25,14 +25,14 @@ const messages: Message[] = [
             <Chat.Message
                 content={
                     <small>
-                        <Trans i18nKey={HomePage.protoComposeIntroTip} />
+                        <Trans i18nKey={TransKeys.protoComposeIntroTip} />
                     </small>
                 }
             />
         ),
     },
     {
-        children: <Divider content={<Trans i18nKey={HomePage.protoComposeToday} />} color="brand" />,
+        children: <Divider content={<Trans i18nKey={TransKeys.protoComposeToday} />} color="brand" />,
     },
     {
         gutter,
@@ -40,7 +40,7 @@ const messages: Message[] = [
             <Chat.Message
                 author="NewFuture"
                 content={
-                    <Trans i18nKey={HomePage.protoComposeStep1}>
+                    <Trans i18nKey={TransKeys.protoComposeStep1}>
                         <Icon name="heart" outline />
                     </Trans>
                 }
@@ -50,7 +50,7 @@ const messages: Message[] = [
     },
     {
         attached: "top",
-        message: <Chat.Message content={<Trans i18nKey={HomePage.protoComposeStep2} />} />,
+        message: <Chat.Message content={<Trans i18nKey={TransKeys.protoComposeStep2} />} />,
     },
 ];
 
@@ -80,7 +80,7 @@ function reducer(m: Message[], a: Action): Message[] {
                         <Chat.Message
                             styles={{ margin: 0 }}
                             content={<Image className="Sticker" src={a.payload} />}
-                            timestamp={<Trans ns={NS.common} values={{ date }} i18nKey={Common.date} />}
+                            timestamp={<Trans values={{ date }} i18nKey={TransKeys.date} />}
                             mine
                         />
                     ),

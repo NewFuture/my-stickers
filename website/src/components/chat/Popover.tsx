@@ -2,7 +2,7 @@ import { Menu, Dialog } from "@stardust-ui/react";
 import React from "react";
 import { SaveStickersButton, MoreButton, StickersSavedTitle } from "./buttons";
 import { TFunction } from "i18next";
-import { HomePage } from "../../locales";
+import { TransKeys } from "../../locales";
 
 export interface PopoverProps {
     className?: string;
@@ -117,19 +117,19 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                                         key: "bookmark",
                                         icon: "bookmark",
                                         disabled: true,
-                                        content: t<string>(HomePage.protoMsgExtMenuSaveMsg),
+                                        content: t<string>(TransKeys.protoMsgExtMenuSaveMsg),
                                     },
                                     {
                                         key: "unread",
                                         icon: "mark-as-unread",
                                         disabled: true,
-                                        content: t<string>(HomePage.protoMsgExtMenuUnread),
+                                        content: t<string>(TransKeys.protoMsgExtMenuUnread),
                                     },
                                     {
                                         key: "translate",
                                         icon: "translation",
                                         disabled: true,
-                                        content: t<string>(HomePage.protoMsgExtMenuTranslate),
+                                        content: t<string>(TransKeys.protoMsgExtMenuTranslate),
                                     },
                                     {
                                         "data-is-focusable": true,

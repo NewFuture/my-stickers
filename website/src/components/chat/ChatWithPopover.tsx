@@ -7,7 +7,7 @@ import Popover from "./Popover";
 import { Ref } from "@stardust-ui/react-component-ref";
 import gutter from "../gutter";
 
-import { HomePage, NS } from "../../locales";
+import { TransKeys } from "../../locales";
 import { MoreButton, SaveStickersButton } from "./buttons";
 
 const helloSticker = process.env.PUBLIC_URL + "/hello.gif";
@@ -32,7 +32,7 @@ const reactionsWithPopup = reactions.map(
 
 const ChatWithPopover: React.FC = () => {
     return (
-        <Translation ns={NS.homePage}>
+        <Translation>
             {(t) => (
                 <Chat
                     items={[
@@ -46,25 +46,25 @@ const ChatWithPopover: React.FC = () => {
                                     author="NewFuture"
                                     content={
                                         <ol>
-                                            <li>{t(HomePage.protoMsgExtStep1)}</li>
+                                            <li>{t(TransKeys.protoMsgExtStep1)}</li>
                                             <li>
-                                                <Trans i18nKey={HomePage.protoMsgExtStep2}>
+                                                <Trans i18nKey={TransKeys.protoMsgExtStep2}>
                                                     <Icon name="more" color="brand" />
                                                 </Trans>
                                             </li>
                                             <li>
-                                                <Trans i18nKey={HomePage.protoMsgExtStep3}>
+                                                <Trans i18nKey={TransKeys.protoMsgExtStep3}>
                                                     <MoreButton />
                                                 </Trans>
                                             </li>
                                             <li>
-                                                <Trans i18nKey={HomePage.protoMsgExtStep4}>
+                                                <Trans i18nKey={TransKeys.protoMsgExtStep4}>
                                                     <SaveStickersButton />
                                                 </Trans>
                                             </li>
                                         </ol>
                                     }
-                                    timestamp={t(HomePage.protoMsgExtTime)}
+                                    timestamp={t(TransKeys.protoMsgExtTime)}
                                 />
                             ),
                             gutter,
@@ -80,7 +80,7 @@ const ChatWithPopover: React.FC = () => {
                                     reactionGroup={{
                                         items: reactionsWithPopup,
                                     }}
-                                    timestamp={t(HomePage.protoMsgExtTime)}
+                                    timestamp={t(TransKeys.protoMsgExtTime)}
                                 />
                             ),
                             gutter,
@@ -99,7 +99,7 @@ const TeamsChatMessage: React.FC<ChatMessageProps & { dialogContent: JSX.Element
 
     const handleBlur = (e: any) => !e.currentTarget.contains(e.relatedTarget) && setShowActionMenu(false);
     const { dialogContent, ...rest } = props;
-    const { t } = useTranslation(NS.homePage);
+    const { t } = useTranslation();
     return (
         <Ref innerRef={setChatMessageElement}>
             <Chat.Message

@@ -1,16 +1,15 @@
 import ChatWithPopover from "./ChatWithPopover";
-import React from "react";
 import { useTranslation } from "react-i18next";
 
 import { PrototypeComponent, PrototypeSection } from "../Prototype";
-import { HomePage, NS } from "../../locales";
+import { TransKeys } from "../../locales";
 
 export default function ChatMessage(props: any) {
-    const { t } = useTranslation([NS.common, NS.homePage]);
+    const { t } = useTranslation();
     return (
-        <PrototypeSection title={t(HomePage.protoMsgExtTitle)}>
+        <PrototypeSection title={t(TransKeys.protoMsgExtTitle)}>
             <PrototypeComponent
-                title={t(HomePage.protoMsgExtSubTitle)}
+                title={t(TransKeys.protoMsgExtSubTitle)}
                 // description="Click save stciker in the more action menu list can save it!"
             >
                 <ChatWithPopover />
