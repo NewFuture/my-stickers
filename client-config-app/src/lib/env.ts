@@ -4,6 +4,11 @@
 export const MAX_NUM = 150;
 
 /**
+ * Enable / disable the tenant features.
+ */
+export const ENABLE_TENANT = true;
+
+/**
  * API 地址
  */
 export const BASE_URL = process.env.REACT_APP_API_ROOT || "/api/";
