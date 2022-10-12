@@ -3,6 +3,7 @@ using Azure.Storage.Blobs.Specialized;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
 using Stickers.Utils;
+using System.Text;
 
 namespace Stickers.Service;
 
@@ -11,6 +12,7 @@ public class BlobService
     private BlobServiceClient client;
     private string containerName = "stickers";
     private string cdn;
+    private static Encoding encoding = Encoding.GetEncoding(28591);
 
     private string[] supportExtList = new string[] { "png", "gif", "jpg", "jpeg" };
 
@@ -55,13 +57,16 @@ public class BlobService
         string? contentType
     )
     {
-        if (string.IsNullOrWhiteSpace(extWithDot) || !supportExtList.Contains(extWithDot.TrimStart('.')))
+        if (
+            string.IsNullOrWhiteSpace(extWithDot)
+            || !supportExtList.Contains(extWithDot.TrimStart('.'))
+        )
         {
             // remove ext
             extWithDot = "";
         }
         string fileName = $"{EncodeGuid(userId)}/{EncodeGuid(id)}{extWithDot}";
-        var encodeId = Convert.ToBase64String(id.ToByteArray());
+        var encodeId = Convert.ToBase64String(encoding.GetBytes(id.ToString()));
         var blockclient = client
             .GetBlobContainerClient(this.containerName)
             .GetBlockBlobClient(fileName);
@@ -74,7 +79,7 @@ public class BlobService
 
     /// <summary>
     /// Guid to Short Base64
-    /// 540c2d5f-a9ab-4414-bd36-9999f5388773 ==> Xy0MVKupFES9NpmZ9TiHcw 
+    /// 540c2d5f-a9ab-4414-bd36-9999f5388773 ==> Xy0MVKupFES9NpmZ9TiHcw
     /// </summary>
     /// <param name="guid"></param>
     /// <returns></returns>
