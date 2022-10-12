@@ -1,0 +1,63 @@
+# Server Build and Deploy
+
+name: Server-build-deploy
+on:
+    push:
+        branches: ["v2", "main"]
+        paths:
+            - ".github/workflows/server-cd.yml"
+            - "server.net/**"
+
+permissions:
+    contents: read
+
+# This allows a subsequently queued workflow run to interrupt previous runs
+concurrency:
+    group: "${{ github.workflow }}-${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+    cancel-in-progress: true
+
+env:
+    DOTNET_VERSION: "6.x" # The .NET SDK version to use
+
+jobs:
+    server-build:
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+        steps:
+            - uses: actions/checkout@v3
+            - name: Setup .NET Core
+              uses: actions/setup-dotnet@v1
+              with:
+                  dotnet-version: ${{ env.DOTNET_VERSION }}
+
+            - name: Build
+              run: dotnet build server -c Release
+
+            - name: Publish
+              run: dotnet publish server -c Release -o webapp
+
+            - uses: actions/upload-artifact@v3
+              with:
+                  name: package
+                  path: webapp
+                  if-no-files-found: error
+                  retention-days: 5
+
+    server-deploy:
+        needs: [server-build]
+        environment:
+            name: ${{ fromJSON('["Integration","Production"]')[ github.ref_name == 'v2'] }}
+            url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}/swagger/
+        runs-on: ubuntu-latest
+        timeout-minutes: 6
+        steps:
+            - uses: actions/download-artifact@v3
+              with:
+                  name: package
+                  path: ./
+
+            - uses: azure/webapps-deploy@v2
+              id: deploy-to-webapp
+              with:
+                  publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+                  package: .

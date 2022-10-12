@@ -1,28 +1,23 @@
-import * as microsoftTeams from "@microsoft/teams-js";
+import { teamsDarkTheme, teamsHighContrastTheme, teamsLightTheme, Theme } from "@fluentui/react-components";
+import { authentication, app } from "@microsoft/teams-js";
 
-export const auth = {
-    id: "",
-    token: "",
-};
+app.initialize().then(
+    () => {
+        console.debug("teams initialized");
+    },
+    () => {
+        console.error("teams not initialize");
+    },
+);
 
-microsoftTeams.initialize(() => {
-    console.debug("teams initialized");
-});
+export const getAuthToken = authentication.getAuthToken;
 
-export function init() {
-    auth.id = new URLSearchParams(window.location.search).get("id")!;
-    auth.token = window.location.hash.replace("#", "");
-    return Promise.resolve(auth);
+export const getContext = app.getContext;
 
-    // return app.initialize().then(() =>
-    //     app.getContext()
-    // ).then((context) => {
-    //     console.debug(context);
-    //     auth.id = context.user?.id!;
-    //     return auth
-    // });
+export function registerOnThemeChangeHandler(handler: (theme: Theme) => void) {
+    return app.registerOnThemeChangeHandler((theme) => handler(getTeamsTheme(theme)));
 }
 
-export function exit() {
-    return microsoftTeams.authentication.notifySuccess();
+export function getTeamsTheme(themeName: string) {
+    return themeName === "dark" ? teamsDarkTheme : themeName === "contrast" ? teamsHighContrastTheme : teamsLightTheme;
 }

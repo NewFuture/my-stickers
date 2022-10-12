@@ -25,4 +25,49 @@ yarn-error.log*
 .yarn/*.gz
 client-config-app/build/*
 website/build/*
-server/dist/*
+manifest/build/*
+official-stickers/build/*
+
+# C# Service
+nupkg/
+
+
+# Rider
+.idea
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+server*/[Dd]ebug/
+server*/[Dd]ebugPublic/
+server*/[Rr]elease/
+server*/[Rr]eleases/
+server*/x64/
+server*/x86/
+server*/build/
+server*/bld/
+server*/[Bb]in/
+server*/[Oo]bj/
+server*/[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# Visual Studio 2015
+.vs/
+*/BenchmarkDotNet.Artifacts/
+
+
+
+/build/
+/webapp/
+
+appsettings.local.json
+.fake
+
+*.log
+*.dll

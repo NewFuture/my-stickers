@@ -2,21 +2,21 @@
     "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.14/MicrosoftTeams.schema.json",
     "manifestVersion": "1.14",
     "id": "${TEAMS_APP_ID}",
-    "version": "${npm_package_version}",
+    "version": "${VERSION}",
     "packageName": "stickers",
     "developer": {
         "name": "New Future",
-        "websiteUrl": "https://${WEB_HOST}",
-        "privacyUrl": "https://${WEB_HOST}/privacy.html",
-        "termsOfUseUrl": "https://${WEB_HOST}/terms.html"
+        "websiteUrl": "https://${WEBSITE}",
+        "privacyUrl": "https://${WEBSITE}/privacy.html",
+        "termsOfUseUrl": "https://${WEBSITE}/terms.html"
     },
     "name": {
-        "short": "Custom Stickers[test]",
-        "full": "Custom Stickers[test]"
+        "short": "${APP_PRE_FIX}My Stickers",
+        "full": "${APP_PRE_FIX}My Custom Stickers"
     },
     "description": {
-        "short": "Add Custom Stickers in Teams ❤",
-        "full": "Express complex emotions in ways beyond words. Custom Stickers app helps you to save and send your own stickers in Microsoft Teams.\n[#LI] You can upload your stickers from PC or cell phones;[/#LI]\n[#LI] You can save stickers from others' messages;[/#LI]\n[#LI] You can send your own stickers in chat;[/#LI]\n[#LI] You can manage and edit your stickers' name.[/#LI]\nCustom Stickers provides a management tool inside of Teams for all users to save and send GIFs to friends, which is an effective form of visual communication because of the animation that provides a greater range of expression.\nThe tool facilities a place to help users upload stickers/GIFs from PCs or mobile devices. Users could select one or more saved stickers and choose to upload them. Once uploaded successfully, all materials could be found by clicking ♥ icon from the toolbar to launch the Sticker window.\nTo better manage all stickers, the tool also makes it easy to rename, delete or search a GIF.\nUsers could send GIFs to Teams friends by selecting one from Stickers list while chatting with them, with above management capabilities, browsing to find a GIF becomes more efficient.\nUsers also can save a GIF shared by others if they’re using the same tool. By clicking “…” from the right-up corner of the messaging card, there’s a button of “Save to Sticker”. Click the button and it’ll be added to user’s list."
+        "short": "Add your favorite stickers ❤ in Microsoft Teams and Outlook.",
+        "full": "My Stickers app helps you to save and send your stickers in Microsoft Teams and Outlook (partial features).\n[#LI] You can upload your stickers (GIFs and PNGs);[/#LI]\n[#LI] You can save stickers from others' messages;[/#LI]\n[#LI] You can send your stickers in chat;[/#LI]\n[#LI] You can manage and edit your stickers' names.[/#LI]\n[#LI] Administrators can manage and edit the org-wide stickers.[/#LI]\n[#LI] Administrators can customize this app logo and display name.[/#LI]\nMy Stickers App provides a management tool inside of Teams and Outlook for all users to save and send GIFs to friends, which is an effective form of visual communication because of the animation that provides a greater range of expression.\nThe tool facilities a place to help users upload stickers/GIFs from PCs or mobile devices. Users could select one or more saved stickers and choose to upload them. Once uploaded successfully, all materials could be found by clicking the ♥ icon from the toolbar to launch the Sticker window.\nTo better manage all stickers, the tool also makes it easy to rename, delete or search for a GIF.\nUsers could send GIFs to friends by selecting one from the Stickers list while chatting with them, with the above management capabilities, browsing to find a GIF becomes more efficient.\nUsers also can save a GIF shared by others if they're using the same tool. By clicking “…” from the right-up corner of the messaging card, there's a “Save to My Stickers” button. Click the button and it'll be added to the user's list.\nAdministrators can enable the Org-wide Stickers by login in and verifying with the admin account. Administrators can upload and manage the Org-wide Stickers. All users in this org can use Org-wide Stickers.\nAdministrators can customize this app logo and name in the Teams Admin Portal (M365 Admin Center does not support this)."
     },
     "icons": {
         "outline": "icon-outline.png",
@@ -28,50 +28,17 @@
     "composeExtensions": [
         {
             "botId": "${MICROSOFT_APP_ID}",
+            "canUpdateConfiguration": false,
             "commands": [
                 {
-                    "id": "queryAll",
-                    "title": "TAB1",
-                    "description": "All stickes I saved",
-                    "initialRun": true,
-                    "parameters": [
-                        {
-                            "name": "scope",
-                            "title": "scope",
-                            "description": "scope",
-                            "inputType": "choiceset",
-                            "choices": [
-                                {
-                                    "title": "all",
-                                    "value": "all"
-                                },
-                                {
-                                    "title": "my",
-                                    "value": "my"
-                                },
-                                {
-                                    "title": "test Value",
-                                    "value": "test Value"
-                                },
-                                {
-                                    "title": "test Value",
-                                    "value": "test Value"
-                                }
-                            ]
-                        }
-                    ],
-                    "type": "query",
-                    "context": ["compose"]
-                },
-                {
-                    "id": "MyCollection",
-                    "title": "TAB2",
-                    "description": "All stickes I saved",
+                    "id": "mycollection",
+                    "title": "My Stickers",
+                    "description": "All my stickers and org-wide stickers",
                     "initialRun": true,
                     "parameters": [
                         {
                             "name": "query",
-                            "description": "search my stickers by name",
+                            "description": "search stickers by name",
                             "title": "search"
                         }
                     ],
@@ -79,37 +46,31 @@
                     "context": ["compose"]
                 },
                 {
+                    "id": "collect",
+                    "description": "collect the sticker images from messages",
+                    "title": "Save to My Stickers",
+                    "type": "action",
+                    "fetchTask": true,
+                    "context": ["message"]
+                },
+                {
                     "id": "management",
-                    "title": "xxx",
-                    "description": "xxxDesc",
+                    "title": "Upload",
+                    "description": "Upload and management my stickers",
+                    "fetchTask": true,
                     "taskInfo": {
-                        "title": "xxxTitle",
-                        "url": "https://${WEB_HOST}/config/",
+                        "title": "Upload, delete and edit my favorite stickers",
                         "height": "large",
                         "width": "large"
                     },
                     "type": "action",
                     "context": ["compose"]
-                },
-                {
-                    "id": "collect",
-                    "description": "collect the sticke images from messages",
-                    "title": "Save Stickers",
-                    "type": "action",
-                    "fetchTask": true,
-                    "context": ["message"],
-                    "taskInfo": {
-                        "title": "Saving the images",
-                        "height": "small",
-                        "width": "small",
-                        "url": "https://${HOSTNAME}/collect"
-                    }
                 }
             ]
         }
     ],
     "permissions": [],
-    "validDomains": ["${WEB_HOST}", "${HOSTNAME}", "${AZURE_STORAGE_CDN}"],
+    "validDomains": ["${WEBSITE}", "${HOSTNAME}"],
     "configurableProperties": [
         "name",
         "shortDescription",
@@ -126,5 +87,9 @@
                 "file": "zh-cn.json"
             }
         ]
+    },
+    "webApplicationInfo": {
+        "id": "${REACT_APP_AAD_ID}",
+        "resource": "api://${WEBSITE}/${REACT_APP_AAD_ID}"
     }
 }

@@ -1,15 +1,27 @@
 import axios from "axios";
-import { auth } from "../services/teams";
+import { getAuthToken } from "../services/teams";
+import { BASE_URL } from "./env";
+
+const SessionKey = window.location.hash?.substring(1);
+const USER_SEESION_HEADER = "Session-Key";
+
 export const API = axios.create({
-    baseURL: process.env.REACT_APP_API_ROOT || "/api/",
+    baseURL: BASE_URL,
     headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
     },
-    // auth,
-    transformRequest: (data, headers) => {
-        // console.log(data, headers)
-        headers["authorization"] = `${auth.id} ${auth.token}`;
-        return JSON.stringify(data);
-    },
+});
+
+API.interceptors.request.use((c) => {
+    if (c.url?.startsWith("/admin/")) {
+        // id token token
+        return getAuthToken({ silent: true }).then((token) => {
+            c.headers!["authorization"] = `Bearer ${token}`;
+            return c;
+        });
+    } else {
+        c.headers![USER_SEESION_HEADER] = SessionKey;
+    }
+    return c;
 });

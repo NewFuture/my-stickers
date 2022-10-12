@@ -87,7 +87,6 @@ function reducer(m: Message[], a: Action): Message[] {
                 },
             ];
     }
-    return m;
 }
 
 const context = createContext<[Message[], Dispatch<Action>]>([messages, () => { }]);

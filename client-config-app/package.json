@@ -3,26 +3,23 @@
     "version": "2.0.0",
     "private": true,
     "license": "MS-PL",
-    "proxy": "http://localhost:3007/",
+    "homepage": "/config/",
     "dependencies": {
-        "@microsoft/teams-js": "^1.12.1",
-        "@stardust-ui/react": "^0.40.4",
-        "axios": "^0.21.2",
-        "i18next": "^21.9.1",
-        "i18next-browser-languagedetector": "^6.1.5",
+        "@fluentui/react-components": "^9.4.0",
+        "@fluentui/react-icons": "^2.0.182",
+        "@microsoft/teams-js": "^2.4.0",
+        "axios": "^1.0.0",
+        "i18next": "^21.10.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-i18next": "^11.18.5",
-        "react-redux": "^7.2.4",
-        "redux": "^4.2.0"
+        "react-i18next": "^11.18.6",
+        "swr": "^1.3.0"
     },
     "devDependencies": {
-        "@types/jest": "^27",
         "@types/react": "^18",
         "@types/react-dom": "^18",
-        "@types/react-redux": "^7.1.16",
         "react-scripts": "^5.0.1",
-        "typescript": "^4.8.2"
+        "typescript": "^4.8.4"
     },
     "scripts": {
         "start": "react-scripts start",

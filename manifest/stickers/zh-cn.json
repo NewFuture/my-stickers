@@ -1,14 +1,16 @@
 {
     "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.14/MicrosoftTeams.Localization.schema.json",
-    "name.short": "表情包",
-    "name.full": "表情包",
-    "description.short": "收藏和发送自定义表情 ❤",
-    "description.full": "在Teams里收藏，发送和管理你的自定义表情。\n[#LI] 从电脑或手机相册上传自己的表情包;[/#LI]\n[#LI] 从消息中收藏别人的表情包或图片;[/#LI]\n[#LI] 搜索发送自己的表情包;[/#LI]\n[#LI] 管理和修改表情包的名称。[/#LI] \n此应用可以帮助用户从PC或移动设备上载贴纸/ GIF。用户可以选择一个或多个保存的表情包并选择上传。成功上传后，可以通过单击工具栏中的“♥”图标以启动“表情包”窗口来找到所有收藏的表情。\n为了更好地管理所有表情，该工具还使重命名，删除或搜索GIF变得容易。用户可以通过在“表情包”列表中选择一个与朋友聊天的方式将动图发送给Teams好朋。上述管理功能，通过浏览找到动态变得更加高效。\n如果其他人使用同一工具，则用户还可以保存其他人共享的表情。通过单击消息右上角的“…”，即可找到“收藏表情”按钮。点击按钮，它将被添加到用户列表中。",
-    "composeExtensions[0].commands[0].title": "我的收藏",
-    "composeExtensions[0].commands[0].description": "我收藏的所有表情包",
+    "name.short": "${APP_PRE_FIX}表情",
+    "name.full": "${APP_PRE_FIX}我的表情包",
+    "description.short": "收藏和管理你的自定义表情包 ❤",
+    "description.full": "在Microsoft Teams 和 Outlook (部分支持) 中收藏、发送和管理你的自定义表情。\n[#LI] 从电脑或手机相册上传自己的表情包;[/#LI]\n[#LI] 从消息中收藏别人的表情或图片;[/#LI]\n[#LI] 搜索发送自己的表情包;[/#LI]\n[#LI] 管理和修改表情包的名称。[/#LI]\n[#LI] 企业管理员可为定制化管理公司范围内的表情包。[/#LI]\n[#LI] 管理员可自定义此应用的图标的名称等。[/#LI]\n用户可以选择一个或多个保存的表情包并选择上传。成功上传后，可以通过单击工具栏中的“♥”图标以启动“表情包”窗口来找到所有收藏的表情。\n为了更好地管理所有表情，该工具还使重命名，删除或搜索GIF变得容易。用户可以通过在“表情包”列表中选择一个在聊天中发送动图。上述管理功能，通过浏览找到动态变得更加高效。\n如果其他人使用同一工具，则用户还可以保存其他人共享的表情。通过单击消息右上角的“…”，即可找到“收藏表情”按钮。点击按钮，它将被添加到用户列表中。\n企业管理员，在公司上传界面，使用管理员账号认证之后，可以为全公司范围启用“企业表情”。管理员可以管理和上传“企业表情”，公司内所有员工可以使用“企业表情”。\n管理员可以在Teams管理后台自定义此应用的图标和显示名称。",
+    "composeExtensions[0].commands[0].title": "表情包",
+    "composeExtensions[0].commands[0].description": "收藏的所有表情包",
     "composeExtensions[0].commands[0].parameters[0].title": "搜索",
-    "composeExtensions[0].commands[0].parameters[0].description": "名称搜索我的表情",
+    "composeExtensions[0].commands[0].parameters[0].description": "输入名称搜索表情",
     "composeExtensions[0].commands[1].title": "收藏表情",
     "composeExtensions[0].commands[1].description": "收藏消息中的图片作为表情",
-    "composeExtensions[0].commands[1].taskInfo.title": "正在保存图片"
+    "composeExtensions[0].commands[2].title": "上传",
+    "composeExtensions[0].commands[2].description": "上传和管理",
+    "composeExtensions[0].commands[2].taskInfo.title": "上传修改删除你的表情包"
 }

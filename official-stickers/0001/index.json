@@ -1,0 +1,199 @@
+{
+    "collection": "胖胖的生活",
+    "type": "static",
+    "author": "An Ming (noon)",
+    "stickers": [
+        {
+            "img": "01.png",
+            "name": "good",
+            "keywords": ["good", "great", "nice", "赞", "棒", "👍"],
+            "localName": {
+                "zhCN": "棒"
+            }
+        },
+        {
+            "img": "02.png",
+            "name": "love",
+            "keywords": ["love", "heart", "爱", "爱你", "爱心", "心", "♥"],
+            "localName": {
+                "zhCN": "爱你"
+            }
+        },
+        {
+            "img": "03.png",
+            "name": "what",
+            "keywords": ["what", "confused", "question", "啥", "问号", "什么", "疑惑", "疑惑", "?", "？", "❓"],
+            "localName": {
+                "zhCN": "啥"
+            }
+        },
+        {
+            "img": "04.png",
+            "name": "Hey",
+            "keywords": ["snicke", "hey", "偷笑", "嘿嘿", "🤭"],
+            "localName": {
+                "zhCN": "嘿嘿"
+            }
+        },
+        {
+            "img": "05.png",
+            "name": "relax",
+            "keywords": ["relax", "toilet", "厕所", "放松"],
+            "localName": {
+                "zhCN": "放松"
+            }
+        },
+        {
+            "img": "06.png",
+            "name": "Pick Nose",
+            "keywords": ["sniPick Nose", "booger", "鼻屎", "鼻孔", "挖"],
+            "localName": {
+                "zhCN": "挖鼻屎"
+            }
+        },
+        {
+            "img": "07.png",
+            "name": "Speachles",
+            "keywords": ["Speachles", "nothing", "无语", "stare"],
+            "localName": {
+                "zhCN": "无语"
+            }
+        },
+        {
+            "img": "08.png",
+            "name": "Goodjob",
+            "keywords": ["Goodjob", "Awesome", "棒", "干得好", "优秀"],
+            "localName": {
+                "zhCN": "干得好"
+            }
+        },
+        {
+            "img": "09.png",
+            "name": "Boss",
+            "keywords": ["Boss", "老大"],
+            "localName": {
+                "zhCN": "老大"
+            }
+        },
+        {
+            "img": "10.png",
+            "name": "LOL",
+            "keywords": ["LOL", "Haha", "哈哈哈", "好笑"],
+            "localName": {
+                "zhCN": "好笑"
+            }
+        },
+        {
+            "img": "11.png",
+            "name": "Hmm",
+            "keywords": ["Hmm", "呃"],
+            "localName": {
+                "zhCN": "嗯"
+            }
+        },
+        {
+            "img": "12.png",
+            "name": "gourmet",
+            "keywords": ["gourmet", "delicious", "drool", "谗", "流口水", "好吃"],
+            "localName": {
+                "zhCN": "流口水"
+            }
+        },
+        {
+            "img": "13.png",
+            "name": "Yeah",
+            "keywords": ["Yeah", "Happy", "开心", "耶"],
+            "localName": {
+                "zhCN": "开心"
+            }
+        },
+        {
+            "img": "14.png",
+            "name": "Wait",
+            "keywords": ["Wait", "What", "桥豆麻袋", "等等", "什么"],
+            "localName": {
+                "zhCN": "等等"
+            }
+        },
+        {
+            "img": "15.png",
+            "name": "Sleepy",
+            "keywords": ["Sleepy", "lazy", "困", "想睡觉"],
+            "localName": {
+                "zhCN": "困"
+            }
+        },
+        {
+            "img": "16.png",
+            "name": "Ah",
+            "keywords": ["Scream", "Ahah", "啊啊啊", "尖叫"],
+            "localName": {
+                "zhCN": "啊啊啊"
+            }
+        },
+        {
+            "img": "17.png",
+            "name": "Yeah",
+            "keywords": ["Yeah", "Good", "耶"],
+            "localName": {
+                "zhCN": "耶"
+            }
+        },
+        {
+            "img": "18.png",
+            "name": "Er",
+            "keywords": ["Er", "呃"],
+            "localName": {
+                "zhCN": "呃"
+            }
+        },
+        {
+            "img": "19.png",
+            "name": "Cry",
+            "keywords": ["Cry", "Wuwuwu", "哭", "呜呜呜"],
+            "localName": {
+                "zhCN": "呜呜呜"
+            }
+        },
+        {
+            "img": "20.png",
+            "name": "What",
+            "keywords": ["What", "How", "你说什么", "什么"],
+            "localName": {
+                "zhCN": "你说什么"
+            }
+        },
+        {
+            "img": "21.png",
+            "name": "Milk team",
+            "keywords": ["Milk team", "Boba tea", "奶茶", "珍珠奶茶"],
+            "localName": {
+                "zhCN": "奶茶"
+            }
+        },
+        {
+            "img": "22.png",
+            "name": "Wronged",
+            "keywords": ["Wronged", "委屈"],
+            "localName": {
+                "zhCN": "委屈"
+            }
+        },
+        {
+            "img": "23.png",
+            "name": "Full",
+            "keywords": ["Full", "饱", "撑"],
+            "localName": {
+                "zhCN": "饱"
+            }
+        },
+        {
+            "img": "24.png",
+            "name": "admorable",
+            "keywords": ["admorable", "cute", "可爱", "乖巧"],
+            "localName": {
+                "zhCN": "乖巧"
+            }
+        }
+    ]
+}

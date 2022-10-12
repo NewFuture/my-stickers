@@ -10,23 +10,22 @@
         "javascript-time-ago": "^2.5.7",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-i18next": "^11.18.5",
+        "react-i18next": "^11.18.6",
         "react-markdown": "^8.0.3",
-        "react-router-dom": "^6.4.0"
+        "react-router-dom": "^6.4.2"
     },
     "devDependencies": {
         "@types/jest": "^27",
-        "@types/node": "^18.7.18",
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "react-scripts": "^5.0.1",
-        "react-snap": "^1.23.0",
-        "sass": "^1.35.1",
-        "typescript": "^4.8.2"
+        "sass": "^1.55.0",
+        "typescript": "^4.8.4"
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build && react-snap",
+        "build": "react-scripts build && yarn snap",
+        "snap": "yarn dlx react-snap",
         "test": "react-scripts test"
     },
     "repository": {

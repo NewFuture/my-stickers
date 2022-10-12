@@ -8,19 +8,22 @@
         "client-config-app",
         "website",
         "manifest",
-        "server"
+        "official-stickers"
     ],
     "scripts": {
         "format": "yarn prettier --write && yarn eslint ./ --fix",
         "format:check": "yarn prettier --check && yarn eslint ./",
-        "eslint": "eslint --cache --max-warnings 0 --cache-location node_modules/.cache/ --ext .ts,.tsx",
-        "prettier": "prettier --cache \"**/*.{js,jsx,ts,tsx,json,css,scss,md,yml,html}\"",
-        "server": "npm run debug --prefix server",
         "client": "yarn workspace client-config-app run start",
         "client:build": "yarn workspace client-config-app run build",
         "website": "yarn workspace website run start",
         "website:build": "yarn workspace website run build",
-        "manifest": "yarn workspace manifest run build"
+        "manifest": "yarn workspace manifest run build",
+        "stickers": "yarn workspace official-stickers run build",
+        "server": "dotnet watch --project server",
+        "server:run": "dotnet run --project server",
+        "server:build": "dotnet build server",
+        "eslint": "eslint --cache --max-warnings 0 --cache-location node_modules/.cache/ --ext .ts,.tsx",
+        "prettier": "prettier --cache \"**/*.{js,jsx,ts,tsx,json,css,scss,md,yml,html}\""
     },
     "repository": {
         "type": "git",
@@ -34,10 +37,10 @@
     "homepage": "https://github.com/NewFuture/custom-stickers-teams-extension#readme",
     "packageManager": "yarn@3.2.3",
     "devDependencies": {
-        "eslint": "^8.23.1",
+        "eslint": "^8.24.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-config-react-app": "^7.0.1",
         "prettier": "^2.7.1",
-        "typescript": "^4.8.3"
+        "typescript": "^4.8.4"
     }
 }

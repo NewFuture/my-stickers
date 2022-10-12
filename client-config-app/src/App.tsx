@@ -1,27 +1,22 @@
-import { useEffect } from "react";
-import { Provider as ThemeProvider, Divider, themes } from "@stardust-ui/react";
-import { Provider } from "react-redux";
-import ImageList from "./list";
-import { init } from "./services/teams";
-import { store } from "./lib/store";
-import { getStickers } from "./services/stickers";
-import HeaderBtns from "./header/headerBtns";
-import "./lib/i18n";
+import i18n from "./lib/i18n";
+import { useEffect, useState } from "react";
+import { FluentProvider } from "@fluentui/react-components";
+import { getContext, getTeamsTheme, registerOnThemeChangeHandler } from "./services/teams";
+import { StickerApp } from "./components/StickerApp";
+import { INIT_QUERY } from "./lib/env";
 
 export default function ConfigApp() {
+    const [theme, setTheme] = useState(() => getTeamsTheme(INIT_QUERY.get("theme")!));
     useEffect(() => {
-        if (navigator.userAgent !== "ReactSnap") {
-            init().then(getStickers, () => console.error("Teams initialized error"));
-        }
+        getContext().then((c) => {
+            i18n.changeLanguage(c.app.locale);
+            setTheme(getTeamsTheme(c.app.theme));
+        });
+        registerOnThemeChangeHandler(setTheme);
     }, []);
-    themes.teams.fontFaces = [];
     return (
-        <ThemeProvider theme={themes.teams}>
-            <Provider store={store}>
-                <HeaderBtns />
-                <Divider />
-                <ImageList />
-            </Provider>
-        </ThemeProvider>
+        <FluentProvider theme={theme}>
+            <StickerApp />
+        </FluentProvider>
     );
 }

@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios, { AxiosProgressEvent } from "axios";
 import { API } from "../lib/http";
 
 const blob = Axios.create();
@@ -10,15 +10,15 @@ export interface SasInfo {
 }
 
 export interface UploadRequest {
-    // user: string,
-    // token: string,
+    user?: string;
+    token?: string;
     exts: string[];
 }
 
-export async function getUploadSAS(request: UploadRequest): Promise<SasInfo[]> {
+export async function getUploadSAS(request: UploadRequest, url: string): Promise<SasInfo[]> {
     // TODO: You need to implement this
     // return "?newSAS";
-    const result = await API.post("/upload", request);
+    const result = await API.post(url, request);
     // const json = ;
     return result.data;
 }
@@ -41,19 +41,19 @@ async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
     });
 }
 
-export async function upload(file: File, sas: SasInfo, onProgress: (p: { percent: number; p: number }) => void) {
+export async function upload(
+    file: File,
+    sas: SasInfo,
+    url: "/admin/stickers/commit" | "/me/stickers/commit",
+    onProgress: (p: { percent: number; p: AxiosProgressEvent }) => void,
+) {
     const contentType = file.type;
     await blob.put(`${sas.url}&comp=block&blockid=${btoa(sas.id)}`, await blobToArrayBuffer(file), {
-        onUploadProgress: (p) => onProgress({ percent: 100 * (p.loaded / p.total), p: p }),
+        onUploadProgress: (p) => onProgress({ percent: 100 * (p.loaded / (p.total || p.bytes)), p }),
     });
-    // await blob.put(`${sas.url}&comp=blocklist`, `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><BlockList><Latest>${btoa(sas.id)}</Latest></BlockList>`, {
-    //     headers: {
-    //         "x-ms-blob-content-type": contentType
-    //     }
-    // })
-    return await API.post("/stickers/commit", {
+    return await API.post(url, {
         id: sas.id,
         name: file.name,
         contentType,
-    });
+    }).then((r) => r.data);
 }

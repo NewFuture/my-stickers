@@ -1,0 +1,63 @@
+# Functions Build and Deploy
+
+name: functions-build-deploy
+
+on:
+    push:
+        branches: [v2, main]
+        paths:
+            - .github/workflows/functions-cd.yml
+            - image-functions/**
+
+permissions:
+    contents: read
+
+# This allows a subsequently queued workflow run to interrupt previous runs
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.head.label || github.head_ref || github.ref }}
+    cancel-in-progress: true
+
+env:
+    DOTNET_VERSION: 6.x
+
+jobs:
+    functionapp-build:
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+              uses: actions/setup-dotnet@v1
+              with:
+                  dotnet-version: ${{ env.DOTNET_VERSION }}
+
+            - name: DotNet Build
+              run: dotnet build image-functions --configuration Release --no-self-contained --runtime linux-x64 --output ./build
+
+            - uses: actions/upload-artifact@v3
+              with:
+                  name: functionapp
+                  path: ./build
+                  if-no-files-found: error
+                  retention-days: 5
+
+    functionapp-deploy:
+        needs: [functionapp-build]
+        environment:
+            name: ${{ fromJSON('["Integration","Production"]')[ github.ref_name == 'v2'] }}
+        runs-on: ubuntu-latest
+        timeout-minutes: 6
+        steps:
+            - uses: actions/download-artifact@v3
+              with:
+                  name: functionapp
+                  path: ./
+
+            - name: Run Azure Functions Action
+              uses: Azure/functions-action@v1
+              id: fa
+              with:
+                  app-name: ${{ secrets.AZURE_FUNCTIONAPP_NAME }}
+                  package: .
+                  publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
