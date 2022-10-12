@@ -35,6 +35,9 @@ jobs:
             - name: DotNet Build
               run: dotnet build image-functions --configuration Release --no-self-contained --runtime linux-x64 --output ./build
 
+            - name: Copy Native Libraries to bin Folder
+              run: cp ./build/*.so ./build/bin/
+
             - uses: actions/upload-artifact@v3
               with:
                   name: functionapp
