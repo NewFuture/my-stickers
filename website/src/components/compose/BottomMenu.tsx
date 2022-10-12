@@ -1,5 +1,18 @@
 import React from "react";
-import { Menu, Popup, Button, UIComponentProps } from "@stardust-ui/react";
+import {
+    Menu,
+    Popup,
+    Button,
+    UIComponentProps,
+    FormatIcon,
+    RedbangIcon,
+    PaperclipIcon,
+    EmojiIcon,
+    GiphyIcon,
+    StickerIcon,
+    MoreIcon,
+} from "@fluentui/react-northstar";
+import { HeartIcon } from "../../icons/heart";
 import SearchBox from "./SearchBox";
 import { useTranslation } from "react-i18next";
 import { NS, Common } from "../../locales";
@@ -14,42 +27,42 @@ const BottomMenu: React.FC<UIComponentProps> = (props) => {
                 {
                     key: "a",
                     size: "large",
-                    icon: "format",
+                    icon: <FormatIcon />,
                     // outline: true,
                     disabled: true,
                 },
                 {
                     key: "r",
                     size: "large",
-                    icon: "redbang",
+                    icon: <RedbangIcon />,
                     // outline: true,
                     disabled: true,
                 },
                 {
                     key: "paperclip",
                     size: "large",
-                    icon: "paperclip",
+                    icon: <PaperclipIcon />,
                     // outline: true,
                     disabled: true,
                 },
                 {
                     key: "emoji",
                     size: "large",
-                    icon: "emoji",
+                    icon: <EmojiIcon />,
                     // outline: true,
                     disabled: true,
                 },
                 {
                     key: "giphy",
                     size: "large",
-                    icon: "giphy",
+                    icon: <GiphyIcon />,
                     // outline: true,
                     disabled: true,
                 },
                 {
                     key: "sticker",
                     size: "large",
-                    icon: "sticker",
+                    icon: <StickerIcon />,
                     // outline: true,
                     disabled: true,
                 },
@@ -60,7 +73,7 @@ const BottomMenu: React.FC<UIComponentProps> = (props) => {
                             // align='center'
                             content={<SearchBox />}
                             trigger={
-                                <Button title={t(Common.shortTitle)} icon={{ name: "heart", outline: true }} iconOnly />
+                                <Button title={t(Common.shortTitle)} icon={<HeartIcon outline={true} />} iconOnly />
                             }
                         />
                     ),
@@ -73,7 +86,7 @@ const BottomMenu: React.FC<UIComponentProps> = (props) => {
                 {
                     key: "more",
                     size: "large",
-                    icon: "more",
+                    icon: <MoreIcon />,
                     // outline: true,
                     disabled: true,
                 },

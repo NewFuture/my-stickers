@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Box, Header, Segment, Provider, Divider } from "@stardust-ui/react";
-
+import { Box, Header, Segment, Provider, Divider } from "@fluentui/react-northstar";
 import "./Prototype.scss";
 
 interface PrototypeSectionProps {

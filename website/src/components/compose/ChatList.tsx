@@ -1,5 +1,5 @@
 import React from "react";
-import { Chat } from "@stardust-ui/react";
+import { Chat } from "@fluentui/react-northstar";
 import { useMessages } from "./useMessages";
 import { useTranslation } from "react-i18next";
 
