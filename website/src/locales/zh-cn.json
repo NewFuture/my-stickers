@@ -1,7 +1,7 @@
 {
     "title": "表情包",
     "shortTitle": "表情",
-    "description": "在微软Teams中保存和使用你的自定义表情包。",
+    "description": "在微软Teams中和Outlook中使用你的自定义表情包。",
     "langSetting": "Language",
     "not_found": "访问页面不存在",
     "date": "{{date, time-ago}}",
@@ -9,8 +9,8 @@
     "privacyTitle": "隐私声明",
     "termsTitle": "使用条款",
     "feedback": "反馈",
-    "tips": "(如有bug和意见欢迎反馈)",
-    "downloadExtension": "安装此扩展",
+    "tips": "Outlook 版表情包插件正在预览中",
+    "downloadExtension": "在Teams中打开表情包",
 
     "protoMsgExtTitle": "将聊天中图片存为表情",
     "protoMsgExtSubTitle": "通过消息扩展一键收藏别人的表情",

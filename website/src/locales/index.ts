@@ -1,4 +1,3 @@
-
 export enum TransKeys {
     title = "title",
     shortTitle = "shortTitle",
