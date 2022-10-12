@@ -1,6 +1,6 @@
 {
     "title": "My Stickers",
-    "shortTitle": "Sticker",
+    "shortTitle": "My Stickers",
     "description": "Save and send your Custom Stickers in Microsoft Teams and Outlook.",
     "langSetting": "切换语言",
     "not_found": "Page Not Found",
@@ -17,7 +17,7 @@
     "protoMsgExtStep2": "Click <0/> (more icon, the right one of the reactions)",
     "protoMsgExtStep3": "Click <0/>(the last button in the menu list)",
     "protoMsgExtStep4": "Click <0/>",
-    "protoMsgExtTime": "Yesterday, 11:33PM",
+    "protoMsgExtTime": "2022/10/11, 11:33PM",
     "protoMsgExtMenuMoreAction": "More Action",
     "protoMsgExtMenuSaveStickers": "Save to My Stickers",
     "protoMsgExtMenuSaveMsg": "Save messages",
