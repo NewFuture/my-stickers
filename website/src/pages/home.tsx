@@ -14,7 +14,7 @@ import { useTitle } from "../lib/useTitle";
 const APP_LINK = "https://teams.microsoft.com/l/app/46fae4d0-faf5-11e9-80f3-53ad33b77bce?source=store-copy-link";
 
 export default function Home() {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     useTitle(t(Common.title));
     return (
         <Provider
@@ -84,8 +84,8 @@ export default function Home() {
                         maxWidth: "100%",
                         width: "1920px",
                     }}
-                    poster={`${process.env.PUBLIC_URL}/img/${i18n.language === "zh" ? "zh" : "en"}.png`}
-                    src="https://sticker.newfuture.cc/video/install_set_up-1920.mp4"
+                    poster={`${process.env.PUBLIC_URL}/img/my-stickers-cover.png`}
+                    src="https://sticker.newfuture.cc/video/my-stickers-v2.mp4"
                 />
                 <div>
                     <Button

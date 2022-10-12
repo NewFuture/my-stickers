@@ -35,7 +35,7 @@ public class StickersController : ControllerBase
     public async Task<Sticker> Commit([FromBody] PostStickerBlobRequest request)
     {
         var userId = GetUserId();
-        string extendName = Path.GetExtension(request.name);
+        string? extendName = Path.GetExtension(request.name);
         string src = await this.blobService.commitBlocks(
             userId,
             request.id,
@@ -46,7 +46,7 @@ public class StickersController : ControllerBase
         {
             src = src,
             name = Path.GetFileNameWithoutExtension(request.name),
-            id = Guid.Parse(request.id)
+            id = request.id,
         };
         var list = await this.stickerService.addUserStickers(
             userId,
