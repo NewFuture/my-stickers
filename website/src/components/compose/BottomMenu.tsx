@@ -15,10 +15,10 @@ import {
 import { HeartIcon } from "../../icons/heart";
 import SearchBox from "./SearchBox";
 import { useTranslation } from "react-i18next";
-import { NS, Common } from "../../locales";
+import { TransKeys } from "../../locales";
 
 const BottomMenu: React.FC<UIComponentProps> = (props) => {
-    const { t } = useTranslation(NS.common);
+    const { t } = useTranslation();
     return (
         <Menu
             {...props}
@@ -73,7 +73,7 @@ const BottomMenu: React.FC<UIComponentProps> = (props) => {
                             // align='center'
                             content={<SearchBox />}
                             trigger={
-                                <Button title={t(Common.shortTitle)} icon={<HeartIcon outline={true} />} iconOnly />
+                                <Button title={t(TransKeys.shortTitle)} icon={<HeartIcon outline={true} />} iconOnly />
                             }
                         />
                     ),

@@ -1,7 +1,7 @@
 import { Trans, Translation } from "react-i18next";
 import React from "react";
 import gutter from "../gutter";
-import { HomePage, NS } from "../../locales";
+import { TransKeys } from "../../locales";
 import { MoreButton, SaveStickersButton, StickersSavedTitle } from "./buttons";
 import {
     Chat,
@@ -28,7 +28,7 @@ const reactions: ShorthandCollection<ReactionProps> = [
 
 const ChatWithPopover: React.FC = () => {
     return (
-        <Translation ns={NS.homePage}>
+        <Translation>
             {(t) => (
                 <Chat
                     items={[
@@ -42,27 +42,27 @@ const ChatWithPopover: React.FC = () => {
                                     author="NewFuture"
                                     content={
                                         <ol>
-                                            <li>{t(HomePage.protoMsgExtStep1)}</li>
+                                            <li>{t(TransKeys.protoMsgExtStep1)}</li>
                                             <li>
-                                                <Trans i18nKey={HomePage.protoMsgExtStep2}>
+                                                <Trans i18nKey={TransKeys.protoMsgExtStep2}>
                                                     {/* <Icon name="more" color="brand" />
                                                      */}
                                                     <MoreIcon color="brand" />
                                                 </Trans>
                                             </li>
                                             <li>
-                                                <Trans i18nKey={HomePage.protoMsgExtStep3}>
+                                                <Trans i18nKey={TransKeys.protoMsgExtStep3}>
                                                     <MoreButton />
                                                 </Trans>
                                             </li>
                                             <li>
-                                                <Trans i18nKey={HomePage.protoMsgExtStep4}>
+                                                <Trans i18nKey={TransKeys.protoMsgExtStep4}>
                                                     <SaveStickersButton />
                                                 </Trans>
                                             </li>
                                         </ol>
                                     }
-                                    timestamp={t(HomePage.protoMsgExtTime)}
+                                    timestamp={t(TransKeys.protoMsgExtTime)}
                                 />
                             ),
                             gutter,
@@ -76,7 +76,7 @@ const ChatWithPopover: React.FC = () => {
                                     content={<Image className="Sticker" src={helloSticker} />}
                                     dialogContent={<Image className="Sticker" src={helloSticker} />}
                                     reactionGroup={reactions}
-                                    timestamp={t(HomePage.protoMsgExtTime)}
+                                    timestamp={t(TransKeys.protoMsgExtTime)}
                                 />
                             ),
                             gutter,

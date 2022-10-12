@@ -1,7 +1,7 @@
 import React from "react";
 import { SaveStickersButton, MoreButton, StickersSavedTitle } from "./buttons";
 import { TFunction } from "i18next";
-import { HomePage } from "../../locales";
+import { TransKeys } from "../../locales";
 import {
     BookmarkIcon,
     Dialog,
@@ -114,19 +114,19 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                                         key: "bookmark",
                                         icon: <BookmarkIcon />,
                                         disabled: true,
-                                        content: t<string>(HomePage.protoMsgExtMenuSaveMsg),
+                                        content: t<string>(TransKeys.protoMsgExtMenuSaveMsg),
                                     },
                                     {
                                         key: "unread",
                                         icon: <MarkAsUnreadIcon />,
                                         disabled: true,
-                                        content: t<string>(HomePage.protoMsgExtMenuUnread),
+                                        content: t<string>(TransKeys.protoMsgExtMenuUnread),
                                     },
                                     {
                                         key: "translate",
                                         icon: <TranslationIcon />,
                                         disabled: true,
-                                        content: t<string>(HomePage.protoMsgExtMenuTranslate),
+                                        content: t<string>(TransKeys.protoMsgExtMenuTranslate),
                                     },
                                     {
                                         "data-is-focusable": true,

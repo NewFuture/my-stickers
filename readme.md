@@ -33,11 +33,11 @@ Main Dependencies and Technology:
 -   `react-markdown`: render markdown files
 -   `react-snap`: pre-render websites
 
-## [server](./server) (C# + .Net6 + AzureWebapp)
+## [/server](./server) (C# + .Net6 + AzureWebapp)
 
 Sever API and bot will be deployed to Azure Webapp
 
-## [image-functions](./image-functions) (C# + .NetCore + AzureFunction)
+## [/image-functions](./image-functions) (C# + .NetCore + AzureFunction)
 
 Auto Resize and Compress the image and will be deployed to Azure Function APP
 
@@ -56,3 +56,7 @@ Dependencies:
 ## [/official-stickers](./official-stickers) (js)
 
 Manage the Official Recommened Stickers
+
+## Architecture
+
+![architecture](./doc/teams-custom-stickers-v2-architecture.png)
