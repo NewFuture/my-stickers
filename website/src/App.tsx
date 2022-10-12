@@ -10,8 +10,6 @@ if (process.env.NODE_ENV === "development") {
     window.localStorage.felaDevMode = window.localStorage.fluentUIDebug = true;
 }
 
-
-
 teamsTheme.fontFaces = [];
 
 const App: React.FC = () => {

@@ -13,7 +13,7 @@ const SearchBox: React.FC = (props) => {
     return (
         <Box>
             <Header as="h4">
-                <HeartIcon styles={{ color: '#cc4a31' }} /* TODO: FIX COLOR */ /> {t(Common.shortTitle)}
+                <HeartIcon styles={{ color: "#cc4a31" }} /* TODO: FIX COLOR */ /> {t(Common.shortTitle)}
             </Header>
             <Header as="h4">
                 <Input fluid icon="search" placeholder="Select a sticker" />

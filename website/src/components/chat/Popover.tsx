@@ -2,7 +2,15 @@ import React from "react";
 import { SaveStickersButton, MoreButton, StickersSavedTitle } from "./buttons";
 import { TFunction } from "i18next";
 import { HomePage } from "../../locales";
-import { BookmarkIcon, Dialog, MarkAsUnreadIcon, Menu, MoreIcon, TranslationIcon, CloseIcon} from "@fluentui/react-northstar";
+import {
+    BookmarkIcon,
+    Dialog,
+    MarkAsUnreadIcon,
+    Menu,
+    MoreIcon,
+    TranslationIcon,
+    CloseIcon,
+} from "@fluentui/react-northstar";
 
 export interface PopoverProps {
     className?: string;
@@ -140,9 +148,7 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                                     },
                                 ],
                             },
-                            
                         },
-                        
                     ]}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}
@@ -161,7 +167,7 @@ class Popover extends React.Component<PopoverProps, PopoverState> {
                     }}
                     header={<StickersSavedTitle />}
                     headerAction={{
-                        icon: <CloseIcon/>,
+                        icon: <CloseIcon />,
                         title: "Close",
                         onClick: this.close,
                     }}

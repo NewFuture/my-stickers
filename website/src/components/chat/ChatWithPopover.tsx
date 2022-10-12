@@ -3,7 +3,17 @@ import React from "react";
 import gutter from "../gutter";
 import { HomePage, NS } from "../../locales";
 import { MoreButton, SaveStickersButton, StickersSavedTitle } from "./buttons";
-import { Chat, ChatMessageProps, Dialog, ShorthandCollection, ReactionProps, Image, CloseIcon, LikeIcon, MoreIcon } from "@fluentui/react-northstar";
+import {
+    Chat,
+    ChatMessageProps,
+    Dialog,
+    ShorthandCollection,
+    ReactionProps,
+    Image,
+    CloseIcon,
+    LikeIcon,
+    MoreIcon,
+} from "@fluentui/react-northstar";
 import getActionItems from "./actionItems";
 
 const helloSticker = process.env.PUBLIC_URL + "/hello.gif";
@@ -71,7 +81,6 @@ const ChatWithPopover: React.FC = () => {
                             ),
                             gutter,
                         },
-
                     ]}
                 />
             )}
@@ -97,12 +106,10 @@ const TeamsChatMessage: React.FC<ChatMessageProps & { dialogContent: JSX.Element
                 as="section"
                 ref={chatElement}
                 {...rest}
-                actionMenu={
-                    {
-                        iconOnly: true,
-                        items: actionItems,
-                    }}
-
+                actionMenu={{
+                    iconOnly: true,
+                    items: actionItems,
+                }}
             />
             <Dialog
                 open={openFlag}

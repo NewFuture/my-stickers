@@ -1,4 +1,12 @@
-import { BookmarkIcon, MarkAsUnreadIcon, MenuItemProps, MenuShorthandKinds, MoreIcon, ShorthandCollection, TranslationIcon } from "@fluentui/react-northstar";
+import {
+    BookmarkIcon,
+    MarkAsUnreadIcon,
+    MenuItemProps,
+    MenuShorthandKinds,
+    MoreIcon,
+    ShorthandCollection,
+    TranslationIcon,
+} from "@fluentui/react-northstar";
 import { t } from "i18next";
 import { HeartIcon } from "../../icons/heart";
 import { HomePage } from "../../locales";
@@ -8,7 +16,7 @@ const getActionItems = (clickEvent: () => void): ShorthandCollection<MenuItemPro
     return [
         {
             key: "heart",
-            icon: <HeartIcon styles={{ color: '#cc4a31' }} />,
+            icon: <HeartIcon styles={{ color: "#cc4a31" }} />,
             title: "❤",
         },
         {
@@ -27,10 +35,10 @@ const getActionItems = (clickEvent: () => void): ShorthandCollection<MenuItemPro
             title: "👉",
         },
         {
-            key: 'more',
+            key: "more",
             icon: <MoreIcon />,
             indicator: false,
-            title: 'More actions',
+            title: "More actions",
             menu: {
                 items: [
                     {
@@ -69,9 +77,9 @@ const getActionItems = (clickEvent: () => void): ShorthandCollection<MenuItemPro
                             ],
                         },
                     },
-                ]
-            }
+                ],
+            },
         },
     ];
-}
+};
 export default getActionItems;

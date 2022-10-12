@@ -1,8 +1,16 @@
 import React from "react";
 import {
-    Menu, Popup, Button, UIComponentProps,
-    FormatIcon, RedbangIcon, PaperclipIcon,
-    EmojiIcon, GiphyIcon, StickerIcon, MoreIcon
+    Menu,
+    Popup,
+    Button,
+    UIComponentProps,
+    FormatIcon,
+    RedbangIcon,
+    PaperclipIcon,
+    EmojiIcon,
+    GiphyIcon,
+    StickerIcon,
+    MoreIcon,
 } from "@fluentui/react-northstar";
 import { HeartIcon } from "../../icons/heart";
 import SearchBox from "./SearchBox";
