@@ -1,9 +1,9 @@
 import React, { useReducer, createContext, Dispatch, useContext } from "react";
-import { ChatItemProps, Chat, Divider, Image, Icon } from "@stardust-ui/react";
+import { ChatItemProps, Chat, Divider, Image } from "@fluentui/react-northstar";
 import gutter from "../gutter";
 import { Trans } from "react-i18next";
 import { HomePage, NS, Common } from "../../locales";
-
+import { HeartIcon } from "../../icons/heart";
 type Message = ChatItemProps; // ChatItemProps;
 
 const date = new Date(Date.now() - 60000);
@@ -41,7 +41,7 @@ const messages: Message[] = [
                 author="NewFuture"
                 content={
                     <Trans i18nKey={HomePage.protoComposeStep1}>
-                        <Icon name="heart" outline />
+                        <HeartIcon outline={true} />
                     </Trans>
                 }
                 timestamp={now}

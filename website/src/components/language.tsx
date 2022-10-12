@@ -1,5 +1,5 @@
 import React from "react";
-import { SplitButton, ICSSInJSStyle } from "@stardust-ui/react";
+import { SplitButton, ICSSInJSStyle, TranslationIcon } from "@fluentui/react-northstar";
 import { useTranslation } from "react-i18next";
 import { NS } from "../locales";
 
@@ -15,9 +15,7 @@ const LanguageButton: React.FC<{ styles?: ICSSInJSStyle }> = (props) => {
             menu={LanguageList}
             button={{
                 iconOnly: true,
-                size: "smaller",
-                // content: t(Common.langSetting),
-                icon: "translation",
+                icon: <TranslationIcon />,
             }}
             onMainButtonClick={() => i18n.changeLanguage(i18n.language === "zh" ? "en" : "zh")}
             onMenuItemClick={(_, v) => {

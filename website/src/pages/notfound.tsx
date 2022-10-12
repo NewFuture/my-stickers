@@ -1,5 +1,4 @@
-import React from "react";
-import { Button, Flex, Header } from "@stardust-ui/react";
+import { Button, Flex, Header } from "@fluentui/react-northstar";
 import { NS, Common } from "../locales";
 import { useTranslation } from "react-i18next";
 import { useTitle } from "../lib/useTitle";
@@ -8,9 +7,7 @@ import { Link } from "react-router-dom";
 
 export default function NotFound() {
     const { t } = useTranslation([NS.common, NS.homePage]);
-
     useTitle("404 " + t(Common.not_found));
-
     return (
         <>
             <Header color="brand" align="center" content={t(Common.not_found)} description={t(Common.not_found)} />
