@@ -73,7 +73,7 @@ export default function Home() {
             <Box styles={{ padding: "1em 0", textAlign: "center" }}>
                 <Video
                     autoPlay
-                    muted
+                    loop
                     styles={{
                         maxWidth: "100%",
                         width: "1920px",
