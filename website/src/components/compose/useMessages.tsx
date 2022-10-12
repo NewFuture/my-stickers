@@ -56,13 +56,13 @@ const messages: Message[] = [
 
 type Action =
     | {
-        type: "add";
-        payload: Message;
-    }
+          type: "add";
+          payload: Message;
+      }
     | {
-        type: "img";
-        payload: string;
-    };
+          type: "img";
+          payload: string;
+      };
 
 function reducer(m: Message[], a: Action): Message[] {
     console.log(a.type);
@@ -89,7 +89,7 @@ function reducer(m: Message[], a: Action): Message[] {
     }
 }
 
-const context = createContext<[Message[], Dispatch<Action>]>([messages, () => { }]);
+const context = createContext<[Message[], Dispatch<Action>]>([messages, () => {}]);
 
 export const MessageProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
     const [state, dispatch] = useReducer(reducer, messages);

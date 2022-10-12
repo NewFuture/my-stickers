@@ -13,7 +13,7 @@ export const StickersSavedTitle: React.FC = () => {
     const { t } = useTranslation(NS.homePage);
     return (
         <>
-            <HeartIcon styles={{ color: '#cc4a31' }} size={"large"} />
+            <HeartIcon styles={{ color: "#cc4a31" }} size={"large"} />
             {t(Common.shortTitle)} - {t(HomePage.protoMsgExtStickerSavedTitle)}
         </>
     );
