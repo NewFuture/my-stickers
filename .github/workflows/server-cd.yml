@@ -6,7 +6,8 @@ on:
         branches: ["v2", "main"]
         paths:
             - ".github/workflows/server-cd.yml"
-            - "server.net/**"
+            - "server/**"
+            - "Stickers.sln"
 
 permissions:
     contents: read
