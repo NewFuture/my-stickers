@@ -23,24 +23,6 @@ export async function getUploadSAS(request: UploadRequest, url: string): Promise
     return result.data;
 }
 
-/**
- * Convert a Browser Blob object into ArrayBuffer.
- *
- * @export
- * @param {Blob} blob
- * @returns {Promise<ArrayBuffer>}
- */
-async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
-    const fileReader = new FileReader();
-    return new Promise<ArrayBuffer>((resolve, reject) => {
-        fileReader.onloadend = (ev: any) => {
-            resolve(ev.target!.result);
-        };
-        fileReader.onerror = reject;
-        fileReader.readAsArrayBuffer(blob);
-    });
-}
-
 export async function upload(
     file: File,
     sas: SasInfo,
@@ -48,7 +30,7 @@ export async function upload(
     onProgress: (p: { percent: number; p: AxiosProgressEvent }) => void,
 ) {
     const contentType = file.type;
-    await blob.put(`${sas.url}&comp=block&blockid=${btoa(sas.id)}`, await blobToArrayBuffer(file), {
+    await blob.put(`${sas.url}&comp=block&blockid=${btoa(sas.id)}`, file, {
         onUploadProgress: (p) => onProgress({ percent: 100 * (p.loaded / (p.total || p.bytes)), p }),
     });
     return await API.post(url, {

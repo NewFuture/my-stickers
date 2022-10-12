@@ -195,7 +195,7 @@ namespace Stickers.Bot
 
         private static Img StickerToImg(Sticker s)
         {
-            return new Img { Src = s.src, Alt = s.name };
+            return new Img { Src = s.src ?? "", Alt = s.name };
         }
 
         private static JObject GetAdaptiveCard(Img img)
