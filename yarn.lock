@@ -18374,7 +18374,6 @@ __metadata:
   resolution: "website@workspace:website"
   dependencies:
     "@fluentui/react-northstar": ^0.64.0
-    "@stardust-ui/react": ^0.40.4
     "@types/jest": ^27
     "@types/node": ^18.7.18
     "@types/react": ^18

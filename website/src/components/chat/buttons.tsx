@@ -1,25 +1,19 @@
 import React from "react";
-import { Button } from "@fluentui/react-northstar";
+import { Button, ChevronEndMediumIcon } from "@fluentui/react-northstar";
 import { useTranslation } from "react-i18next";
-
 import { NS, HomePage, Common } from "../../locales";
-import { Icon } from "@stardust-ui/react";
-import {HeartIcon} from "../../icons/heart";
-
+import { HeartIcon } from "../../icons/heart";
 
 export const SaveStickersButton: React.FC = () => {
     const { t } = useTranslation(NS.homePage);
-    return <Button primary text icon="heart" content={t(HomePage.protoMsgExtMenuSaveStickers)} />;
+    return <Button primary text icon={<HeartIcon />} content={t(HomePage.protoMsgExtMenuSaveStickers)} />;
 };
 
 export const StickersSavedTitle: React.FC = () => {
     const { t } = useTranslation(NS.homePage);
     return (
-        <HeartIcon  color="orange" size="large"/>
-    )
-    return (
         <>
-            <Icon name="heart" color="orange" size="large" />
+            <HeartIcon styles={{ color: '#cc4a31' }} size={"large"} />
             {t(Common.shortTitle)} - {t(HomePage.protoMsgExtStickerSavedTitle)}
         </>
     );
@@ -29,7 +23,7 @@ export const MoreButton: React.FC = () => {
     const { t } = useTranslation(NS.homePage);
     return (
         <Button
-            icon="stardust-menu-arrow-end"
+            icon={<ChevronEndMediumIcon />}
             iconPosition="after"
             primary
             text

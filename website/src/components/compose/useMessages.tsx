@@ -1,9 +1,9 @@
-import React, { useReducer, createContext, Dispatch, useContext, ReactText } from "react";
-import { ChatItemProps, Chat, Divider, Image, Icon, ReactChildren } from "@stardust-ui/react";
+import React, { useReducer, createContext, Dispatch, useContext } from "react";
+import { ChatItemProps, Chat, Divider, Image } from "@fluentui/react-northstar";
 import gutter from "../gutter";
 import { Trans } from "react-i18next";
 import { HomePage, NS, Common } from "../../locales";
-
+import { HeartIcon } from "../../icons/heart";
 type Message = ChatItemProps; // ChatItemProps;
 
 const date = new Date(Date.now() - 60000);
@@ -41,7 +41,7 @@ const messages: Message[] = [
                 author="NewFuture"
                 content={
                     <Trans i18nKey={HomePage.protoComposeStep1}>
-                        <Icon name="heart" outline />
+                        <HeartIcon outline={true} />
                     </Trans>
                 }
                 timestamp={now}
@@ -56,13 +56,13 @@ const messages: Message[] = [
 
 type Action =
     | {
-          type: "add";
-          payload: Message;
-      }
+        type: "add";
+        payload: Message;
+    }
     | {
-          type: "img";
-          payload: string;
-      };
+        type: "img";
+        payload: string;
+    };
 
 function reducer(m: Message[], a: Action): Message[] {
     console.log(a.type);
@@ -90,7 +90,7 @@ function reducer(m: Message[], a: Action): Message[] {
     return m;
 }
 
-const context = createContext<[Message[], Dispatch<Action>]>([messages, () => {}]);
+const context = createContext<[Message[], Dispatch<Action>]>([messages, () => { }]);
 
 export const MessageProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
     const [state, dispatch] = useReducer(reducer, messages);

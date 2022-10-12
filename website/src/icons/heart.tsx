@@ -1,25 +1,4 @@
-import React from "react";
-import { ThemeIconSpec } from "@stardust-ui/react";
 import { SvgIconFuncArg, createSvgIcon } from "@fluentui/react-northstar";
-// import cx from "classnames";
-// import { TeamsSvgIconSpec } from "../types";
-// import { teamsIconClassNames } from "../teamsIconClassNames";
-
-const hearIcon: ThemeIconSpec = {
-    isSvg: true,
-
-    icon({ classes, props }) {
-        return (
-            <svg role="presentation" focusable="false" className={classes.svg} viewBox="0 0 1024 1024">
-                {props.outline ? (
-                    <path d="M486.4 972.8a25.6 25.6 0 0 1-12.44-3.23c-4.81-2.66-119.1-66.6-235.11-171.36-68.66-61.95-123.45-125.34-162.97-188.42C25.5 529.36 0 449.08 0 371.2a269.1 269.1 0 0 1 268.8-268.8c50.18 0 103.48 18.79 150.07 52.94 27.24 19.97 50.43 44.03 67.53 69.58a282.73 282.73 0 0 1 67.53-69.58c46.6-34.15 99.9-52.94 150.07-52.94a269.1 269.1 0 0 1 268.8 268.8c0 77.88-25.55 158.16-75.88 238.6-39.47 63.07-94.3 126.46-162.92 188.4-116.02 104.76-230.3 168.71-235.1 171.37a25.6 25.6 0 0 1-12.45 3.23zM268.8 153.6A217.86 217.86 0 0 0 51.2 371.2c0 155.65 120.32 297.06 221.24 388.35A1420.19 1420.19 0 0 0 486.4 917.61a1420.19 1420.19 0 0 0 213.96-158.06C801.28 668.31 921.6 526.85 921.6 371.2A217.86 217.86 0 0 0 704 153.6c-87.2 0-171.88 71.73-193.33 136.09a25.6 25.6 0 0 1-48.54 0C440.68 225.33 356 153.6 268.8 153.6z" />
-                ) : (
-                    <path d="M755.2 64c-107.62 0-200.26 87.55-243.17 179C469.1 151.56 376.45 64 268.8 64 120.42 64 0 184.45 0 332.83c0 301.86 304.51 381 512.03 679.43C708.2 715.68 1024 625.06 1024 332.83 1024 184.45 903.58 64 755.2 64z" />
-                )}
-            </svg>
-        );
-    },
-};
 
 export const heartSvg = (svgIcon: SvgIconFuncArg) => {
     return (
@@ -33,7 +12,4 @@ export const heartSvg = (svgIcon: SvgIconFuncArg) => {
     );
 };
 
-export const HeartIcon = createSvgIcon({svg: heartSvg, displayName: "heart"});
-
-
-export default hearIcon;
+export const HeartIcon = createSvgIcon({ svg: heartSvg, displayName: "heart" });
