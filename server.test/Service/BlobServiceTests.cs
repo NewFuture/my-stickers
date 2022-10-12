@@ -25,7 +25,7 @@ namespace Stickers.Service.Tests
                 new Azure.Storage.Blobs.BlobServiceClient(connectionString),
                 this.getConfig()
             );
-            var uri = blob.commitBlocks(Guid.NewGuid(), "", "jpg", "image/jpg")
+            var uri = blob.commitBlocks(Guid.NewGuid(), Guid.NewGuid(), "jpg", "image/jpg")
                 .ConfigureAwait(false)
                 .GetAwaiter()
                 .GetResult();
