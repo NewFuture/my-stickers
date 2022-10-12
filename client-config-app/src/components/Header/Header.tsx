@@ -12,8 +12,9 @@ import {
 import { BuildingFilled, PersonHeartFilled } from "@fluentui/react-icons";
 import { useTranslation } from "react-i18next";
 import { TransKeys } from "../../locales";
-import { UserType } from "../../model/sticker";
+import type { UserType } from "../../model/sticker";
 import { useHeaderStyles } from "./Header.styles";
+import { ENABLE_TENANT } from "../../lib/env";
 
 export interface HeaderButtonProps {
     onTypeChange: (value: UserType) => void;
@@ -29,7 +30,7 @@ const Header: React.FC<HeaderButtonProps> = ({ type, onTypeChange, className }: 
             <Text as="h1" size={600} weight="bold">
                 {t(TransKeys.title, { context: type })}
             </Text>
-            <div hidden>
+            {ENABLE_TENANT && (
                 <Menu>
                     <MenuTrigger>
                         <SplitButton
@@ -53,7 +54,7 @@ const Header: React.FC<HeaderButtonProps> = ({ type, onTypeChange, className }: 
                         </MenuList>
                     </MenuPopover>
                 </Menu>
-            </div>
+            )}
         </header>
     );
 };
