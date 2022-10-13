@@ -1,6 +1,4 @@
-# Terms and Conditions of Use
-
-Welcome to Custom Stickers Extension for Microsoft Teams Application
+Welcome to My Stickers Extension for Microsoft Teams Application
 (hereafter `Sticker Extension`).
 If you use the Sticker Extension, you will be bound by the following Terms
 and Conditions of Use.

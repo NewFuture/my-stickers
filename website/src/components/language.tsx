@@ -3,7 +3,7 @@ import { SplitButton, ICSSInJSStyle, TranslationIcon } from "@fluentui/react-nor
 import { useTranslation } from "react-i18next";
 
 const LanguageList = [
-    { key: "zh", content: "中文" },
+    { key: "zh-cn", content: "中文" },
     { key: "en", content: "English" },
 ];
 const LanguageButton: React.FC<{ styles?: ICSSInJSStyle }> = (props) => {
@@ -16,7 +16,7 @@ const LanguageButton: React.FC<{ styles?: ICSSInJSStyle }> = (props) => {
                 iconOnly: true,
                 icon: <TranslationIcon />,
             }}
-            onMainButtonClick={() => i18n.changeLanguage(i18n.language === "zh" ? "en" : "zh")}
+            onMainButtonClick={() => i18n.changeLanguage(i18n.language.toLowerCase() === "zh-cn" ? "en" : "zh-cn")}
             onMenuItemClick={(_, v) => {
                 const index = v && v.index;
                 if (typeof index === "number") {

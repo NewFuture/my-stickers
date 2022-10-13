@@ -8,6 +8,7 @@ export enum TransKeys {
     homeTitle = "homeTitle",
     privacyTitle = "privacyTitle",
     termsTitle = "termsTitle",
+    helpTitle = "helpTitle",
     feedback = "feedback",
     downloadExtension = "downloadExtension",
     tips = "tips",

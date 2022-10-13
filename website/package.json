@@ -6,7 +6,6 @@
     "dependencies": {
         "@fluentui/react-northstar": "^0.64.0",
         "i18next": "^21.10.0",
-        "i18next-browser-languagedetector": "^6.1.8",
         "javascript-time-ago": "^2.5.7",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
@@ -24,7 +23,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build && yarn snap",
+        "build": "NODE_ENV=development && REACT_APP_ENVIRONMENT=\"development\" && react-scripts build && yarn snap",
         "snap": "yarn dlx react-snap",
         "test": "react-scripts test"
     },
@@ -43,12 +42,12 @@
         "include": [
             "/",
             "/privacy.html",
-            "/terms.html"
+            "/terms.html",
+            "/help.html"
         ],
         "exclude": [
             "/custom-stickers.zip",
-            "/stickers.zip",
-            "/config/"
+            "/stickers.zip"
         ],
         "minifyHtml": {
             "sortClassName": false

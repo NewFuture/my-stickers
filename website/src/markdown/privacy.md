@@ -1,12 +1,10 @@
-# Privacy Policy
-
-## Custom Stickers Extension for Microsoft Teams Application, Privacy Statement
+## My Stickers Extension for Microsoft Teams Application, Privacy Statement
 
 ### Effective date: November 11, 2019
 
 This Privacy Policy describes Sticker practices regarding the
 collection, use and disclosure of the information we collect from you
-when you use Custom Stickers Extension in Microsoft Teams Application.
+when you use My Stickers Extension in Microsoft Teams Application.
 The data you transfer to or our server and any information you provide
 for this purpose, is a serious responsibility, and this is how we will
 be handing it.
@@ -14,7 +12,7 @@ be handing it.
 
 ### Storage and Usage of Data
 
-Custom Stickers Extension allows you to save images and share to others.
+My Stickers Extension allows you to save images and share to others.
 And you can add sticker by two ways:
 
 1. save images from the messages;
@@ -39,13 +37,13 @@ All of the stickers are stored for sending and view between users, and we do not
 
 ### Collection and Use of Information
 
-Custom Stickers Extension does not collect, process or store any
+My Stickers Extension does not collect, process or store any
 personal information, including your user name, name and email address
 or non-personal information from you.
 **We will only store your `aadObjectId` of Microsoft Teams Application for identify**.
 We do not retain or use the data thus collected for any other purposes.
 
-When you use the Custom Stickers Extension, our servers automatically
+When you use the My Stickers Extension, our servers automatically
 record certain information in server logs.
 These server logs include information such as your web request, browser type and settings, referring / exit pages and URLs, number of clicks and how you interact with links on the Extension, pages viewed, date and time stamp
 information and other such information.
@@ -68,5 +66,5 @@ change in Privacy Statement through that version of the Extension
 
 ## Contact Information
 
-Questions regarding Custom Stickers Extension for Microsoft Teams Privacy Statement
+Questions regarding My Stickers Extension for Microsoft Teams Privacy Statement
 or information practices should be directed to [sticker@newfuture.cc](mailto:sticker@newfuture.cc).

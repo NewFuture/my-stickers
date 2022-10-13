@@ -37,6 +37,9 @@ const Footer: React.FC = () => {
                 >
                     Github
                 </Button>
+                <Button to="/help.html" as={Link} text secondary size="small" color="info">
+                    {t(TransKeys.helpTitle)}
+                </Button>
                 <Button to="/privacy.html" as={Link} text secondary size="small" color="info">
                     {t(TransKeys.privacyTitle)}
                 </Button>
