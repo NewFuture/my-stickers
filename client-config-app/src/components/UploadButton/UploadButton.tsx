@@ -1,8 +1,10 @@
 import React from "react";
-import { mergeClasses } from "@fluentui/react-components";
+import { mergeClasses, Tooltip } from "@fluentui/react-components";
 import { AddRegular } from "@fluentui/react-icons";
 
 import { useUploadButtonStyles } from "./UploadButton.styles";
+import { useTranslation } from "react-i18next";
+import { TransKeys } from "../../locales";
 
 export interface UploadButtonProps {
     onUploadChangeHandler: (file: File[]) => void;
@@ -21,11 +23,14 @@ export const UploadButton: React.FC<UploadButtonProps> = ({
     className,
 }): JSX.Element => {
     const styles = useUploadButtonStyles();
+    const { t } = useTranslation();
     return (
         <div className={mergeClasses(styles.root, className)}>
-            <label htmlFor="image-upload">
-                <AddRegular className={styles.icon} />
-            </label>
+            <Tooltip content={t(TransKeys.uploadTips)} relationship="label">
+                <label htmlFor="image-upload">
+                    <AddRegular className={styles.icon} />
+                </label>
+            </Tooltip>
             <input
                 hidden
                 disabled={disbaled}

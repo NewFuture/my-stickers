@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 import "./home.scss";
 import { useTitle } from "../lib/useTitle";
 
-const APP_LINK = "https://teams.microsoft.com/l/app/46fae4d0-faf5-11e9-80f3-53ad33b77bce?source=store-copy-link";
+const APP_LINK = "https://teams.microsoft.com/l/app/46fae4d0-faf5-11e9-80f3-53ad33b77bce";
 
 export default function Home() {
     const { t } = useTranslation();

@@ -8,6 +8,7 @@ import {
     PresenceBadgeStatus,
     mergeClasses,
     Spinner,
+    Tooltip,
 } from "@fluentui/react-components";
 import { Sticker, StickerStatus } from "../../model/sticker";
 import { DeleteRegular } from "@fluentui/react-icons";
@@ -46,21 +47,25 @@ const ImageItem: React.FC<
     const disabled = isBusy || !isEditable;
     return (
         <div className={mergeClasses(imageListStyles.root, className)}>
-            <Image className={imageListStyles.img} src={src} alt={name} title={name} />
+            <Tooltip content={name!} relationship="description">
+                <Image className={imageListStyles.img} src={src} alt={name} />
+            </Tooltip>
             {isBusy ? (
                 <Spinner className={imageListStyles.status} size="tiny" />
             ) : (
                 badgeStatus && <PresenceBadge className={imageListStyles.status} status={badgeStatus} size="large" />
             )}
             {onDelete && (
-                <Button
-                    className={imageListStyles.del}
-                    icon={<DeleteRegular />}
-                    size="medium"
-                    disabled={disabled}
-                    appearance="transparent"
-                    onClick={onDelete}
-                />
+                <Tooltip content={t(TransKeys.delete)} relationship="label">
+                    <Button
+                        className={imageListStyles.del}
+                        icon={<DeleteRegular />}
+                        size="medium"
+                        disabled={disabled}
+                        appearance="transparent"
+                        onClick={onDelete}
+                    />
+                </Tooltip>
             )}
             <div className={imageListStyles.bottom}>
                 <Input

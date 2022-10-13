@@ -1,8 +1,6 @@
 {
-    "privacyTitle": "隐私声明",
-    "termsTitle": "使用条款",
     "feedback": "反馈",
-    "upload": "上传",
+    "uploadTips": "选择图片或拖拽至此",
     "delete": "删除",
     "loading": "加载中...",
     "title_user": "我所收藏的表情包",

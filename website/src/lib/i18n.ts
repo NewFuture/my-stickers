@@ -1,6 +1,5 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
 import TimeAgo from "javascript-time-ago";
 import enTime from "javascript-time-ago/locale/en";
 import zhTime from "javascript-time-ago/locale/zh";
@@ -16,7 +15,7 @@ i18n
     //   .use(Backend)
     // detect user language
     // learn more: https://github.com/i18next/i18next-browser-languageDetector
-    .use(LanguageDetector)
+    // .use(LanguageDetector)
     // pass the i18n instance to react-i18next.
     .use(initReactI18next)
     // init i18next
@@ -53,3 +52,14 @@ i18n
     });
 
 export default i18n;
+const StorageKey = "i18nextLng";
+
+i18n.on("languageChanged", (lng: string): void => {
+    document.documentElement.setAttribute("lang", lng);
+    localStorage.setItem(StorageKey, lng);
+});
+
+export function getLng() {
+    const query = new URLSearchParams(window.location.search);
+    return query.get("lng") || localStorage.getItem(StorageKey) || navigator.language || navigator.languages?.[0];
+}
