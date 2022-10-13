@@ -1,9 +1,7 @@
 {
-    "privacyTitle": "Privacy Statement",
-    "termsTitle": "Terms and Conditions",
     "feedback": "Feedback",
-    "upload": "upload",
-    "delete": "delete",
+    "uploadTips": "Pick pictures or Drag and drop them",
+    "delete": "Delete",
     "loading": "Loading...",
     "radioLabel": "stickers scope",
     "radio_user": "Mine",
