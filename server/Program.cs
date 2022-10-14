@@ -22,6 +22,8 @@ builder.Configuration
 
 builder.Configuration.AddEnvironmentVariables();
 
+var configuration = builder.Configuration;
+
 builder.Services
     .AddApplicationInsightsTelemetry()
     // Create the telemetry client.
@@ -35,6 +37,7 @@ builder.Services
     // Create the telemetry middleware (used by the telemetry initializer) to track conversation events
     .AddSingleton<TelemetryLoggerMiddleware>();
 builder.Services.AddControllers();
+builder.Services.AddHealthChecks(); // Heath check
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -75,7 +78,7 @@ builder.Services
         (o) =>
         {
             return new BlobServiceClient(
-                builder.Configuration.GetConnectionString(ConfigKeys.BLOB_CONNECTION_STRING)
+                configuration.GetConnectionString(ConfigKeys.BLOB_CONNECTION_STRING)
             );
         }
     )
@@ -127,8 +130,8 @@ builder.Services
         ENV.ID_TOKEN_DEFINITION,
         options =>
         {
-            var clientId = builder.Configuration[ConfigKeys.AAD_CLINET_ID];
-            var webURL = builder.Configuration[ConfigKeys.WEB_URL];
+            var clientId = configuration[ConfigKeys.AAD_CLINET_ID];
+            var webURL = configuration[ConfigKeys.WEB_URL];
             options.Authority = $"https://login.microsoftonline.com/common/v2.0";
             options.TokenValidationParameters.ValidAudiences = new string[]
             {
@@ -158,7 +161,8 @@ var app = builder.Build();
 
 if (builder.Environment.IsDevelopment())
 {
-    app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); // configure CORS
+    // configure CORS for local dev
+    app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 }
 
 // Configure the HTTP request pipeline.
@@ -173,6 +177,20 @@ app.UseMiddleware(typeof(GlobalErrorHandling));
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Home page to website
+app.MapGet("/", () => Results.Redirect(configuration[ConfigKeys.WEB_URL], true));
+
+// health check
+app.MapHealthChecks("/healthz");
+
+// Bot API
+app.MapPost(
+    "/bot/messages",
+    (HttpRequest req, HttpResponse res, IBotFrameworkHttpAdapter adapter, IBot bot) =>
+        adapter.ProcessAsync(req, res, bot)
+);
+
+// Controllers
 app.MapControllers();
 
 app.Run();

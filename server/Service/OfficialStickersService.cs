@@ -51,9 +51,13 @@ public class OfficialStickersService
         return stickers;
     }
 
-    public async Task<List<OfficialSticker>> Search(string keyword)
+    public async Task<List<OfficialSticker>> Search(
+        string keyword,
+        CancellationToken? cancellationToken = null
+    )
     {
         var list = await this.GetOfficialStickers();
+        cancellationToken?.ThrowIfCancellationRequested();
         if (String.IsNullOrWhiteSpace(keyword))
         {
             return list;

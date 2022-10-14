@@ -11,17 +11,17 @@ namespace Stickers.Controllers;
 [ApiController]
 [Authorize(AuthenticationSchemes = ENV.ID_TOKEN_DEFINITION)]
 [Route("api/admin/stickers")]
-public class AdminStickersController : ControllerBase
+public class TenantStickersController : ControllerBase
 {
-    private readonly ILogger<StickersController> logger;
+    private readonly ILogger<UserStickersController> logger;
     private StickerService stickerService;
     private BlobService blobService;
     private IHttpContextAccessor httpContextAccessor;
 
-    public AdminStickersController(
+    public TenantStickersController(
         StickerService stickers,
         BlobService blobService,
-        ILogger<StickersController> logger,
+        ILogger<UserStickersController> logger,
         IHttpContextAccessor httpContextAccessor
     )
     {
