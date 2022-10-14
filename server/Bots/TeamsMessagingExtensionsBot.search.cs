@@ -76,14 +76,27 @@ namespace Stickers.Bot
 
             if (initialRun == "true")
             {
-                var imgs = await InitialResultGrid(userId, tenantId, skip, count);
+                var imgs = await InitialResultGrid(
+                    userId,
+                    tenantId,
+                    skip,
+                    count,
+                    cancellationToken
+                );
                 return GetMessagingExtensionResponse(imgs, false);
             }
             else
             {
                 // The list of MessagingExtensionAttachments must we wrapped in a MessagingExtensionResult wrapped in a MessagingExtensionResponse.
                 var keyword = GetQueryParameters(query, "query");
-                var imgs = await QueryResultGrid(userId, tenantId, keyword, skip, count);
+                var imgs = await QueryResultGrid(
+                    userId,
+                    tenantId,
+                    keyword,
+                    skip,
+                    count,
+                    cancellationToken
+                );
                 return GetMessagingExtensionResponse(imgs, true);
             }
         }
@@ -93,15 +106,24 @@ namespace Stickers.Bot
             Guid userId,
             Guid tenantId,
             int skip,
-            int count
+            int count,
+            CancellationToken cancellationToken
         )
         {
             // user search
-            var stickers = await this.searchService.SearchUserStickers(userId, null);
+            var stickers = await this.searchService.SearchUserStickers(
+                userId,
+                null,
+                cancellationToken
+            );
             if (stickers.Count < skip + count)
             {
                 // tenant
-                var tenantStickers = await this.searchService.SearchTenantStickers(tenantId, null);
+                var tenantStickers = await this.searchService.SearchTenantStickers(
+                    tenantId,
+                    null,
+                    cancellationToken
+                );
                 stickers = stickers.Concat(tenantStickers).ToList();
             }
 
@@ -113,7 +135,10 @@ namespace Stickers.Bot
             if (stickers.Count < skip + count)
             {
                 // official images
-                var officialStickers = await this.searchService.SearchOfficialStickers(null);
+                var officialStickers = await this.searchService.SearchOfficialStickers(
+                    null,
+                    cancellationToken
+                );
                 var officialImgs = officialStickers
                     .Take(skip + count - stickers.Count)
                     .Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
@@ -127,7 +152,8 @@ namespace Stickers.Bot
             Guid tenantId,
             string? keyword,
             int skip,
-            int count
+            int count,
+            CancellationToken cancellationToken
         )
         {
             if (skip > 0)
@@ -136,12 +162,17 @@ namespace Stickers.Bot
                 return new Img[0];
             }
             // user search
-            var stickers = await this.searchService.SearchUserStickers(userId, keyword);
+            var stickers = await this.searchService.SearchUserStickers(
+                userId,
+                keyword,
+                cancellationToken
+            );
             if (count > stickers.Count)
             {
                 var tenantStickers = await this.searchService.SearchTenantStickers(
                     tenantId,
-                    keyword
+                    keyword,
+                    cancellationToken
                 );
                 stickers = stickers.Concat(tenantStickers).ToList();
             }
@@ -152,7 +183,10 @@ namespace Stickers.Bot
             }
 
             // official search
-            var officialStickers = await this.searchService.SearchOfficialStickers(keyword);
+            var officialStickers = await this.searchService.SearchOfficialStickers(
+                keyword,
+                cancellationToken
+            );
             var allimgs = stickers.Select(StickerToImg);
             var officialImgs = officialStickers
                 .Take(count - stickers.Count)
