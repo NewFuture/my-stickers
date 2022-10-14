@@ -74,6 +74,7 @@ namespace Stickers.Bot
             var count = query.QueryOptions.Count ?? 30;
             var initialRun = GetQueryParameters(query, "initialRun");
 
+            cancellationToken.ThrowIfCancellationRequested();
             if (initialRun == "true")
             {
                 var imgs = await InitialResultGrid(
