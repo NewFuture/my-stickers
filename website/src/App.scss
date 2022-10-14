@@ -26,3 +26,12 @@ body {
     bottom: 0;
     width: 100%;
 }
+
+.markdown {
+    font-family: Arial, sans-serif;
+    font-size: 1.2rem;
+    padding: 15px;
+    p {
+        margin: 10px;
+    }
+}

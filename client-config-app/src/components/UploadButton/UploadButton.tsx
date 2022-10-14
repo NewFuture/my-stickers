@@ -1,4 +1,3 @@
-import React from "react";
 import { mergeClasses, Tooltip } from "@fluentui/react-components";
 import { AddRegular } from "@fluentui/react-icons";
 
@@ -17,11 +16,7 @@ export interface UploadButtonProps {
 
  * @returns
  */
-export const UploadButton: React.FC<UploadButtonProps> = ({
-    disbaled,
-    onUploadChangeHandler,
-    className,
-}): JSX.Element => {
+export function UploadButton({ disbaled, onUploadChangeHandler, className }: UploadButtonProps) {
     const styles = useUploadButtonStyles();
     const { t } = useTranslation();
     return (
@@ -42,4 +37,4 @@ export const UploadButton: React.FC<UploadButtonProps> = ({
             />
         </div>
     );
-};
+}
