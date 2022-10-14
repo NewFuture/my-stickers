@@ -74,11 +74,7 @@ public class BlobService
             .GetBlockBlobClient(fileName);
         var item = await blockclient.CommitBlockListAsync(
             new List<string> { encodeId },
-            new BlobHttpHeaders
-            {
-                ContentType = contentType,
-                CacheControl = CacheControl,
-            }
+            new BlobHttpHeaders { ContentType = contentType, CacheControl = CacheControl, }
         );
         return $"https://{this.cdn}/{this.containerName}/{fileName}";
     }
