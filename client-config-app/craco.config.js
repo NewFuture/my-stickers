@@ -2,10 +2,10 @@
 module.exports = {
     webpack: {
         /**
-         * 
-         * @param {import("webpack").Configuration} webpackConfig 
-         * @param {*} param1 
-         * @returns 
+         *
+         * @param {import("webpack").Configuration} webpackConfig
+         * @param {*} param1
+         * @returns {import("webpack").Configuration}
          */
         configure: (webpackConfig, { env, paths }) => {
             webpackConfig.module.rules.unshift(
@@ -14,19 +14,19 @@ module.exports = {
                     test: /\.(ts|tsx)$/,
                     exclude: /node_modules/,
                     use: {
-                        loader: '@griffel/webpack-loader',
+                        loader: "@griffel/webpack-loader",
                         options: {
                             // see https://github.com/microsoft/griffel/tree/main/packages/webpack-loader#configuring-babel-settings
                             babelOptions: {
-                                presets: ['@babel/preset-typescript'],
+                                presets: ["@babel/preset-typescript"],
                             },
                         },
                     },
-                }
-            )
+                },
+            );
             /* Any webpack configuration options: https://webpack.js.org/configuration */
             webpackConfig.optimization.splitChunks = {
-                chunks: 'all',
+                chunks: "all",
                 minRemainingSize: 0,
                 minChunks: 1,
                 maxAsyncRequests: 10,
@@ -44,12 +44,12 @@ module.exports = {
                     },
                     react: {
                         test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-                        name: 'react',
-                        chunks: 'all',
+                        name: "react",
+                        chunks: "all",
                     },
                 },
-            }
+            };
             return webpackConfig;
-        }
+        },
     },
 };

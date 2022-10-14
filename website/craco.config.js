@@ -2,15 +2,15 @@
 module.exports = {
     webpack: {
         /**
-         * 
-         * @param {import("webpack").Configuration} webpackConfig 
-         * @param {*} param1 
-         * @returns 
+         *
+         * @param {import("webpack").Configuration} webpackConfig
+         * @param {*} param1
+         * @returns {import("webpack").Configuration}
          */
         configure: (webpackConfig, { env, paths }) => {
             /* Any webpack configuration options: https://webpack.js.org/configuration */
             webpackConfig.optimization.splitChunks = {
-                chunks: 'all',
+                chunks: "all",
                 minRemainingSize: 0,
                 minChunks: 1,
                 maxAsyncRequests: 10,
@@ -28,12 +28,12 @@ module.exports = {
                     },
                     react: {
                         test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-                        name: 'react',
-                        chunks: 'all',
+                        name: "react",
+                        chunks: "all",
                     },
                 },
-            }
+            };
             return webpackConfig;
-        }
+        },
     },
 };
