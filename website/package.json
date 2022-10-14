@@ -14,6 +14,7 @@
         "react-router-dom": "^6.4.2"
     },
     "devDependencies": {
+        "@craco/craco": "^6.4.5",
         "@types/jest": "^27",
         "@types/react": "^18",
         "@types/react-dom": "^18",
@@ -22,10 +23,10 @@
         "typescript": "^4.8.4"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "NODE_ENV=development && REACT_APP_ENVIRONMENT=\"development\" && react-scripts build && yarn snap",
+        "start": "craco start",
+        "build": "craco build && yarn snap",
         "snap": "yarn dlx react-snap",
-        "test": "react-scripts test"
+        "test": "craco test"
     },
     "repository": {
         "directory": "website",
