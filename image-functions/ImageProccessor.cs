@@ -18,6 +18,7 @@ namespace Stickers.ImageFunctions
         private const long LATEST_IMAGE_PROCESSOR_VERSION = 1;
         private const int TARGET_SIZE = 256;
         private const int TARGET_COLORS = 256;
+        private const string CacheControl = "public, max-age=604800, immutable";
         private static readonly Dictionary<MagickFormat, MagickFormat> FORMAT_MAPPING =
             new()
             {
@@ -97,7 +98,7 @@ namespace Stickers.ImageFunctions
                     HttpHeaders = new()
                     {
                         ContentType = MagickFormatInfo.Create(outFormat)?.MimeType,
-                        CacheControl = "public, max-age=604800, immutable",
+                        CacheControl = CacheControl,
                     },
                     Metadata = new Dictionary<string, string>()
                     {

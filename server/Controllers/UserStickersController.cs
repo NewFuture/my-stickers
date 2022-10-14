@@ -8,18 +8,18 @@ namespace Stickers.Controllers;
 
 [ApiController]
 [Route("api/me/stickers")]
-public class StickersController : ControllerBase
+public class UserStickersController : ControllerBase
 {
     private readonly SessionService sessionService;
-    protected readonly ILogger<StickersController> logger;
+    protected readonly ILogger<UserStickersController> logger;
     private StickerService stickerService;
     private BlobService blobService;
     private IHttpContextAccessor httpContextAccessor;
 
-    public StickersController(
+    public UserStickersController(
         StickerService stickers,
         BlobService blobService,
-        ILogger<StickersController> logger,
+        ILogger<UserStickersController> logger,
         IHttpContextAccessor httpContextAccessor,
         SessionService sessionService
     )

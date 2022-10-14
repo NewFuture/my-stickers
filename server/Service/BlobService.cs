@@ -14,6 +14,8 @@ public class BlobService
     private string cdn;
     private static Encoding encoding = Encoding.GetEncoding(28591);
 
+    public const string CacheControl = "max-age=90";
+
     private string[] supportExtList = new string[] { "png", "gif", "jpg", "jpeg" };
 
     public BlobService(BlobServiceClient client, IConfiguration configuration)
@@ -72,7 +74,7 @@ public class BlobService
             .GetBlockBlobClient(fileName);
         var item = await blockclient.CommitBlockListAsync(
             new List<string> { encodeId },
-            new BlobHttpHeaders { ContentType = contentType }
+            new BlobHttpHeaders { ContentType = contentType, CacheControl = CacheControl, }
         );
         return $"https://{this.cdn}/{this.containerName}/{fileName}";
     }
