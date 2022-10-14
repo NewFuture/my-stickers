@@ -17,15 +17,16 @@
         "@types/jest": "^27",
         "@types/react": "^18",
         "@types/react-dom": "^18",
+        "react-app-rewired": "^2.2.1",
         "react-scripts": "^5.0.1",
         "sass": "^1.55.0",
         "typescript": "^4.8.4"
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "NODE_ENV=development && REACT_APP_ENVIRONMENT=\"development\" && react-scripts build && yarn snap",
+        "build": "react-app-rewired build && yarn snap",
         "snap": "yarn dlx react-snap",
-        "test": "react-scripts test"
+        "test": "react-app-rewired test"
     },
     "repository": {
         "directory": "website",
