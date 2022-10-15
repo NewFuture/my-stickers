@@ -35,7 +35,7 @@ export function useFileUploadHandler(maxNum: number) {
             if (filtered.length > remaining) {
                 msg.push({
                     key: Math.random(),
-                    content: t(TransKeys.maxnum, { n: MAX_NUM }),
+                    content: t(TransKeys.maxnum, { count: MAX_NUM }),
                 });
             }
             setErrors(msg);

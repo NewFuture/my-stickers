@@ -5,6 +5,7 @@ import { useStickersList } from "../../hooks/useStickersList";
 import { deleteTenantSticker, patchTenantSticker, uploadTenantSticker } from "../../services/stickers";
 import { getAuthToken } from "../../services/teams";
 import { IsAdmin } from "../../utilities/isAdmin";
+import { EmptyPage } from "../EmptyPage/EmptyPage";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { LoginPage } from "../LoginPage/LoginPage";
 import ImageList from "./ImageList";
@@ -28,7 +29,7 @@ export function TenantImageList(): JSX.Element {
         <Spinner size="extra-large" />
     ) : error ? (
         <ErrorPage error={error} />
-    ) : (
+    ) : data?.length || isAdmin ? (
         <ImageList
             items={data!}
             onMutate={mutate}
@@ -37,5 +38,7 @@ export function TenantImageList(): JSX.Element {
             onPatch={patchTenantSticker}
             onUpload={uploadTenantSticker}
         />
+    ) : (
+        <EmptyPage />
     );
 }

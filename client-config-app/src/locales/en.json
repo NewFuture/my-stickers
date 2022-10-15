@@ -9,12 +9,14 @@
     "title_user": "My Favorite Stickers",
     "title_company": "My Company's Stickers",
     "maxsize": "The size of sticker images should less than {{size}}.",
-    "maxnum": "Save {{n}} stickers at most.",
+    "maxnum": "Save {{count}} stickers at most.",
     "filetype": "Only image files are supported (GIF JPG PNG ...)",
     "inputLabel": "Edit the sticker's name",
     "inputPlaceholder": "Input a name for search",
+    "tenantsEmptyTips": "You can use Org-Wide Stickers, but it's empty here.\nOnly administrators (Global Administrator, Teams Administrator, Office Apps Administrator, or Exchange Administrator) can upload stickers for all users in your organization.\nPlease contact your admin to upload ♥",
     "login": "Verify with admin",
-    "loginDescription": "Welcome to Org-Wide Stickers, this feature needs the Administrator's verification.\n  ① Enable: Global Admin clicks the button then signs in and consents\n  ② Manage: Global Admin and Teams Admin can change the org-wide stickers.\n  ③ Use: All members in this organization can use the org-wide stickers (pre-installed).\n  * tips: This App only needs id-token permission for login.",
+    "loginDescription": "The Org-Wide Stickers feature needs the Administrator's verification.\n ① Enable: Global Admin clicks the button then signs in and consents\n ② Manage: Global Admin and Teams Admin can change those stickers.\n ③ Use: All members in this organization can use the Org-Wide stickers.\n * tips: This app only needs id-token permission for login.",
     "error": "Something went wrong: {{message}}",
-    "error_expire": "The session expires. Please reopen this page in Teams."
+    "error_NETWORK": "Network error, try again later :(",
+    "error_EXPIRE": "The session expires. Please reopen this page in Teams."
 }

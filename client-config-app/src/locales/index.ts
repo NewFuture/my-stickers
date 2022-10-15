@@ -12,6 +12,7 @@ export const enum TransKeys {
     maxnum = "maxnum",
     filetype = "filetype",
     inputLabel = "inputLabel",
+    tenantsEmptyTips = "tenantsEmptyTips",
     inputPlaceholder = "inputPlaceholder",
     login = "login",
     loginDescription = "loginDescription",

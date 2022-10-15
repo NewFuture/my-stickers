@@ -37,7 +37,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     return (
         <div className={styles.root}>
             <ShieldKeyholeRegular className={styles.img} />
-            <Text className={styles.desc}>{t(TransKeys.loginDescription)}</Text>
+            <Text size={400} className={styles.desc}>
+                {t(TransKeys.loginDescription)}
+            </Text>
             <Button
                 icon={<PersonAccountsFilled />}
                 appearance="primary"

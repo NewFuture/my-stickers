@@ -20,8 +20,8 @@ export const useLoginPageStyles = makeStyles({
         color: tokens.colorBrandForeground1,
     },
     desc: {
-        paddingLeft: "1em",
-        paddingRight: "1em",
+        paddingLeft: "5%",
+        paddingRight: "5%",
         whiteSpace: "pre-wrap",
     },
 });
