@@ -13,7 +13,7 @@
     "filetype": "仅可上传图片格式文件(GIF JPG PNG 等)",
     "inputLabel": "修改表情名称",
     "inputPlaceholder": "输入名称以便搜索",
-    "tenantsEmptyTips": "你所在组织已支持“组织内表情包”,但尚未上传表情包。\n只有管理员 (全局管理员、Teams 管理员、Office 应用管理员或 Exchange 管理员) 可以上传表情, 供组织内所有用户使用。快联系管理员上传吧 ♥",
+    "tenantsEmptyTips": "你所在组织已支持“组织内表情包”,但尚未上传表情包。\n只有管理员 (全局管理员、Teams 管理员、Office 应用管理员或 Exchange 管理员) 可以上传表情, 供组织内所有用户使用。\n快联系管理员上传吧 ♥",
     "login": "管理员登录验证",
     "loginDescription": "欢迎使用“组织内表情包”功能, 需【管理员】验证才可此组织开启。\n  ①开启：全局管理员点击按钮，验证和授权即可。\n  ②管理：全局管理员和Teams管理员均可修改表情包。\n  ③使用：组织范围内所有成员均可使用，并预置。\n *注：此APP仅使用OpenId权限，无需额外的权限。",
     "error": "发生错误: {{message}}",

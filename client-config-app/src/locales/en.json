@@ -13,7 +13,7 @@
     "filetype": "Only image files are supported (GIF JPG PNG ...)",
     "inputLabel": "Edit the sticker's name",
     "inputPlaceholder": "Input a name for search",
-    "tenantsEmptyTips": "You can use Org-Wide Stickers, but it's empty here.\nOnly administrators (Global Administrator, Teams Administrator, Office Apps Administrator, or Exchange Administrator) can upload stickers for all users in your organization. Please contact your admin to upload ♥",
+    "tenantsEmptyTips": "You can use Org-Wide Stickers, but it's empty here.\nOnly administrators (Global Administrator, Teams Administrator, Office Apps Administrator, or Exchange Administrator) can upload stickers for all users in your organization.\nPlease contact your admin to upload ♥",
     "login": "Verify with admin",
     "loginDescription": "The Org-Wide Stickers feature needs the Administrator's verification.\n ① Enable: Global Admin clicks the button then signs in and consents\n ② Manage: Global Admin and Teams Admin can change those stickers.\n ③ Use: All members in this organization can use the Org-Wide stickers.\n * tips: This app only needs id-token permission for login.",
     "error": "Something went wrong: {{message}}",
