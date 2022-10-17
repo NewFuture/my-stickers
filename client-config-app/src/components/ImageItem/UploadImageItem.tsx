@@ -74,7 +74,7 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
                 ) : sticker.progress ? (
                     <>
                         <Text className={styles.progressText} size={600}>
-                            {sticker.progress + "%"}
+                            {`${sticker.progress.toFixed(0)}%`}
                         </Text>
                         <progress className={styles.progress} value={sticker.progress} max="100" />
                     </>
