@@ -109,7 +109,22 @@
             )
             {
                 var cacheKey = GetCacheKey(isTenant, filterId);
-                cache.Remove(cacheKey);
+                if (
+                    !sticker.weight.HasValue
+                    && this.cache.TryGetValue<List<Sticker>>(cacheKey, out var cacheList)
+                )
+                {
+                    // update cacheList directly, when weight not changed
+                    var stickerGuid = Guid.Parse(stickerId);
+                    var cacheSitcker = cacheList.Find(s => s.id == stickerGuid);
+                    if (cacheSitcker != null)
+                    {
+                        // update cache name
+                        cacheSitcker.name = sticker.name;
+                        return true;
+                    }
+                }
+                this.cache.Remove(cacheKey);
                 return true;
             }
             return false;
@@ -141,7 +156,7 @@
                 {
                     item.id = oldstickers.Find(s => s.src == item.src)!.id;
                     var stickerId = item.id.ToString();
-                    var weight = DateTime.Now.Ticks;
+                    var weight = StickerDatabase.GetNewWeight();
                     await database.updateSticker(isTenant, filterId, stickerId, item.name, weight);
                     stickers.Remove(item);
                     result.Add(item);

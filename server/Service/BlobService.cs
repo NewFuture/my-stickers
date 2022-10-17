@@ -82,13 +82,15 @@ public class BlobService
     /// <summary>
     /// Guid to Short Base64
     /// 540c2d5f-a9ab-4414-bd36-9999f5388773 ==> Xy0MVKupFES9NpmZ9TiHcw
+    /// here is a breaking change for v1
+    /// v2 use default byte encode (little-endian)
     /// </summary>
     /// <param name="guid"></param>
     /// <returns></returns>
     private static string EncodeGuid(Guid guid)
     {
         string encoded = Convert.ToBase64String(guid.ToByteArray());
-        encoded = encoded.Replace("/", "_").Replace("+", "-");
+        encoded = encoded.Replace('/', '_').Replace('+', '-');
         return encoded.Substring(0, 22);
     }
 }
