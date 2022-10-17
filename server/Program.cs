@@ -40,6 +40,7 @@ builder.Services
     // Create the telemetry middleware (used by the telemetry initializer) to track conversation events
     .AddSingleton<TelemetryLoggerMiddleware>();
 builder.Services.AddControllers();
+
 // Health check
 builder.Services.AddHealthChecks();
 

@@ -14,6 +14,19 @@ namespace Stickers.Service
         private const string userIdFieldName = "userId";
         private const string tenantIdFielddName = "tenantId";
 
+        public static readonly long baseTicks = new DateTime(
+            2019,
+            11,
+            20,
+            11,
+            0,
+            0,
+            DateTimeKind.Utc
+        ).Ticks;
+
+        // use seconds relative to 2019-11-20 11:00 as default weight
+        public static long GetNewWeight() => (DateTime.UtcNow.Ticks - baseTicks) / 10000;
+
         public StickerDatabase(DapperContext context)
         {
             this.context = context;
@@ -97,7 +110,7 @@ namespace Stickers.Service
                         filterId,
                         src = sticker.src,
                         name = sticker.name,
-                        weight = DateTime.Now.Ticks,
+                        weight = GetNewWeight(),
                     }
                 );
                 return ItemCount > 0;
