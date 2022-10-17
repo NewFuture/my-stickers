@@ -1,7 +1,9 @@
+using System.IO.Compression;
 using Azure.Storage.Blobs;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
@@ -24,6 +26,7 @@ builder.Configuration.AddEnvironmentVariables();
 
 var configuration = builder.Configuration;
 
+// Application Insights
 builder.Services
     .AddApplicationInsightsTelemetry()
     // Create the telemetry client.
@@ -37,40 +40,61 @@ builder.Services
     // Create the telemetry middleware (used by the telemetry initializer) to track conversation events
     .AddSingleton<TelemetryLoggerMiddleware>();
 builder.Services.AddControllers();
-builder.Services.AddHealthChecks(); // Heath check
+// Health check
+builder.Services.AddHealthChecks();
+
+// response compress
+// https://learn.microsoft.com/en-us/aspnet/core/performance/response-compression?view=aspnetcore-6.0#brotli-and-gzip-compression-providers
+builder.Services
+    .AddResponseCompression(options =>
+    {
+        options.EnableForHttps = true;
+        options.Providers.Add<BrotliCompressionProvider>();
+        options.Providers.Add<GzipCompressionProvider>();
+    })
+    .Configure<BrotliCompressionProviderOptions>(options =>
+    {
+        options.Level = CompressionLevel.Fastest;
+    })
+    .Configure<GzipCompressionProviderOptions>(options =>
+    {
+        options.Level = CompressionLevel.Fastest;
+    });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.AddSecurityDefinition(
-        ENV.ID_TOKEN_DEFINITION,
-        new OpenApiSecurityScheme
-        {
-            Description = "JWT Authorization header using the Bearer scheme.",
-            In = ParameterLocation.Header,
-            Type = SecuritySchemeType.Http,
-            Scheme = JwtBearerDefaults.AuthenticationScheme
-        }
-    );
-    c.AddSecurityRequirement(
-        new OpenApiSecurityRequirement
-        {
+builder.Services
+    .AddEndpointsApiExplorer()
+    .AddSwaggerGen(c =>
+    {
+        c.AddSecurityDefinition(
+            ENV.ID_TOKEN_DEFINITION,
+            new OpenApiSecurityScheme
             {
-                new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = ENV.ID_TOKEN_DEFINITION
-                    }
-                },
-                new List<string>()
+                Description = "JWT Authorization header using the Bearer scheme.",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = JwtBearerDefaults.AuthenticationScheme
             }
-        }
-    );
-});
+        );
+        c.AddSecurityRequirement(
+            new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = ENV.ID_TOKEN_DEFINITION
+                        }
+                    },
+                    new List<string>()
+                }
+            }
+        );
+    });
 
+// App Dependencies
 builder.Services
     .AddSingleton<DapperContext>()
     .AddSingleton<OfficialStickersService>()
@@ -96,6 +120,7 @@ builder.Services
     // Create the Bot Framework Authentication to be used with the Bot Adapter.
     .AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
 
+// http context for Admin
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 // Adding Admin Authentication
@@ -176,6 +201,9 @@ app.UseMiddleware(typeof(GlobalErrorHandling));
 // app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Response compression, Kestrel server does not provide built-in compress
+app.UseResponseCompression();
 
 // Home page to website
 app.MapGet("/", () => Results.Redirect(configuration[ConfigKeys.WEB_URL], true));
