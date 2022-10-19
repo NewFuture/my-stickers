@@ -26,6 +26,8 @@ function mapStatus(status: Sticker["status"]): PresenceBadgeStatus | undefined {
             return "busy";
         case StickerStatus.success:
             return "available";
+        case StickerStatus.delete:
+            return "out-of-office";
         default:
             return undefined;
     }
@@ -44,7 +46,7 @@ const ImageItem: React.FC<
     const imageListStyles = useImageItemStyles();
     const badgeStatus = mapStatus(status);
     const isBusy = badgeStatus === "busy";
-    const disabled = isBusy || !isEditable;
+    const disabled = isBusy || !isEditable || status === StickerStatus.delete;
     return (
         <div className={mergeClasses(imageListStyles.root, className)}>
             <Tooltip content={name!} relationship="description">
