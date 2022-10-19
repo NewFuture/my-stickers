@@ -48,7 +48,9 @@ jobs:
             - run: yarn manifest
             - run: yarn stickers
             - run: yarn client:build
+            - run: yarn client:test
             - run: yarn website:build
+            - run: yarn website:test
 
             - uses: actions/upload-artifact@v3
               with:
