@@ -5,26 +5,29 @@ namespace Stickers.Middleware;
 
 public class GlobalErrorHandling
 {
-    private readonly RequestDelegate _next;
+    private readonly RequestDelegate next;
 
-    public GlobalErrorHandling(RequestDelegate next)
+    private readonly ILogger<GlobalErrorHandling> logger;
+
+    public GlobalErrorHandling(RequestDelegate next, ILogger<GlobalErrorHandling> logger)
     {
-        _next = next;
+        this.next = next;
+        this.logger = logger;
     }
 
     public async Task Invoke(HttpContext context)
     {
         try
         {
-            await _next(context);
+            await next(context);
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(context, ex);
+            await HandleExceptionAsync(context, ex, logger);
         }
     }
 
-    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private static Task HandleExceptionAsync(HttpContext context, Exception exception, ILogger<GlobalErrorHandling> logger)
     {
         HttpStatusCode status;
         var stackTrace = String.Empty;
@@ -35,6 +38,7 @@ public class GlobalErrorHandling
             message = exception.Message;
             status = HttpStatusCode.BadRequest;
             stackTrace = exception.StackTrace;
+            logger.LogWarning($"BadRequest {exception}");
         }
         if (exceptionType == typeof(NotImplementedException))
         {
@@ -59,6 +63,7 @@ public class GlobalErrorHandling
             status = HttpStatusCode.InternalServerError;
             message = exception.Message;
             stackTrace = exception.StackTrace;
+            logger.LogError(exception.ToString());
         }
         var exceptionResult = JsonSerializer.Serialize(
             new
