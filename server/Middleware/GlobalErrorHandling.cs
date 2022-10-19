@@ -27,7 +27,11 @@ public class GlobalErrorHandling
         }
     }
 
-    private static Task HandleExceptionAsync(HttpContext context, Exception exception, ILogger<GlobalErrorHandling> logger)
+    private static Task HandleExceptionAsync(
+        HttpContext context,
+        Exception exception,
+        ILogger<GlobalErrorHandling> logger
+    )
     {
         HttpStatusCode status;
         var stackTrace = String.Empty;

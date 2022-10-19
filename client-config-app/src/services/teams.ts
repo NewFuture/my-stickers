@@ -6,7 +6,9 @@ app.initialize().then(
         console.debug("teams initialized");
     },
     () => {
-        console.error("teams not initialize");
+        if (process.env.NODE_ENV === "production") {
+            console.error("teams not initialize");
+        }
     },
 );
 

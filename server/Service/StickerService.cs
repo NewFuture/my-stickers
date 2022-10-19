@@ -130,12 +130,20 @@
             return false;
         }
 
-        public async Task<List<Sticker>> addUserStickers(Guid userId, List<Sticker> stickers, bool checkExistingStickers = true)
+        public async Task<List<Sticker>> addUserStickers(
+            Guid userId,
+            List<Sticker> stickers,
+            bool checkExistingStickers = true
+        )
         {
             return await this.addStickers(false, userId, stickers, checkExistingStickers);
         }
 
-        public async Task<List<Sticker>> addTenantStickers(Guid tenantId, List<Sticker> stickers, bool checkExistingStickers = true)
+        public async Task<List<Sticker>> addTenantStickers(
+            Guid tenantId,
+            List<Sticker> stickers,
+            bool checkExistingStickers = true
+        )
         {
             return await this.addStickers(true, tenantId, stickers, checkExistingStickers);
         }
