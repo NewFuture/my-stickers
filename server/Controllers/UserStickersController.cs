@@ -50,7 +50,8 @@ public class UserStickersController : ControllerBase
         };
         var list = await this.stickerService.addUserStickers(
             userId,
-            new List<Sticker>() { newSticker }
+            new List<Sticker>() { newSticker },
+            false
         );
         return list[0];
     }

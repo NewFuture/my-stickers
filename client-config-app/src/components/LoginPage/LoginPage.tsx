@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useLoginPageStyles } from "./LoginPage.styles";
 import { TransKeys } from "../../locales";
 import { getAuthToken, getContext } from "../../services/teams";
-import { AAD_ID } from "../../lib/env";
+import { AAD_ID } from "../../common/env";
 import { PersonAccountsFilled, ShieldKeyholeRegular } from "@fluentui/react-icons";
 
 interface LoginPageProps {

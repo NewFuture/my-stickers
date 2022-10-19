@@ -130,24 +130,38 @@
             return false;
         }
 
-        public async Task<List<Sticker>> addUserStickers(Guid userId, List<Sticker> stickers)
+        public async Task<List<Sticker>> addUserStickers(
+            Guid userId,
+            List<Sticker> stickers,
+            bool checkExistingStickers = true
+        )
         {
-            return await this.addStickers(false, userId, stickers);
+            return await this.addStickers(false, userId, stickers, checkExistingStickers);
         }
 
-        public async Task<List<Sticker>> addTenantStickers(Guid tenantId, List<Sticker> stickers)
+        public async Task<List<Sticker>> addTenantStickers(
+            Guid tenantId,
+            List<Sticker> stickers,
+            bool checkExistingStickers = true
+        )
         {
-            return await this.addStickers(true, tenantId, stickers);
+            return await this.addStickers(true, tenantId, stickers, checkExistingStickers);
         }
 
         private async Task<List<Sticker>> addStickers(
             Boolean isTenant,
             Guid filterId,
-            List<Sticker> stickers
+            List<Sticker> stickers,
+            bool checkExistingStickers
         )
         {
-            var oldstickers = await this.getStickerList(isTenant, filterId);
             List<Sticker> result = new List<Sticker>();
+
+            List<Sticker>? oldstickers = null;
+            if (checkExistingStickers)
+            {
+                oldstickers = await this.getStickerList(isTenant, filterId);
+            }
 
             if (oldstickers != null && oldstickers.Count > 0)
             {

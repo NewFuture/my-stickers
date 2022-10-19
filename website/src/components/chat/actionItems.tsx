@@ -45,19 +45,19 @@ const getActionItems = (clickEvent: () => void): ShorthandCollection<MenuItemPro
                         key: "bookmark",
                         icon: <BookmarkIcon />,
                         disabled: true,
-                        content: t<string>(TransKeys.protoMsgExtMenuSaveMsg),
+                        content: t(TransKeys.protoMsgExtMenuSaveMsg),
                     },
                     {
                         key: "unread",
                         icon: <MarkAsUnreadIcon />,
                         disabled: true,
-                        content: t<string>(TransKeys.protoMsgExtMenuUnread),
+                        content: t(TransKeys.protoMsgExtMenuUnread),
                     },
                     {
                         key: "translate",
                         icon: <TranslationIcon />,
                         disabled: true,
-                        content: t<string>(TransKeys.protoMsgExtMenuTranslate),
+                        content: t(TransKeys.protoMsgExtMenuTranslate),
                     },
                     {
                         "data-is-focusable": true,

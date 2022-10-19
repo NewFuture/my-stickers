@@ -103,7 +103,8 @@ public class TenantStickersController : ControllerBase
         };
         var list = await this.stickerService.addTenantStickers(
             tenantId,
-            new List<Sticker>() { newSticker }
+            new List<Sticker>() { newSticker },
+            false
         );
         return list[0];
     }

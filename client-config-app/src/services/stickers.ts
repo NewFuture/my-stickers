@@ -1,4 +1,4 @@
-import { API } from "../lib/http";
+import { API } from "./http";
 import type { Sticker } from "../model/sticker";
 import { getUploadSAS, upload } from "./upload";
 
