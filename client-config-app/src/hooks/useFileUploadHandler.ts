@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { MAX_NUM } from "../lib/env";
+import { MAX_NUM } from "../common/env";
 import { TransKeys } from "../locales";
 
 const MAX_SIZE = 1000 * 1024;

@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { TransKeys } from "../../locales";
 import type { UserType } from "../../model/sticker";
 import { useHeaderStyles } from "./Header.styles";
-import { ENABLE_TENANT } from "../../lib/env";
+import { ENABLE_TENANT } from "../../common/env";
 
 export interface HeaderButtonProps {
     onTypeChange: (value: UserType) => void;

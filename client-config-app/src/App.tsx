@@ -1,9 +1,9 @@
-import i18n from "./lib/i18n";
+import i18n from "./common/i18n";
 import { useEffect, useState } from "react";
 import { FluentProvider } from "@fluentui/react-components";
 import { getContext, getTeamsTheme, registerOnThemeChangeHandler } from "./services/teams";
 import { StickerApp } from "./components/StickerApp";
-import { INIT_QUERY } from "./lib/env";
+import { INIT_QUERY } from "./common/env";
 
 export default function ConfigApp() {
     const [theme, setTheme] = useState(() => getTeamsTheme(INIT_QUERY.get("theme")!));

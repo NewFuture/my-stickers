@@ -1,6 +1,6 @@
 import axios from "axios";
-import { getAuthToken } from "../services/teams";
-import { BASE_URL } from "./env";
+import { getAuthToken } from "./teams";
+import { BASE_URL } from "../common/env";
 
 const SessionKey = window.location.hash?.substring(1);
 const USER_SEESION_HEADER = "Session-Key";

@@ -1,4 +1,4 @@
-import { API } from "../lib/http";
+import { API } from "../services/http";
 import useSWR, { SWRResponse } from "swr";
 import type { Sticker } from "../model/sticker";
 

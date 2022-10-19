@@ -1,7 +1,8 @@
-import Axios, { AxiosProgressEvent } from "axios";
-import { API } from "../lib/http";
+import type { AxiosProgressEvent } from "axios";
+import { blob } from "./blob";
+import { API } from "./http";
 
-const blob = Axios.create();
+
 export interface SasInfo {
     id: string;
     // base64: string;
@@ -16,10 +17,7 @@ export interface UploadRequest {
 }
 
 export async function getUploadSAS(request: UploadRequest, url: string): Promise<SasInfo[]> {
-    // TODO: You need to implement this
-    // return "?newSAS";
     const result = await API.post(url, request);
-    // const json = ;
     return result.data;
 }
 
