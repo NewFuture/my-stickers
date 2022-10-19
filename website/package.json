@@ -5,7 +5,7 @@
     "license": "MS-PL",
     "dependencies": {
         "@fluentui/react-northstar": "^0.64.0",
-        "i18next": "^21.10.0",
+        "i18next": "^22.0.0",
         "javascript-time-ago": "^2.5.7",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
@@ -17,8 +17,10 @@
         "@types/jest": "^27",
         "@types/react": "^18",
         "@types/react-dom": "^18",
+        "@types/react-test-renderer": "^18.0.0",
         "react-app-rewired": "^2.2.1",
         "react-scripts": "^5.0.1",
+        "react-test-renderer": "^18.2.0",
         "sass": "^1.55.0",
         "typescript": "^4.8.4"
     },
@@ -26,7 +28,7 @@
         "start": "react-scripts start",
         "build": "react-app-rewired build && yarn snap",
         "snap": "yarn dlx react-snap",
-        "test": "react-app-rewired test"
+        "test": "react-scripts test"
     },
     "repository": {
         "directory": "website",

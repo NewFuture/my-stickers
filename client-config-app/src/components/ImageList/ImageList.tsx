@@ -6,7 +6,7 @@ import { Sticker, StickerStatus } from "../../model/sticker";
 import { UploadButton } from "../UploadButton/UploadButton";
 import { useImageListStyles } from "./ImageList.styles";
 import { UploadImageItem } from "../ImageItem/UploadImageItem";
-import { MAX_NUM } from "../../lib/env";
+import { MAX_NUM } from "../../common/env";
 import { useFileUploadHandler } from "../../hooks/useFileUploadHandler";
 import { Alert } from "../Alert/Alert";
 
