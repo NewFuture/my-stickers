@@ -2,7 +2,6 @@ import type { AxiosProgressEvent } from "axios";
 import { blob } from "./blob";
 import { API } from "./http";
 
-
 export interface SasInfo {
     id: string;
     // base64: string;
