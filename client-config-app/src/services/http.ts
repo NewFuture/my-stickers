@@ -62,8 +62,7 @@ API.interceptors.request.use(
                 // for writing api should low the the writing limit
                 if (
                     isBypass ||
-                    (totalPendingRequest < MAX_CONCURRENCY && !isWriting) ||
-                    writingRequest < MAX_WRITE_CONCURRENCY
+                    (totalPendingRequest < MAX_CONCURRENCY && (!isWriting || writingRequest < MAX_WRITE_CONCURRENCY))
                 ) {
                     totalPendingRequest++;
                     writingRequest += Number(isWriting);

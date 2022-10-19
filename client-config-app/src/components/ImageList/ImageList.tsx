@@ -46,10 +46,11 @@ const ImageList: React.FC<ImageListProps> = ({
     const styles = useImageListStyles();
     const { files, errors, uploadHandler, removeFile, enable } = useFileUploadHandler(MAX_NUM - items?.length ?? 0);
     const onFinshUpload = (file: File, sticker?: Sticker) => {
+        const revalidate = files.length === 1; // revalidation when all files uploaded
         removeFile(file);
         if (sticker) {
             // 插入新表情
-            onMutate((items) => [sticker, ...(items || [])]);
+            onMutate((items) => [sticker, ...(items || [])], { revalidate });
         }
     };
     return (
@@ -95,7 +96,10 @@ const ImageList: React.FC<ImageListProps> = ({
                                       });
                                       onDelete(item.id).then(
                                           // 删除成功
-                                          () => onMutate((list) => list?.filter((v) => v.id !== item.id)!),
+                                          () =>
+                                              onMutate((list) => list?.filter((v) => v.id !== item.id)!, {
+                                                  revalidate: false,
+                                              }),
                                           // 删除失败
                                           () =>
                                               onMutate(
