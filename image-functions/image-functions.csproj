@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
+    <PublishReadyToRun>true</PublishReadyToRun>
     <RootNamespace>image_functions</RootNamespace>
     <RuntimeIdentifiers>win10-x64;linux-x64</RuntimeIdentifiers>
     <MagickCopyNativeLinux>true</MagickCopyNativeLinux>
