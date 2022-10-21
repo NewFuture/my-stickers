@@ -4,8 +4,13 @@
         "applicationInsights": {
             "samplingSettings": {
                 "isEnabled": true,
-                "excludedTypes": "Request"
-            }
+                "maxTelemetryItemsPerSecond": 10,
+                "initialSamplingPercentage": 60,
+                "excludedTypes": "Dependency;Event,Request,PageView"
+            },
+            "enableLiveMetrics": true,
+            "enableDependencyTracking": false,
+            "enablePerformanceCountersCollection": false
         }
     }
 }
