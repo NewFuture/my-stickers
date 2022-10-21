@@ -33,10 +33,10 @@ jobs:
                   dotnet-version: ${{ env.DOTNET_VERSION }}
 
             - name: DotNet Build
-              run: dotnet build image-functions --configuration Release --no-self-contained --runtime linux-x64 --output ./build
+              run: dotnet publish image-functions --configuration Release --no-self-contained --runtime linux-x64 --output ./build
 
-            - name: Copy Native Libraries to bin Folder
-              run: cp ./build/*.so ./build/bin/
+            - name: Move Native Libraries to bin Folder
+              run: mv ./build/*.so ./build/bin/
 
             - uses: actions/upload-artifact@v3
               with:
