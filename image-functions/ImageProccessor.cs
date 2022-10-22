@@ -1,4 +1,4 @@
-﻿using Azure.Messaging;
+﻿using Azure.Messaging.EventGrid;
 using Azure.Messaging.EventGrid.SystemEvents;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
@@ -98,7 +98,7 @@ namespace Stickers.ImageFunctions
         /// <returns></returns>
         [FunctionName("ImageProcessor")]
         public static async Task Run(
-            [EventGridTrigger] CloudEvent eventGridEvent,
+            [EventGridTrigger] EventGridEvent eventGridEvent,
             [Blob("{data.url}", FileAccess.ReadWrite)] BlobClient imageBlobClient,
             ILogger logger,
             CancellationToken cancellationToken
