@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 
 namespace Stickers.ImageFunctions
 {
-    [StorageAccount("STICKERS_STORAGE")]
     public static class ImageProcessor
     {
         private const string LOG_TAG = $"{nameof(ImageProcessor)}.{nameof(Run)}";
@@ -99,7 +98,8 @@ namespace Stickers.ImageFunctions
         [FunctionName("ImageProcessor")]
         public static async Task Run(
             [EventGridTrigger] EventGridEvent eventGridEvent,
-            [Blob("{data.url}", FileAccess.ReadWrite)] BlobClient imageBlobClient,
+            [Blob("{data.url}", FileAccess.ReadWrite, Connection = "STICKERS_STORAGE")]
+                BlobClient imageBlobClient,
             ILogger logger,
             CancellationToken cancellationToken
         )
