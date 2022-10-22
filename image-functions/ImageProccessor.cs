@@ -28,7 +28,7 @@ namespace Stickers.ImageFunctions
 
         [FunctionName("ImageProcessor")]
         public void Run(
-            [BlobTrigger("stickers/{name}")] BlobClient imageBlobClient,
+            [BlobTrigger("stickers/{name}", Source = BlobTriggerSource.EventGrid)] BlobClient imageBlobClient,
             string name,
             ILogger log
         )

@@ -4,7 +4,7 @@ name: functions-build-deploy
 
 on:
     push:
-        branches: [v2, main]
+        branches: [v2, main, event-tigger-image-processor]
         paths:
             - .github/workflows/functions-cd.yml
             - image-functions/**
