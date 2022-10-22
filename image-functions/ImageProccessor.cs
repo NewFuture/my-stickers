@@ -187,6 +187,7 @@ namespace Stickers.ImageFunctions
         ) ProcessImage(Stream blobStream, ILogger logger)
         {
             using var images = new MagickImageCollection(blobStream);
+            var originFormatInfo = MagickFormatInfo.Create(images[0].Format);
             images.Coalesce();
             var pivot = images[0];
             logger.LogInformation(
@@ -216,8 +217,7 @@ namespace Stickers.ImageFunctions
 
             // convert
             pivot = images[0];
-            var originFormatInfo = MagickFormatInfo.Create(pivot.Format);
-            if (!FORMAT_MAPPING.TryGetValue(pivot.Format, out var outFormat))
+            if (!FORMAT_MAPPING.TryGetValue(originFormatInfo.Format, out var outFormat))
             {
                 if (COMPATIBLE_CONTENT_TYPES.Contains(originFormatInfo.MimeType))
                 {
