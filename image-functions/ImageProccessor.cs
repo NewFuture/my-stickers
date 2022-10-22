@@ -112,7 +112,7 @@ namespace Stickers.ImageFunctions
 
             var eventData = eventGridEvent.Data.ToObjectFromJson<StorageBlobCreatedEventData>();
             var name = eventData.Url;
-            logger.LogDebug($"[{LOG_TAG}:{name}] {eventData.ContentType}triggered");
+            logger.LogDebug($"[{LOG_TAG}:{name}] ({eventData.ContentType}) triggered");
             using var _ = logger.BeginScope($"{LOG_TAG}:{{name}}", new { name });
             try
             {

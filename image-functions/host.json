@@ -5,7 +5,7 @@
             "samplingSettings": {
                 "isEnabled": true,
                 "maxTelemetryItemsPerSecond": 10,
-                "initialSamplingPercentage": 100,
+                "initialSamplingPercentage": 80,
                 "excludedTypes": "Dependency;Request,PageView"
             },
             "enableLiveMetrics": true,
