@@ -7,15 +7,10 @@ import Footer from "../components/Footer";
 
 export default function NotFound() {
     const { t } = useTranslation();
-    useTitle("404 " + t(TransKeys.not_found));
+    useTitle("404 " + t(TransKeys.notFound));
     return (
         <>
-            <Header
-                color="brand"
-                align="center"
-                content={t(TransKeys.not_found)}
-                description={t(TransKeys.not_found)}
-            />
+            <Header color="brand" align="center" content={t(TransKeys.notFound)} description={t(TransKeys.notFound)} />
             <Flex vAlign="center" hAlign="center">
                 <Button as={Link} icon="arrow-left" to="/" primary content={t(TransKeys.homeTitle)} />
             </Flex>

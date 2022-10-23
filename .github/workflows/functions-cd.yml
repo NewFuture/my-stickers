@@ -28,15 +28,12 @@ jobs:
             - uses: actions/checkout@v3
 
             - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
-              uses: actions/setup-dotnet@v1
+              uses: actions/setup-dotnet@v2
               with:
                   dotnet-version: ${{ env.DOTNET_VERSION }}
 
             - name: DotNet Build
               run: dotnet publish image-functions --configuration Release --no-self-contained --runtime linux-x64 --output ./build
-
-            - name: Move Native Libraries to bin Folder
-              run: mv ./build/*.so ./build/bin/
 
             - uses: actions/upload-artifact@v3
               with:

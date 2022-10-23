@@ -7,10 +7,9 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.OpenApi.Models;
-
 using Stickers.Bot;
 using Stickers.Middleware;
 using Stickers.Service;

@@ -1,7 +1,7 @@
+namespace Stickers.Middleware;
+
 using System.Net;
 using System.Text.Json;
-
-namespace Stickers.Middleware;
 
 public class GlobalErrorHandling
 {
@@ -19,11 +19,11 @@ public class GlobalErrorHandling
     {
         try
         {
-            await next(context);
+            await this.next(context);
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(context, ex, logger);
+            await HandleExceptionAsync(context, ex, this.logger);
         }
     }
 
@@ -42,7 +42,7 @@ public class GlobalErrorHandling
             message = exception.Message;
             status = HttpStatusCode.BadRequest;
             stackTrace = exception.StackTrace;
-            logger.LogWarning($"BadRequest {exception}");
+            logger.LogWarning("BadRequest {exception}", exception);
         }
         if (exceptionType == typeof(NotImplementedException))
         {
@@ -67,7 +67,7 @@ public class GlobalErrorHandling
             status = HttpStatusCode.InternalServerError;
             message = exception.Message;
             stackTrace = exception.StackTrace;
-            logger.LogError(exception.ToString());
+            logger.LogError(exception, "InternalServerError {exception}", exception.Message);
         }
         var exceptionResult = JsonSerializer.Serialize(
             new

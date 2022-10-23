@@ -1,6 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
+// See https://aka.ms/new-console-template for more information
 
-using BenchmarkDotNet.Running;
 using Benchmark;
+using BenchmarkDotNet.Running;
 
-var summary = BenchmarkRunner.Run<CardRenderBenchmark>();
+BenchmarkRunner.Run<CardRenderBenchmark>();

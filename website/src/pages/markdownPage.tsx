@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import { useTitle } from "../lib/useTitle";
 import type { TransKeys } from "../locales";
 
-function Page({ children, titleKey }: PropsWithChildren<{ titleKey: string }>) {
+function Page({ children, titleKey }: PropsWithChildren<{ titleKey: TransKeys }>) {
     const { t } = useTranslation();
     const title = t(titleKey);
     useTitle(title);

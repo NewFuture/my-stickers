@@ -5,7 +5,6 @@
     <PublishReadyToRun>true</PublishReadyToRun>
     <RootNamespace>image_functions</RootNamespace>
     <RuntimeIdentifiers>win10-x64;linux-x64</RuntimeIdentifiers>
-    <MagickCopyNativeLinux>true</MagickCopyNativeLinux>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.13.1" />
@@ -13,7 +12,7 @@
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.EventGrid" Version="3.2.1" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="5.0.1" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.3" />
-    <PackageReference Include="Magick.NET-Q8-x64" Version="12.2.0" />
+    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="12.2.0" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
