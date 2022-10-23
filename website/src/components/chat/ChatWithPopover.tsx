@@ -14,7 +14,7 @@ import {
     LikeIcon,
     MoreIcon,
 } from "@fluentui/react-northstar";
-import getActionItems from "./actionItems";
+import { useActionItems } from "./useActionItems";
 
 const helloSticker = process.env.PUBLIC_URL + "/hello.gif";
 
@@ -98,7 +98,7 @@ const TeamsChatMessage: React.FC<ChatMessageProps & { dialogContent: JSX.Element
         chatElement?.current?.focus();
     };
     const { dialogContent, ...rest } = props;
-    const actionItems = getActionItems(open);
+    const actionItems = useActionItems(open);
     return (
         <>
             {/* <Ref innerRef={setChatMessageElementWarpper}> */}

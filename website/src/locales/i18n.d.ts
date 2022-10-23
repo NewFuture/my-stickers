@@ -1,7 +1,4 @@
-/// <reference types="react-scripts" />
-
-import en from "./locales/en.json";
-
+import en from "./en.json";
 declare module "i18next" {
     interface CustomTypeOptions {
         defaultNS: "translation";

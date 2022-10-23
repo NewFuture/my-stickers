@@ -6,7 +6,7 @@ export const enum TransKeys {
     delete = "delete",
     title = "title",
     radio = "radio",
-    radioLabel = "radioLabel",
+    radioLabel = "radio",
     loading = "loading",
     maxsize = "maxsize",
     maxnum = "maxnum",

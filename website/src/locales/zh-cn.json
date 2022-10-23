@@ -3,7 +3,7 @@
     "shortTitle": "表情",
     "description": "在微软Teams中和Outlook中使用你的自定义表情包。",
     "langSetting": "Language",
-    "not_found": "访问页面不存在",
+    "notFound": "访问页面不存在",
     "date": "{{date, time-ago}}",
     "homeTitle": "首页",
     "privacyTitle": "隐私声明",

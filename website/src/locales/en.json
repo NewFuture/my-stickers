@@ -3,7 +3,7 @@
     "shortTitle": "My Stickers",
     "description": "Save and send your Custom Stickers in Microsoft Teams and Outlook.",
     "langSetting": "切换语言",
-    "not_found": "Page Not Found",
+    "notFound": "Page Not Found",
     "date": "{{date, time-ago}}",
     "homeTitle": "Home Page",
     "privacyTitle": "Privacy Statement",
