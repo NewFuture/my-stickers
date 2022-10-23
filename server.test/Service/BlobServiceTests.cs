@@ -15,7 +15,7 @@ namespace Stickers.Service.Tests
                 new Azure.Storage.Blobs.BlobServiceClient(this.connectionString),
                 getConfig()
             );
-            var uri = blob.getSasToken(Guid.NewGuid(), "jpg");
+            blob.getSasToken(Guid.NewGuid(), "jpg");
         }
 
         [TestMethod()]
@@ -25,7 +25,7 @@ namespace Stickers.Service.Tests
                 new Azure.Storage.Blobs.BlobServiceClient(this.connectionString),
                 getConfig()
             );
-            var uri = blob.commitBlocks(Guid.NewGuid(), Guid.NewGuid(), "jpg", "image/jpg")
+            _ = blob.commitBlocks(Guid.NewGuid(), Guid.NewGuid(), "jpg", "image/jpg")
                 .ConfigureAwait(false)
                 .GetAwaiter()
                 .GetResult();

@@ -38,6 +38,7 @@ public class TenantStickersController : ControllerBase
         );
         if (String.IsNullOrWhiteSpace(id))
         {
+            this.logger.LogError("failed to got tid from token");
             throw new UnauthorizedAccessException("cannot get tenant form token");
         }
         return new Guid(id);

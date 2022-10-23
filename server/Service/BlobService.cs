@@ -74,7 +74,7 @@ public class BlobService
         var blockclient = this.client
             .GetBlobContainerClient(this.containerName)
             .GetBlockBlobClient(fileName);
-        var item = await blockclient.CommitBlockListAsync(
+        await blockclient.CommitBlockListAsync(
             new List<string> { encodeId },
             new BlobHttpHeaders { ContentType = contentType, CacheControl = CacheControl, }
         );

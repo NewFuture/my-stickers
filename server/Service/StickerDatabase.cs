@@ -7,12 +7,12 @@ using Stickers.Utils;
 public class StickerDatabase
 {
     private readonly DapperContext context;
-    private const string userTableName = ENV.SQL_TABEL_NAME;
+    private const string UserTableName = ENV.SQL_TABEL_NAME;
 
-    private const string tenantTableName = ENV.ADMINSQL_TABEL_NAME;
+    private const string TenantTableName = ENV.ADMINSQL_TABEL_NAME;
 
-    private const string userIdFieldName = "userId";
-    private const string tenantIdFielddName = "tenantId";
+    private const string UserIdFieldName = "userId";
+    private const string TenantIdFielddName = "tenantId";
 
     public static readonly long baseTicks = new DateTime(
         2019,
@@ -99,6 +99,6 @@ public class StickerDatabase
 
     private static (string tableName, string fieldName) GetTableAndFiled(bool isTenant)
     {
-        return isTenant ? (tenantTableName, tenantIdFielddName) : (userTableName, userIdFieldName);
+        return isTenant ? (TenantTableName, TenantIdFielddName) : (UserTableName, UserIdFieldName);
     }
 }

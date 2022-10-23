@@ -36,8 +36,8 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
             case "collect":
                 return await this.SaveCollection(turnContext.Activity);
             default:
-                this.logger.LogError("unkwon comand " + command);
-                throw new Exception("unkwon bot action comand " + command);
+                this.logger.LogError("unkwon command: {command}", command);
+                throw new Exception("unkwon bot action command " + command);
         }
     }
 

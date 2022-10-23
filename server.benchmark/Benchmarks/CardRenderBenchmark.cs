@@ -11,7 +11,7 @@ using Stickers.Utils;
 public class CardRenderBenchmark
 {
     private const int NUM = 25;
-    private const int n = 10;
+    private const int N = 10;
     private readonly List<Img> imgs;
 
     private static readonly Dictionary<string, AdaptiveCardTemplate> cardDict = new();
@@ -38,7 +38,7 @@ public class CardRenderBenchmark
     public MessagingExtensionResponse RenderFromCardOnly()
     {
         var result = GetMessagingExtensionResponse(this.imgs);
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < N; i++)
         {
             result = GetMessagingExtensionResponse(this.imgs);
         }
@@ -49,7 +49,7 @@ public class CardRenderBenchmark
     public MessagingExtensionResponse RenderFromPureObject()
     {
         var result = GetMessagingExtensionResponseFromPureObject(this.imgs);
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < N; i++)
         {
             result = GetMessagingExtensionResponseFromPureObject(this.imgs);
         }
@@ -60,7 +60,7 @@ public class CardRenderBenchmark
     public object RenderFromListTemplate()
     {
         var result = GetMessagingExtensionResponseFromTempate(this.imgs);
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < N; i++)
         {
             result = GetMessagingExtensionResponseFromTempate(this.imgs);
         }

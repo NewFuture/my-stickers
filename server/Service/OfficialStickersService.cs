@@ -14,7 +14,7 @@ public class OfficialStickersService
 
     private const string CACHE_KEY = "official-stickers";
 
-    private static readonly MemoryCacheEntryOptions options =
+    private static readonly MemoryCacheEntryOptions cacheOptions =
         new()
         {
             Priority = CacheItemPriority.High,
@@ -48,7 +48,7 @@ public class OfficialStickersService
         {
             return new List<OfficialSticker>();
         }
-        this.cache.Set(CACHE_KEY, stickers);
+        this.cache.Set(CACHE_KEY, stickers, cacheOptions);
         return stickers;
     }
 

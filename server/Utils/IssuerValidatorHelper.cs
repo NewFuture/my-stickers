@@ -13,8 +13,7 @@ public static class IssuerValidatorHelper
 
     public static string ValidateIssuerWithPlaceholder(
         string issuer,
-        SecurityToken token,
-        TokenValidationParameters parameters
+        SecurityToken token
     )
     {
         // Accepts any issuer of the form "https://login.microsoftonline.com/{tenantid}/v2.0",

@@ -14,19 +14,16 @@ public class UserStickersController : ControllerBase
     protected readonly ILogger<UserStickersController> logger;
     private readonly StickerService stickerService;
     private readonly BlobService blobService;
-    private readonly IHttpContextAccessor httpContextAccessor;
 
     public UserStickersController(
         StickerService stickers,
         BlobService blobService,
         ILogger<UserStickersController> logger,
-        IHttpContextAccessor httpContextAccessor,
         SessionService sessionService
     )
     {
         this.stickerService = stickers;
         this.blobService = blobService;
-        this.httpContextAccessor = httpContextAccessor;
         this.logger = logger;
         this.sessionService = sessionService;
     }
@@ -95,18 +92,17 @@ public class UserStickersController : ControllerBase
     protected Guid GetUserId()
     {
         this.Request.Headers.TryGetValue(ENV.SESSION_HEADER_KEY, out var headerValue);
-        if (!string.IsNullOrEmpty(headerValue))
+        if (!string.IsNullOrEmpty(headerValue) && Guid.TryParse(headerValue, out var sessionKey))
         {
-            Guid.TryParse(headerValue, out var sessionKey);
             var sessionInfo = this.sessionService.GetSessionInfo(sessionKey);
             if (sessionInfo == Guid.Empty)
             {
-                this.logger.LogWarning("Invalid SessionKey" + headerValue);
+                this.logger.LogWarning("Invalid sessionInfo: {headerValue}", headerValue);
                 throw new UnauthorizedAccessException("invalidate session");
             }
             return sessionInfo;
         }
-        this.logger.LogWarning("Empty Session Key");
+        this.logger.LogWarning("Empty or None-GUID SessionKey: {headerValue}", headerValue);
         throw new UnauthorizedAccessException("SessionKey required");
     }
 }
