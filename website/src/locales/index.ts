@@ -3,7 +3,7 @@ export enum TransKeys {
     shortTitle = "shortTitle",
     description = "description",
     langSetting = "langSetting",
-    not_found = "not_found",
+    notFound = "notFound",
     date = "date",
     homeTitle = "homeTitle",
     privacyTitle = "privacyTitle",
