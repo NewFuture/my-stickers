@@ -39,15 +39,15 @@
 
         private static ResourceSet GetResourceByLocale(string locale)
         {
-            if (LngMap.TryGetValue(locale, out ResourceSet resourceSet))
+            if (LngMap.TryGetValue(locale, out var resourceSet))
             {
                 return resourceSet;
             }
 
             var culture = new CultureInfo(locale, false);
             resourceSet = StickerStrings.ResourceManager.GetResourceSet(culture, true, true);
-            LngMap.Add(locale, resourceSet);
-            return resourceSet;
+            LngMap.Add(locale, resourceSet!);
+            return resourceSet!;
         }
     }
 }

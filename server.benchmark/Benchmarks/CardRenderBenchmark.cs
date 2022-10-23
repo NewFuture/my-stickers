@@ -3,7 +3,6 @@ using BenchmarkDotNet.Attributes;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
 using Newtonsoft.Json.Linq;
-using Stickers.Bot;
 using Stickers.Models;
 using Stickers.Utils;
 
@@ -138,7 +137,7 @@ public class CardRenderBenchmark
     public static object GetMessagingExtensionResponseFromTempate(IEnumerable<Img> images)
     {
         var list = GetAdaptiveCardJsonObject(new { Imgs = images }, CARDLIST_NAME);
-        return list.ToObject<object>();
+        return list.ToObject<object>()!;
     }
 
     private static JObject GetAdaptiveCardJsonObject(object cardPayload, string cardFileName)

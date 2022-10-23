@@ -41,8 +41,8 @@ public class OfficialStickersService
         var response = await client.GetAsync(this.indexUrl);
         response.EnsureSuccessStatusCode();
         string responseBody = response.Content.ReadAsStringAsync().Result;
-        var jObject = JsonConvert.DeserializeObject(responseBody) as JObject;
-        var stickers = jObject["stickers"].ToObject<List<OfficialSticker>>();
+        var jObject = JsonConvert.DeserializeObject<JObject>(responseBody);
+        var stickers = jObject?["stickers"]?.ToObject<List<OfficialSticker>>();
         if (stickers == null)
         {
             return new List<OfficialSticker>();
@@ -64,6 +64,6 @@ public class OfficialStickersService
         }
 
         var lowerKeyword = keyword.ToLower();
-        return list.FindAll(s => s.keywords.Any(k => k.Contains(lowerKeyword)));
+        return list.FindAll(s => s.keywords?.Any(k => k.Contains(lowerKeyword)) ?? false);
     }
 }
