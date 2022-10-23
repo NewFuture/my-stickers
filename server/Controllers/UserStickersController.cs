@@ -13,7 +13,7 @@ public class UserStickersController : ControllerBase
     protected readonly ILogger<UserStickersController> logger;
     private readonly StickerService stickerService;
     private readonly BlobService blobService;
-    private readonly Guid userId;
+    private readonly SessionService sessionService;
 
     public UserStickersController(
         StickerService stickers,
@@ -25,15 +25,16 @@ public class UserStickersController : ControllerBase
         this.stickerService = stickers;
         this.blobService = blobService;
         this.logger = logger;
-        this.userId = this.GetUserId(sessionService);
+        this.sessionService = sessionService;
     }
 
     [HttpPost("commit")]
     public async Task<Sticker> Commit([FromBody] PostStickerBlobRequest request)
     {
+        var userId = this.GetUserId();
         string? extendName = Path.GetExtension(request.name);
         string src = await this.blobService.commitBlocks(
-            this.userId,
+            userId,
             request.id,
             extendName,
             request.contentType
@@ -45,7 +46,7 @@ public class UserStickersController : ControllerBase
             id = request.id,
         };
         var list = await this.stickerService.addUserStickers(
-            this.userId,
+            userId,
             new List<Sticker>() { newSticker },
             false
         );
@@ -55,42 +56,45 @@ public class UserStickersController : ControllerBase
     [HttpGet("/api/me/stickers")]
     public async Task<Page<Sticker>> Get()
     {
-        var stickers = await this.stickerService.getUserStickers(this.userId);
+        var stickers = await this.stickerService.getUserStickers(this.GetUserId());
         return new Page<Sticker>(stickers);
     }
 
     [HttpDelete("{id}")]
     public async Task<Result> Delete(string id)
     {
-        var result = await this.stickerService.deleteUserSticker(this.userId, id);
+        var result = await this.stickerService.deleteUserSticker(this.GetUserId(), id);
         return new Result(result);
     }
 
     [HttpPatch("{id}")]
     public async Task<Result> UpdateSticker(string id, [FromBody] PatchStickerRequest request)
     {
-        var result = await this.stickerService.updateUserSticker(this.userId, id, request);
+        var result = await this.stickerService.updateUserSticker(this.GetUserId(), id, request);
         return new Result(result);
     }
 
     [HttpPost("upload")]
     public IEnumerable<SasInfo> Upload([FromBody] UploadRequest request)
     {
+        var userId = this.GetUserId();
         var list = new List<SasInfo>();
         foreach (var item in request.exts!)
         {
-            var token = this.blobService.getSasToken(this.userId, item);
+            var token = this.blobService.getSasToken(userId, item);
             list.Add(token);
         }
         return list;
     }
 
-    protected Guid GetUserId(SessionService sessionService)
+    protected Guid GetUserId()
     {
-        this.Request.Headers.TryGetValue(ENV.SESSION_HEADER_KEY, out var headerValue);
-        if (!string.IsNullOrEmpty(headerValue) && Guid.TryParse(headerValue, out var sessionKey))
+        if (
+            this.Request.Headers.TryGetValue(ENV.SESSION_HEADER_KEY, out var headerValue)
+            && Guid.TryParse(headerValue, out var sessionKey)
+        )
         {
-            var sessionInfo = sessionService.GetSessionInfo(sessionKey);
+            var sessionInfo = this.sessionService.GetSessionInfo(sessionKey);
             if (sessionInfo == Guid.Empty)
             {
                 this.logger.LogWarning("Invalid sessionInfo: {headerValue}", headerValue);
