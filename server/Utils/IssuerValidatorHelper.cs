@@ -1,11 +1,11 @@
-﻿namespace Stickers.Utils;
+namespace Stickers.Utils;
 
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 
 public static class IssuerValidatorHelper
 {
-    private static string[] ValiadIssuers = new string[]
+    private static readonly string[] ValiadIssuers = new string[]
     {
         "https://login.microsoftonline.com/{tenantid}/v2.0",
         "https://sts.windows.net/{tenantid}/",

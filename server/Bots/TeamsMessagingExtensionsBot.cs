@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 // @see https://github.com/microsoft/BotBuilder-Samples/blob/main/samples/csharp_dotnetcore/50.teams-messaging-extensions-search/Bots/TeamsMessagingExtensionsSearchBot.cs
 
@@ -13,13 +13,12 @@ using Stickers.Utils;
 public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
 {
     public readonly string WebUrl;
-    private StickerService stickerService;
-    private SearchService searchService;
-    private ILogger<TeamsMessagingExtensionsBot> logger;
-    private SessionService session;
+    private readonly StickerService stickerService;
+    private readonly SearchService searchService;
+    private readonly ILogger<TeamsMessagingExtensionsBot> logger;
+    private readonly SessionService session;
 
-    private static readonly Dictionary<string, AdaptiveCardTemplate> cardDict =
-        new Dictionary<string, AdaptiveCardTemplate>();
+    private static readonly Dictionary<string, AdaptiveCardTemplate> cardDict = new();
 
     public TeamsMessagingExtensionsBot(
         IConfiguration configuration,

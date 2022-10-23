@@ -1,4 +1,4 @@
-﻿namespace Stickers.Service;
+namespace Stickers.Service;
 
 using System.Text;
 using Azure.Storage.Blobs;
@@ -9,14 +9,14 @@ using Stickers.Utils;
 
 public class BlobService
 {
-    private BlobServiceClient client;
-    private string containerName = "stickers";
-    private string cdn;
-    private static Encoding encoding = Encoding.GetEncoding(28591);
+    private readonly BlobServiceClient client;
+    private readonly string containerName = "stickers";
+    private readonly string cdn;
+    private static readonly Encoding encoding = Encoding.GetEncoding(28591);
 
     public const string CacheControl = "max-age=90";
 
-    private string[] supportExtList = new string[] { "png", "gif", "jpg", "jpeg" };
+    private readonly string[] supportExtList = new string[] { "png", "gif", "jpg", "jpeg" };
 
     public BlobService(BlobServiceClient client, IConfiguration configuration)
     {
@@ -29,18 +29,20 @@ public class BlobService
         var id = Guid.NewGuid();
         ext = ext.ToLower();
         string fileName = $"{EncodeGuid(userId)}/{EncodeGuid(id)}";
-        if (supportExtList.Contains(ext))
+        if (this.supportExtList.Contains(ext))
         {
             // add ext
             fileName += $".{ext}";
         }
 
-        BlobSasBuilder sasBuilder = new BlobSasBuilder();
-        sasBuilder.BlobContainerName = containerName;
-        sasBuilder.BlobName = fileName;
-        sasBuilder.ExpiresOn = DateTime.Now.AddMinutes(10);
+        BlobSasBuilder sasBuilder = new BlobSasBuilder
+        {
+            BlobContainerName = containerName,
+            BlobName = fileName,
+            ExpiresOn = DateTime.Now.AddMinutes(10)
+        };
         sasBuilder.SetPermissions(BlobAccountSasPermissions.All);
-        var containerClient = client.GetBlobContainerClient(containerName);
+        var containerClient = this.client.GetBlobContainerClient(this.containerName);
         var blockClient = containerClient.GetBlockBlobClient(fileName);
         Uri sasUri = blockClient.GenerateSasUri(sasBuilder);
         //Uri sasUri = containerClient.GenerateSasUri(sasBuilder);
@@ -61,7 +63,7 @@ public class BlobService
     {
         if (
             string.IsNullOrWhiteSpace(extWithDot)
-            || !supportExtList.Contains(extWithDot.TrimStart('.'))
+            || !this.supportExtList.Contains(extWithDot.TrimStart('.'))
         )
         {
             // remove ext
@@ -69,7 +71,7 @@ public class BlobService
         }
         string fileName = $"{EncodeGuid(userId)}/{EncodeGuid(id)}{extWithDot}";
         var encodeId = Convert.ToBase64String(encoding.GetBytes(id.ToString()));
-        var blockclient = client
+        var blockclient = this.client
             .GetBlobContainerClient(this.containerName)
             .GetBlockBlobClient(fileName);
         var item = await blockclient.CommitBlockListAsync(
@@ -91,7 +93,7 @@ public class BlobService
     {
         string encoded = Convert.ToBase64String(guid.ToByteArray());
         encoded = encoded.Replace('/', '_').Replace('+', '-');
-        return encoded.Substring(0, 22);
+        return encoded[..22];
     }
 }
 

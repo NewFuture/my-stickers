@@ -1,4 +1,4 @@
-﻿namespace Stickers.Middleware;
+namespace Stickers.Middleware;
 
 using System.Net;
 using System.Text.Json;
@@ -19,11 +19,11 @@ public class GlobalErrorHandling
     {
         try
         {
-            await next(context);
+            await this.next(context);
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(context, ex, logger);
+            await HandleExceptionAsync(context, ex, this.logger);
         }
     }
 

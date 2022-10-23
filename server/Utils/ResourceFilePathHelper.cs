@@ -1,4 +1,4 @@
-﻿namespace Stickers.Utils
+namespace Stickers.Utils
 {
     public static class ResourceFilePathHelper
     {

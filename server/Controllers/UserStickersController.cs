@@ -1,4 +1,4 @@
-﻿namespace Stickers.Controllers;
+namespace Stickers.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
 using Stickers.Entities;
@@ -12,9 +12,9 @@ public class UserStickersController : ControllerBase
 {
     private readonly SessionService sessionService;
     protected readonly ILogger<UserStickersController> logger;
-    private StickerService stickerService;
-    private BlobService blobService;
-    private IHttpContextAccessor httpContextAccessor;
+    private readonly StickerService stickerService;
+    private readonly BlobService blobService;
+    private readonly IHttpContextAccessor httpContextAccessor;
 
     public UserStickersController(
         StickerService stickers,
@@ -34,7 +34,7 @@ public class UserStickersController : ControllerBase
     [HttpPost("commit")]
     public async Task<Sticker> Commit([FromBody] PostStickerBlobRequest request)
     {
-        var userId = GetUserId();
+        var userId = this.GetUserId();
         string? extendName = Path.GetExtension(request.name);
         string src = await this.blobService.commitBlocks(
             userId,
@@ -94,19 +94,19 @@ public class UserStickersController : ControllerBase
 
     protected Guid GetUserId()
     {
-        Request.Headers.TryGetValue(ENV.SESSION_HEADER_KEY, out var headerValue);
+        this.Request.Headers.TryGetValue(ENV.SESSION_HEADER_KEY, out var headerValue);
         if (!string.IsNullOrEmpty(headerValue))
         {
             Guid.TryParse(headerValue, out var sessionKey);
             var sessionInfo = this.sessionService.GetSessionInfo(sessionKey);
             if (sessionInfo == Guid.Empty)
             {
-                logger.LogWarning("Invalid SessionKey" + headerValue);
+                this.logger.LogWarning("Invalid SessionKey" + headerValue);
                 throw new UnauthorizedAccessException("invalidate session");
             }
             return sessionInfo;
         }
-        logger.LogWarning("Empty Session Key");
+        this.logger.LogWarning("Empty Session Key");
         throw new UnauthorizedAccessException("SessionKey required");
     }
 }

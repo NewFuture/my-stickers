@@ -1,4 +1,4 @@
-﻿namespace Stickers.Models;
+namespace Stickers.Models;
 
 public class PatchStickerRequest
 {

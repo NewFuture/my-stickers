@@ -1,10 +1,10 @@
-﻿namespace Stickers.Models;
+namespace Stickers.Models;
 
 public class Result
 {
-    public Boolean result;
+    public bool result;
 
-    public Result(Boolean result = true)
+    public Result(bool result = true)
     {
         this.result = result;
     }

@@ -1,4 +1,4 @@
-﻿namespace Stickers.Resources
+namespace Stickers.Resources
 {
     using System.Collections.Generic;
     using System.Globalization;
@@ -17,13 +17,9 @@
         /// <summary>
         /// Default culture to use if the request culture could not be determined.
         /// </summary>
-        public static readonly CultureInfo DefaultCulture = new CultureInfo(
-            DefaultCultureString,
-            false
-        );
+        public static readonly CultureInfo DefaultCulture = new(DefaultCultureString, false);
 
-        private static readonly Dictionary<string, ResourceSet> LngMap =
-            new Dictionary<string, ResourceSet>();
+        private static readonly Dictionary<string, ResourceSet> LngMap = new();
 
         /// <summary>
         /// Looks up localized version of the string based on the key, using the current culture.

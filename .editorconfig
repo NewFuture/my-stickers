@@ -2,9 +2,13 @@
 # Core EditorConfig Options   #
 ###############################
 root = true
+
 # All files
 [*]
+tab_width = 4
+indent_size = 4
 indent_style = space
+charset = utf8
 
 # XML project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
@@ -18,7 +22,6 @@ indent_size = 2
 [*.{cs,csx,vb,vbx}]
 indent_size = 4
 insert_final_newline = true
-charset = utf-8-bom
 ###############################
 # .NET Coding Conventions     #
 ###############################
@@ -26,12 +29,12 @@ charset = utf-8-bom
 # Organize usings
 dotnet_sort_system_directives_first = true
 # this. preferences
-dotnet_style_qualification_for_field = false:silent
-dotnet_style_qualification_for_property = false:silent
-dotnet_style_qualification_for_method = false:silent
-dotnet_style_qualification_for_event = false:silent
+dotnet_style_qualification_for_field = true:suggestion
+dotnet_style_qualification_for_property = true:suggestion
+dotnet_style_qualification_for_method = true:suggestion
+dotnet_style_qualification_for_event = true:suggestion
 # Language keywords vs BCL types preferences
-dotnet_style_predefined_type_for_locals_parameters_members = true:silent
+dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
 dotnet_style_predefined_type_for_member_access = true:silent
 # Parentheses preferences
 dotnet_style_parentheses_in_arithmetic_binary_operators = always_for_clarity:silent

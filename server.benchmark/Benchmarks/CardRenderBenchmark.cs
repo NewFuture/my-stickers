@@ -1,4 +1,4 @@
-﻿namespace Benchmark;
+namespace Benchmark;
 
 using AdaptiveCards.Templating;
 using BenchmarkDotNet.Attributes;
@@ -14,17 +14,16 @@ public class CardRenderBenchmark
     private const int n = 10;
     private readonly List<Img> imgs;
 
-    private static readonly Dictionary<string, AdaptiveCardTemplate> cardDict =
-        new Dictionary<string, AdaptiveCardTemplate>();
+    private static readonly Dictionary<string, AdaptiveCardTemplate> cardDict = new();
     private const string CARD_NAME = "cards/card.json";
     private const string CARDLIST_NAME = "cards/list.json";
 
     public CardRenderBenchmark()
     {
-        imgs = new List<Img>();
+        this.imgs = new List<Img>();
         for (int i = 0; i < NUM; i++)
         {
-            imgs.Add(new Img() { Src = $"https://test.img/{i}", Alt = $"img-{i}" });
+            this.imgs.Add(new Img() { Src = $"https://test.img/{i}", Alt = $"img-{i}" });
         }
 
         string cardPath = ResourceFilePathHelper.GetFilePath(CARD_NAME);
@@ -38,10 +37,10 @@ public class CardRenderBenchmark
     [Benchmark(Baseline = true)]
     public MessagingExtensionResponse RenderFromCardOnly()
     {
-        var result = GetMessagingExtensionResponse(imgs);
+        var result = GetMessagingExtensionResponse(this.imgs);
         for (int i = 0; i < n; i++)
         {
-            result = GetMessagingExtensionResponse(imgs);
+            result = GetMessagingExtensionResponse(this.imgs);
         }
         return result;
     }
@@ -49,10 +48,10 @@ public class CardRenderBenchmark
     [Benchmark]
     public MessagingExtensionResponse RenderFromPureObject()
     {
-        var result = GetMessagingExtensionResponseFromPureObject(imgs);
+        var result = GetMessagingExtensionResponseFromPureObject(this.imgs);
         for (int i = 0; i < n; i++)
         {
-            result = GetMessagingExtensionResponseFromPureObject(imgs);
+            result = GetMessagingExtensionResponseFromPureObject(this.imgs);
         }
         return result;
     }
@@ -60,10 +59,10 @@ public class CardRenderBenchmark
     [Benchmark]
     public object RenderFromListTemplate()
     {
-        var result = GetMessagingExtensionResponseFromTempate(imgs);
+        var result = GetMessagingExtensionResponseFromTempate(this.imgs);
         for (int i = 0; i < n; i++)
         {
-            result = GetMessagingExtensionResponseFromTempate(imgs);
+            result = GetMessagingExtensionResponseFromTempate(this.imgs);
         }
         return result;
     }

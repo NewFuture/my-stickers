@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Stickers.Service.Tests
@@ -6,14 +6,14 @@ namespace Stickers.Service.Tests
     [TestClass()]
     public class BlobServiceTests
     {
-        private string connectionString = "";
+        private readonly string connectionString = "";
 
         [TestMethod()]
         public void getSasTokenTest()
         {
             BlobService blob = new BlobService(
-                new Azure.Storage.Blobs.BlobServiceClient(connectionString),
-                this.getConfig()
+                new Azure.Storage.Blobs.BlobServiceClient(this.connectionString),
+                getConfig()
             );
             var uri = blob.getSasToken(Guid.NewGuid(), "jpg");
         }
@@ -22,8 +22,8 @@ namespace Stickers.Service.Tests
         public void commitTest()
         {
             BlobService blob = new BlobService(
-                new Azure.Storage.Blobs.BlobServiceClient(connectionString),
-                this.getConfig()
+                new Azure.Storage.Blobs.BlobServiceClient(this.connectionString),
+                getConfig()
             );
             var uri = blob.commitBlocks(Guid.NewGuid(), Guid.NewGuid(), "jpg", "image/jpg")
                 .ConfigureAwait(false)
@@ -31,7 +31,7 @@ namespace Stickers.Service.Tests
                 .GetResult();
         }
 
-        private IConfiguration getConfig()
+        private static IConfiguration getConfig()
         {
             var configurationBuilder = new ConfigurationBuilder().AddInMemoryCollection(
                 new Dictionary<string, string> { ["BlobConnection"] = "Blob Connection" }

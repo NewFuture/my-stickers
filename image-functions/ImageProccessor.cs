@@ -1,4 +1,4 @@
-﻿namespace Stickers.ImageFunctions;
+namespace Stickers.ImageFunctions;
 
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿namespace Stickers.Service;
+namespace Stickers.Service;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -7,18 +7,19 @@ using Stickers.Utils;
 
 public class OfficialStickersService
 {
-    private IHttpClientFactory httpClientFactory;
+    private readonly IHttpClientFactory httpClientFactory;
     private readonly IMemoryCache cache;
 
-    private string indexUrl;
+    private readonly string indexUrl;
 
     private const string CACHE_KEY = "official-stickers";
 
-    private static readonly MemoryCacheEntryOptions options = new MemoryCacheEntryOptions()
-    {
-        Priority = CacheItemPriority.High,
-        AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12),
-    };
+    private static readonly MemoryCacheEntryOptions options =
+        new()
+        {
+            Priority = CacheItemPriority.High,
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12),
+        };
 
     public OfficialStickersService(
         IHttpClientFactory httpClientFactory,
@@ -33,11 +34,11 @@ public class OfficialStickersService
 
     public async Task<List<OfficialSticker>> GetOfficialStickers()
     {
-        if (cache.TryGetValue<List<OfficialSticker>>(CACHE_KEY, out var list))
+        if (this.cache.TryGetValue<List<OfficialSticker>>(CACHE_KEY, out var list))
         {
             return list;
         }
-        var client = httpClientFactory.CreateClient("official-stickers");
+        var client = this.httpClientFactory.CreateClient("official-stickers");
         var response = await client.GetAsync(this.indexUrl);
         response.EnsureSuccessStatusCode();
         string responseBody = response.Content.ReadAsStringAsync().Result;
@@ -47,7 +48,7 @@ public class OfficialStickersService
         {
             return new List<OfficialSticker>();
         }
-        cache.Set(CACHE_KEY, stickers);
+        this.cache.Set(CACHE_KEY, stickers);
         return stickers;
     }
 

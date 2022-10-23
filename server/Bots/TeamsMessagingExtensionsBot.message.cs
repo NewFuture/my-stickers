@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 // @see https://github.com/microsoft/BotBuilder-Samples/blob/main/samples/csharp_dotnetcore/51.teams-messaging-extensions-action/Bots/TeamsMessagingExtensionsActionBot.cs
 
@@ -17,9 +17,9 @@ using Stickers.Resources;
 
 public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
 {
-    private static Regex IMG_SRC_REGEX = new Regex("<img[^>]+src=\"([^\"\\s]+)\"[^>]*>");
-    private static Regex IMG_ALT_REGEX = new Regex("<img[^>]+alt=\"([^\"]+)\"[^>]*>");
-    private static Regex IMAGE_URL_REGEX = new Regex("^http(s?):\\/\\/.*\\.(?:jpg|gif|png)$");
+    private static readonly Regex IMG_SRC_REGEX = new("<img[^>]+src=\"([^\"\\s]+)\"[^>]*>");
+    private static readonly Regex IMG_ALT_REGEX = new("<img[^>]+alt=\"([^\"]+)\"[^>]*>");
+    private static readonly Regex IMAGE_URL_REGEX = new("^http(s?):\\/\\/.*\\.(?:jpg|gif|png)$");
 
     protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionFetchTaskAsync(
         ITurnContext<IInvokeActivity> turnContext,
@@ -54,7 +54,7 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
         attachments?.ForEach(
             (attachment) =>
             {
-                imgs.AddRange(this.GetImageFromAttachment(attachment));
+                imgs.AddRange(GetImageFromAttachment(attachment));
             }
         );
         var hasImg = imgs.Count > 0;
@@ -125,7 +125,7 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
             return imgs;
         }
         var result = IMG_SRC_REGEX.Matches(content);
-        foreach (Match match in result)
+        foreach (Match match in result.Cast<Match>())
         {
             var alt = IMG_ALT_REGEX.Match(match.Groups[0].Value)?.Groups?[1].Value;
             imgs.Add(new Img { Src = GetWrapUrl(match.Groups[1].Value), Alt = alt });
@@ -133,7 +133,7 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
         return imgs;
     }
 
-    private List<Img> GetImageFromAttachment(Attachment attachment)
+    private static List<Img> GetImageFromAttachment(Attachment attachment)
     {
         List<Img> imgs = new List<Img>();
         if (
@@ -211,7 +211,7 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
             && split[1].StartsWith("url=http")
         )
         {
-            return Uri.UnescapeDataString(split[1].Substring(4));
+            return Uri.UnescapeDataString(split[1][4..]);
         }
         return url ?? "";
     }

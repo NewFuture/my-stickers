@@ -1,4 +1,4 @@
-﻿namespace Stickers.Service;
+namespace Stickers.Service;
 
 using Dapper;
 using Stickers.Entities;
@@ -6,7 +6,7 @@ using Stickers.Utils;
 
 public class StickerDatabase
 {
-    private DapperContext context;
+    private readonly DapperContext context;
     private const string userTableName = ENV.SQL_TABEL_NAME;
 
     private const string tenantTableName = ENV.ADMINSQL_TABEL_NAME;
@@ -32,32 +32,26 @@ public class StickerDatabase
         this.context = context;
     }
 
-    public async Task<List<Sticker>> getStickerList(Boolean isTenant, Guid filterId)
+    public async Task<List<Sticker>> getStickerList(bool isTenant, Guid filterId)
     {
-        var tableInfo = GetTableAndFiled(isTenant);
-        var query =
-            $"SELECT * FROM {tableInfo.tableName} WHERE {tableInfo.fieldName} = @filterId ORDER BY weight DESC";
-        using (var connection = context.CreateConnection())
-        {
-            var companies = await connection.QueryAsync<Sticker>(query, new { filterId });
-            return companies.ToList();
-        }
+        var (tableName, fieldName) = GetTableAndFiled(isTenant);
+        var query = $"SELECT * FROM {tableName} WHERE {fieldName} = @filterId ORDER BY weight DESC";
+        using var connection = this.context.CreateConnection();
+        var companies = await connection.QueryAsync<Sticker>(query, new { filterId });
+        return companies.ToList();
     }
 
-    public async Task<bool> deleteSticker(Boolean isTenant, Guid filterId, string stickerId)
+    public async Task<bool> deleteSticker(bool isTenant, Guid filterId, string stickerId)
     {
-        var tableInfo = GetTableAndFiled(isTenant);
-        var query =
-            $"DELETE FROM {tableInfo.tableName} WHERE id=@id AND {tableInfo.fieldName}=@filterId";
-        using (var connection = this.context.CreateConnection())
-        {
-            var ItemCount = await connection.ExecuteAsync(query, new { id = stickerId, filterId });
-            return ItemCount > 0;
-        }
+        var (tableName, fieldName) = GetTableAndFiled(isTenant);
+        var query = $"DELETE FROM {tableName} WHERE id=@id AND {fieldName}=@filterId";
+        using var connection = this.context.CreateConnection();
+        var ItemCount = await connection.ExecuteAsync(query, new { id = stickerId, filterId });
+        return ItemCount > 0;
     }
 
     public async Task<bool> updateSticker(
-        Boolean isTenant,
+        bool isTenant,
         Guid filterId,
         string stickerId,
         string? name,
@@ -70,7 +64,7 @@ public class StickerDatabase
         {
             return false;
         }
-        var tableInfo = GetTableAndFiled(isTenant);
+        var (tableName, fieldName) = GetTableAndFiled(isTenant);
         var updateQuery = "";
         if (hasName)
         {
@@ -81,37 +75,26 @@ public class StickerDatabase
             updateQuery += "weight=@weight,";
         }
         var query =
-            $"UPDATE {tableInfo.tableName} SET {updateQuery} updateAt = GETDATE() WHERE id=@id AND {tableInfo.fieldName} = @filterId";
-        using (var connection = context.CreateConnection())
-        {
-            var ItemCount = await connection.ExecuteAsync(
-                query,
-                new { id = stickerId, name, filterId, weight }
-            );
-            return ItemCount > 0;
-        }
+            $"UPDATE {tableName} SET {updateQuery} updateAt = GETDATE() WHERE id=@id AND {fieldName} = @filterId";
+        using var connection = this.context.CreateConnection();
+        var ItemCount = await connection.ExecuteAsync(
+            query,
+            new { id = stickerId, name, filterId, weight }
+        );
+        return ItemCount > 0;
     }
 
-    public async Task<Boolean> InsertSticker(Boolean isTenant, Guid filterId, Sticker sticker)
+    public async Task<bool> InsertSticker(bool isTenant, Guid filterId, Sticker sticker)
     {
-        var tableInfo = GetTableAndFiled(isTenant);
+        var (tableName, fieldName) = GetTableAndFiled(isTenant);
         string sql =
-            $"INSERT INTO {tableInfo.tableName} (id,{tableInfo.fieldName},src,name,weight) VALUES (@id,@filterId,@src,@name,@weight)";
-        using (var connection = context.CreateConnection())
-        {
-            var ItemCount = await connection.ExecuteAsync(
-                sql,
-                new
-                {
-                    id = sticker.id,
-                    filterId,
-                    src = sticker.src,
-                    name = sticker.name,
-                    weight = GetNewWeight(),
-                }
-            );
-            return ItemCount > 0;
-        }
+            $"INSERT INTO {tableName} (id,{fieldName},src,name,weight) VALUES (@id,@filterId,@src,@name,@weight)";
+        using var connection = this.context.CreateConnection();
+        var ItemCount = await connection.ExecuteAsync(
+            sql,
+            new { sticker.id, filterId, sticker.src, sticker.name, weight = GetNewWeight(), }
+        );
+        return ItemCount > 0;
     }
 
     private static (string tableName, string fieldName) GetTableAndFiled(bool isTenant)

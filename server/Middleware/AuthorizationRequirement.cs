@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-
 namespace Stickers.Middleware;
+
+using Microsoft.AspNetCore.Authorization;
 
 /// <summary>
 /// Validates the auth requirement.

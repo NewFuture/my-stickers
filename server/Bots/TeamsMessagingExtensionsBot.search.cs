@@ -77,14 +77,20 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
         cancellationToken.ThrowIfCancellationRequested();
         if (initialRun == "true")
         {
-            var imgs = await InitialResultGrid(userId, tenantId, skip, count, cancellationToken);
+            var imgs = await this.InitialResultGrid(
+                userId,
+                tenantId,
+                skip,
+                count,
+                cancellationToken
+            );
             return GetMessagingExtensionResponse(imgs, false);
         }
         else
         {
             // The list of MessagingExtensionAttachments must we wrapped in a MessagingExtensionResult wrapped in a MessagingExtensionResponse.
             var keyword = GetQueryParameters(query, "query");
-            var imgs = await QueryResultGrid(
+            var imgs = await this.QueryResultGrid(
                 userId,
                 tenantId,
                 keyword,
@@ -138,7 +144,7 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
             stickers = stickers.Concat(tenantStickers).ToList();
         }
 
-        IEnumerable<Img> imgs = new Img[] { };
+        IEnumerable<Img> imgs = Array.Empty<Img>();
         if (stickers.Count > skip)
         {
             imgs = stickers.Skip(skip).Select(StickerToImg);
@@ -167,7 +173,7 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
         if (skip > 0)
         {
             // search 最多支持一页
-            return new Img[0];
+            return Array.Empty<Img>();
         }
         // user search
         var stickers = await this.searchService.SearchUserStickers(

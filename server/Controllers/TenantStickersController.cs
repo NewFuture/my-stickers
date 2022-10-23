@@ -1,4 +1,4 @@
-﻿namespace Stickers.Controllers;
+namespace Stickers.Controllers;
 
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
@@ -14,9 +14,9 @@ using Stickers.Utils;
 public class TenantStickersController : ControllerBase
 {
     private readonly ILogger<UserStickersController> logger;
-    private StickerService stickerService;
-    private BlobService blobService;
-    private IHttpContextAccessor httpContextAccessor;
+    private readonly StickerService stickerService;
+    private readonly BlobService blobService;
+    private readonly IHttpContextAccessor httpContextAccessor;
 
     public TenantStickersController(
         StickerService stickers,

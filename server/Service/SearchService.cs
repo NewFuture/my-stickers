@@ -1,11 +1,11 @@
-﻿namespace Stickers.Service;
+namespace Stickers.Service;
 
 using Stickers.Entities;
 
 public class SearchService
 {
-    private OfficialStickersService officialStickersService;
-    private StickerService stickerService;
+    private readonly OfficialStickersService officialStickersService;
+    private readonly StickerService stickerService;
 
     public SearchService(
         OfficialStickersService officialStickersSearchHandler,
@@ -22,7 +22,7 @@ public class SearchService
         CancellationToken cancellationToken
     )
     {
-        var userStickers = await stickerService.getUserStickers(userId);
+        var userStickers = await this.stickerService.getUserStickers(userId);
         cancellationToken.ThrowIfCancellationRequested();
         if (String.IsNullOrWhiteSpace(keyword))
         {
@@ -39,7 +39,7 @@ public class SearchService
         CancellationToken cancellationToken
     )
     {
-        var stickers = await stickerService.getTenantStickers(tenantId);
+        var stickers = await this.stickerService.getTenantStickers(tenantId);
         cancellationToken.ThrowIfCancellationRequested();
         if (String.IsNullOrWhiteSpace(keyword))
         {
