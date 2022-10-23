@@ -1,10 +1,10 @@
+﻿namespace Stickers.Controllers;
+
 using Microsoft.AspNetCore.Mvc;
 using Stickers.Entities;
 using Stickers.Models;
 using Stickers.Service;
 using Stickers.Utils;
-
-namespace Stickers.Controllers;
 
 [ApiController]
 [Route("api/me/stickers")]

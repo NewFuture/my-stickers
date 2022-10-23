@@ -1,3 +1,5 @@
+﻿namespace Benchmark;
+
 using AdaptiveCards.Templating;
 using BenchmarkDotNet.Attributes;
 using Microsoft.Bot.Schema;
@@ -5,8 +7,6 @@ using Microsoft.Bot.Schema.Teams;
 using Newtonsoft.Json.Linq;
 using Stickers.Models;
 using Stickers.Utils;
-
-namespace Benchmark;
 
 public class CardRenderBenchmark
 {

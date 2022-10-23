@@ -1,4 +1,5 @@
-namespace Stickers.Service;
+﻿namespace Stickers.Service;
+
 using Stickers.Entities;
 
 public class SearchService

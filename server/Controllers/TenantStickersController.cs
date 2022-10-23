@@ -1,12 +1,12 @@
+﻿namespace Stickers.Controllers;
+
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stickers.Entities;
 using Stickers.Models;
 using Stickers.Service;
 using Stickers.Utils;
-using System.Security.Claims;
-
-namespace Stickers.Controllers;
 
 [ApiController]
 [Authorize(AuthenticationSchemes = ENV.ID_TOKEN_DEFINITION)]

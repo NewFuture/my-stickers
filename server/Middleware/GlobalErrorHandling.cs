@@ -1,7 +1,7 @@
+﻿namespace Stickers.Middleware;
+
 using System.Net;
 using System.Text.Json;
-
-namespace Stickers.Middleware;
 
 public class GlobalErrorHandling
 {

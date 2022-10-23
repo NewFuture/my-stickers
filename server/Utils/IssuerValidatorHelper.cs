@@ -1,7 +1,7 @@
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿namespace Stickers.Utils;
 
-namespace Stickers.Utils;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
 
 public static class IssuerValidatorHelper
 {
