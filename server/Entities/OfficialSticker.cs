@@ -1,4 +1,4 @@
-﻿namespace Stickers.Entities;
+namespace Stickers.Entities;
 
 public class OfficialSticker
 {

@@ -1,12 +1,12 @@
+namespace Stickers.Controllers;
+
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stickers.Entities;
 using Stickers.Models;
 using Stickers.Service;
 using Stickers.Utils;
-using System.Security.Claims;
-
-namespace Stickers.Controllers;
 
 [ApiController]
 [Authorize(AuthenticationSchemes = ENV.ID_TOKEN_DEFINITION)]
@@ -14,9 +14,9 @@ namespace Stickers.Controllers;
 public class TenantStickersController : ControllerBase
 {
     private readonly ILogger<UserStickersController> logger;
-    private StickerService stickerService;
-    private BlobService blobService;
-    private IHttpContextAccessor httpContextAccessor;
+    private readonly StickerService stickerService;
+    private readonly BlobService blobService;
+    private readonly IHttpContextAccessor httpContextAccessor;
 
     public TenantStickersController(
         StickerService stickers,
@@ -38,6 +38,7 @@ public class TenantStickersController : ControllerBase
         );
         if (String.IsNullOrWhiteSpace(id))
         {
+            this.logger.LogError("failed to got tid from token");
             throw new UnauthorizedAccessException("cannot get tenant form token");
         }
         return new Guid(id);

@@ -1,4 +1,4 @@
-﻿using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
+using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 
 namespace Stickers.Middleware;
@@ -12,6 +12,6 @@ public class AdapterWithErrorHandler : CloudAdapter
         TelemetryInitializerMiddleware telemetryInitializerMiddleware
     ) : base(configuration, httpClientFactory, logger)
     {
-        Use(telemetryInitializerMiddleware);
+        this.Use(telemetryInitializerMiddleware);
     }
 }

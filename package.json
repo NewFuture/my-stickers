@@ -13,6 +13,7 @@
     "scripts": {
         "format": "yarn prettier --write && yarn eslint ./ --fix",
         "format:check": "yarn prettier --check && yarn eslint ./",
+        "format:server": "dotnet format --severity info",
         "client": "yarn workspace client-config-app run start",
         "client:build": "yarn workspace client-config-app run build",
         "client:test": "yarn workspace client-config-app run test",

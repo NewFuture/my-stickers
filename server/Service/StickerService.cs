@@ -1,4 +1,4 @@
-﻿namespace Stickers.Service
+namespace Stickers.Service
 {
     using Microsoft.Extensions.Caching.Memory;
     using Stickers.Entities;
@@ -7,18 +7,18 @@
 
     public class StickerService
     {
-        private StickerDatabase database;
-        private IMemoryCache cache;
+        private readonly StickerDatabase database;
+        private readonly IMemoryCache cache;
 
         private static readonly MemoryCacheEntryOptions userCaheOptions =
-            new MemoryCacheEntryOptions()
+            new()
             {
                 Priority = CacheItemPriority.Low,
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30),
             };
 
         private static readonly MemoryCacheEntryOptions tenantCacheOptions =
-            new MemoryCacheEntryOptions()
+            new()
             {
                 Priority = CacheItemPriority.Normal,
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(8),
@@ -32,23 +32,23 @@
 
         public async Task<List<Sticker>> getUserStickers(Guid userId)
         {
-            return await getStickerList(false, userId);
+            return await this.getStickerList(false, userId);
         }
 
         public async Task<List<Sticker>> getTenantStickers(Guid tenantId)
         {
-            return await getStickerList(true, tenantId);
+            return await this.getStickerList(true, tenantId);
         }
 
-        private async Task<List<Sticker>> getStickerList(Boolean isTenant, Guid id)
+        private async Task<List<Sticker>> getStickerList(bool isTenant, Guid id)
         {
             var cacheKey = GetCacheKey(isTenant, id);
-            if (cache.TryGetValue<List<Sticker>>(cacheKey, out var cacheList))
+            if (this.cache.TryGetValue<List<Sticker>>(cacheKey, out var cacheList))
             {
                 return cacheList;
             }
-            var list = await database.getStickerList(isTenant, id);
-            cache.Set(cacheKey, list, isTenant ? tenantCacheOptions : userCaheOptions);
+            var list = await this.database.getStickerList(isTenant, id);
+            this.cache.Set(cacheKey, list, isTenant ? tenantCacheOptions : userCaheOptions);
             return list;
         }
 
@@ -62,12 +62,12 @@
             return await this.deleteSticker(true, tenantId, stickerId);
         }
 
-        private async Task<bool> deleteSticker(Boolean isTenant, Guid filterId, string stickerId)
+        private async Task<bool> deleteSticker(bool isTenant, Guid filterId, string stickerId)
         {
             if (await this.database.deleteSticker(isTenant, filterId, stickerId))
             {
                 var cacheKey = GetCacheKey(isTenant, filterId);
-                cache.Remove(cacheKey);
+                this.cache.Remove(cacheKey);
                 return true;
             }
             return false;
@@ -92,7 +92,7 @@
         }
 
         private async Task<bool> updateSticker(
-            Boolean isTenant,
+            bool isTenant,
             Guid filterId,
             string stickerId,
             PatchStickerRequest sticker
@@ -149,7 +149,7 @@
         }
 
         private async Task<List<Sticker>> addStickers(
-            Boolean isTenant,
+            bool isTenant,
             Guid filterId,
             List<Sticker> stickers,
             bool checkExistingStickers
@@ -171,7 +171,13 @@
                     item.id = oldstickers.Find(s => s.src == item.src)!.id;
                     var stickerId = item.id.ToString();
                     var weight = StickerDatabase.GetNewWeight();
-                    await database.updateSticker(isTenant, filterId, stickerId, item.name, weight);
+                    await this.database.updateSticker(
+                        isTenant,
+                        filterId,
+                        stickerId,
+                        item.name,
+                        weight
+                    );
                     stickers.Remove(item);
                     result.Add(item);
                 }
@@ -180,12 +186,12 @@
                 var item in stickers.Take(ENV.USER_STICKERS_MAX_NUM - (oldstickers?.Count ?? 0))
             )
             {
-                await database.InsertSticker(isTenant, filterId, item);
+                await this.database.InsertSticker(isTenant, filterId, item);
                 result.Add(item);
             }
 
             var cacheKey = GetCacheKey(isTenant, filterId);
-            cache.Remove(cacheKey);
+            this.cache.Remove(cacheKey);
             return result;
         }
 

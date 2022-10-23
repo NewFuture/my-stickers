@@ -1,43 +1,39 @@
+namespace Stickers.Controllers;
+
 using Microsoft.AspNetCore.Mvc;
 using Stickers.Entities;
 using Stickers.Models;
 using Stickers.Service;
 using Stickers.Utils;
 
-namespace Stickers.Controllers;
-
 [ApiController]
 [Route("api/me/stickers")]
 public class UserStickersController : ControllerBase
 {
-    private readonly SessionService sessionService;
     protected readonly ILogger<UserStickersController> logger;
-    private StickerService stickerService;
-    private BlobService blobService;
-    private IHttpContextAccessor httpContextAccessor;
+    private readonly StickerService stickerService;
+    private readonly BlobService blobService;
+    private readonly Guid userId;
 
     public UserStickersController(
         StickerService stickers,
         BlobService blobService,
         ILogger<UserStickersController> logger,
-        IHttpContextAccessor httpContextAccessor,
         SessionService sessionService
     )
     {
         this.stickerService = stickers;
         this.blobService = blobService;
-        this.httpContextAccessor = httpContextAccessor;
         this.logger = logger;
-        this.sessionService = sessionService;
+        this.userId = this.GetUserId(sessionService);
     }
 
     [HttpPost("commit")]
     public async Task<Sticker> Commit([FromBody] PostStickerBlobRequest request)
     {
-        var userId = GetUserId();
         string? extendName = Path.GetExtension(request.name);
         string src = await this.blobService.commitBlocks(
-            userId,
+            this.userId,
             request.id,
             extendName,
             request.contentType
@@ -49,7 +45,7 @@ public class UserStickersController : ControllerBase
             id = request.id,
         };
         var list = await this.stickerService.addUserStickers(
-            userId,
+            this.userId,
             new List<Sticker>() { newSticker },
             false
         );
@@ -59,24 +55,21 @@ public class UserStickersController : ControllerBase
     [HttpGet("/api/me/stickers")]
     public async Task<Page<Sticker>> Get()
     {
-        var userId = this.GetUserId();
-        var stickers = await this.stickerService.getUserStickers(userId);
+        var stickers = await this.stickerService.getUserStickers(this.userId);
         return new Page<Sticker>(stickers);
     }
 
     [HttpDelete("{id}")]
     public async Task<Result> Delete(string id)
     {
-        var userId = this.GetUserId();
-        var result = await this.stickerService.deleteUserSticker(userId, id);
+        var result = await this.stickerService.deleteUserSticker(this.userId, id);
         return new Result(result);
     }
 
     [HttpPatch("{id}")]
     public async Task<Result> UpdateSticker(string id, [FromBody] PatchStickerRequest request)
     {
-        var userId = this.GetUserId();
-        var result = await this.stickerService.updateUserSticker(userId, id, request);
+        var result = await this.stickerService.updateUserSticker(this.userId, id, request);
         return new Result(result);
     }
 
@@ -86,27 +79,26 @@ public class UserStickersController : ControllerBase
         var list = new List<SasInfo>();
         foreach (var item in request.exts!)
         {
-            var token = this.blobService.getSasToken(this.GetUserId(), item);
+            var token = this.blobService.getSasToken(this.userId, item);
             list.Add(token);
         }
         return list;
     }
 
-    protected Guid GetUserId()
+    protected Guid GetUserId(SessionService sessionService)
     {
-        Request.Headers.TryGetValue(ENV.SESSION_HEADER_KEY, out var headerValue);
-        if (!string.IsNullOrEmpty(headerValue))
+        this.Request.Headers.TryGetValue(ENV.SESSION_HEADER_KEY, out var headerValue);
+        if (!string.IsNullOrEmpty(headerValue) && Guid.TryParse(headerValue, out var sessionKey))
         {
-            Guid.TryParse(headerValue, out var sessionKey);
-            var sessionInfo = this.sessionService.GetSessionInfo(sessionKey);
+            var sessionInfo = sessionService.GetSessionInfo(sessionKey);
             if (sessionInfo == Guid.Empty)
             {
-                logger.LogWarning("Invalid SessionKey" + headerValue);
+                this.logger.LogWarning("Invalid sessionInfo: {headerValue}", headerValue);
                 throw new UnauthorizedAccessException("invalidate session");
             }
             return sessionInfo;
         }
-        logger.LogWarning("Empty Session Key");
+        this.logger.LogWarning("Empty or None-GUID SessionKey: {headerValue}", headerValue);
         throw new UnauthorizedAccessException("SessionKey required");
     }
 }

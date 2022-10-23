@@ -1,31 +1,29 @@
+namespace Benchmark;
+
 using AdaptiveCards.Templating;
 using BenchmarkDotNet.Attributes;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
 using Newtonsoft.Json.Linq;
-using Stickers.Bot;
 using Stickers.Models;
 using Stickers.Utils;
-
-namespace Benchmark;
 
 public class CardRenderBenchmark
 {
     private const int NUM = 25;
-    private const int n = 10;
+    private const int N = 10;
     private readonly List<Img> imgs;
 
-    private static readonly Dictionary<string, AdaptiveCardTemplate> cardDict =
-        new Dictionary<string, AdaptiveCardTemplate>();
+    private static readonly Dictionary<string, AdaptiveCardTemplate> cardDict = new();
     private const string CARD_NAME = "cards/card.json";
     private const string CARDLIST_NAME = "cards/list.json";
 
     public CardRenderBenchmark()
     {
-        imgs = new List<Img>();
+        this.imgs = new List<Img>();
         for (int i = 0; i < NUM; i++)
         {
-            imgs.Add(new Img() { Src = $"https://test.img/{i}", Alt = $"img-{i}" });
+            this.imgs.Add(new Img() { Src = $"https://test.img/{i}", Alt = $"img-{i}" });
         }
 
         string cardPath = ResourceFilePathHelper.GetFilePath(CARD_NAME);
@@ -39,10 +37,10 @@ public class CardRenderBenchmark
     [Benchmark(Baseline = true)]
     public MessagingExtensionResponse RenderFromCardOnly()
     {
-        var result = GetMessagingExtensionResponse(imgs);
-        for (int i = 0; i < n; i++)
+        var result = GetMessagingExtensionResponse(this.imgs);
+        for (int i = 0; i < N; i++)
         {
-            result = GetMessagingExtensionResponse(imgs);
+            result = GetMessagingExtensionResponse(this.imgs);
         }
         return result;
     }
@@ -50,10 +48,10 @@ public class CardRenderBenchmark
     [Benchmark]
     public MessagingExtensionResponse RenderFromPureObject()
     {
-        var result = GetMessagingExtensionResponseFromPureObject(imgs);
-        for (int i = 0; i < n; i++)
+        var result = GetMessagingExtensionResponseFromPureObject(this.imgs);
+        for (int i = 0; i < N; i++)
         {
-            result = GetMessagingExtensionResponseFromPureObject(imgs);
+            result = GetMessagingExtensionResponseFromPureObject(this.imgs);
         }
         return result;
     }
@@ -61,10 +59,10 @@ public class CardRenderBenchmark
     [Benchmark]
     public object RenderFromListTemplate()
     {
-        var result = GetMessagingExtensionResponseFromTempate(imgs);
-        for (int i = 0; i < n; i++)
+        var result = GetMessagingExtensionResponseFromTempate(this.imgs);
+        for (int i = 0; i < N; i++)
         {
-            result = GetMessagingExtensionResponseFromTempate(imgs);
+            result = GetMessagingExtensionResponseFromTempate(this.imgs);
         }
         return result;
     }
@@ -138,7 +136,7 @@ public class CardRenderBenchmark
     public static object GetMessagingExtensionResponseFromTempate(IEnumerable<Img> images)
     {
         var list = GetAdaptiveCardJsonObject(new { Imgs = images }, CARDLIST_NAME);
-        return list.ToObject<object>();
+        return list.ToObject<object>()!;
     }
 
     private static JObject GetAdaptiveCardJsonObject(object cardPayload, string cardFileName)
