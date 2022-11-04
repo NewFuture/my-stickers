@@ -147,12 +147,16 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
             || attachment.ContentType == "application/vnd.microsoft.card.hero"
         )
         {
-            if (attachment.Content == null)
+            var originContent = attachment.Content;
+            if (originContent == null)
             {
                 return imgs;
             }
 
-            var content = JObject.FromObject(attachment.Content);
+            var content =
+                originContent is string
+                    ? JObject.Parse((originContent as string)!)
+                    : JObject.FromObject(originContent);
             var body = content?["body"]?.ToObject<List<JObject>>();
             if (body == null)
             {
