@@ -12,6 +12,8 @@ public static class ConfigKeys
 
     public const string CDN_DOMAIN = "AZURE_STORAGE_CDN";
 
+    public const string BLOB_CONTAINER = "AZURE_STORAGE_CONTAINER";
+
     public const string AAD_SECTION = "AAD";
     public const string AAD_CLINET_ID = "AAD:ClientId";
 
