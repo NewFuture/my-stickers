@@ -49,8 +49,7 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
         var userId = activity.From.AadObjectId;
         var content = body?["content"]?.ToString();
         var imgs = GetImages(content);
-
-        List<Attachment>? attachments = payload?["attachments"]?.Value<List<Attachment>>();
+        List<Attachment>? attachments = payload?["attachments"]?.ToObject<List<Attachment>>();
         attachments?.ForEach(
             (attachment) =>
             {
@@ -154,8 +153,7 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
             }
 
             var content = JObject.FromObject(attachment.Content);
-            // JsonConvert.DeserializeObject<JObject>(attachment.Content.ToString());
-            var body = content?["body"]?.Value<List<JObject>>();
+            var body = content?["body"]?.ToObject<List<JObject>>();
             if (body == null)
             {
                 return imgs;
