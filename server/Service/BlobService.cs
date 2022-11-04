@@ -10,7 +10,7 @@ using Stickers.Utils;
 public class BlobService
 {
     private readonly BlobServiceClient client;
-    private readonly string containerName = "stickers";
+    private readonly string containerName;
     private readonly string cdn;
     private static readonly Encoding encoding = Encoding.GetEncoding(28591);
 
@@ -22,6 +22,7 @@ public class BlobService
     {
         this.client = client;
         this.cdn = configuration[ConfigKeys.CDN_DOMAIN];
+        this.containerName = configuration[ConfigKeys.BLOB_CONTAINER];
     }
 
     public SasInfo getSasToken(Guid userId, string ext)
