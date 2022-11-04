@@ -5,12 +5,12 @@
             "samplingSettings": {
                 "isEnabled": true,
                 "maxTelemetryItemsPerSecond": 10,
-                "initialSamplingPercentage": 80,
+                "initialSamplingPercentage": 100,
                 "excludedTypes": "Dependency;Request,PageView"
             },
             "enableLiveMetrics": true,
             "enableDependencyTracking": false,
-            "enablePerformanceCountersCollection": false
+            "enablePerformanceCountersCollection": true
         }
     }
 }
