@@ -42,7 +42,6 @@
 
         private async Task<List<Sticker>> getStickerList(bool isTenant, Guid id)
         {
-            return new List<Sticker>();
             var cacheKey = GetCacheKey(isTenant, id);
             if (this.cache.TryGetValue<List<Sticker>>(cacheKey, out var cacheList))
             {
