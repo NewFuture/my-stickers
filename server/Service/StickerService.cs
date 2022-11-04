@@ -1,4 +1,4 @@
-﻿namespace Stickers.Service
+namespace Stickers.Service
 {
     using Microsoft.Extensions.Caching.Memory;
     using Stickers.Entities;
