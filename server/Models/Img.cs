@@ -1,9 +1,4 @@
 namespace Stickers.Models
 {
-    public class Img
-    {
-        public string? Src { get; set; }
-
-        public string? Alt { get; set; }
-    }
+    public readonly record struct Img(string Src, string? Alt = "");
 }

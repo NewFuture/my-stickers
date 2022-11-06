@@ -1,6 +1,6 @@
 namespace Stickers.Models;
 
-public class PostStickerBlobRequest
+public record struct PostStickerBlobRequest
 {
     public Guid id { get; set; }
     public string? name { get; set; }
