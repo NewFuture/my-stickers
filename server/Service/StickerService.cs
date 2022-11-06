@@ -158,7 +158,7 @@ public class StickerService
         List<Sticker> result = new List<Sticker>();
         stickers.ForEach(s =>
         {
-            if (!string.IsNullOrEmpty(s.name))
+            if (s.name?.Length > MAX_NAME_LENGTH)
             {
                 s.name = s.name[..MAX_NAME_LENGTH];
             }
