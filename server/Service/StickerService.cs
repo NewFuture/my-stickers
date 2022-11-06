@@ -7,6 +7,7 @@ namespace Stickers.Service
 
     public class StickerService
     {
+        public const int MAX_NAME_LENGTH = 64;
         private readonly StickerDatabase database;
         private readonly IMemoryCache cache;
 
@@ -156,7 +157,13 @@ namespace Stickers.Service
         )
         {
             List<Sticker> result = new List<Sticker>();
-
+            stickers.ForEach(s =>
+            {
+                if (!string.IsNullOrEmpty(s.name))
+                {
+                    s.name = s.name.Substring(0, MAX_NAME_LENGTH);
+                }
+            });
             List<Sticker>? oldstickers = null;
             if (checkExistingStickers)
             {
