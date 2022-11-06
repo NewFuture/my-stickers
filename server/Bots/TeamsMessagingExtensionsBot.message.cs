@@ -127,7 +127,7 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
         foreach (Match match in result.Cast<Match>())
         {
             var alt = IMG_ALT_REGEX.Match(match.Groups[0].Value)?.Groups?[1].Value;
-            imgs.Add(new Img { Src = GetWrapUrl(match.Groups[1].Value), Alt = alt });
+            imgs.Add(new Img(GetWrapUrl(match.Groups[1].Value), alt));
         }
         return imgs;
     }
@@ -140,7 +140,7 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
             || (attachment.ContentUrl != null && IMAGE_URL_REGEX.IsMatch(attachment.ContentUrl))
         )
         {
-            imgs.Add(new Img { Src = GetWrapUrl(attachment.ContentUrl) });
+            imgs.Add(new Img(GetWrapUrl(attachment.ContentUrl)));
         }
         if (
             attachment.ContentType == "application/vnd.microsoft.card.adaptive"
@@ -175,9 +175,9 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
                 {
                     img = ParseImgFromImgCard(item);
                 }
-                if (img != null)
+                if (img.HasValue)
                 {
-                    imgs.Add(img);
+                    imgs.Add(img.Value);
                 }
             }
         }
@@ -190,11 +190,8 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
         if (item != null && item["type"]?.ToString() == "Image")
         {
             var url = GetWrapUrl(item["url"]?.ToString());
-            return new Img
-            {
-                Src = url,
-                Alt = item["alt"] == null ? item["altText"]?.ToString() : item["alt"]?.ToString()
-            };
+            var alt = (item["alt"] ?? item["altText"])?.ToString() ?? "";
+            return new Img(url, alt);
         }
         return null;
     }

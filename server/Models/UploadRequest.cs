@@ -1,6 +1,6 @@
 namespace Stickers.Models;
 
-public class UploadRequest
+public record class UploadRequest
 {
     public string[]? exts { get; set; }
 }
