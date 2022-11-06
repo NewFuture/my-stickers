@@ -161,7 +161,7 @@ namespace Stickers.Service
             {
                 if (!string.IsNullOrEmpty(s.name))
                 {
-                    s.name = s.name.Substring(0, MAX_NAME_LENGTH);
+                    s.name = s.name[..MAX_NAME_LENGTH];
                 }
             });
             List<Sticker>? oldstickers = null;

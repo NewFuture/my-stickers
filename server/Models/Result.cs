@@ -1,6 +1,6 @@
 namespace Stickers.Models;
 
-public class Result
+public record class Result
 {
     public bool result;
 

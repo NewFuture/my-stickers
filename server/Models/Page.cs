@@ -1,6 +1,6 @@
 namespace Stickers.Models;
 
-public class Page<T>
+public record class Page<T>
 {
     public List<T> Values { get; set; }
 

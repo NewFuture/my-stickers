@@ -1,6 +1,6 @@
 namespace Stickers.Entities;
 
-public class OfficialSticker
+public record OfficialSticker
 {
     public string? img { get; set; }
     public string? name { get; set; }

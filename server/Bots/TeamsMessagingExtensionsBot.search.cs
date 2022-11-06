@@ -155,7 +155,7 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
             var officialStickers = await officialStickersTask;
             var officialImgs = officialStickers
                 .Take(skip + count - stickers.Count)
-                .Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
+                .Select(os => new Img(this.WebUrl + os.url, os.name));
             imgs = imgs.Concat(officialImgs);
         }
         return imgs;
@@ -204,7 +204,7 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
         var allimgs = stickers.Select(StickerToImg);
         var officialImgs = officialStickers
             .Take(count - stickers.Count)
-            .Select(os => new Img { Alt = os.name, Src = this.WebUrl + os.url });
+            .Select(os => new Img(this.WebUrl + os.url, os.name));
         return allimgs.Concat(officialImgs);
     }
 
@@ -243,7 +243,7 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
 
     private static Img StickerToImg(Sticker s)
     {
-        return new Img { Src = s.src ?? "", Alt = s.name };
+        return new Img(s.src ?? "", s.name);
     }
 
     private static JObject GetAdaptiveCard(Img img)
