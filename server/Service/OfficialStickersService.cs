@@ -11,7 +11,7 @@ public class OfficialStickersService : IDisposable
 {
     private readonly IHttpClientFactory httpClientFactory;
     private readonly IMemoryCache cache;
-    private readonly ILogger logger;
+    private readonly ILogger<OfficialStickersService> logger;
 
     private readonly string indexUrl;
 
@@ -30,7 +30,7 @@ public class OfficialStickersService : IDisposable
         IHttpClientFactory httpClientFactory,
         IConfiguration configuration,
         IMemoryCache cache,
-        ILogger logger
+        ILogger<OfficialStickersService> logger
     )
     {
         this.httpClientFactory = httpClientFactory;
