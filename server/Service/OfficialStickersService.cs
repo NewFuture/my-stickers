@@ -1,14 +1,17 @@
 namespace Stickers.Service;
+
+using System.Timers;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stickers.Entities;
 using Stickers.Utils;
 
-public class OfficialStickersService
+public class OfficialStickersService : IDisposable
 {
     private readonly IHttpClientFactory httpClientFactory;
     private readonly IMemoryCache cache;
+    private readonly ILogger logger;
 
     private readonly string indexUrl;
 
@@ -21,35 +24,28 @@ public class OfficialStickersService
             AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12),
         };
 
+    private readonly Timer timer = new(TimeSpan.FromHours(10).TotalMilliseconds);
+
     public OfficialStickersService(
         IHttpClientFactory httpClientFactory,
         IConfiguration configuration,
-        IMemoryCache cache
+        IMemoryCache cache,
+        ILogger logger
     )
     {
         this.httpClientFactory = httpClientFactory;
         this.cache = cache;
+        this.logger = logger;
         this.indexUrl = configuration[ConfigKeys.STICKERS_INDEX_URL];
+
+        this.timer.Elapsed += this.Reresh;
+        this.timer.AutoReset = true;
+        this.timer.Start();
     }
 
     public async Task<List<OfficialSticker>> GetOfficialStickers()
     {
-        if (this.cache.TryGetValue<List<OfficialSticker>>(CACHE_KEY, out var list))
-        {
-            return list;
-        }
-        var client = this.httpClientFactory.CreateClient("official-stickers");
-        var response = await client.GetAsync(this.indexUrl);
-        response.EnsureSuccessStatusCode();
-        string responseBody = response.Content.ReadAsStringAsync().Result;
-        var jObject = JsonConvert.DeserializeObject<JObject>(responseBody);
-        var stickers = jObject?["stickers"]?.ToObject<List<OfficialSticker>>();
-        if (stickers == null)
-        {
-            return new List<OfficialSticker>();
-        }
-        this.cache.Set(CACHE_KEY, stickers, cacheOptions);
-        return stickers;
+        return await this.cache.GetOrCreateAsync(CACHE_KEY, this.CacheFactory);
     }
 
     public async Task<List<OfficialSticker>> Search(
@@ -59,12 +55,63 @@ public class OfficialStickersService
     {
         var list = await this.GetOfficialStickers();
         cancellationToken?.ThrowIfCancellationRequested();
-        if (String.IsNullOrWhiteSpace(keyword))
+        if (string.IsNullOrWhiteSpace(keyword))
         {
             return list;
         }
 
         var lowerKeyword = keyword.ToLower();
         return list.FindAll(s => s.keywords?.Any(k => k.Contains(lowerKeyword)) ?? false);
+    }
+
+    private async Task<List<OfficialSticker>> DownloadOfficailStickers()
+    {
+        this.logger.LogTrace("download latest stickers");
+        var client = this.httpClientFactory.CreateClient("official-stickers");
+        var response = await client.GetAsync(this.indexUrl);
+        response.EnsureSuccessStatusCode();
+        string responseBody = response.Content.ReadAsStringAsync().Result;
+        var jObject = JsonConvert.DeserializeObject<JObject>(responseBody);
+        var stickers = jObject?["stickers"]?.ToObject<List<OfficialSticker>>();
+        return stickers ?? new List<OfficialSticker>();
+    }
+
+    private async Task<List<OfficialSticker>> CacheFactory(ICacheEntry cacheEntry)
+    {
+        var stickers = await this.DownloadOfficailStickers();
+        cacheEntry.Priority = cacheOptions.Priority;
+        if (stickers.Count == 0)
+        {
+            cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
+        }
+        else
+        {
+            cacheEntry.AbsoluteExpirationRelativeToNow =
+                cacheOptions.AbsoluteExpirationRelativeToNow;
+        }
+        return stickers;
+    }
+
+    private void Reresh(object? source, ElapsedEventArgs e)
+    {
+        this.DownloadOfficailStickers()
+            .ContinueWith(stikcers =>
+            {
+                if (stikcers.IsCompleted && stikcers.Result.Count > 0)
+                {
+                    this.cache.Set(CACHE_KEY, stikcers.Result, cacheOptions);
+                }
+                else
+                {
+                    this.logger.LogError("official stickers auto refresh fail");
+                }
+            });
+    }
+
+    public void Dispose()
+    {
+        this.timer.Stop();
+        this.timer.Dispose();
+        GC.SuppressFinalize(this);
     }
 }
