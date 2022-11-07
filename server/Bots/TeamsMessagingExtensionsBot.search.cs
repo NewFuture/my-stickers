@@ -131,10 +131,6 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
             null,
             cancellationToken
         );
-        var officialStickersTask = this.searchService.SearchOfficialStickers(
-            null,
-            cancellationToken
-        );
         cancellationToken.ThrowIfCancellationRequested();
         var stickers = await usetStikcerTask;
         if (stickers.Count < skip + count)
@@ -152,7 +148,10 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
         if (stickers.Count < skip + count)
         {
             // official images
-            var officialStickers = await officialStickersTask;
+            var officialStickers = await this.searchService.SearchOfficialStickers(
+                null,
+                cancellationToken
+            );
             var officialImgs = officialStickers
                 .Take(skip + count - stickers.Count)
                 .Select(os => new Img(this.WebUrl + os.url, os.name));
