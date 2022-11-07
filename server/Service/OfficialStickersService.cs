@@ -111,7 +111,6 @@ public class OfficialStickersService : IDisposable
         {
             this.logger.LogError("official stickers auto refresh fail: {exception}", e);
         }
-
     }
 
     public void Dispose()
