@@ -38,9 +38,10 @@ public class OfficialStickersService : IDisposable
         this.logger = logger;
         this.indexUrl = configuration[ConfigKeys.STICKERS_INDEX_URL];
 
-        this.timer.Elapsed += this.Reresh;
+        this.timer.Elapsed += async (o, e) => await this.Reresh();
         this.timer.AutoReset = true;
         this.timer.Start();
+        _ = this.Reresh(); // auto refersh
     }
 
     public async Task<List<OfficialSticker>> GetOfficialStickers()
@@ -92,20 +93,24 @@ public class OfficialStickersService : IDisposable
         return stickers;
     }
 
-    private void Reresh(object? source, ElapsedEventArgs e)
+    private async Task Reresh()
     {
-        this.DownloadOfficailStickers()
-            .ContinueWith(stikcers =>
+        try
+        {
+            var stickers = await this.DownloadOfficailStickers();
+            if (stickers.Count > 0)
             {
-                if (stikcers.IsCompleted && stikcers.Result.Count > 0)
-                {
-                    this.cache.Set(CACHE_KEY, stikcers.Result, cacheOptions);
-                }
-                else
-                {
-                    this.logger.LogError("official stickers auto refresh fail");
-                }
-            });
+                this.cache.Set(CACHE_KEY, stickers, cacheOptions);
+            }
+            else
+            {
+                this.logger.LogWarning("official stickers auto refresh Empty");
+            }
+        }
+        catch (Exception e)
+        {
+            this.logger.LogError("official stickers auto refresh fail: {exception}", e);
+        }
     }
 
     public void Dispose()
