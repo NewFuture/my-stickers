@@ -7,9 +7,9 @@ using Microsoft.Extensions.Caching.Memory;
 [MemoryDiagnoser]
 public class MemoryCacheBenchmark
 {
-    private readonly MemoryCache memoryChache = new MemoryCache(new MemoryCacheOptions { });
+    private readonly MemoryCache memoryChache = new(new MemoryCacheOptions { });
     private readonly Guid valueGuid = Guid.Parse("16903c3b-4212-43cc-8885-0c41c2d7c53a");
-    public List<Guid> Vaules => new List<Guid> { Guid.Empty, valueGuid };
+    public List<Guid> Vaules => new() { Guid.Empty, this.valueGuid };
 
     [ParamsSource(nameof(Vaules))]
     public Guid id { get; set; }
@@ -22,7 +22,7 @@ public class MemoryCacheBenchmark
             this.memoryChache.Set(guid, guid.ToString());
             if (i == 50)
             {
-                this.memoryChache.Set(valueGuid, guid.ToString());
+                this.memoryChache.Set(this.valueGuid, guid.ToString());
             }
         }
     }
@@ -58,22 +58,22 @@ public class MemoryCacheBenchmark
     [Benchmark]
     public string TryGet()
     {
-        if (this.memoryChache.TryGetValue<string>(id, out var response))
+        if (this.memoryChache.TryGetValue<string>(this.id, out var response))
         {
             return response!;
         }
-        return this.memoryChache.Set(id, id.ToString());
+        return this.memoryChache.Set(this.id, this.id.ToString());
     }
 
     [Benchmark(Baseline = true)]
     public string GetOrCreate()
     {
-        return this.memoryChache.GetOrCreate<string>(id, (e) => id.ToString())!;
+        return this.memoryChache.GetOrCreate<string>(this.id, (e) => this.id.ToString())!;
     }
 
     [IterationSetup]
     public void GlobalCleanup()
     {
-        this.memoryChache.Remove(valueGuid);
+        this.memoryChache.Remove(this.valueGuid);
     }
 }
