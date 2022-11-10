@@ -81,22 +81,6 @@ public class OfficialStickersService : IDisposable
         return stickers ?? new List<OfficialSticker>();
     }
 
-    private async Task<List<OfficialSticker>> CacheFactory(ICacheEntry cacheEntry)
-    {
-        var stickers = await this.DownloadOfficailStickers();
-        cacheEntry.Priority = cacheOptions.Priority;
-        if (stickers.Count == 0)
-        {
-            cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
-        }
-        else
-        {
-            cacheEntry.AbsoluteExpirationRelativeToNow =
-                cacheOptions.AbsoluteExpirationRelativeToNow;
-        }
-        return stickers;
-    }
-
     private async Task Reresh()
     {
         try
