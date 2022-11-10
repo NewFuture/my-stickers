@@ -145,13 +145,12 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
         {
             imgs = stickers.Skip(skip).Select(StickerToImg);
         }
+
         if (stickers.Count < skip + count)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             // official images
-            var officialStickers = await this.searchService.SearchOfficialStickers(
-                null,
-                cancellationToken
-            );
+            var officialStickers = this.searchService.SearchOfficialStickers(null);
             var officialImgs = officialStickers
                 .Take(skip + count - stickers.Count)
                 .Select(os => new Img(this.WebUrl + os.url, os.name));
@@ -195,11 +194,9 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
             return imgs;
         }
 
+        cancellationToken.ThrowIfCancellationRequested();
         // official search
-        var officialStickers = await this.searchService.SearchOfficialStickers(
-            keyword,
-            cancellationToken
-        );
+        var officialStickers = this.searchService.SearchOfficialStickers(keyword);
         var allimgs = stickers.Select(StickerToImg);
         var officialImgs = officialStickers
             .Take(count - stickers.Count)
