@@ -31,11 +31,8 @@ jobs:
               with:
                   dotnet-version: ${{ env.DOTNET_VERSION }}
 
-            - name: Build
-              run: dotnet build server -c Release
-
             - name: Publish
-              run: dotnet publish server -c Release -o webapp
+              run: dotnet publish server -c Release --runtime linux-x64 --no-self-contained -o webapp
 
             - uses: actions/upload-artifact@v3
               with:
