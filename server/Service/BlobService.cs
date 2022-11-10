@@ -10,19 +10,27 @@ using Stickers.Utils;
 public class BlobService
 {
     private readonly BlobServiceClient client;
+    private readonly ILogger<BlobService> logger;
+
     private readonly string containerName;
     private readonly string cdn;
+
     private static readonly Encoding encoding = Encoding.GetEncoding(28591);
 
     public const string CacheControl = "max-age=90";
 
     private readonly string[] supportExtList = new string[] { "png", "gif", "jpg", "jpeg" };
 
-    public BlobService(BlobServiceClient client, IConfiguration configuration)
+    public BlobService(
+        BlobServiceClient client,
+        IConfiguration configuration,
+        ILogger<BlobService> logger
+    )
     {
         this.client = client;
         this.cdn = configuration[ConfigKeys.CDN_DOMAIN];
         this.containerName = configuration[ConfigKeys.BLOB_CONTAINER];
+        this.logger = logger;
     }
 
     public SasInfo getSasToken(Guid userId, string ext)
@@ -70,13 +78,17 @@ public class BlobService
             // remove ext
             extWithDot = "";
         }
+
         string fileName = $"{EncodeGuid(userId)}/{EncodeGuid(id)}{extWithDot}";
-        var encodeId = Convert.ToBase64String(encoding.GetBytes(id.ToString()));
+        var blockId = Convert.ToBase64String(encoding.GetBytes(id.ToString()));
+
+        this.logger.LogInformation("start commit {fileName} with {blockId}", fileName, blockId);
         var blockclient = this.client
             .GetBlobContainerClient(this.containerName)
             .GetBlockBlobClient(fileName);
+
         await blockclient.CommitBlockListAsync(
-            new List<string> { encodeId },
+            new List<string> { blockId },
             new BlobHttpHeaders { ContentType = contentType, CacheControl = CacheControl, }
         );
         return $"https://{this.cdn}/{this.containerName}/{fileName}";
