@@ -11,8 +11,8 @@ public class StickerService
     private readonly StickerDatabase database;
     private readonly IMemoryCache cache;
 
-    private static readonly TimeSpan userCacheTime = TimeSpan.FromHours(4);
-    private static readonly TimeSpan tenantCacheTime = TimeSpan.FromHours(9);
+    private static readonly TimeSpan userCacheTime = TimeSpan.FromHours(8);
+    private static readonly TimeSpan tenantCacheTime = TimeSpan.FromHours(12);
 
     public StickerService(StickerDatabase database, IMemoryCache cache)
     {

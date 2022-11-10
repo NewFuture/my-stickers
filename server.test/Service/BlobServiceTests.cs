@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Stickers.Service.Tests
@@ -8,23 +9,31 @@ namespace Stickers.Service.Tests
     {
         private readonly string connectionString = "";
 
+        private BlobService GetBlobService()
+        {
+            var logger = LoggerFactory.Create((c) =>
+            {
+                c.AddConsole();
+            }).CreateLogger<BlobService>();
+            BlobService blob = new BlobService(
+                new Azure.Storage.Blobs.BlobServiceClient(this.connectionString),
+                getConfig(),
+                logger
+            );
+            return blob;
+        }
+
         [TestMethod()]
         public void getSasTokenTest()
         {
-            BlobService blob = new BlobService(
-                new Azure.Storage.Blobs.BlobServiceClient(this.connectionString),
-                getConfig()
-            );
+            var blob = this.GetBlobService();
             blob.getSasToken(Guid.NewGuid(), "jpg");
         }
 
         [TestMethod()]
         public void commitTest()
         {
-            BlobService blob = new BlobService(
-                new Azure.Storage.Blobs.BlobServiceClient(this.connectionString),
-                getConfig()
-            );
+            var blob = this.GetBlobService();
             _ = blob.commitBlocks(Guid.NewGuid(), Guid.NewGuid(), "jpg", "image/jpg")
                 .ConfigureAwait(false)
                 .GetAwaiter()
