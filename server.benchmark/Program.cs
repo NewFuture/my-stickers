@@ -3,4 +3,4 @@
 using Benchmark;
 using BenchmarkDotNet.Running;
 
-BenchmarkRunner.Run<CardRenderBenchmark>();
+BenchmarkRunner.Run<MemoryCacheBenchmark>();

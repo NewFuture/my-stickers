@@ -27,7 +27,7 @@ export async function upload(
     onProgress: (p: { percent: number; p: AxiosProgressEvent }) => void,
 ) {
     const contentType = file.type;
-    await blob.put(`${sas.url}&comp=block&blockid=${btoa(sas.id)}`, file, {
+    await blob.put(`${sas.url}&comp=block&blockid=${encodeURIComponent(btoa(sas.id))}`, file, {
         onUploadProgress: (p) => onProgress({ percent: 100 * (p.loaded / (p.total || p.bytes)), p }),
     });
     return await API.post(url, {

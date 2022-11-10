@@ -50,11 +50,8 @@ public class SearchService
         return stickers.FindAll(s => s.name?.ToLower().Contains(keyword) ?? false);
     }
 
-    public async Task<List<OfficialSticker>> SearchOfficialStickers(
-        string? keyword,
-        CancellationToken cancellationToken
-    )
+    public List<OfficialSticker> SearchOfficialStickers(string? keyword)
     {
-        return await this.officialStickersService.Search(keyword!, cancellationToken);
+        return this.officialStickersService.Search(keyword);
     }
 }
