@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using Stickers.Models;
 using Stickers.Utils;
 
+[MemoryDiagnoser]
 public class CardRenderBenchmark
 {
     private const int NUM = 25;

@@ -46,7 +46,11 @@ public class OfficialStickersService : IDisposable
 
     public async Task<List<OfficialSticker>> GetOfficialStickers()
     {
-        return await this.cache.GetOrCreateAsync(CACHE_KEY, this.CacheFactory);
+        if (this.cache.TryGetValue(CACHE_KEY, out List<OfficialSticker>? stickers))
+        {
+            return stickers!;
+        }
+        return this.cache.Set(CACHE_KEY, await this.DownloadOfficailStickers());
     }
 
     public async Task<List<OfficialSticker>> Search(
