@@ -33,23 +33,25 @@ public class StickerService
     private async Task<List<Sticker>> getStickerList(bool isTenant, Guid id)
     {
         var cacheKey = GetCacheKey(isTenant, id);
-        return await this.cache.GetOrCreateAsync(
-            cacheKey,
-            (entry) =>
-            {
-                if (isTenant)
+        return (
+            await this.cache.GetOrCreateAsync(
+                cacheKey,
+                (entry) =>
                 {
-                    entry.AbsoluteExpirationRelativeToNow = tenantCacheTime;
-                }
-                else
-                {
-                    entry.AbsoluteExpirationRelativeToNow = userCacheTime;
-                    entry.Priority = CacheItemPriority.Low;
-                }
+                    if (isTenant)
+                    {
+                        entry.AbsoluteExpirationRelativeToNow = tenantCacheTime;
+                    }
+                    else
+                    {
+                        entry.AbsoluteExpirationRelativeToNow = userCacheTime;
+                        entry.Priority = CacheItemPriority.Low;
+                    }
 
-                return this.database.getStickerList(isTenant, id);
-            }
-        );
+                    return this.database.getStickerList(isTenant, id);
+                }
+            )
+        )!;
     }
 
     public async Task<bool> deleteUserSticker(Guid userId, string stickerId)
@@ -116,7 +118,7 @@ public class StickerService
             {
                 // update cacheList directly, when weight not changed
                 var stickerGuid = Guid.Parse(stickerId);
-                var cacheSitcker = cacheList.Find(s => s.id == stickerGuid);
+                var cacheSitcker = cacheList!.Find(s => s.id == stickerGuid);
                 if (cacheSitcker != null)
                 {
                     // update cache name

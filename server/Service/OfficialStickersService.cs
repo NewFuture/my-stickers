@@ -46,7 +46,11 @@ public class OfficialStickersService : IDisposable
 
     public async Task<List<OfficialSticker>> GetOfficialStickers()
     {
-        return await this.cache.GetOrCreateAsync(CACHE_KEY, this.CacheFactory);
+        if (this.cache.TryGetValue(CACHE_KEY, out List<OfficialSticker>? stickers))
+        {
+            return stickers!;
+        }
+        return this.cache.Set(CACHE_KEY, await this.DownloadOfficailStickers());
     }
 
     public async Task<List<OfficialSticker>> Search(
@@ -77,22 +81,6 @@ public class OfficialStickersService : IDisposable
         return stickers ?? new List<OfficialSticker>();
     }
 
-    private async Task<List<OfficialSticker>> CacheFactory(ICacheEntry cacheEntry)
-    {
-        var stickers = await this.DownloadOfficailStickers();
-        cacheEntry.Priority = cacheOptions.Priority;
-        if (stickers.Count == 0)
-        {
-            cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
-        }
-        else
-        {
-            cacheEntry.AbsoluteExpirationRelativeToNow =
-                cacheOptions.AbsoluteExpirationRelativeToNow;
-        }
-        return stickers;
-    }
-
     private async Task Reresh()
     {
         try
@@ -109,7 +97,7 @@ public class OfficialStickersService : IDisposable
         }
         catch (Exception e)
         {
-            this.logger.LogError("official stickers auto refresh fail: {exception}", e);
+            this.logger.LogError(e, "official stickers auto refresh fail");
         }
     }
 

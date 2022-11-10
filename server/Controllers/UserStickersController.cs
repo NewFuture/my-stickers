@@ -97,12 +97,12 @@ public class UserStickersController : ControllerBase
             var sessionInfo = this.sessionService.GetSessionInfo(sessionKey);
             if (sessionInfo == Guid.Empty)
             {
-                this.logger.LogWarning("Invalid sessionInfo: {headerValue}", headerValue);
+                this.logger.LogWarning("Invalid sessionInfo: {headerValue}", headerValue!);
                 throw new UnauthorizedAccessException("invalidate session");
             }
             return sessionInfo;
         }
-        this.logger.LogWarning("Empty or None-GUID SessionKey: {headerValue}", headerValue);
+        this.logger.LogWarning("Empty or None-GUID SessionKey: {headerValue}", headerValue!);
         throw new UnauthorizedAccessException("SessionKey required");
     }
 }

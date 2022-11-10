@@ -6,6 +6,8 @@ public static class ConfigKeys
 
     public const string SQL_CONNECTION_STRING = "SQL";
 
+    public const string DB_PREFIX = "DB_PREFIX";
+
     public const string WEB_URL = "WEB_URL";
 
     public const string STICKERS_INDEX_URL = "STICKERS_INDEX_URL";
