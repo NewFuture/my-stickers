@@ -109,7 +109,7 @@ public class OfficialStickersService : IDisposable
         }
         catch (Exception e)
         {
-            this.logger.LogError("official stickers auto refresh fail: {exception}", e);
+            this.logger.LogError(e, "official stickers auto refresh fail");
         }
     }
 
