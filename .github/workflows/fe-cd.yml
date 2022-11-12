@@ -17,7 +17,7 @@ permissions:
 env:
     # [INT_CONFIG, PROD_CONFIG]
     WEBSITE: ${{ fromJSON('["stickers-test.azureedge.net","sticker.newfuture.cc"]')[ github.ref_name == 'v2'] }}
-    REACT_APP_API_ROOT: ${{ fromJSON('["https://stickers-test.azurewebsites.net/api/","https://stickers-api2.newfuture.cc/api/"]')[ github.ref_name == 'v2'] }}
+    REACT_APP_API_ROOT: ${{ fromJSON('["https://stickers-test.azurewebsites.net","https://stickers-api.newfuture.cc"]')[ github.ref_name == 'v2'] }}
     REACT_APP_AAD_ID: ${{ fromJSON('["eae0aa56-582c-40f7-8daa-b3eb8d1f0732","695d3f13-6131-4224-aacd-26c8aff039d2"]')[ github.ref_name == 'v2'] }}
     APP_PRE_FIX: ${{ fromJSON('["[I]",""]')[ github.ref_name == 'v2'] }}
 

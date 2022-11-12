@@ -75,7 +75,7 @@ const ImageList: React.FC<ImageListProps> = ({
                 )}
                 {files?.map((item: File) => (
                     <UploadImageItem
-                        key={`#${item.lastModified}#${item.webkitRelativePath}`}
+                        key={`#${item.lastModified}#${item.webkitRelativePath || item.name}#${item.size}`}
                         className={styles.item}
                         file={item}
                         onFinish={onFinshUpload}

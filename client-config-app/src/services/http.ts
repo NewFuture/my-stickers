@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { getAuthToken } from "./teams";
-import { BASE_URL } from "../common/env";
+import { BASE_URL, MAX_CONCURRENCY, MAX_WRITE_CONCURRENCY } from "../common/env";
 
 const SessionKey = window.location.hash?.substring(1);
 const USER_SEESION_HEADER = "Session-Key";
@@ -33,11 +33,6 @@ API.interceptors.request.use((c) => {
     return c;
 });
 
-/**
- * 最大并发数
- */
-const MAX_CONCURRENCY = 4;
-const MAX_WRITE_CONCURRENCY = 2;
 let totalPendingRequest = 0;
 let writingRequest = 0;
 
@@ -56,10 +51,11 @@ API.interceptors.request.use(
     (config) =>
         new Promise((resolve) => {
             const isWriting = isWriteApi(config);
-            const isBypass = config.url?.endsWith("/stickers"); // bypass list api
+            // bypass List Request or the First Write Request。
+            const isBypass = config.url?.endsWith("/stickers") || (isWriting && writingRequest <= 0);
             const tryRun = () => {
-                // for by pass API send it without any limit, but count for other requests
-                // for writing api should low the the writing limit
+                // for bypass API send it without any limit, but count for other requests
+                // for writing api should be lower than the writing limit
                 if (
                     isBypass ||
                     (totalPendingRequest < MAX_CONCURRENCY && (!isWriting || writingRequest < MAX_WRITE_CONCURRENCY))
@@ -68,7 +64,7 @@ API.interceptors.request.use(
                     writingRequest += Number(isWriting);
                     resolve(config);
                 } else {
-                    setTimeout(tryRun, 200);
+                    setTimeout(tryRun, 250);
                 }
             };
             tryRun();
