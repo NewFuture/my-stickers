@@ -118,11 +118,11 @@ public class StickerService
             {
                 // update cacheList directly, when weight not changed
                 var stickerGuid = Guid.Parse(stickerId);
-                var cacheSitcker = cacheList!.Find(s => s.id == stickerGuid);
-                if (cacheSitcker != null)
+                var cacheSticker = cacheList!.Find(s => s.id == stickerGuid);
+                if (cacheSticker != null)
                 {
                     // update cache name
-                    cacheSitcker.name = sticker.name;
+                    cacheSticker.name = sticker.name;
                     return true;
                 }
             }
@@ -184,12 +184,15 @@ public class StickerService
                 result.Add(item);
             }
         }
-        foreach (var item in stickers.Take(ENV.USER_STICKERS_MAX_NUM - (oldstickers?.Count ?? 0)))
+        var newItems = stickers.Take(ENV.USER_STICKERS_MAX_NUM - (oldstickers?.Count ?? 0));
+        if (newItems.Count() == 1)
         {
-            await this.database.InsertSticker(isTenant, filterId, item);
-            result.Add(item);
+            await this.database.InsertSticker(isTenant, filterId, newItems.First());
         }
-
+        else
+        {
+            await this.database.InsertStickers(isTenant, filterId, newItems);
+        }
         var cacheKey = GetCacheKey(isTenant, filterId);
         this.cache.Remove(cacheKey);
         return result;
