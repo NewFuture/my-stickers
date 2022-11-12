@@ -133,7 +133,7 @@ public class StickerDatabase
                 parameters.Add(nameKey, sticker.name);
                 var weightKey = "weight" + index;
                 parameters.Add(weightKey, sticker.weight);
-                return $"(@{idKey},@filterId,@{srcKey},@name{nameKey},@{weightKey})";
+                return $"(@{idKey},@filterId,@{srcKey},@{nameKey},@{weightKey})";
             }
         );
         sql += string.Join(',', sqlValues);
