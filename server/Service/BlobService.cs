@@ -5,21 +5,28 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;
 using Azure.Storage.Sas;
+using Stickers.Entities;
+using Stickers.Models;
 using Stickers.Utils;
 
 public class BlobService
 {
-    private readonly BlobServiceClient client;
-    private readonly ILogger<BlobService> logger;
-
-    private readonly string containerName;
-    private readonly string cdn;
+    public const string CacheControl = "max-age=90";
 
     private static readonly Encoding encoding = Encoding.GetEncoding(28591);
 
-    public const string CacheControl = "max-age=90";
+    private const BlobSasPermissions PERMISSIONS =
+        BlobSasPermissions.Read | BlobSasPermissions.Add | BlobSasPermissions.Delete;
 
-    private readonly string[] supportExtList = new string[] { "png", "gif", "jpg", "jpeg" };
+    private readonly ILogger<BlobService> logger;
+
+    private readonly string cdn;
+
+    private readonly string containerName;
+
+    private readonly string[] supportedExtList = new string[] { "png", "gif", "jpg", "jpeg" };
+
+    private BlobContainerClient ContainerClient { get; init; }
 
     public BlobService(
         BlobServiceClient client,
@@ -27,71 +34,63 @@ public class BlobService
         ILogger<BlobService> logger
     )
     {
-        this.client = client;
+        // this.client = client;
         this.cdn = configuration[ConfigKeys.CDN_DOMAIN];
         this.containerName = configuration[ConfigKeys.BLOB_CONTAINER];
+        this.ContainerClient = client.GetBlobContainerClient(this.containerName);
         this.logger = logger;
     }
 
-    public SasInfo getSasToken(Guid userId, string ext)
+    public List<SasInfo> BatchSasToken(Guid id, string[] exts)
     {
-        var id = Guid.NewGuid();
-        ext = ext.ToLower();
-        string fileName = $"{EncodeGuid(userId)}/{EncodeGuid(id)}";
-        if (this.supportExtList.Contains(ext))
+        var list = new List<SasInfo>();
+        foreach (var item in exts!)
         {
-            // add ext
-            fileName += $".{ext}";
+            var token = this.getSasToken(id, item);
+            list.Add(token);
         }
-
-        BlobSasBuilder sasBuilder = new BlobSasBuilder
-        {
-            BlobContainerName = containerName,
-            BlobName = fileName,
-            ExpiresOn = DateTime.Now.AddMinutes(10)
-        };
-        sasBuilder.SetPermissions(BlobAccountSasPermissions.All);
-        var containerClient = this.client.GetBlobContainerClient(this.containerName);
-        var blockClient = containerClient.GetBlockBlobClient(fileName);
-        Uri sasUri = blockClient.GenerateSasUri(sasBuilder);
-        //Uri sasUri = containerClient.GenerateSasUri(sasBuilder);
-        return new SasInfo()
-        {
-            id = id,
-            url = sasUri.ToString(),
-            token = String.Empty,
-        };
+        return list;
     }
 
-    public async Task<string> commitBlocks(
-        Guid userId,
-        Guid id,
-        string? extWithDot,
-        string? contentType
-    )
+    public async Task<string> commitBlocks(Guid userId, PostStickerBlobRequest req)
     {
-        if (
-            string.IsNullOrWhiteSpace(extWithDot)
-            || !this.supportExtList.Contains(extWithDot.TrimStart('.'))
-        )
-        {
-            // remove ext
-            extWithDot = "";
-        }
-
-        string fileName = $"{EncodeGuid(userId)}/{EncodeGuid(id)}{extWithDot}";
+        var id = req.id;
+        string fileName = this.GetFileName(userId, id, Path.GetExtension(req.name));
         var blockId = Convert.ToBase64String(encoding.GetBytes(id.ToString()));
 
         this.logger.LogInformation("start commit {fileName} with {blockId}", fileName, blockId);
-        var blockclient = this.client
-            .GetBlobContainerClient(this.containerName)
-            .GetBlockBlobClient(fileName);
+        var blockclient = this.ContainerClient.GetBlockBlobClient(fileName);
 
         await blockclient.CommitBlockListAsync(
             new List<string> { blockId },
-            new BlobHttpHeaders { ContentType = contentType, CacheControl = CacheControl, }
+            new BlobHttpHeaders { ContentType = req.contentType, CacheControl = CacheControl, }
         );
         return $"https://{this.cdn}/{this.containerName}/{fileName}";
+    }
+
+    public async Task<Sticker[]> BatchCommitBlocks(Guid userId, PostStickerBlobRequest[] requests)
+    {
+        var tasks = requests.Select(
+            async (req, index) =>
+            {
+                try
+                {
+                    var src = await this.commitBlocks(userId, req);
+                    return new Sticker()
+                    {
+                        id = req.id,
+                        name = Path.GetFileNameWithoutExtension(req.name),
+                        src = src
+                    };
+                }
+                catch (Exception err)
+                {
+                    this.logger.LogError(err, "commit blob failed");
+                    return new Sticker() { id = req.id, name = err.Message };
+                }
+            }
+        );
+        return await Task.WhenAll(tasks.ToArray());
     }
 
     /// <summary>
@@ -108,15 +107,32 @@ public class BlobService
         encoded = encoded.Replace('/', '_').Replace('+', '-');
         return encoded[..22];
     }
-}
 
-public class SasInfo
-{
-    /**
-     * Base64编码的ID
-     */
-    public Guid? id { get; set; }
+    private string GetFileName(Guid userId, Guid fileId, string? ext)
+    {
+        ext = ext?.TrimStart('.').ToLower();
+        if (this.supportedExtList.Contains(ext))
+        {
+            ext = $".{ext}"; // add dot
+        }
+        else
+        {
+            ext = ""; // remove ext
+        }
+        return $"{EncodeGuid(userId)}/{EncodeGuid(fileId)}{ext}";
+    }
 
-    public string? token { get; set; }
-    public string? url { get; set; }
+    private SasInfo getSasToken(Guid userId, string ext)
+    {
+        var id = Guid.NewGuid();
+        string fileName = this.GetFileName(userId, id, ext);
+        BlobSasBuilder sasBuilder = new BlobSasBuilder(PERMISSIONS, DateTime.Now.AddMinutes(10))
+        {
+            BlobContainerName = containerName,
+            BlobName = fileName,
+        };
+        var blockClient = this.ContainerClient.GetBlockBlobClient(fileName);
+        Uri sasUri = blockClient.GenerateSasUri(sasBuilder);
+        return new SasInfo(id, sasUri.ToString());
+    }
 }
