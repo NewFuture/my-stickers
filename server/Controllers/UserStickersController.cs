@@ -68,7 +68,7 @@ public class UserStickersController : ControllerBase
     }
 
     [HttpPost("commit")]
-    [Obsolete("use batchCommit ")]
+    [Obsolete("use batchCommit")]
     public async Task<Sticker> Commit([FromBody] PostStickerBlobRequest request)
     {
         var userId = this.GetUserId();

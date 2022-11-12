@@ -195,6 +195,7 @@ public class StickerService
         }
         var cacheKey = GetCacheKey(isTenant, filterId);
         this.cache.Remove(cacheKey);
+        result.AddRange(newItems);
         return result;
     }
 
