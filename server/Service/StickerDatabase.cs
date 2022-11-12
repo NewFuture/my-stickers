@@ -91,14 +91,54 @@ public class StickerDatabase
     public async Task<bool> InsertSticker(bool isTenant, Guid filterId, Sticker sticker)
     {
         var (tableName, fieldName) = this.GetTableAndFiled(isTenant);
+        sticker.weight = GetNewWeight();
         string sql =
             $"INSERT INTO {tableName} (id,{fieldName},src,name,weight) VALUES (@id,@filterId,@src,@name,@weight)";
         using var connection = this.context.CreateConnection();
         var ItemCount = await connection.ExecuteAsync(
             sql,
-            new { sticker.id, filterId, sticker.src, sticker.name, weight = GetNewWeight(), }
+            new { sticker.id, filterId, sticker.src, sticker.name, sticker.weight, }
         );
         return ItemCount > 0;
+    }
+
+    /// <summary>
+    /// Drapper use for each for IEnumerable items.
+    /// So we wrapper it to on SQL.
+    /// </summary>
+    /// <param name="isTenant"></param>
+    /// <param name="filterId"></param>
+    /// <param name="stickers"></param>
+    /// <returns></returns>
+    public async Task<int> InsertStickers(
+        bool isTenant,
+        Guid filterId,
+        IEnumerable<Sticker> stickers
+    )
+    {
+        var (tableName, fieldName) = this.GetTableAndFiled(isTenant);
+        var weight = GetNewWeight() - 1;
+        string sql = $"INSERT INTO {tableName} (id,{fieldName},src,name,weight) VALUES";
+        var parameters = new DynamicParameters();
+        parameters.Add("filterId", filterId);
+        var sqlValues = stickers.Select(
+            (sticker, index) =>
+            {
+                sticker.weight = weight++;
+                var idKey = "id" + index;
+                parameters.Add(idKey, sticker.id);
+                var srcKey = "src" + index;
+                parameters.Add(srcKey, sticker.src);
+                var nameKey = "name" + index;
+                parameters.Add(nameKey, sticker.name);
+                var weightKey = "weight" + index;
+                parameters.Add(weightKey, sticker.weight);
+                return $"(@{idKey},@filterId,@{srcKey},@name{nameKey},@{weightKey})";
+            }
+        );
+        sql += string.Join(',', sqlValues);
+        using var connection = this.context.CreateConnection();
+        return await connection.ExecuteAsync(sql, parameters);
     }
 
     private (string tableName, string fieldName) GetTableAndFiled(bool isTenant)
