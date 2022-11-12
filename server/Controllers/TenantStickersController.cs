@@ -74,28 +74,29 @@ public class TenantStickersController : ControllerBase
     [Authorize(AuthenticationSchemes = "idtoken", Policy = "Admin")]
     public IEnumerable<SasInfo> UploadTenant([FromBody] UploadRequest request)
     {
+        var exts = request?.exts ?? throw new BadHttpRequestException("invalid exts array");
         var tenantId = this.GetTenantId();
-        var list = new List<SasInfo>();
-        foreach (var item in request.exts!)
-        {
-            var token = this.blobService.getSasToken(tenantId, item);
-            list.Add(token);
-        }
-        return list;
+        return this.blobService.BatchSasToken(tenantId, exts);
+    }
+
+    [HttpPost("batchCommit")]
+    [Authorize(AuthenticationSchemes = "idtoken", Policy = "Admin")]
+    public async Task<IEnumerable<Sticker>> BatchCommit([FromBody] PostStickerBlobRequest[] reqs)
+    {
+        var tid = this.GetTenantId();
+        var list = await this.blobService.BatchCommitBlocks(tid, reqs);
+        var stickers = list.Where(s => !string.IsNullOrEmpty(s.src)).ToList();
+        var result = await this.stickerService.addTenantStickers(tid, stickers, false);
+        return result.Concat(list.Where(s => string.IsNullOrEmpty(s.src)));
     }
 
     [HttpPost("commit")]
     [Authorize(AuthenticationSchemes = "idtoken", Policy = "Admin")]
+    [Obsolete]
     public async Task<Sticker> Commit([FromBody] PostStickerBlobRequest request)
     {
         var tenantId = this.GetTenantId();
-        string? extendName = Path.GetExtension(request.name);
-        string src = await this.blobService.commitBlocks(
-            tenantId,
-            request.id,
-            extendName,
-            request.contentType
-        );
+        string src = await this.blobService.commitBlocks(tenantId, request);
         var newSticker = new Sticker()
         {
             src = src,
