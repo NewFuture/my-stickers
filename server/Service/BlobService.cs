@@ -16,7 +16,7 @@ public class BlobService
     private static readonly Encoding encoding = Encoding.GetEncoding(28591);
 
     private const BlobSasPermissions PERMISSIONS =
-        BlobSasPermissions.Read | BlobSasPermissions.Add | BlobSasPermissions.Delete;
+        BlobSasPermissions.Read | BlobSasPermissions.Write | BlobSasPermissions.Delete;
 
     private readonly ILogger<BlobService> logger;
 
