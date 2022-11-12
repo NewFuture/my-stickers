@@ -92,7 +92,7 @@ public class TenantStickersController : ControllerBase
 
     [HttpPost("commit")]
     [Authorize(AuthenticationSchemes = "idtoken", Policy = "Admin")]
-    [Obsolete]
+    [Obsolete("use batchCommit ")]
     public async Task<Sticker> Commit([FromBody] PostStickerBlobRequest request)
     {
         var tenantId = this.GetTenantId();
