@@ -535,7 +535,7 @@ exports[`Website Snapshot 1`] = `
                         className="ui-box b ff mo mp mq ui-chat__message__content"
                         data-uses-unhanded-props={true}
                       >
-                        2. Click the sitcker that you want to send
+                        2. Click the sticker that you want to send
                       </div>
                     </div>
                   </div>

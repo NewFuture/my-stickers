@@ -110,8 +110,8 @@ public class StickerDatabase
         catch (SqlException ex)
         {
             this.logger.LogError(ex, "Insert Error");
-            // 随机等待 20 ~ 40s 重试
-            await Task.Delay(20_000 + Random.Shared.Next(20_000));
+            // 随机等待 15 ~ 35s 重试
+            await Task.Delay(15_000 + Random.Shared.Next(20_000));
             return await connection.ExecuteAsync(sql, item) > 0;
         }
     }
@@ -162,8 +162,8 @@ public class StickerDatabase
         catch (SqlException ex)
         {
             this.logger.LogError(ex, "BulkInsert Error");
-            // 随机等待 25 ~ 55s 重试
-            await Task.Delay(25_000 + Random.Shared.Next(30_000));
+            // 随机等待 20 ~ 50s 重试
+            await Task.Delay(20_000 + Random.Shared.Next(30_000));
             return await connection.ExecuteAsync(sql, parameters);
         }
     }

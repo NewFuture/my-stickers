@@ -60,6 +60,8 @@ const tenantQueue: UploadQueue = {
     timmer: 0,
 };
 
+// commit 请求队列
+let commitRequests = 0;
 function pushQueue(
     queue: UploadQueue,
     commit: CommitInfo,
@@ -72,9 +74,11 @@ function pushQueue(
             const list = queue.list;
             queue.list = [];
             queue.timmer = 0;
+            commitRequests += 1;
             console.debug("flush", list, queue.uploadCounter);
             batchCommit(list.map((l) => l.commit))?.then(
                 (stickers) => {
+                    commitRequests -= 1;
                     list.forEach((item) => {
                         const sticker = stickers.find((s) => s.id === item.commit.id);
                         if (!sticker?.src) {
@@ -85,11 +89,15 @@ function pushQueue(
                     });
                 },
                 (err) => {
+                    commitRequests -= 1;
                     list.forEach((item) => item.reject(err));
                 },
             );
         };
-        if (queue.list.push({ commit, resolve, reject }) >= MAX_BATCH_COUNT || queue.uploadCounter <= 0) {
+        if (
+            queue.list.push({ commit, resolve, reject }) >= MAX_BATCH_COUNT ||
+            (queue.uploadCounter <= 0 && commitRequests <= 0)
+        ) {
             flushQueue();
         } else {
             queue.timmer = window.setTimeout(flushQueue, 1000);
@@ -101,6 +109,7 @@ interface CommitInfo {
     id: string;
     name: string;
     contentType: string;
+    weight?: number;
 }
 
 async function uploadToBlob(
