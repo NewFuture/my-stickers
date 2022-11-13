@@ -1,4 +1,4 @@
-﻿namespace Stickers.Service;
+namespace Stickers.Service;
 
 using Dapper;
 using Microsoft.Data.SqlClient;
@@ -95,7 +95,10 @@ public class StickerDatabase
     public async Task<bool> InsertSticker(bool isTenant, Guid filterId, Sticker sticker)
     {
         var (tableName, fieldName) = this.GetTableAndFiled(isTenant);
-        sticker.weight = GetNewWeight();
+        if (sticker.weight <= 0)
+        {
+            sticker.weight = GetNewWeight();
+        }
         string sql =
             $"INSERT INTO {tableName} (id,{fieldName},src,name,weight) VALUES (@id,@filterId,@src,@name,@weight)";
         var item = new { sticker.id, filterId, sticker.src, sticker.name, sticker.weight, };
@@ -135,7 +138,10 @@ public class StickerDatabase
         var sqlValues = stickers.Select(
             (sticker, index) =>
             {
-                sticker.weight = weight++;
+                if (sticker.weight <= 0)
+                {
+                    sticker.weight = weight++;
+                }
                 var idKey = "id" + index;
                 parameters.Add(idKey, sticker.id);
                 var srcKey = "src" + index;
