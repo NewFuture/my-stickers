@@ -41,7 +41,7 @@ export function useFileUploadHandler(maxNum: number) {
             setErrors(msg);
             if (filtered.length) {
                 const newFiles = filtered.slice(0, remaining);
-                setFiles((fList) => newFiles.concat(fList));
+                setFiles((fList) => newFiles.reverse().concat(fList));
             }
         },
         [t, remaining],

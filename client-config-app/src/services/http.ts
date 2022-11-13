@@ -36,7 +36,6 @@ API.interceptors.request.use((c) => {
 const Counter = {
     write: 0,
     all: 0,
-    commit: 0,
 };
 function isWriteApi(conf: AxiosRequestConfig) {
     // upload: get sas token don't write DB or BlobStorage
@@ -47,29 +46,21 @@ function clearRequest(conf: AxiosRequestConfig) {
     if (isWriteApi(conf)) {
         Counter.write = Math.max(0, Counter.write - 1);
     }
-    if (conf.url?.endsWith("commit")) {
-        Counter.commit = 0;
-    }
 }
 
 API.interceptors.request.use(
     (config) =>
         new Promise((resolve) => {
             const isWriting = isWriteApi(config);
-            const isCommit = config.url?.endsWith("commit");
             const tryRun = () => {
-                // commit API limit 1 concurrency
-                // other write API limit 2 concurrencies.
+                // write API limit 2 concurrencies.
                 // if only 1 writing by pass it.
                 if (
-                    (isCommit && Counter.commit <= 0) ||
-                    (isWriting && Counter.write <= 0) ||
-                    (isWriting && Counter.write < MAX_WRITE_CONCURRENCY && Counter.all < MAX_CONCURRENCY) ||
-                    (Counter.all < MAX_CONCURRENCY && !isCommit && !isWriting)
+                    (isWriting && Counter.write <= 1) ||
+                    (Counter.all < MAX_CONCURRENCY && (!isWriting || Counter.write < MAX_WRITE_CONCURRENCY))
                 ) {
                     Counter.all++;
                     Counter.write += Number(isWriting);
-                    Counter.commit += Number(isCommit);
                     resolve(config);
                 } else {
                     setTimeout(tryRun, 250);
