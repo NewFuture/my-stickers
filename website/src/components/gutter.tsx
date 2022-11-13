@@ -1,12 +1,6 @@
-import { Avatar, AvatarProps, CheckmarkCircleIcon } from "@fluentui/react-northstar";
-import React from "react";
+import { Avatar, CheckmarkCircleIcon } from "@fluentui/react-northstar";
+import avatar from "../img/avatar.png";
 
-const avatar: AvatarProps = {
-    image: "https://avatars1.githubusercontent.com/u/6290356?s=64",
-    status: { color: "green", icon: <CheckmarkCircleIcon /> },
-    name: "New Future",
-};
-
-const gutter = <Avatar {...avatar} />;
+const gutter = <Avatar name="New Future" image={avatar} status={{ color: "green", icon: <CheckmarkCircleIcon /> }} />;
 
 export default gutter;
