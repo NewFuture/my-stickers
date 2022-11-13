@@ -1,6 +1,7 @@
-namespace Stickers.Service;
+﻿namespace Stickers.Service;
 
 using Dapper;
+using Microsoft.Data.SqlClient;
 using Stickers.Entities;
 using Stickers.Utils;
 
@@ -9,6 +10,7 @@ public class StickerDatabase
     private const string UserIdFieldName = "userId";
     private const string TenantIdFielddName = "tenantId";
 
+    private readonly ILogger<StickerDatabase> logger;
     private readonly DapperContext context;
     private readonly string UserTableName;
 
@@ -27,9 +29,14 @@ public class StickerDatabase
     // use seconds relative to 2019-11-20 11:00 as default weight
     public static long GetNewWeight() => (DateTime.UtcNow.Ticks - baseTicks) / 10000;
 
-    public StickerDatabase(DapperContext context, IConfiguration config)
+    public StickerDatabase(
+        DapperContext context,
+        IConfiguration config,
+        ILogger<StickerDatabase> logger
+    )
     {
         this.context = context;
+        this.logger = logger;
 
         var dbPrefix = config[ConfigKeys.DB_PREFIX] ?? "";
         this.UserTableName = dbPrefix + "stickers";
@@ -80,12 +87,9 @@ public class StickerDatabase
         }
         var query =
             $"UPDATE {tableName} SET {updateQuery} updateAt = GETDATE() WHERE id=@id AND {fieldName} = @filterId";
+        var item = new { id = stickerId, name, filterId, weight };
         using var connection = this.context.CreateConnection();
-        var ItemCount = await connection.ExecuteAsync(
-            query,
-            new { id = stickerId, name, filterId, weight }
-        );
-        return ItemCount > 0;
+        return await connection.ExecuteAsync(query, item) > 0;
     }
 
     public async Task<bool> InsertSticker(bool isTenant, Guid filterId, Sticker sticker)
@@ -94,12 +98,19 @@ public class StickerDatabase
         sticker.weight = GetNewWeight();
         string sql =
             $"INSERT INTO {tableName} (id,{fieldName},src,name,weight) VALUES (@id,@filterId,@src,@name,@weight)";
+        var item = new { sticker.id, filterId, sticker.src, sticker.name, sticker.weight, };
         using var connection = this.context.CreateConnection();
-        var ItemCount = await connection.ExecuteAsync(
-            sql,
-            new { sticker.id, filterId, sticker.src, sticker.name, sticker.weight, }
-        );
-        return ItemCount > 0;
+        try
+        {
+            return await connection.ExecuteAsync(sql, item) > 0;
+        }
+        catch (SqlException ex)
+        {
+            this.logger.LogError(ex, "Insert Error");
+            // 随机等待 20 ~ 40s 重试
+            await Task.Delay(20_000 + Random.Shared.Next(20_000));
+            return await connection.ExecuteAsync(sql, item) > 0;
+        }
     }
 
     /// <summary>
@@ -138,7 +149,17 @@ public class StickerDatabase
         );
         sql += string.Join(',', sqlValues);
         using var connection = this.context.CreateConnection();
-        return await connection.ExecuteAsync(sql, parameters);
+        try
+        {
+            return await connection.ExecuteAsync(sql, parameters);
+        }
+        catch (SqlException ex)
+        {
+            this.logger.LogError(ex, "BulkInsert Error");
+            // 随机等待 25 ~ 55s 重试
+            await Task.Delay(25_000 + Random.Shared.Next(30_000));
+            return await connection.ExecuteAsync(sql, parameters);
+        }
     }
 
     private (string tableName, string fieldName) GetTableAndFiled(bool isTenant)

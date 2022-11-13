@@ -33,17 +33,22 @@ API.interceptors.request.use((c) => {
     return c;
 });
 
-let totalPendingRequest = 0;
-let writingRequest = 0;
-
+const Counter = {
+    write: 0,
+    all: 0,
+    commit: 0,
+};
 function isWriteApi(conf: AxiosRequestConfig) {
-    // get sas token don't write DB or BlobStorage
+    // upload: get sas token don't write DB or BlobStorage
     return conf.method !== "GET" && !conf.url?.endsWith("stickers/upload");
 }
 function clearRequest(conf: AxiosRequestConfig) {
-    totalPendingRequest = Math.max(0, totalPendingRequest - 1);
+    Counter.all = Math.max(0, Counter.all - 1);
     if (isWriteApi(conf)) {
-        writingRequest = Math.max(0, writingRequest - 1);
+        Counter.write = Math.max(0, Counter.write - 1);
+    }
+    if (conf.url?.endsWith("commit")) {
+        Counter.commit = 0;
     }
 }
 
@@ -51,17 +56,20 @@ API.interceptors.request.use(
     (config) =>
         new Promise((resolve) => {
             const isWriting = isWriteApi(config);
-            // bypass List Request or the First Write Request。
-            const isBypass = config.url?.endsWith("/stickers") || (isWriting && writingRequest <= 0);
+            const isCommit = config.url?.endsWith("commit");
             const tryRun = () => {
-                // for bypass API send it without any limit, but count for other requests
-                // for writing api should be lower than the writing limit
+                // commit API limit 1 concurrency
+                // other write API limit 2 concurrencies.
+                // if only 1 writing by pass it.
                 if (
-                    isBypass ||
-                    (totalPendingRequest < MAX_CONCURRENCY && (!isWriting || writingRequest < MAX_WRITE_CONCURRENCY))
+                    (isCommit && Counter.commit <= 0) ||
+                    (isWriting && Counter.write <= 0) ||
+                    (isWriting && Counter.write < MAX_WRITE_CONCURRENCY && Counter.all < MAX_CONCURRENCY) ||
+                    (Counter.all < MAX_CONCURRENCY && !isCommit && !isWriting)
                 ) {
-                    totalPendingRequest++;
-                    writingRequest += Number(isWriting);
+                    Counter.all++;
+                    Counter.write += Number(isWriting);
+                    Counter.commit += Number(isCommit);
                     resolve(config);
                 } else {
                     setTimeout(tryRun, 250);
