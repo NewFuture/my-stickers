@@ -185,11 +185,12 @@ public class StickerService
             }
         }
         var newItems = stickers.Take(ENV.USER_STICKERS_MAX_NUM - (oldstickers?.Count ?? 0));
-        if (newItems.Count() == 1)
+        var count = newItems.Count();
+        if (count == 1)
         {
             await this.database.InsertSticker(isTenant, filterId, newItems.First());
         }
-        else
+        else if (count > 1)
         {
             await this.database.InsertStickers(isTenant, filterId, newItems);
         }
