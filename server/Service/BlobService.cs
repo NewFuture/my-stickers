@@ -80,7 +80,8 @@ public class BlobService
                     {
                         id = req.id,
                         name = Path.GetFileNameWithoutExtension(req.name),
-                        src = src
+                        src = src,
+                        weight = req.weight,
                     };
                 }
                 catch (Exception err)
