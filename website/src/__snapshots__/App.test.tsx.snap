@@ -115,7 +115,7 @@ exports[`Website Snapshot 1`] = `
         data-aa-class="Video"
         data-uses-unhanded-props={true}
         loop={true}
-        poster="/img/my-stickers-cover.png"
+        poster="cover.png"
         role="application"
         src="https://sticker.newfuture.cc/video/my-stickers-v2.mp4"
       />
@@ -235,8 +235,9 @@ exports[`Website Snapshot 1`] = `
                         className="ui-image az au js kd ke kf kg kh ki kj kk by bz ca cb kl bv jd je km kn ko"
                         data-aa-class="AvatarImage"
                         data-uses-unhanded-props={true}
+                        loading="lazy"
                         size="medium"
-                        src="https://avatars1.githubusercontent.com/u/6290356?s=64"
+                        src="avatar.png"
                         title="New Future"
                       />
                       <span
@@ -398,8 +399,9 @@ exports[`Website Snapshot 1`] = `
                         className="ui-image az au js kd ke kf kg kh ki kj kk by bz ca cb kl bv jd je km kn ko"
                         data-aa-class="AvatarImage"
                         data-uses-unhanded-props={true}
+                        loading="lazy"
                         size="medium"
-                        src="https://avatars1.githubusercontent.com/u/6290356?s=64"
+                        src="avatar.png"
                         title="New Future"
                       />
                       <span
@@ -1052,8 +1054,9 @@ exports[`Website Snapshot 1`] = `
                         className="ui-image az au js kd ke kf kg kh ki kj kk by bz ca cb kl bv jd je km kn ko"
                         data-aa-class="AvatarImage"
                         data-uses-unhanded-props={true}
+                        loading="lazy"
                         size="medium"
-                        src="https://avatars1.githubusercontent.com/u/6290356?s=64"
+                        src="avatar.png"
                         title="New Future"
                       />
                       <span
@@ -1271,8 +1274,9 @@ exports[`Website Snapshot 1`] = `
                         className="ui-image az au js kd ke kf kg kh ki kj kk by bz ca cb kl bv jd je km kn ko"
                         data-aa-class="AvatarImage"
                         data-uses-unhanded-props={true}
+                        loading="lazy"
                         size="medium"
-                        src="https://avatars1.githubusercontent.com/u/6290356?s=64"
+                        src="avatar.png"
                         title="New Future"
                       />
                       <span
@@ -1592,10 +1596,11 @@ exports[`Website Snapshot 1`] = `
                         data-uses-unhanded-props={true}
                       >
                         <img
-                          aria-hidden="true"
+                          alt="a sticker named hello"
                           className="ui-image az au bo fn Sticker"
                           data-aa-class="Image"
                           data-uses-unhanded-props={true}
+                          loading="lazy"
                           src="/hello.gif"
                         />
                       </div>

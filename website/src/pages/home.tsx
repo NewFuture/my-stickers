@@ -5,8 +5,11 @@ import ChatWithPopover from "../components/chat";
 import Compose from "../components/compose";
 import LanguageButton from "../components/language";
 import Footer from "../components/Footer";
-import "./home.scss";
 import { useTitle } from "../lib/useTitle";
+
+import cover from "../img/cover.png";
+
+import "./home.scss";
 
 const APP_LINK = "https://teams.microsoft.com/l/app/46fae4d0-faf5-11e9-80f3-53ad33b77bce";
 
@@ -78,7 +81,7 @@ export default function Home() {
                         maxWidth: "100%",
                         width: "1920px",
                     }}
-                    poster={`${process.env.PUBLIC_URL}/img/my-stickers-cover.png`}
+                    poster={cover}
                     src="https://sticker.newfuture.cc/video/my-stickers-v2.mp4"
                 />
                 <div>
