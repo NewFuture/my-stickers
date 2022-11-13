@@ -9,6 +9,7 @@ import { UploadImageItem } from "../ImageItem/UploadImageItem";
 import { MAX_NUM } from "../../common/env";
 import { useFileUploadHandler } from "../../hooks/useFileUploadHandler";
 import { Alert } from "../Alert/Alert";
+import { isIdle } from "../../services/stickers";
 
 function getPatchItemByIdFunc(id: string, props: Partial<Sticker>) {
     return (list?: Sticker[]) =>
@@ -30,6 +31,12 @@ function dragOverHandler(ev: SyntheticEvent) {
 function compareOrder(a: Sticker, b: Sticker) {
     return b.weight! - a.weight!;
 }
+
+let timer: number;
+function doAfter(callback: () => any, delay: number) {
+    clearTimeout(timer);
+    timer = window.setTimeout(callback, delay);
+}
 interface ImageListProps {
     items: Sticker[];
     isEditable: boolean;
@@ -50,11 +57,13 @@ const ImageList: React.FC<ImageListProps> = ({
     const styles = useImageListStyles();
     const { files, errors, uploadHandler, removeFile, enable } = useFileUploadHandler(MAX_NUM - items?.length ?? 0);
     const onFinshUpload = (file: File, sticker?: Sticker) => {
-        const revalidate = files.length === 1; // revalidation when all files uploaded
         removeFile(file);
         if (sticker) {
             // 插入新表情
-            onMutate((items) => [sticker, ...(items || [])].sort(compareOrder), { revalidate });
+            onMutate((items) => [sticker, ...(items || [])].sort(compareOrder), { revalidate: false });
+            if (isIdle()) {
+                doAfter(() => isIdle() && onMutate((l) => l!), 1800);
+            }
         }
     };
     return (

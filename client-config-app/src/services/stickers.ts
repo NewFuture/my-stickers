@@ -128,3 +128,7 @@ async function uploadToBlob(
         throw error;
     }
 }
+
+export function isIdle() {
+    return userQueue.list.length <= 0 && tenantQueue.list.length <= 0 && commitRequests <= 0;
+}
