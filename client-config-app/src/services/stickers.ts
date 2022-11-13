@@ -109,6 +109,7 @@ interface CommitInfo {
     id: string;
     name: string;
     contentType: string;
+    weight?: number;
 }
 
 async function uploadToBlob(
