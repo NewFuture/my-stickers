@@ -27,6 +27,7 @@ const reactions: ShorthandCollection<ReactionProps> = [
 ];
 
 const ChatWithPopover: React.FC = () => {
+    const sticker = <Image className="Sticker" alt="a sticker named hello" loading="lazy" src={helloSticker} />;
     return (
         <Translation>
             {(t) => (
@@ -73,8 +74,8 @@ const ChatWithPopover: React.FC = () => {
                                 <TeamsChatMessage
                                     author="NewFuture"
                                     data-is-focusable
-                                    content={<Image className="Sticker" src={helloSticker} />}
-                                    dialogContent={<Image className="Sticker" src={helloSticker} />}
+                                    content={sticker}
+                                    dialogContent={sticker}
                                     reactionGroup={reactions}
                                     timestamp={t(TransKeys.protoMsgExtTime)}
                                 />

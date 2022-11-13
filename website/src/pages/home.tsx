@@ -7,7 +7,7 @@ import LanguageButton from "../components/language";
 import Footer from "../components/Footer";
 import { useTitle } from "../lib/useTitle";
 
-import cover from "../img/my-stickers-cover.png";
+import cover from "../img/cover.png";
 
 import "./home.scss";
 
