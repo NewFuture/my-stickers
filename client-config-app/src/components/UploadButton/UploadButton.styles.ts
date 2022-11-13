@@ -5,6 +5,7 @@ export const useUploadButtonStyles = makeStyles({
         position: "relative",
         textAlign: "center",
         cursor: "pointer",
+        order: -999999,
     },
     icon: {
         cursor: "pointer",

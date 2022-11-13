@@ -26,6 +26,10 @@ function dragOverHandler(ev: SyntheticEvent) {
     ev.preventDefault();
     ev.stopPropagation();
 }
+
+function compareOrder(a: Sticker, b: Sticker) {
+    return b.weight! - a.weight!;
+}
 interface ImageListProps {
     items: Sticker[];
     isEditable: boolean;
@@ -50,7 +54,7 @@ const ImageList: React.FC<ImageListProps> = ({
         removeFile(file);
         if (sticker) {
             // 插入新表情
-            onMutate((items) => [sticker, ...(items || [])], { revalidate });
+            onMutate((items) => [sticker, ...(items || [])].sort(compareOrder), { revalidate });
         }
     };
     return (
@@ -73,13 +77,14 @@ const ImageList: React.FC<ImageListProps> = ({
                 {isEditable && (
                     <UploadButton className={styles.item} onUploadChangeHandler={uploadHandler} disbaled={!enable} />
                 )}
-                {files?.map((item: File) => (
+                {files?.map((item: File, index) => (
                     <UploadImageItem
                         key={`#${item.lastModified}#${item.webkitRelativePath || item.name}#${item.size}`}
                         className={styles.item}
                         file={item}
                         onFinish={onFinshUpload}
                         onUpload={onUpload}
+                        order={-1 - index}
                     />
                 ))}
                 {items?.map((item: Sticker) => (

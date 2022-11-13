@@ -3,8 +3,6 @@ import type { Sticker } from "../model/sticker";
 import { SasInfo, upload } from "./blob";
 import { MAX_BATCH_COUNT } from "../common/env";
 
-let weight = Date.now() - +new Date("2019-11-20 11:00:00Z");
-
 export async function uploadSticker(file: File, onProgressUpdate: (percent: number) => void) {
     const commitInfo = await uploadToBlob("/me/stickers/upload", file, onProgressUpdate, userQueue);
     return pushQueue(userQueue, commitInfo, batchUserCommit);
@@ -119,13 +117,10 @@ async function uploadToBlob(
     queue: UploadQueue,
 ): Promise<CommitInfo> {
     queue.uploadCounter = Math.max(1, queue.uploadCounter + 1);
-    const currentWeight = weight;
-    weight += 1000;
     try {
         const sasResult = await API.post<SasInfo[]>(url, { exts: [file.name.split(".").pop()!] });
         const result = await upload(file, sasResult.data[0], (p) => onProgressUpdate(p.percent));
         queue.uploadCounter = Math.max(0, queue.uploadCounter - 1);
-        result.weight = currentWeight;
         return result;
     } catch (error) {
         queue.uploadCounter = Math.max(0, queue.uploadCounter - 1);

@@ -49,6 +49,6 @@ export async function upload(
         id: sas.id,
         name: file.name,
         contentType,
-        weight: 0,
+        weight: file.weight,
     };
 }

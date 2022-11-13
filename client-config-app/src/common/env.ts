@@ -4,6 +4,11 @@
 export const MAX_NUM = 150;
 
 /**
+ * 最大图片大小
+ */
+export const MAX_SIZE = 1000 * 1024;
+
+/**
  * 批量Commit数量
  */
 export const MAX_BATCH_COUNT = 12;

@@ -1,9 +1,13 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { MAX_NUM } from "../common/env";
+import { MAX_NUM, MAX_SIZE } from "../common/env";
 import { TransKeys } from "../locales";
 
-const MAX_SIZE = 1000 * 1024;
+let weight = Date.now() - +new Date("2019-11-20 11:00:00Z");
+
+function getWeight() {
+    return (weight += 1000);
+}
 
 interface ErrMsg {
     key: number;
@@ -41,7 +45,10 @@ export function useFileUploadHandler(maxNum: number) {
             setErrors(msg);
             if (filtered.length) {
                 const newFiles = filtered.slice(0, remaining);
-                setFiles((fList) => newFiles.reverse().concat(fList));
+                newFiles.forEach((f) => {
+                    f.weight = getWeight();
+                });
+                setFiles((fList) => [...fList, ...newFiles]);
             }
         },
         [t, remaining],
