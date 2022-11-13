@@ -9,6 +9,7 @@ import { UploadImageItem } from "../ImageItem/UploadImageItem";
 import { MAX_NUM } from "../../common/env";
 import { useFileUploadHandler } from "../../hooks/useFileUploadHandler";
 import { Alert } from "../Alert/Alert";
+import { isIdle } from "../../services/stickers";
 
 function getPatchItemByIdFunc(id: string, props: Partial<Sticker>) {
     return (list?: Sticker[]) =>
@@ -25,6 +26,16 @@ function getPatchItemByIdFunc(id: string, props: Partial<Sticker>) {
 function dragOverHandler(ev: SyntheticEvent) {
     ev.preventDefault();
     ev.stopPropagation();
+}
+
+function compareOrder(a: Sticker, b: Sticker) {
+    return b.weight! - a.weight!;
+}
+
+let timer: number;
+function doAfter(callback: () => any, delay: number) {
+    clearTimeout(timer);
+    timer = window.setTimeout(callback, delay);
 }
 interface ImageListProps {
     items: Sticker[];
@@ -46,11 +57,13 @@ const ImageList: React.FC<ImageListProps> = ({
     const styles = useImageListStyles();
     const { files, errors, uploadHandler, removeFile, enable } = useFileUploadHandler(MAX_NUM - items?.length ?? 0);
     const onFinshUpload = (file: File, sticker?: Sticker) => {
-        const revalidate = files.length === 1; // revalidation when all files uploaded
         removeFile(file);
         if (sticker) {
             // 插入新表情
-            onMutate((items) => [sticker, ...(items || [])], { revalidate });
+            onMutate((items) => [sticker, ...(items || [])].sort(compareOrder), { revalidate: false });
+            if (isIdle()) {
+                doAfter(() => isIdle() && onMutate((l) => l!), 1800);
+            }
         }
     };
     return (
@@ -73,13 +86,14 @@ const ImageList: React.FC<ImageListProps> = ({
                 {isEditable && (
                     <UploadButton className={styles.item} onUploadChangeHandler={uploadHandler} disbaled={!enable} />
                 )}
-                {files?.map((item: File) => (
+                {files?.map((item: File, index) => (
                     <UploadImageItem
                         key={`#${item.lastModified}#${item.webkitRelativePath || item.name}#${item.size}`}
                         className={styles.item}
                         file={item}
                         onFinish={onFinshUpload}
                         onUpload={onUpload}
+                        order={-1 - index}
                     />
                 ))}
                 {items?.map((item: Sticker) => (
