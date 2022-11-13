@@ -33,7 +33,7 @@ function batchUserCommit(list: CommitInfo[]) {
     return API.post("/me/stickers/batchCommit", list).then((r) => r.data);
 }
 function batchTenantCommit(list: CommitInfo[]) {
-    return API.post("/amdmin/stickers/batchCommit", list).then((r) => r.data);
+    return API.post("/admin/stickers/batchCommit", list).then((r) => r.data);
 }
 
 interface UploadQueue {
