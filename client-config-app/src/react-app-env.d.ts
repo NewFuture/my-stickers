@@ -10,3 +10,9 @@ declare module "i18next" {
         };
     }
 }
+
+declare global {
+    interface File {
+        weight?: number;
+    }
+}

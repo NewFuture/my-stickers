@@ -26,6 +26,7 @@ const SearchBox: React.FC = (props) => {
                     onClick={() => {
                         dispatchMessage({ type: "img", payload: helloSticker });
                     }}
+                    loading="lazy"
                 />
             </Grid>
         </Box>

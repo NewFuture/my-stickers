@@ -1,6 +1,4 @@
-# Custom Stickers for Microsoft Teams
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=v2&repo=NewFuture/custom-stickers-teams-extension&devcontainer_path=.devcontainer%2Fdevcontainer.json)
+# My Stickers Extension App for Microsoft Teams
 
 ## [/client-config-app](./client-config-app/) (TypeScript + React)
 
@@ -26,7 +24,7 @@ The build files will put to the root folder of the website.
 
 Main Dependencies and Technology:
 
--   ~~`@stardust-ui/react`~~ (old name of `@fluentui/react-northstar`): for teams chat prototype components
+-   `@fluentui/react-northstar`: for teams chat prototype components
 -   `react@18` and `typescript` to build the app
 -   `i18next`: for localization
 -   `react-router-dom`: for routing
@@ -36,6 +34,10 @@ Main Dependencies and Technology:
 ## [/server](./server) (C# + .Net6 + AzureWebapp)
 
 Sever API and bot will be deployed to Azure Webapp
+
+-   BotFramework for bot messages
+-   .Net Core WebAPI for APIs
+-   MS SQL to store data index
 
 ## [/image-functions](./image-functions) (C# + .NetCore + AzureFunction)
 

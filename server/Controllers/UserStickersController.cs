@@ -28,32 +28,7 @@ public class UserStickersController : ControllerBase
         this.sessionService = sessionService;
     }
 
-    [HttpPost("commit")]
-    public async Task<Sticker> Commit([FromBody] PostStickerBlobRequest request)
-    {
-        var userId = this.GetUserId();
-        string? extendName = Path.GetExtension(request.name);
-        string src = await this.blobService.commitBlocks(
-            userId,
-            request.id,
-            extendName,
-            request.contentType
-        );
-        var newSticker = new Sticker()
-        {
-            src = src,
-            name = Path.GetFileNameWithoutExtension(request.name),
-            id = request.id,
-        };
-        var list = await this.stickerService.addUserStickers(
-            userId,
-            new List<Sticker>() { newSticker },
-            false
-        );
-        return list[0];
-    }
-
-    [HttpGet("/api/me/stickers")]
+    [HttpGet]
     public async Task<Page<Sticker>> Get()
     {
         var stickers = await this.stickerService.getUserStickers(this.GetUserId());
@@ -77,17 +52,42 @@ public class UserStickersController : ControllerBase
     [HttpPost("upload")]
     public IEnumerable<SasInfo> Upload([FromBody] UploadRequest request)
     {
+        var exts = request?.exts ?? throw new BadHttpRequestException("invalid exts array");
         var userId = this.GetUserId();
-        var list = new List<SasInfo>();
-        foreach (var item in request.exts!)
-        {
-            var token = this.blobService.getSasToken(userId, item);
-            list.Add(token);
-        }
-        return list;
+        return this.blobService.BatchSasToken(userId, exts);
     }
 
-    protected Guid GetUserId()
+    [HttpPost("batchCommit")]
+    public async Task<IEnumerable<Sticker>> BatchCommit([FromBody] PostStickerBlobRequest[] reqs)
+    {
+        var userId = this.GetUserId();
+        var list = await this.blobService.BatchCommitBlocks(userId, reqs);
+        var stickers = list.Where(s => !string.IsNullOrEmpty(s.src)).ToList();
+        var result = await this.stickerService.addUserStickers(userId, stickers, false);
+        return result.Concat(list.Where(s => string.IsNullOrEmpty(s.src)));
+    }
+
+    [HttpPost("commit")]
+    [Obsolete("use batchCommit")]
+    public async Task<Sticker> Commit([FromBody] PostStickerBlobRequest request)
+    {
+        var userId = this.GetUserId();
+        string src = await this.blobService.commitBlocks(userId, request);
+        var newSticker = new Sticker()
+        {
+            src = src,
+            name = Path.GetFileNameWithoutExtension(request.name),
+            id = request.id,
+        };
+        var list = await this.stickerService.addUserStickers(
+            userId,
+            new List<Sticker>() { newSticker },
+            false
+        );
+        return list[0];
+    }
+
+    private Guid GetUserId()
     {
         if (
             this.Request.Headers.TryGetValue(ENV.SESSION_HEADER_KEY, out var headerValue)

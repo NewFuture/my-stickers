@@ -20,6 +20,7 @@ export interface Sticker {
     name?: string;
     status?: StickerStatus;
     progress?: number;
+    weight?: number;
 }
 
 export type UserType = "user" | "company";

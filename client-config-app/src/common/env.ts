@@ -4,6 +4,26 @@
 export const MAX_NUM = 150;
 
 /**
+ * 最大图片大小
+ */
+export const MAX_SIZE = 1000 * 1024;
+
+/**
+ * 批量Commit数量
+ */
+export const MAX_BATCH_COUNT = 12;
+
+/**
+ * 最大并发数量
+ */
+export const MAX_CONCURRENCY = 6;
+
+/**
+ * 修改操作最大并发数
+ */
+export const MAX_WRITE_CONCURRENCY = 2;
+
+/**
  * Enable / disable the tenant features.
  */
 export const ENABLE_TENANT = true;
@@ -11,7 +31,7 @@ export const ENABLE_TENANT = true;
 /**
  * API 地址
  */
-export const BASE_URL = process.env.REACT_APP_API_ROOT || "/api/";
+export const BASE_URL = (process.env.REACT_APP_API_ROOT || "") + "/api/";
 
 /**
  * AAD Client ID

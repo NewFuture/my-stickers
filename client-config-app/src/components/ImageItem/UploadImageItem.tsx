@@ -9,6 +9,7 @@ interface UploadImageItemProps {
     onFinish: (file: File, sticker?: Sticker) => void;
     onUpload: (file: File, onProgressUpdate: (percent: number) => void) => Promise<any>;
     className?: string;
+    order?: number;
 }
 
 function getStickerDataFromBlob(file: File) {
@@ -23,6 +24,7 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
     onFinish,
     onUpload,
     className,
+    order,
 }: UploadImageItemProps): JSX.Element => {
     const styles = useUploadItemStyles();
     const [sticker, setSticker] = useState<Sticker>(() => getStickerDataFromBlob(file) as Sticker);
@@ -52,7 +54,7 @@ export const UploadImageItem: React.FC<UploadImageItemProps> = ({
 
     const isFailed = sticker.status === StickerStatus.upload_fail;
     return (
-        <div className={mergeClasses(styles.root, className)}>
+        <div className={mergeClasses(styles.root, className)} style={{ order }}>
             <Image className={styles.img} src={sticker.src} />
             <Text className={styles.name} size={400} truncate>
                 {sticker.name}

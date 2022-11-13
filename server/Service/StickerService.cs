@@ -118,11 +118,11 @@ public class StickerService
             {
                 // update cacheList directly, when weight not changed
                 var stickerGuid = Guid.Parse(stickerId);
-                var cacheSitcker = cacheList!.Find(s => s.id == stickerGuid);
-                if (cacheSitcker != null)
+                var cacheSticker = cacheList!.Find(s => s.id == stickerGuid);
+                if (cacheSticker != null)
                 {
                     // update cache name
-                    cacheSitcker.name = sticker.name;
+                    cacheSticker.name = sticker.name;
                     return true;
                 }
             }
@@ -134,7 +134,7 @@ public class StickerService
 
     public async Task<List<Sticker>> addUserStickers(
         Guid userId,
-        List<Sticker> stickers,
+        IList<Sticker> stickers,
         bool checkExistingStickers = true
     )
     {
@@ -143,7 +143,7 @@ public class StickerService
 
     public async Task<List<Sticker>> addTenantStickers(
         Guid tenantId,
-        List<Sticker> stickers,
+        IList<Sticker> stickers,
         bool checkExistingStickers = true
     )
     {
@@ -153,18 +153,18 @@ public class StickerService
     private async Task<List<Sticker>> addStickers(
         bool isTenant,
         Guid filterId,
-        List<Sticker> stickers,
+        IList<Sticker> stickers,
         bool checkExistingStickers
     )
     {
         List<Sticker> result = new List<Sticker>();
-        stickers.ForEach(s =>
+        foreach (var s in stickers)
         {
             if (s.name?.Length > MAX_NAME_LENGTH)
             {
                 s.name = s.name[..MAX_NAME_LENGTH];
             }
-        });
+        }
         List<Sticker>? oldstickers = null;
         if (checkExistingStickers)
         {
@@ -173,7 +173,7 @@ public class StickerService
 
         if (oldstickers != null && oldstickers.Count > 0)
         {
-            var needUpdate = stickers.FindAll(o => oldstickers.Exists(s => s.src == o.src));
+            var needUpdate = stickers.Where(o => oldstickers.Exists(s => s.src == o.src));
             foreach (var item in needUpdate)
             {
                 item.id = oldstickers.Find(s => s.src == item.src)!.id;
@@ -184,14 +184,19 @@ public class StickerService
                 result.Add(item);
             }
         }
-        foreach (var item in stickers.Take(ENV.USER_STICKERS_MAX_NUM - (oldstickers?.Count ?? 0)))
+        var newItems = stickers.Take(ENV.USER_STICKERS_MAX_NUM - (oldstickers?.Count ?? 0));
+        var count = newItems.Count();
+        if (count == 1)
         {
-            await this.database.InsertSticker(isTenant, filterId, item);
-            result.Add(item);
+            await this.database.InsertSticker(isTenant, filterId, newItems.First());
         }
-
+        else if (count > 1)
+        {
+            await this.database.InsertStickers(isTenant, filterId, newItems);
+        }
         var cacheKey = GetCacheKey(isTenant, filterId);
         this.cache.Remove(cacheKey);
+        result.AddRange(newItems);
         return result;
     }
 

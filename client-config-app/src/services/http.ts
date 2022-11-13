@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { getAuthToken } from "./teams";
-import { BASE_URL } from "../common/env";
+import { BASE_URL, MAX_CONCURRENCY, MAX_WRITE_CONCURRENCY } from "../common/env";
 
 const SessionKey = window.location.hash?.substring(1);
 const USER_SEESION_HEADER = "Session-Key";
@@ -33,22 +33,18 @@ API.interceptors.request.use((c) => {
     return c;
 });
 
-/**
- * 最大并发数
- */
-const MAX_CONCURRENCY = 4;
-const MAX_WRITE_CONCURRENCY = 2;
-let totalPendingRequest = 0;
-let writingRequest = 0;
-
+const Counter = {
+    write: 0,
+    all: 0,
+};
 function isWriteApi(conf: AxiosRequestConfig) {
-    // get sas token don't write DB or BlobStorage
+    // upload: get sas token don't write DB or BlobStorage
     return conf.method !== "GET" && !conf.url?.endsWith("stickers/upload");
 }
 function clearRequest(conf: AxiosRequestConfig) {
-    totalPendingRequest = Math.max(0, totalPendingRequest - 1);
+    Counter.all = Math.max(0, Counter.all - 1);
     if (isWriteApi(conf)) {
-        writingRequest = Math.max(0, writingRequest - 1);
+        Counter.write = Math.max(0, Counter.write - 1);
     }
 }
 
@@ -56,19 +52,18 @@ API.interceptors.request.use(
     (config) =>
         new Promise((resolve) => {
             const isWriting = isWriteApi(config);
-            const isBypass = config.url?.endsWith("/stickers"); // bypass list api
             const tryRun = () => {
-                // for by pass API send it without any limit, but count for other requests
-                // for writing api should low the the writing limit
+                // write API limit 2 concurrencies.
+                // if only 1 writing by pass it.
                 if (
-                    isBypass ||
-                    (totalPendingRequest < MAX_CONCURRENCY && (!isWriting || writingRequest < MAX_WRITE_CONCURRENCY))
+                    (isWriting && Counter.write <= 1) ||
+                    (Counter.all < MAX_CONCURRENCY && (!isWriting || Counter.write < MAX_WRITE_CONCURRENCY))
                 ) {
-                    totalPendingRequest++;
-                    writingRequest += Number(isWriting);
+                    Counter.all++;
+                    Counter.write += Number(isWriting);
                     resolve(config);
                 } else {
-                    setTimeout(tryRun, 200);
+                    setTimeout(tryRun, 250);
                 }
             };
             tryRun();

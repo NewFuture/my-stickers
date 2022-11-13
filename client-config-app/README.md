@@ -1,3 +1,3 @@
 # client config APP
 
-management the sitckers in Team
+management the stickers in Team
