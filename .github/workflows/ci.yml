@@ -30,7 +30,7 @@ jobs:
             - uses: actions/setup-dotnet@v2
               with:
                   dotnet-version: 6.x
-            - run: dotnet format --verify-no-changes --severity=info --verbosity=detailed
+            - run: dotnet format --severity=info --verbosity=detailed --verify-no-changes
 
     front-end-build:
         strategy:

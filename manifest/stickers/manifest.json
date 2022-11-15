@@ -48,7 +48,7 @@
                 {
                     "id": "collect",
                     "description": "collect the sticker images from messages",
-                    "title": "Save to My Stickers",
+                    "title": "${APP_PRE_FIX}Save to My Stickers",
                     "type": "action",
                     "fetchTask": true,
                     "context": ["message"]
