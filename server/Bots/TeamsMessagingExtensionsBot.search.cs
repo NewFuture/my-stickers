@@ -73,24 +73,20 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
         var skip = query.QueryOptions.Skip ?? 0;
         var count = query.QueryOptions.Count ?? 30;
         var initialRun = GetQueryParameters(query, "initialRun");
-
+        var properties = new Dictionary<string, string> { { "initialRun", initialRun ?? "false" } };
+        this.telemetryClient.TrackEvent("query", properties);
         cancellationToken.ThrowIfCancellationRequested();
-        if (initialRun == "true")
+        var isInitialRun = initialRun == "true";
+        IEnumerable<Img> imgs;
+        if (isInitialRun)
         {
-            var imgs = await this.InitialResultGrid(
-                userId,
-                tenantId,
-                skip,
-                count,
-                cancellationToken
-            );
-            return GetMessagingExtensionResponse(imgs, false);
+            imgs = await this.InitialResultGrid(userId, tenantId, skip, count, cancellationToken);
         }
         else
         {
             // The list of MessagingExtensionAttachments must we wrapped in a MessagingExtensionResult wrapped in a MessagingExtensionResponse.
             var keyword = GetQueryParameters(query, "query");
-            var imgs = await this.QueryResultGrid(
+            imgs = await this.QueryResultGrid(
                 userId,
                 tenantId,
                 keyword,
@@ -98,8 +94,13 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
                 count,
                 cancellationToken
             );
-            return GetMessagingExtensionResponse(imgs, true);
         }
+        this.telemetryClient.TrackEvent(
+            "queryResult",
+            properties,
+            new Dictionary<string, double>() { { "count", imgs.Count() } }
+        );
+        return GetMessagingExtensionResponse(imgs, !isInitialRun);
     }
 
     /// <summary>
