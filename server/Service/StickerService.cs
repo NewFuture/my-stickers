@@ -134,7 +134,7 @@ public class StickerService
 
     public async Task<List<Sticker>> addUserStickers(
         Guid userId,
-        IList<Sticker> stickers,
+        List<Sticker> stickers,
         bool checkExistingStickers = true
     )
     {
@@ -143,7 +143,7 @@ public class StickerService
 
     public async Task<List<Sticker>> addTenantStickers(
         Guid tenantId,
-        IList<Sticker> stickers,
+        List<Sticker> stickers,
         bool checkExistingStickers = true
     )
     {
@@ -153,7 +153,7 @@ public class StickerService
     private async Task<List<Sticker>> addStickers(
         bool isTenant,
         Guid filterId,
-        IList<Sticker> stickers,
+        List<Sticker> stickers,
         bool checkExistingStickers
     )
     {
@@ -171,18 +171,29 @@ public class StickerService
             oldstickers = await this.getStickerList(isTenant, filterId);
         }
 
-        if (oldstickers != null && oldstickers.Count > 0)
+        if (oldstickers?.Count > 0)
         {
-            var needUpdate = stickers.Where(o => oldstickers.Exists(s => s.src == o.src));
-            foreach (var item in needUpdate)
+            oldstickers.ForEach(async sticker =>
             {
-                item.id = oldstickers.Find(s => s.src == item.src)!.id;
-                var stickerId = item.id.ToString();
-                var weight = StickerDatabase.GetNewWeight();
-                await this.database.updateSticker(isTenant, filterId, stickerId, item.name, weight);
-                stickers.Remove(item);
-                result.Add(item);
-            }
+                var item = stickers.Find(s => s?.src == sticker.src);
+                if (item != null)
+                {
+                    stickers.Remove(item);
+                    item.id = sticker.id;
+                    if (item.weight <= 0)
+                    {
+                        item.weight = StickerDatabase.GetNewWeight();
+                    }
+                    await this.database.updateSticker(
+                        isTenant,
+                        filterId,
+                        item.id.ToString(),
+                        item.name,
+                        item.weight
+                    );
+                    result.Add(item);
+                }
+            });
         }
         var newItems = stickers.Take(ENV.USER_STICKERS_MAX_NUM - (oldstickers?.Count ?? 0));
         var count = newItems.Count();

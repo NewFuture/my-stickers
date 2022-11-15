@@ -5,7 +5,9 @@
 
 namespace Stickers.Bot;
 
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using AdaptiveCards.Templating;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Schema;
@@ -14,12 +16,15 @@ using Newtonsoft.Json.Linq;
 using Stickers.Entities;
 using Stickers.Models;
 using Stickers.Resources;
+using Stickers.Utils;
 
 public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
 {
     private static readonly Regex IMG_SRC_REGEX = new("<img[^>]+src=\"([^\"\\s]+)\"[^>]*>");
     private static readonly Regex IMG_ALT_REGEX = new("<img[^>]+alt=\"([^\"]+)\"[^>]*>");
     private static readonly Regex IMAGE_URL_REGEX = new("^http(s?):\\/\\/.*\\.(?:jpg|gif|png)$");
+
+    private static readonly Dictionary<string, AdaptiveCardTemplate> cardDict = new();
 
     protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionFetchTaskAsync(
         ITurnContext<IInvokeActivity> turnContext,
@@ -29,6 +34,7 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
     {
         var command = action.CommandId;
 
+        this.telemetryClient.TrackEvent($"fetchTask_{command}");
         switch (command)
         {
             case "management":
@@ -69,6 +75,7 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
                 }
             );
         }
+        entities = entities.DistinctBy(s => s.src).ToList();
         await this.stickerService.addUserStickers(new Guid(userId), entities);
         var locale = activity.GetLocale();
         JObject cardJson;
@@ -99,6 +106,11 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
             ContentType = "application/vnd.microsoft.card.adaptive",
             Content = cardJson,
         };
+        this.telemetryClient.TrackEvent(
+            "collectResult",
+            null,
+            new Dictionary<string, double>() { { "count", imgs.Count } }
+        );
         return new MessagingExtensionActionResponse()
         {
             Task = new TaskModuleContinueResponse
@@ -241,5 +253,21 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
             },
         };
         return response;
+    }
+
+    private static JObject GetAdaptiveCardJsonObject(object cardPayload, string cardFileName)
+    {
+        if (!cardDict.TryGetValue(cardFileName, out var template))
+        {
+            string cardPath = ResourceFilePathHelper.GetFilePath(
+                Path.Combine("Cards", cardFileName)
+            );
+            var cardJsonString = File.ReadAllText(cardPath);
+
+            template = new AdaptiveCardTemplate(cardJsonString);
+            cardDict.Add(cardFileName, template);
+        }
+        var cardJson = template.Expand(cardPayload);
+        return JObject.Parse(cardJson);
     }
 }
