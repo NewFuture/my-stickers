@@ -20,14 +20,14 @@ public class StickerService
         this.cache = cache;
     }
 
-    public async Task<List<Sticker>> getUserStickers(Guid userId)
+    public Task<List<Sticker>> getUserStickers(Guid userId)
     {
-        return await this.getStickerList(false, userId);
+        return this.getStickerList(false, userId);
     }
 
-    public async Task<List<Sticker>> getTenantStickers(Guid tenantId)
+    public Task<List<Sticker>> getTenantStickers(Guid tenantId)
     {
-        return await this.getStickerList(true, tenantId);
+        return this.getStickerList(true, tenantId);
     }
 
     private async Task<List<Sticker>> getStickerList(bool isTenant, Guid id)
@@ -36,7 +36,7 @@ public class StickerService
         return (
             await this.cache.GetOrCreateAsync(
                 cacheKey,
-                (entry) =>
+                async (entry) =>
                 {
                     if (isTenant)
                     {
@@ -48,20 +48,20 @@ public class StickerService
                         entry.Priority = CacheItemPriority.Low;
                     }
 
-                    return this.database.getStickerList(isTenant, id);
+                    return await this.database.getStickerList(isTenant, id);
                 }
             )
         )!;
     }
 
-    public async Task<bool> deleteUserSticker(Guid userId, string stickerId)
+    public Task<bool> deleteUserSticker(Guid userId, string stickerId)
     {
-        return await this.deleteSticker(false, userId, stickerId);
+        return this.deleteSticker(false, userId, stickerId);
     }
 
-    public async Task<bool> deleteTanentSticker(Guid tenantId, string stickerId)
+    public Task<bool> deleteTanentSticker(Guid tenantId, string stickerId)
     {
-        return await this.deleteSticker(true, tenantId, stickerId);
+        return this.deleteSticker(true, tenantId, stickerId);
     }
 
     private async Task<bool> deleteSticker(bool isTenant, Guid filterId, string stickerId)
@@ -75,22 +75,18 @@ public class StickerService
         return false;
     }
 
-    public async Task<bool> updateUserSticker(
-        Guid userId,
-        string stickerId,
-        PatchStickerRequest sticker
-    )
+    public Task<bool> updateUserSticker(Guid userId, string stickerId, PatchStickerRequest sticker)
     {
-        return await this.updateSticker(false, userId, stickerId, sticker);
+        return this.updateSticker(false, userId, stickerId, sticker);
     }
 
-    public async Task<bool> updateTenantSticker(
+    public Task<bool> updateTenantSticker(
         Guid tenantId,
         string stickerId,
         PatchStickerRequest sticker
     )
     {
-        return await this.updateSticker(true, tenantId, stickerId, sticker);
+        return this.updateSticker(true, tenantId, stickerId, sticker);
     }
 
     private async Task<bool> updateSticker(
@@ -132,22 +128,22 @@ public class StickerService
         return false;
     }
 
-    public async Task<List<Sticker>> addUserStickers(
+    public Task<List<Sticker>> addUserStickers(
         Guid userId,
         List<Sticker> stickers,
         bool checkExistingStickers = true
     )
     {
-        return await this.addStickers(false, userId, stickers, checkExistingStickers);
+        return this.addStickers(false, userId, stickers, checkExistingStickers);
     }
 
-    public async Task<List<Sticker>> addTenantStickers(
+    public Task<List<Sticker>> addTenantStickers(
         Guid tenantId,
         List<Sticker> stickers,
         bool checkExistingStickers = true
     )
     {
-        return await this.addStickers(true, tenantId, stickers, checkExistingStickers);
+        return this.addStickers(true, tenantId, stickers, checkExistingStickers);
     }
 
     private async Task<List<Sticker>> addStickers(

@@ -19,8 +19,7 @@ public static class ConfigKeys
     public const string AAD_SECTION = "AAD";
     public const string AAD_CLINET_ID = "AAD:ClientId";
 
-    // public const string CONAINER_NAME = "container";
-
+    public const string APPINSIGHTS_PROFILER_ENABLE = "APPINSIGHTS_PROFILER_ENABLE";
     // "MicrosoftAppId": "",
     // "MicrosoftAppPassword": "",
 }

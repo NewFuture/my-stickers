@@ -38,6 +38,12 @@ builder.Services
     .AddSingleton<TelemetryInitializerMiddleware>()
     // Create the telemetry middleware (used by the telemetry initializer) to track conversation events
     .AddSingleton<TelemetryLoggerMiddleware>();
+
+if (builder.Configuration.GetValue<bool>(ConfigKeys.APPINSIGHTS_PROFILER_ENABLE, false))
+{
+    // Enable Profiler
+    builder.Services.AddServiceProfiler();
+}
 builder.Services.AddControllers();
 
 // Health check
