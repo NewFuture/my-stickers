@@ -33,7 +33,7 @@ builder.Services
     // Add telemetry initializer that will set the correlation context for all telemetry items.
     .AddSingleton<ITelemetryInitializer, OperationCorrelationTelemetryInitializer>()
     // Add telemetry initializer that sets the user ID and session ID (in addition to other bot-specific properties such as activity ID)
-    .AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>()
+    .AddSingleton<ITelemetryInitializer, StickersTelemetryInitializer>()
     // Create the telemetry middleware to initialize telemetry gathering
     .AddSingleton<TelemetryInitializerMiddleware>()
     // Create the telemetry middleware (used by the telemetry initializer) to track conversation events
