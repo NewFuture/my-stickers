@@ -21,7 +21,7 @@ public class StickersTelemetryInitializer : ITelemetryInitializer
     public static readonly string BotActivityKey = "BotBuilderActivity";
 
     private readonly IHttpContextAccessor httpContextAccessor;
-    private readonly SessionService sessionService;
+    private readonly IServiceProvider services;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TelemetryBotIdInitializer"/> class.
@@ -29,12 +29,12 @@ public class StickersTelemetryInitializer : ITelemetryInitializer
     /// <param name="httpContextAccessor">The HttpContextAccessor used to access the current HttpContext.</param>
     public StickersTelemetryInitializer(
         IHttpContextAccessor httpContextAccessor,
-        SessionService sessionService
+        IServiceProvider services
     )
     {
         this.httpContextAccessor =
             httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-        this.sessionService = sessionService;
+        this.services = services;
     }
 
     /// <inheritdoc/>
@@ -91,7 +91,8 @@ public class StickersTelemetryInitializer : ITelemetryInitializer
         }
         else if (Guid.TryParse(sessionKey, out var sessionId))
         {
-            telemetry.Context.User.Id = this.sessionService.GetSessionInfo(sessionId).ToString();
+            var sessionService = this.services.GetService<SessionService>();
+            telemetry.Context.User.Id = sessionService?.GetSessionInfo(sessionId).ToString();
         }
     }
 
