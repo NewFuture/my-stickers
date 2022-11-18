@@ -13,7 +13,8 @@ namespace Stickers.Service.Tests
 
             var id = Guid.NewGuid();
             var s = session.GenerateSession(id);
-            Assert.AreEqual(id, session.GetSessionInfo(s));
+            Assert.IsTrue(session.TryGetSessionInfo(s, out var uid));
+            Assert.AreEqual(id, uid);
         }
     }
 }

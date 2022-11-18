@@ -33,11 +33,17 @@ builder.Services
     // Add telemetry initializer that will set the correlation context for all telemetry items.
     .AddSingleton<ITelemetryInitializer, OperationCorrelationTelemetryInitializer>()
     // Add telemetry initializer that sets the user ID and session ID (in addition to other bot-specific properties such as activity ID)
-    .AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>()
+    .AddSingleton<ITelemetryInitializer, StickersTelemetryInitializer>()
     // Create the telemetry middleware to initialize telemetry gathering
     .AddSingleton<TelemetryInitializerMiddleware>()
     // Create the telemetry middleware (used by the telemetry initializer) to track conversation events
     .AddSingleton<TelemetryLoggerMiddleware>();
+
+if (builder.Configuration.GetValue<bool>(ConfigKeys.APPINSIGHTS_PROFILER_ENABLE, false))
+{
+    // Enable Profiler
+    builder.Services.AddServiceProfiler();
+}
 builder.Services.AddControllers();
 
 // Health check
@@ -157,7 +163,7 @@ builder.Services
         {
             var clientId = configuration[ConfigKeys.AAD_CLINET_ID];
             var webURL = configuration[ConfigKeys.WEB_URL];
-            options.Authority = $"https://login.microsoftonline.com/common/v2.0";
+            options.Authority = "https://login.microsoftonline.com/common/v2.0";
             options.TokenValidationParameters.ValidAudiences = new string[]
             {
                 $"{webURL.Replace("https:", "api:")}/{clientId}", // teams sso

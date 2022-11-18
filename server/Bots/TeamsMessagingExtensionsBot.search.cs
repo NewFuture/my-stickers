@@ -132,7 +132,6 @@ public partial class TeamsMessagingExtensionsBot : TeamsActivityHandler
             null,
             cancellationToken
         );
-        cancellationToken.ThrowIfCancellationRequested();
         var stickers = await usetStikcerTask;
         if (stickers.Count < skip + count)
         {
