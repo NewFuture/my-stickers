@@ -1,6 +1,7 @@
 namespace Stickers.Controllers;
 
 using System.Security.Claims;
+using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stickers.Entities;
@@ -33,13 +34,20 @@ public class TenantStickersController : ControllerBase
 
     private Guid GetTenantId()
     {
-        var id = this.httpContextAccessor.HttpContext?.User.FindFirstValue(
+        var context = this.httpContextAccessor.HttpContext;
+        var id = context?.User.FindFirstValue(
             "http://schemas.microsoft.com/identity/claims/tenantid"
         );
         if (String.IsNullOrWhiteSpace(id))
         {
             this.logger.LogError("failed to got tid from token");
             throw new UnauthorizedAccessException("cannot get tenant form token");
+        }
+        var requestTelemetry = context?.Features.Get<RequestTelemetry>();
+        if (requestTelemetry != null)
+        {
+            requestTelemetry.Properties.Add("tenantId", id);
+            requestTelemetry.Context.User.Id = context?.User.FindFirstValue("oid");
         }
         return new Guid(id);
     }
