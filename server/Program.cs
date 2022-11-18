@@ -163,7 +163,7 @@ builder.Services
         {
             var clientId = configuration[ConfigKeys.AAD_CLINET_ID];
             var webURL = configuration[ConfigKeys.WEB_URL];
-            options.Authority = $"https://login.microsoftonline.com/common/v2.0";
+            options.Authority = "https://login.microsoftonline.com/common/v2.0";
             options.TokenValidationParameters.ValidAudiences = new string[]
             {
                 $"{webURL.Replace("https:", "api:")}/{clientId}", // teams sso

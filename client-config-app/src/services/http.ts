@@ -3,7 +3,8 @@ import { getAuthToken } from "./teams";
 import { BASE_URL, MAX_CONCURRENCY, MAX_WRITE_CONCURRENCY } from "../common/env";
 
 const SessionKey = window.location.hash?.substring(1);
-const USER_SEESION_HEADER = "Session-Key";
+// Use the Content-Language to make the request to be the sample request avoid CORS options
+const USER_SEESION_HEADER = "Content-Language";
 
 // export const enum APIs {
 //     userStickers = "/me/stickers",
@@ -16,7 +17,7 @@ export const API = axios.create({
     baseURL: BASE_URL,
     headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
+        [USER_SEESION_HEADER]: SessionKey,
     },
 });
 
@@ -27,8 +28,6 @@ API.interceptors.request.use((c) => {
             c.headers!["authorization"] = `Bearer ${token}`;
             return c;
         });
-    } else {
-        c.headers![USER_SEESION_HEADER] = SessionKey;
     }
     return c;
 });
