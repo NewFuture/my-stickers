@@ -14,9 +14,9 @@ public class SessionService
         this._cache = cache;
     }
 
-    public Guid GetSessionInfo(Guid key)
+    public bool TryGetSessionInfo(Guid key, out Guid value)
     {
-        return this._cache.Get<Guid>(key);
+        return this._cache.TryGetValue<Guid>(key, out value);
     }
 
     public Guid GenerateSession(Guid userId)

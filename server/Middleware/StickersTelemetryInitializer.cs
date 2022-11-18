@@ -78,21 +78,22 @@ public class StickersTelemetryInitializer : ITelemetryInitializer
         var headers = httpContext.Request.Headers;
         telemetry.Context.User.UserAgent = headers.UserAgent;
 
-        if (headers.TryGetValue(ENV.SESSION_HEADER_KEY, out var sessionKey))
+        if (headers.TryGetSessionId(out var sessionId))
         {
-            telemetry.Context.Session.Id = sessionKey;
+            telemetry.Context.Session.Id = sessionId.ToString();
+            var sessionService = this.services.GetService<SessionService>();
+            if (sessionService?.TryGetSessionInfo(sessionId, out var userId) == true)
+            {
+                telemetry.Context.User.Id = userId.ToString();
+            }
         }
+
         if (httpContext.User.Identity?.IsAuthenticated == true)
         {
             telemetry.Context.User.Id = httpContext.User.FindFirstValue("oid");
             var tenantId = httpContext.User.FindFirstValue("tid");
             var telemetryProperties = ((ISupportProperties)telemetry).Properties;
             telemetryProperties.TryAdd("tenantId", tenantId);
-        }
-        else if (Guid.TryParse(sessionKey, out var sessionId))
-        {
-            var sessionService = this.services.GetService<SessionService>();
-            telemetry.Context.User.Id = sessionService?.GetSessionInfo(sessionId).ToString();
         }
     }
 
