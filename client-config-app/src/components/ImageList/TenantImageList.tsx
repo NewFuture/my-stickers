@@ -7,11 +7,12 @@ import { getAuthToken } from "../../services/teams";
 import { IsAdmin } from "../../utilities/isAdmin";
 import { EmptyPage } from "../EmptyPage/EmptyPage";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
+import { LinearSpinner } from "../LinearSpinner/LinearSpinner";
 import { LoginPage } from "../LoginPage/LoginPage";
 import ImageList from "./ImageList";
 
 export function TenantImageList(): JSX.Element {
-    const { data, isLoading, mutate, error } = useStickersList(true);
+    const { data, isLoading, isValidating, mutate, error } = useStickersList(true);
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
     useEffect(() => {
@@ -30,14 +31,18 @@ export function TenantImageList(): JSX.Element {
     ) : error ? (
         <ErrorPage error={error} />
     ) : data?.length || isAdmin ? (
-        <ImageList
-            items={data!}
-            onMutate={mutate}
-            isEditable={isAdmin}
-            onDelete={deleteTenantSticker}
-            onPatch={patchTenantSticker}
-            onUpload={uploadTenantSticker}
-        />
+        <>
+            <LinearSpinner hidden={!isValidating} />
+            <ImageList
+                items={data!}
+                onMutate={mutate}
+                enableUpload={isAdmin}
+                enableEdit={isAdmin && !isValidating}
+                onDelete={deleteTenantSticker}
+                onPatch={patchTenantSticker}
+                onUpload={uploadTenantSticker}
+            />
+        </>
     ) : (
         <EmptyPage />
     );
