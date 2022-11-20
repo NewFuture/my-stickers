@@ -1,4 +1,4 @@
-import { API } from "../services/http";
+import { API, myList, tenantList } from "../services/http";
 import useSWR, { SWRResponse } from "swr";
 import type { Sticker } from "../model/sticker";
 
@@ -9,7 +9,7 @@ interface StickerListResult extends SWRResponse<Sticker[], any> {
 }
 
 export function useStickersList(isTenant: boolean): StickerListResult {
-    const url = isTenant ? `/admin/stickers` : "/me/stickers";
+    const url = isTenant ? tenantList : myList;
     const result: StickerListResult = useSWR(url, fetcher, {
         refreshInterval: (isTenant ? 5 : 10) * 60 * 1000, // 10 mins
         revalidateOnFocus: isTenant, // only for tenant
