@@ -39,7 +39,8 @@ function doAfter(callback: () => any, delay: number) {
 }
 interface ImageListProps {
     items: Sticker[];
-    isEditable: boolean;
+    enableEdit: boolean;
+    enableUpload: boolean;
     onMutate: (updateCallback: (items?: Sticker[]) => Sticker[], options?: MutatorOptions) => void;
     onDelete: (id: string) => Promise<any>;
     onPatch: (id: string, data: Partial<Sticker>) => Promise<any>;
@@ -47,7 +48,8 @@ interface ImageListProps {
 }
 
 const ImageList: React.FC<ImageListProps> = ({
-    isEditable,
+    enableEdit,
+    enableUpload,
     items,
     onMutate,
     onPatch,
@@ -83,7 +85,7 @@ const ImageList: React.FC<ImageListProps> = ({
                 }
                 onDragOver={dragOverHandler}
             >
-                {isEditable && (
+                {enableUpload && (
                     <UploadButton className={styles.item} onUploadChangeHandler={uploadHandler} disbaled={!enable} />
                 )}
                 {files?.map((item: File, index) => (
@@ -103,7 +105,7 @@ const ImageList: React.FC<ImageListProps> = ({
                         key={item.id}
                         {...item}
                         onDelete={
-                            isEditable
+                            enableEdit
                                 ? () => {
                                       onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete }), {
                                           revalidate: false,

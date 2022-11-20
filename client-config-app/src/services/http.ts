@@ -2,6 +2,8 @@ import axios, { AxiosRequestConfig } from "axios";
 import { getAuthToken } from "./teams";
 import { BASE_URL, MAX_CONCURRENCY, MAX_WRITE_CONCURRENCY } from "../common/env";
 
+export const myList = "/me/stickers";
+export const tenantList = "/admin/stickers";
 const SessionKey = window.location.hash?.substring(1);
 // Use the Content-Language to make the request to be the sample request avoid CORS options
 const USER_SEESION_HEADER = "Content-Language";
