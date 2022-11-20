@@ -98,7 +98,7 @@ jobs:
                       az cdn endpoint purge --content-paths "/" "/config/" --ids "${{secrets.CDN_RESOURCE_ID}}"
 
             - name: "Preload CDN"
-              run: find client-config-app/build/static/ -name "*.js" -type f -exec az cdn endpoint load --ids "${{secrets.CDN_RESOURCE_ID}}" --content-paths "/index.html" "/config/" {} +
+              run: find config/ -name "*.js" -type f -exec az cdn endpoint load --ids "${{secrets.CDN_RESOURCE_ID}}" --content-paths "/index.html" "/config/" {} +
               working-directory: ./www
 
             - name: logout
