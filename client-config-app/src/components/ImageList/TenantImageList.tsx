@@ -11,13 +11,15 @@ import { LinearSpinner } from "../LinearSpinner/LinearSpinner";
 import { LoginPage } from "../LoginPage/LoginPage";
 import ImageList from "./ImageList";
 
+let isAdminState = false;
+
 export function TenantImageList(): JSX.Element {
     const { data, isLoading, isValidating, mutate, error } = useStickersList(true);
-    const [isAdmin, setIsAdmin] = useState<boolean>(false);
+    const [isAdmin, setIsAdmin] = useState<boolean>(isAdminState);
 
     useEffect(() => {
         getAuthToken().then(
-            (token) => setIsAdmin(IsAdmin(token)),
+            (token) => setIsAdmin((isAdminState = IsAdmin(token))),
             () => setIsAdmin(false),
         );
     }, []);
