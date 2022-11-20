@@ -63,7 +63,7 @@ jobs:
             name: ${{ fromJSON('["Integration","Production"]')[ github.ref_name == 'v2'] }}
             url: https://${{env.WEBSITE}}/
         runs-on: ubuntu-latest
-        timeout-minutes: 5
+        timeout-minutes: 10
         steps:
             - uses: actions/download-artifact@v3
               with:
@@ -96,6 +96,10 @@ jobs:
               with:
                   inlineScript: |
                       az cdn endpoint purge --content-paths "/" "/config/" --ids "${{secrets.CDN_RESOURCE_ID}}"
+
+            - name: "Preload CDN"
+              run: az cdn endpoint load --content-paths "/" "/config/" --ids "${{secrets.CDN_RESOURCE_ID}}"
+
             - name: logout
               run: az logout
               if: always()
