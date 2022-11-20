@@ -86,13 +86,16 @@ jobs:
                       --connection-string "${{secrets.BLOB_CONNECTION_STRING}}" \
                       --overwrite
 
-            # # https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-static-site-github-actions?tabs=userlevel
-            # - name: Azure Login
-            #   uses: azure/login@v1
-            #   with:
-            #       creds: ${{ secrets.AZURE_CREDENTIALS }}
-            # - name: "Purge CDN endpoint"
-            #   uses: azure/CLI@v1
-            #   with:
-            #       inlineScript: |
-            #           az cdn endpoint purge --content-paths  "/*" --profile-name "CDN_PROFILE_NAME" --name "CDN_ENDPOINT" --resource-group "RESOURCE_GROUP"
+            # https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-static-site-github-actions?tabs=userlevel
+            - name: Azure Login
+              uses: azure/login@v1
+              with:
+                  creds: ${{ secrets.AZURE_CREDENTIALS }}
+            - name: "Purge CDN endpoint"
+              uses: azure/CLI@v1
+              with:
+                  inlineScript: |
+                      az cdn endpoint purge --content-paths "/" "/config/" --name "${{env.WEBSITE}}"
+            - name: logout
+              run: az logout
+              if: always()
