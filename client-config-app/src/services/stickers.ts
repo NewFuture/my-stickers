@@ -1,39 +1,39 @@
-import { API } from "./http";
+import { API, myList, tenantList } from "./http";
 import type { Sticker } from "../model/sticker";
 import { SasInfo, upload } from "./blob";
 import { MAX_BATCH_COUNT } from "../common/env";
 
 export async function uploadSticker(file: File, onProgressUpdate: (percent: number) => void) {
-    const commitInfo = await uploadToBlob("/me/stickers/upload", file, onProgressUpdate, userQueue);
+    const commitInfo = await uploadToBlob(`${myList}/upload`, file, onProgressUpdate, userQueue);
     return pushQueue(userQueue, commitInfo, batchUserCommit);
 }
 
 export async function uploadTenantSticker(file: File, onProgressUpdate: (percent: number) => void) {
-    const commitInfo = await uploadToBlob("/admin/stickers/upload", file, onProgressUpdate, tenantQueue);
+    const commitInfo = await uploadToBlob(`${tenantList}/upload`, file, onProgressUpdate, tenantQueue);
     return pushQueue(tenantQueue, commitInfo, batchTenantCommit);
 }
 
 export function deleteSticker(id: string): Promise<any> {
-    return API.delete(`/me/stickers/${id}`);
+    return API.delete(`${myList}/${id}`);
 }
 
 export function patchSticker(id: string, data: Partial<Sticker>) {
-    return API.patch(`/me/stickers/${id}`, data).then((res) => res.data);
+    return API.patch(`${myList}/${id}`, data).then((res) => res.data);
 }
 
 export function deleteTenantSticker(id: string): Promise<any> {
-    return API.delete(`/admin/stickers/${id}`);
+    return API.delete(`${tenantList}/${id}`);
 }
 
 export function patchTenantSticker(id: string, data: Partial<Sticker>) {
-    return API.patch(`/admin/stickers/${id}`, data).then((res) => res.data);
+    return API.patch(`${tenantList}/${id}`, data).then((res) => res.data);
 }
 
 function batchUserCommit(list: CommitInfo[]) {
-    return API.post("/me/stickers/batchCommit", list).then((r) => r.data);
+    return API.post(`${myList}/batchCommit`, list).then((r) => r.data);
 }
 function batchTenantCommit(list: CommitInfo[]) {
-    return API.post("/admin/stickers/batchCommit", list).then((r) => r.data);
+    return API.post(`${tenantList}/batchCommit`, list).then((r) => r.data);
 }
 
 interface UploadQueue {
@@ -111,7 +111,7 @@ interface CommitInfo {
 }
 
 async function uploadToBlob(
-    url: "/me/stickers/upload" | "/admin/stickers/upload",
+    url: `${typeof myList | typeof tenantList}/upload`,
     file: File,
     onProgressUpdate: (percent: number) => void,
     queue: UploadQueue,
