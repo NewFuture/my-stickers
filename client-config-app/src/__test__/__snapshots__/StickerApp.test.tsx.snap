@@ -15,7 +15,7 @@ exports[`StickerApp Snapshot 1`] = `
     </h1>
     <div
       aria-haspopup="menu"
-      className="fui-SplitButton ___avynhp0_1myg2w8 ftuwxu6 fsxf2b5 f10pi13n fmrv4ls f14uur2j fye5tvs f1e8brtx fxp12j1 fr7y8no f1hvqvul"
+      className="fui-SplitButton ___avynhp0_115hgeb ftuwxu6 fsxf2b5 f10pi13n fmrv4ls f14uur2j fye5tvs f1e8brtx fxp12j1 fr7y8no f1hvqvul"
       id="menu2"
       onClick={[Function]}
       onContextMenu={[Function]}
@@ -29,7 +29,7 @@ exports[`StickerApp Snapshot 1`] = `
       title="stickers scope"
     >
       <button
-        className="fui-Button fui-SplitButton__primaryActionButton ___6o4lkm0_1xpvj02 f122n59 ftuwxu6 f4d9j23 fmrv4ls f1hu3pq6 f11qmguv f19f4twv f1tyq0we f1p9o1ba f1sil6mw fxugw4r f19n0e5 f192inf7 f5tn483 f1vxd6vx f1ojsxk5 fzkkow9 fcdblym fg706s2 fjik90z fj3muxo f1akhkt f1aperda f1lxtadh fk6fouc f1s6fcnf f1knas48 fvcxoqz f1ub3y4t f1xlaoq0 f1m52nbi feu1g3u f8491dx ft1hn21 fuxngvv f141de4g f11v6sdu f9yn8i4 f1uwu36w f1ajwf28 f9olfzr fiu5zv5 f1dfjoow f1j98vj9 f8rnyb3 fhb3ry5 f16e7g02 f11223yd fq7113v ff1wgvm fiob0tu f1j6scgf f1x4h75k f4xjyn1 fd2qbv0 fbgcvur f1ks1yx8 f1o6qegi fcnxywj fmxjhhp f9ddjv3 fr4cgi0 f1sbtcvk fw5db7e fdghr9 f1uw59to f14es27b f1aa9q02 f16jpd5f f1jar5jt fyu767a fkhj508 fl43uef f1i3iumi ftqa4ok f2hkw1w f1rzxaq5 fipsau9 f1emqxbc f6jszy8 fr1u5pk f1p7hgxw f9znhxp fvbipq7 f1vjpng2 fn4c73s f1kjnpwc f1x37qnr f1witrsb"
+        className="fui-Button fui-SplitButton__primaryActionButton ___6o4lkm0_1m8zbg0 f122n59 ftuwxu6 f4d9j23 fmrv4ls f1hu3pq6 f11qmguv f19f4twv f1tyq0we f1p9o1ba f1sil6mw fxugw4r f19n0e5 f192inf7 f5tn483 f1vxd6vx f1ojsxk5 fzkkow9 fcdblym fg706s2 fjik90z fj3muxo f1akhkt f1aperda f1lxtadh fk6fouc f1s6fcnf f1knas48 fvcxoqz f1ub3y4t f1xlaoq0 f1m52nbi feu1g3u f8491dx ft1hn21 fuxngvv f141de4g f11v6sdu f9yn8i4 f1uwu36w f1ajwf28 f9olfzr fiu5zv5 f1dfjoow f1j98vj9 f8rnyb3 fhb3ry5 f16e7g02 f11223yd fq7113v ff1wgvm fiob0tu f1j6scgf f1x4h75k f4xjyn1 fd2qbv0 fbgcvur f1ks1yx8 f1o6qegi fcnxywj fmxjhhp f9ddjv3 fr4cgi0 f1sbtcvk fw5db7e fdghr9 f1uw59to f14es27b f1aa9q02 f16jpd5f f1jar5jt fyu767a fkhj508 fl43uef f1i3iumi ftqa4ok f2hkw1w f1rzxaq5 fipsau9 f1emqxbc f6jszy8 fr1u5pk f1p7hgxw f9znhxp fvbipq7 f1vjpng2 fn4c73s f1kjnpwc f1x37qnr f1witrsb"
         disabled={false}
         id="splitButton-3__primaryActionButton"
         onClick={[Function]}
@@ -58,7 +58,7 @@ exports[`StickerApp Snapshot 1`] = `
       <button
         aria-expanded={false}
         aria-labelledby="splitButton-3__primaryActionButton"
-        className="fui-Button fui-MenuButton fui-SplitButton__menuButton ___1ql8sbq_g1xq360 f122n59 ftuwxu6 f4d9j23 fmrv4ls f1hu3pq6 f11qmguv f19f4twv f1tyq0we f1p9o1ba f1sil6mw fxugw4r f19n0e5 f192inf7 f5tn483 f1vxd6vx f1ojsxk5 fzkkow9 fcdblym fg706s2 fjik90z fj3muxo f1akhkt f1aperda f1lxtadh fk6fouc f1s6fcnf f1knas48 fvcxoqz f1ub3y4t f1xlaoq0 f1m52nbi feu1g3u f8491dx ft1hn21 fuxngvv f141de4g f11v6sdu f9yn8i4 f1uwu36w f1ajwf28 f9olfzr fiu5zv5 f1dfjoow f1j98vj9 f8rnyb3 fhb3ry5 f16e7g02 f11223yd fq7113v ff1wgvm fiob0tu f1j6scgf f1x4h75k f4xjyn1 fd2qbv0 fbgcvur f1ks1yx8 f1o6qegi fcnxywj fmxjhhp f9ddjv3 fr4cgi0 f1x4af0m f7x41pl fd55psn fruq291 fwbmr0d f1aa9q02 f16jpd5f f1jar5jt fyu767a fkhj508 fl43uef f1i3iumi ftqa4ok f2hkw1w f1rzxaq5 fipsau9 f1emqxbc f6jszy8 fr1u5pk f1p7hgxw f9znhxp fvbipq7 f1vjpng2 f1o2ludy f6pwzcr fxmnebo f1um7c6d f44c6la frrbwxo"
+        className="fui-Button fui-MenuButton fui-SplitButton__menuButton ___1ql8sbq_1cktsnd f122n59 ftuwxu6 f4d9j23 fmrv4ls f1hu3pq6 f11qmguv f19f4twv f1tyq0we f1p9o1ba f1sil6mw fxugw4r f19n0e5 f192inf7 f5tn483 f1vxd6vx f1ojsxk5 fzkkow9 fcdblym fg706s2 fjik90z fj3muxo f1akhkt f1aperda f1lxtadh fk6fouc f1s6fcnf f1knas48 fvcxoqz f1ub3y4t f1xlaoq0 f1m52nbi feu1g3u f8491dx ft1hn21 fuxngvv f141de4g f11v6sdu f9yn8i4 f1uwu36w f1ajwf28 f9olfzr fiu5zv5 f1dfjoow f1j98vj9 f8rnyb3 fhb3ry5 f16e7g02 f11223yd fq7113v ff1wgvm fiob0tu f1j6scgf f1x4h75k f4xjyn1 fd2qbv0 fbgcvur f1ks1yx8 f1o6qegi fcnxywj fmxjhhp f9ddjv3 fr4cgi0 f1x4af0m f7x41pl fd55psn fruq291 fwbmr0d f1aa9q02 f16jpd5f f1jar5jt fyu767a fkhj508 fl43uef f1i3iumi ftqa4ok f2hkw1w f1rzxaq5 fipsau9 f1emqxbc f6jszy8 fr1u5pk f1p7hgxw f9znhxp fvbipq7 f1vjpng2 f1o2ludy f6pwzcr fxmnebo f1um7c6d f44c6la frrbwxo"
         disabled={false}
         onClick={[Function]}
         type="button"
