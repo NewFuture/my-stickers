@@ -1,0 +1,16 @@
+html,
+body,
+#root,
+#root > .fui-FluentProvider {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    min-width: 300px;
+    min-height: 200px;
+}
+#root > .fui-FluentProvider {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}

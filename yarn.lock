@@ -2829,28 +2829,46 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@griffel/core@npm:^1.5.1, @griffel/core@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "@griffel/core@npm:1.6.0"
+"@griffel/core@npm:^1.5.1, @griffel/core@npm:^1.8.2":
+  version: 1.8.2
+  resolution: "@griffel/core@npm:1.8.2"
   dependencies:
     "@emotion/hash": ^0.8.0
     csstype: ^3.0.10
     rtl-css-js: ^1.16.0
     stylis: ^4.0.13
     tslib: ^2.1.0
-  checksum: d2ebae80ec47a4e9009055063947679e1c0b9cb2df4b378563a06fe48eec9fcef367f648be32b265ad34cadfc63b770c32d5ee225b7c0b8338a415939a21cdd4
+  checksum: 54a553ed72268c339bcc2ee6849691114424a993c8c8286e7e2d1010b38e1bc8343401cf5448dc9b79c4acbdf9c9c199fda65a3b23c9436d9e197112b689e943
   languageName: node
   linkType: hard
 
-"@griffel/react@npm:^1.0.0, @griffel/react@npm:^1.3.0":
-  version: 1.3.1
-  resolution: "@griffel/react@npm:1.3.1"
+"@griffel/react@npm:1.4.3, @griffel/react@npm:^1.0.0, @griffel/react@npm:^1.3.0":
+  version: 1.4.3
+  resolution: "@griffel/react@npm:1.4.3"
   dependencies:
-    "@griffel/core": ^1.6.0
+    "@griffel/core": ^1.8.2
     tslib: ^2.1.0
   peerDependencies:
-    react: ">=16.8.0 <18.0.0"
-  checksum: a42f6118b64c5e1dc4a5b60a0d7cccb4d461835c123d90d14deb19ed99fd9b976bd31894dad281c394ace6d855e1a80bbbf1336e9aacc8f5ca5a01d9f8cf944d
+    react: ">=16.8.0 <19.0.0"
+  checksum: cfa2996374c34c496c8c04b02fe309ccec3b80576f2f1ea804f666b15d6b4c28524c291d574b988aaedb9c7630500a3df5f45b6718fee70c3376c089e0fadfd9
+  languageName: node
+  linkType: hard
+
+"@griffel/webpack-extraction-plugin@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@griffel/webpack-extraction-plugin@npm:0.2.2"
+  dependencies:
+    "@babel/core": ^7.12.13
+    "@babel/helper-plugin-utils": ^7.12.13
+    "@griffel/react": 1.4.3
+    loader-utils: ^2.0.0
+    schema-utils: ^3.1.1
+    stylis: ^4.0.13
+    tslib: ^2.1.0
+  peerDependencies:
+    "@griffel/core": ^1.8.2
+    webpack: ^5
+  checksum: 5b6a1bb4755c0f8b71b839cef843577621fdcaa6cc9a4914c65ef404f06b3bd0de598f09602751e98a81d1b62f2a01986703a808d094aeec933f2b7a0402dc55
   languageName: node
   linkType: hard
 
@@ -5616,6 +5634,7 @@ __metadata:
   dependencies:
     "@fluentui/react-components": ^9.4.0
     "@fluentui/react-icons": ^2.0.182
+    "@griffel/webpack-extraction-plugin": ^0.2.2
     "@griffel/webpack-loader": ^2.1.0
     "@microsoft/teams-js": ^2.4.0
     "@types/react": ^18
