@@ -45,7 +45,6 @@ module.exports = {
         webpackConfig.plugins = webpackConfig.plugins.map((p) => {
             if (p instanceof MiniCssExtractPlugin) {
                 return new MiniCssExtractPlugin({
-                    ignoreOrder: true,
                     filename: "css/[name].[contenthash:6].css",
                 });
             } else {
