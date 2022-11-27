@@ -37,10 +37,11 @@ const ImageItem: React.FC<
     Sticker & {
         className?: string;
         isEditable?: boolean;
+        lazy?: boolean;
         onDelete?: () => void;
         onEdit?: (name: string) => void;
     }
-> = ({ src, name, status, isEditable, className, onEdit, onDelete }) => {
+> = ({ src, name, status, isEditable, className, lazy, onEdit, onDelete }) => {
     const { t } = useTranslation();
     const nameRef = useRef(name);
     const imageListStyles = useImageItemStyles();
@@ -50,7 +51,7 @@ const ImageItem: React.FC<
     return (
         <div className={mergeClasses(imageListStyles.root, className)}>
             <Tooltip content={name!} relationship="description">
-                <Image className={imageListStyles.img} src={src} alt={name} />
+                <Image className={imageListStyles.img} loading={lazy ? "lazy" : undefined} src={src} alt={name} />
             </Tooltip>
             {isBusy ? (
                 <Spinner className={imageListStyles.status} size="tiny" />

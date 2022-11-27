@@ -48,7 +48,8 @@
             "/",
             "/privacy.html",
             "/terms.html",
-            "/help.html"
+            "/help.html",
+            "/404.html"
         ],
         "exclude": [
             "/custom-stickers.zip",
