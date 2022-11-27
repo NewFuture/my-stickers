@@ -102,7 +102,7 @@ const ImageList: React.FC<ImageListProps> = ({
                     <ImageItem
                         className={styles.item}
                         isEditable
-                        lazy={index > 9}
+                        lazy={index > 14}
                         key={item.id}
                         {...item}
                         onDelete={
