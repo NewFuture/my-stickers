@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
     return (
         <footer className="Footer">
             <Divider />
-            <Flex vAlign="center" hAlign="center">
+            <Flex vAlign="center" hAlign="center" wrap>
                 <Button to="/" as={Link} text secondary size="small" color="info">
                     {t(TransKeys.homeTitle)}
                 </Button>
