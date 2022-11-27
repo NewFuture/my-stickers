@@ -5,7 +5,7 @@
     "license": "MS-PL",
     "dependencies": {
         "@fluentui/react-northstar": "^0.64.0",
-        "i18next": "^22.0.5",
+        "i18next": "^22.0.6",
         "javascript-time-ago": "^2.5.9",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
@@ -18,12 +18,13 @@
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "@types/react-test-renderer": "^18.0.0",
+        "html-inline-css-webpack-plugin": "^1.11.1",
         "react-app-rewired": "^2.2.1",
         "react-scripts": "^5.0.1",
         "react-snap": "^1.23.0",
         "react-test-renderer": "^18.2.0",
         "sass": "^1.56.1",
-        "typescript": "^4.8.4"
+        "typescript": "^4.9.3"
     },
     "scripts": {
         "start": "react-scripts start",

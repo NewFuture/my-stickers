@@ -28,4 +28,7 @@ i18n
         },
     });
 
+i18n.on("languageChanged", (lng: string): void => {
+    document.documentElement.setAttribute("lang", lng);
+});
 export default i18n;

@@ -25,16 +25,20 @@ function Page({ children, titleKey }: PropsWithChildren<{ titleKey: TransKeys }>
  */
 export function loadMarkdownPage(markdownFile: string, titleKey: TransKeys) {
     var LazyPage = React.lazy(() =>
-        Promise.all([import("../components/markdown"), fetch(markdownFile).then((res) => res.text())]).then(
-            ([Component, content]) => {
-                const MD = Component.default;
-                return {
-                    default: function MDPage() {
-                        return <MD>{content}</MD>;
-                    },
-                };
-            },
-        ),
+        Promise.all([
+            import(
+                /* webpackChunkName: "md" */
+                "react-markdown"
+            ),
+            fetch(markdownFile).then((res) => res.text()),
+        ]).then(([Component, content]) => {
+            const MD = Component.default;
+            return {
+                default: function MDPage() {
+                    return <MD className="markdown">{content}</MD>;
+                },
+            };
+        }),
     );
     return (
         <Page titleKey={titleKey}>
