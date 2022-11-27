@@ -28,7 +28,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-app-rewired build",
+        "build": "react-app-rewired build && yarn snap",
         "snap": "yarn react-snap",
         "test": "react-scripts test"
     },
