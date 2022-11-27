@@ -1,4 +1,4 @@
-import { Button, Flex, Header } from "@fluentui/react-northstar";
+import { ArrowLeftIcon, Button, Flex, Header } from "@fluentui/react-northstar";
 import { Link } from "react-router-dom";
 import { TransKeys } from "../locales";
 import { useTranslation } from "react-i18next";
@@ -12,7 +12,7 @@ export default function NotFound() {
         <>
             <Header color="brand" align="center" content={t(TransKeys.notFound)} description={t(TransKeys.notFound)} />
             <Flex vAlign="center" hAlign="center">
-                <Button as={Link} icon="arrow-left" to="/" primary content={t(TransKeys.homeTitle)} />
+                <Button as={Link} icon={<ArrowLeftIcon />} to="/" primary content={t(TransKeys.homeTitle)} />
             </Flex>
             <Footer />
         </>
