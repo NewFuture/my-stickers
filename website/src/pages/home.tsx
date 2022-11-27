@@ -7,7 +7,7 @@ import LanguageButton from "../components/language";
 import Footer from "../components/Footer";
 import { useTitle } from "../lib/useTitle";
 
-import cover from "../img/cover.png";
+import cover from "../img/cover.jpeg";
 
 const APP_LINK = "https://teams.microsoft.com/l/app/46fae4d0-faf5-11e9-80f3-53ad33b77bce";
 

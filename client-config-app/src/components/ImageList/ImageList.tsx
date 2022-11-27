@@ -98,10 +98,11 @@ const ImageList: React.FC<ImageListProps> = ({
                         order={-1 - index}
                     />
                 ))}
-                {items?.map((item: Sticker) => (
+                {items?.map((item: Sticker, index) => (
                     <ImageItem
                         className={styles.item}
                         isEditable
+                        lazy={index > 14}
                         key={item.id}
                         {...item}
                         onDelete={

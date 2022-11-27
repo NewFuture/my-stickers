@@ -115,7 +115,7 @@ exports[`Website Snapshot 1`] = `
         data-aa-class="Video"
         data-uses-unhanded-props={true}
         loop={true}
-        poster="cover.png"
+        poster="cover.jpeg"
         role="application"
         src="https://sticker.newfuture.cc/video/my-stickers-v2.mp4"
       />
