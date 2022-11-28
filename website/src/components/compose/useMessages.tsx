@@ -79,7 +79,7 @@ function reducer(m: Message[], a: Action): Message[] {
                     message: (
                         <Chat.Message
                             styles={{ margin: 0 }}
-                            content={<Image className="Sticker" src={a.payload} />}
+                            content={<Image className="Sticker" src={a.payload} width="240" height="240" />}
                             timestamp={<Trans values={{ date }} i18nKey={TransKeys.date} />}
                             mine
                         />
