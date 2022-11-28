@@ -1600,8 +1600,10 @@ exports[`Website Snapshot 1`] = `
                           className="ui-image az au bo fn Sticker"
                           data-aa-class="Image"
                           data-uses-unhanded-props={true}
+                          height="240"
                           loading="lazy"
                           src="/hello.gif"
+                          width="240"
                         />
                       </div>
                     </section>
