@@ -27,10 +27,8 @@ body {
 }
 
 .Sticker {
-    height: 240px;
-    width: 240px;
+    aspect-ratio: 1/1;
     max-width: 45vw;
-    max-height: 45vw;
 }
 
 .just-items-center {

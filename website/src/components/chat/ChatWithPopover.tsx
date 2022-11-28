@@ -27,7 +27,16 @@ const reactions: ShorthandCollection<ReactionProps> = [
 ];
 
 const ChatWithPopover: React.FC = () => {
-    const sticker = <Image className="Sticker" alt="a sticker named hello" loading="lazy" src={helloSticker} />;
+    const sticker = (
+        <Image
+            className="Sticker"
+            alt="a sticker named hello"
+            loading="lazy"
+            src={helloSticker}
+            width="240"
+            height="240"
+        />
+    );
     return (
         <Translation>
             {(t) => (
