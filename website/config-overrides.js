@@ -40,6 +40,8 @@ module.exports = {
         webpackConfig.plugins.push(new HTMLInlineCSSWebpackPlugin());
         webpackConfig.output.filename = "js/[name].[contenthash:6].js";
         webpackConfig.output.chunkFilename = "js/[name].[contenthash:6].js";
+        webpackConfig.output.assetModuleFilename = "static/[name].[hash:6][ext]";
+
         return webpackConfig;
     },
 };
