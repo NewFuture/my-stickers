@@ -7,7 +7,7 @@ namespace Stickers.Resources
     /// <summary>
     /// Utility class for localization related methods.
     /// </summary>
-    public class LocalizationHelper
+    public static class LocalizationHelper
     {
         /// <summary>
         /// String representation of the default culture.
@@ -29,7 +29,7 @@ namespace Stickers.Resources
         /// <returns>Localized string.</returns>
         public static string LookupString(string key, string locale)
         {
-            var str = GetResourceByLocale(locale).GetString(key) ?? key;
+            var str = GetResourceByLocale(locale ?? DefaultCultureString).GetString(key) ?? key;
             return str;
         }
 
