@@ -10,12 +10,16 @@ public static class IHeaderDictionaryExtension
 
     public static bool TryGetSessionId(this IHeaderDictionary headers, out Guid value)
     {
-        if (headers.TryGetValue(SESSION_HEADER_KEY, out var sessionKey) && Guid.TryParse(sessionKey, out value))
+        if (
+            headers.TryGetValue(SESSION_HEADER_KEY, out var sessionKey)
+            && Guid.TryParse(sessionKey, out value)
+        )
         {
             return true;
         }
 
         value = default;
-        return headers.TryGetValue(FALLBACK_SESSION_HEADER_KEY, out sessionKey) && Guid.TryParse(sessionKey, out value);
+        return headers.TryGetValue(FALLBACK_SESSION_HEADER_KEY, out sessionKey)
+            && Guid.TryParse(sessionKey, out value);
     }
 }
