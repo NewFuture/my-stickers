@@ -14,5 +14,5 @@ public record OfficialSticker
 
 public class OfficialStickerList
 {
-    public List<OfficialSticker>? stickers;
+    public List<OfficialSticker>? stickers { get; set; }
 }
