@@ -66,7 +66,7 @@ public class BlobService
             return false;
         }
         var fileName = uri.AbsolutePath[(this.containerName.Length + 1)..];
-        var blockclient = this.ContainerClient.GetBlockBlobClient(fileUrl);
+        var blockclient = this.ContainerClient.GetBlockBlobClient(fileName);
         var response = await blockclient.DeleteIfExistsAsync();
         return response.Value;
     }
