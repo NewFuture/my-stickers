@@ -42,7 +42,7 @@ interface ImageListProps {
     enableEdit: boolean;
     enableUpload: boolean;
     onMutate: (updateCallback: (items?: Sticker[]) => Sticker[], options?: MutatorOptions) => void;
-    onDelete: (id: string) => Promise<any>;
+    onDelete: (sticker: Sticker) => Promise<any>;
     onPatch: (id: string, data: Partial<Sticker>) => Promise<any>;
     onUpload: (file: File, onProgressUpdate: (percent: number) => void) => Promise<any>;
 }
@@ -111,7 +111,7 @@ const ImageList: React.FC<ImageListProps> = ({
                                       onMutate(getPatchItemByIdFunc(item.id, { status: StickerStatus.delete }), {
                                           revalidate: false,
                                       });
-                                      onDelete(item.id).then(
+                                      onDelete(item).then(
                                           // 删除成功
                                           () =>
                                               onMutate((list) => list?.filter((v) => v.id !== item.id)!, {

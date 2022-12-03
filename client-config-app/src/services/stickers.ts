@@ -13,16 +13,16 @@ export async function uploadTenantSticker(file: File, onProgressUpdate: (percent
     return pushQueue(tenantQueue, commitInfo, batchTenantCommit);
 }
 
-export function deleteSticker(id: string): Promise<any> {
-    return API.delete(`${myList}/${id}`);
+export function deleteSticker(sticker: Pick<Sticker, "id" | "src">): Promise<any> {
+    return API.delete(`${myList}/${sticker.id}`, { data: { src: sticker.src } });
 }
 
 export function patchSticker(id: string, data: Partial<Sticker>) {
     return API.patch(`${myList}/${id}`, data).then((res) => res.data);
 }
 
-export function deleteTenantSticker(id: string): Promise<any> {
-    return API.delete(`${tenantList}/${id}`);
+export function deleteTenantSticker(sticker: Pick<Sticker, "id" | "src">): Promise<any> {
+    return API.delete(`${tenantList}/${sticker.id}`, { data: { src: sticker.src } });
 }
 
 export function patchTenantSticker(id: string, data: Partial<Sticker>) {

@@ -52,6 +52,25 @@ public class BlobService
         return list;
     }
 
+    public async Task<bool> Delete(Guid id, Guid fileId, string fileUrl)
+    {
+        var uri = new Uri(fileUrl);
+        if (uri.Host != this.cdn)
+        {
+            // not hosted images
+            return false;
+        }
+        if (!uri.AbsolutePath.StartsWith(this.GetFileName(id, fileId, "")))
+        {
+            // not this image
+            return false;
+        }
+        var fileName = uri.AbsolutePath[(this.containerName.Length + 1)..];
+        var blockclient = this.ContainerClient.GetBlockBlobClient(fileUrl);
+        var response = await blockclient.DeleteIfExistsAsync();
+        return response.Value;
+    }
+
     public async Task<string> commitBlocks(Guid userId, PostStickerBlobRequest req)
     {
         var id = req.id;

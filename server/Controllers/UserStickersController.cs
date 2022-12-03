@@ -36,9 +36,14 @@ public class UserStickersController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<Result> Delete(string id)
+    public async Task<Result> Delete(Guid id, [FromBody] DeleteStickerBody request)
     {
-        var result = await this.stickerService.deleteUserSticker(this.GetUserId(), id);
+        var uid = this.GetUserId();
+        var result = await this.stickerService.deleteUserSticker(this.GetUserId(), id.ToString());
+        if (result & !string.IsNullOrWhiteSpace(request.src))
+        {
+            result = await this.blobService.Delete(uid, id, request.src!);
+        }
         return new Result(result);
     }
 
