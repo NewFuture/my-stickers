@@ -1,8 +1,7 @@
 namespace Stickers.Service;
 
+using System.Net.Http.Json;
 using System.Timers;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Stickers.Entities;
 using Stickers.Utils;
 
@@ -50,12 +49,8 @@ public class OfficialStickersService : IDisposable
     {
         this.logger.LogTrace("download latest stickers");
         var client = this.httpClientFactory.CreateClient("official-stickers");
-        var response = await client.GetAsync(this.indexUrl);
-        response.EnsureSuccessStatusCode();
-        string responseBody = response.Content.ReadAsStringAsync().Result;
-        var jObject = JsonConvert.DeserializeObject<JObject>(responseBody);
-        var stickers = jObject?["stickers"]?.ToObject<List<OfficialSticker>>();
-        return stickers ?? new List<OfficialSticker>();
+        var offcialResult = await client.GetFromJsonAsync<OfficialStickerList>(this.indexUrl);
+        return offcialResult?.stickers ?? new List<OfficialSticker>();
     }
 
     private async Task Reresh()

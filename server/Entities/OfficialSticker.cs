@@ -11,3 +11,8 @@ public record OfficialSticker
     public string? url { get; set; }
     public string? collection { get; set; }
 }
+
+public class OfficialStickerList
+{
+    public List<OfficialSticker>? stickers { get; set; }
+}
