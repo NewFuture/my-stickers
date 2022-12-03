@@ -60,7 +60,7 @@ public class BlobService
             // not hosted images
             return false;
         }
-        var prefix = $"/${this.containerName}/";
+        var prefix = $"/{this.containerName}/";
         if (!uri.AbsolutePath.StartsWith(prefix + this.GetFileName(id, fileId, "")))
         {
             // not this image
