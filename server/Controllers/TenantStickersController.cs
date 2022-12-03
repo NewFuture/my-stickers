@@ -62,10 +62,14 @@ public class TenantStickersController : ControllerBase
 
     [HttpDelete("{id}")]
     [Authorize(AuthenticationSchemes = "idtoken", Policy = "Admin")]
-    public async Task<Result> Delete(string id)
+    public async Task<Result> Delete(Guid id, [FromBody] DeleteStickerBody request)
     {
         var tenantId = this.GetTenantId();
-        var result = await this.stickerService.deleteTanentSticker(tenantId, id);
+        var result = await this.stickerService.deleteTanentSticker(tenantId, id.ToString());
+        if (result & !string.IsNullOrWhiteSpace(request.src))
+        {
+            result = await this.blobService.Delete(tenantId, id, request.src!);
+        }
         return new Result(result);
     }
 
