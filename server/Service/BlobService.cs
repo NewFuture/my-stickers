@@ -60,12 +60,13 @@ public class BlobService
             // not hosted images
             return false;
         }
-        if (!uri.AbsolutePath.StartsWith(this.GetFileName(id, fileId, "")))
+        var prefix = $"/${this.containerName}/";
+        if (!uri.AbsolutePath.StartsWith(prefix + this.GetFileName(id, fileId, "")))
         {
             // not this image
             return false;
         }
-        var fileName = uri.AbsolutePath[(this.containerName.Length + 1)..];
+        var fileName = uri.AbsolutePath[prefix.Length..];
         var blockclient = this.ContainerClient.GetBlockBlobClient(fileName);
         var response = await blockclient.DeleteIfExistsAsync();
         return response.Value;
