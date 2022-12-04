@@ -45,7 +45,7 @@ jobs:
         needs: [server-build]
         environment:
             name: ${{ fromJSON('["Integration","Production"]')[ github.ref_name == 'v2'] }}
-            url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}/swagger/
+            url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}/healthz
         runs-on: ubuntu-latest
         timeout-minutes: 6
         steps:
