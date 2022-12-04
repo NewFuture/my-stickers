@@ -67,39 +67,6 @@ builder.Services
         options.Level = CompressionLevel.Fastest;
     });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services
-    .AddEndpointsApiExplorer()
-    .AddSwaggerGen(c =>
-    {
-        c.AddSecurityDefinition(
-            ENV.ID_TOKEN_DEFINITION,
-            new OpenApiSecurityScheme
-            {
-                Description = "JWT Authorization header using the Bearer scheme.",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.Http,
-                Scheme = JwtBearerDefaults.AuthenticationScheme
-            }
-        );
-        c.AddSecurityRequirement(
-            new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = ENV.ID_TOKEN_DEFINITION
-                        }
-                    },
-                    new List<string>()
-                }
-            }
-        );
-    });
-
 // App Dependencies
 builder.Services
     .AddSingleton<DapperContext>()
@@ -183,9 +150,42 @@ builder.Services.AddMemoryCache();
 // Add http services to the container.
 builder.Services.AddHttpClient();
 
+// Dev mode
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddCors();
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    builder.Services
+        .AddEndpointsApiExplorer()
+        .AddSwaggerGen(c =>
+        {
+            c.AddSecurityDefinition(
+                ENV.ID_TOKEN_DEFINITION,
+                new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme.",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = JwtBearerDefaults.AuthenticationScheme
+                }
+            );
+            c.AddSecurityRequirement(
+                new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = ENV.ID_TOKEN_DEFINITION
+                            }
+                        },
+                        new List<string>()
+                    }
+                }
+            );
+        });
 }
 
 var app = builder.Build();
@@ -194,13 +194,12 @@ if (builder.Environment.IsDevelopment())
 {
     // configure CORS for local dev
     app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+    // swagger UI
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 // Configure the HTTP request pipeline.
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
 // Eror Handler
 app.UseMiddleware(typeof(GlobalErrorHandling));
 
