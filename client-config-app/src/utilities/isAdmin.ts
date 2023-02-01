@@ -2,7 +2,7 @@ export function IsAdmin(idToken: string) {
     try {
         // https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference#role-template-ids
         // keep it the same with the server side
-        // https://github.com/NewFuture/custom-stickers-teams-extension/blob/v2/server.net/Program.cs#L47
+        // https://github.com/NewFuture/my-stickers/blob/v2/server.net/Program.cs#L47
         const directoryRoleTemplateIds = [
             "62e90394-69f5-4237-9190-012177145e10", // Global Administrator
             "69091246-20e8-4a56-aa4d-066075b2a7a8", // Teams Administrator

@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
                 </Button>
                 <Button
                     as="a"
-                    href="https://github.com/NewFuture/custom-stickers-teams-extension/issues/new"
+                    href="https://github.com/NewFuture/my-stickers/issues/new"
                     text
                     secondary
                     size="small"
@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
                 </Button>
                 <Button
                     as="a"
-                    href="https://github.com/NewFuture/custom-stickers-teams-extension"
+                    href="https://github.com/NewFuture/my-stickers"
                     text
                     secondary
                     size="small"

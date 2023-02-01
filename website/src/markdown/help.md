@@ -35,7 +35,7 @@ Administrators can customize this app logo and name in the Teams Admin Portal (M
 
 ## Feedback or need help
 
-Create issues or search here <https://github.com/NewFuture/custom-stickers-teams-extension/issues>
+Create issues or search here <https://github.com/NewFuture/my-stickers/issues>
 
 ## Contact us
 
