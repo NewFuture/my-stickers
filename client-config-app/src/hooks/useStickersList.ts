@@ -1,5 +1,5 @@
 import { API, myList, tenantList } from "../services/http";
-import useSWR, { SWRResponse } from "swr";
+import useSWR from "swr";
 import type { Sticker } from "../model/sticker";
 
 const fetcher = (url: string) => API.get<{ values: Sticker[] }>(url).then((res) => res.data?.values);
