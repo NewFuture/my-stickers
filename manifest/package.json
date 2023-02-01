@@ -9,7 +9,7 @@
     "repository": {
         "directory": "manifest",
         "type": "git",
-        "url": "git+https://github.com/NewFuture/custom-stickers-teams-extension.git"
+        "url": "git+https://github.com/NewFuture/my-stickers.git"
     },
     "author": "New Future",
     "license": "MS-PL"
