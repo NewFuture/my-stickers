@@ -14,6 +14,5 @@ export function useStickersList(isTenant: boolean): StickerListResult {
         refreshInterval: (isTenant ? 5 : 10) * 60 * 1000, // 10 mins
         revalidateOnFocus: isTenant, // only for tenant
     });
-    result.isLoading = !result.data && !result.error;
     return result;
 }
