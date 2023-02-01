@@ -41,7 +41,7 @@
     },
     "jest": {
         "transformIgnorePatterns": [
-            "node_modules/(?!(react-leaflet|axios))"
+            "node_modules/(?!(react-leaflet))"
         ]
     },
     "browserslist": {
