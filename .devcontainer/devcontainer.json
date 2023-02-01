@@ -19,7 +19,7 @@
             "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
         }
     },
-    "workspaceFolder": "/workspaces/custom-stickers-teams-extension/stickers.code-workspace",
+    "workspaceFolder": "/workspaces/my-stickers/stickers.code-workspace",
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
     // Use 'postCreateCommand' to run commands after the container is created.
