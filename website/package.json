@@ -5,13 +5,13 @@
     "license": "MS-PL",
     "dependencies": {
         "@fluentui/react-northstar": "^0.64.0",
-        "i18next": "^22.0.6",
+        "i18next": "^22.4.9",
         "javascript-time-ago": "^2.5.9",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-i18next": "^12.0.0",
-        "react-markdown": "^8.0.3",
-        "react-router-dom": "^6.4.3"
+        "react-i18next": "^12.1.4",
+        "react-markdown": "^8.0.5",
+        "react-router-dom": "^6.8.0"
     },
     "devDependencies": {
         "@types/jest": "^27",
@@ -23,8 +23,8 @@
         "react-scripts": "^5.0.1",
         "react-snap": "^1.23.0",
         "react-test-renderer": "^18.2.0",
-        "sass": "^1.56.1",
-        "typescript": "^4.9.3"
+        "sass": "^1.58.0",
+        "typescript": "^4.9.5"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -35,7 +35,7 @@
     "repository": {
         "directory": "website",
         "type": "git",
-        "url": "git+https://github.com/NewFuture/custom-stickers-teams-extension.git"
+        "url": "git+https://github.com/NewFuture/my-stickers.git"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -44,6 +44,10 @@
         "skipThirdPartyRequests": true,
         "inlineCss": false,
         "cacheAjaxRequests": false,
+        "puppeteerArgs": [
+            "--no-sandbox",
+            "--disable-setuid-sandbox"
+        ],
         "include": [
             "/",
             "/privacy.html",

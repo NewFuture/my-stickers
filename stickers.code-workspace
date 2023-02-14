@@ -59,7 +59,6 @@
         "[csharp]": {
             "editor.defaultFormatter": "ms-dotnettools.csharp"
         },
-        "debug.internalConsoleOptions": "neverOpen",
-        "powershell.cwd": "d:\\GitHub\\custom-stickers-teams-extension"
+        "debug.internalConsoleOptions": "neverOpen"
     }
 }
