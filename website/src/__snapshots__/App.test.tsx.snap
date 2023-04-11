@@ -315,7 +315,7 @@ exports[`Website Snapshot 1`] = `
                         </span>
                       </div>
                       <div
-                        className="ui-box b ff mo mp mq ui-chat__message__content"
+                        className="ui-chat__messagecontent b ff mo mp mq"
                         data-uses-unhanded-props={true}
                       >
                         You can send your own stickers, After you install this extension. ❤
@@ -353,7 +353,7 @@ exports[`Website Snapshot 1`] = `
                         data-uses-unhanded-props={true}
                       />
                       <div
-                        className="ui-box b ff mo mp mq ui-chat__message__content"
+                        className="ui-chat__messagecontent b ff mo mp mq"
                         data-uses-unhanded-props={true}
                       >
                         <span
@@ -479,7 +479,7 @@ exports[`Website Snapshot 1`] = `
                         </span>
                       </div>
                       <div
-                        className="ui-box b ff mo mp mq ui-chat__message__content"
+                        className="ui-chat__messagecontent b ff mo mp mq"
                         data-uses-unhanded-props={true}
                       >
                         1. Click the 
@@ -534,7 +534,7 @@ exports[`Website Snapshot 1`] = `
                         data-uses-unhanded-props={true}
                       />
                       <div
-                        className="ui-box b ff mo mp mq ui-chat__message__content"
+                        className="ui-chat__messagecontent b ff mo mp mq"
                         data-uses-unhanded-props={true}
                       >
                         2. Click the sticker that you want to send
@@ -1135,7 +1135,7 @@ exports[`Website Snapshot 1`] = `
                         </span>
                       </div>
                       <div
-                        className="ui-box b ff mo mp mq ui-chat__message__content"
+                        className="ui-chat__messagecontent b ff mo mp mq"
                         data-uses-unhanded-props={true}
                       >
                         <ol>
@@ -1592,7 +1592,7 @@ exports[`Website Snapshot 1`] = `
                         </div>
                       </div>
                       <div
-                        className="ui-box b ff mo mp mq ui-chat__message__content"
+                        className="ui-chat__messagecontent b ff mo mp mq"
                         data-uses-unhanded-props={true}
                       >
                         <img
