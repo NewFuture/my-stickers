@@ -8,12 +8,12 @@
         "@fluentui/react-components": "^9.4.0",
         "@fluentui/react-icons": "^2.0.182",
         "@microsoft/teams-js": "^2.4.0",
-        "axios": "^1.2.0",
-        "i18next": "^22.0.6",
+        "axios": "~1.2.6",
+        "i18next": "^22.4.9",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-i18next": "^12.0.0",
-        "swr": "^1.3.0"
+        "react-i18next": "^12.1.4",
+        "swr": "^2.0.3"
     },
     "devDependencies": {
         "@griffel/webpack-extraction-plugin": "^0.2.2",
@@ -24,7 +24,7 @@
         "react-app-rewired": "^2.2.1",
         "react-scripts": "^5.0.1",
         "react-test-renderer": "^18.2.0",
-        "typescript": "^4.9.3"
+        "typescript": "^4.9.5"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -34,14 +34,14 @@
     "repository": {
         "directory": "web",
         "type": "git",
-        "url": "git+https://github.com/NewFuture/custom-stickers-teams-extension.git"
+        "url": "git+https://github.com/NewFuture/my-stickers.git"
     },
     "eslintConfig": {
         "extends": "react-app"
     },
     "jest": {
         "transformIgnorePatterns": [
-            "node_modules/(?!(react-leaflet|axios))"
+            "node_modules/(?!(axios))"
         ]
     },
     "browserslist": {
