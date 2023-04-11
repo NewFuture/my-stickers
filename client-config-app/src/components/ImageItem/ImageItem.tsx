@@ -50,7 +50,7 @@ const ImageItem: React.FC<
     const disabled = isBusy || !isEditable || status === StickerStatus.delete;
     return (
         <div className={mergeClasses(imageListStyles.root, className)}>
-            <Tooltip content={name!} relationship="description">
+            <Tooltip content={name || ""} relationship="description">
                 <Image className={imageListStyles.img} loading={lazy ? "lazy" : undefined} src={src} alt={name} />
             </Tooltip>
             {isBusy ? (
@@ -79,7 +79,7 @@ const ImageItem: React.FC<
                     appearance="underline"
                     size="medium"
                     disabled={disabled}
-                    defaultValue={name}
+                    defaultValue={name || ""}
                     placeholder={t(TransKeys.inputPlaceholder)}
                     onFocus={(e) => e.target?.select?.()}
                     maxLength={64}
