@@ -4,14 +4,14 @@
     "private": true,
     "license": "MS-PL",
     "dependencies": {
-        "@fluentui/react-northstar": "^0.64.0",
-        "i18next": "^22.4.9",
+        "@fluentui/react-northstar": "^0.66.4",
+        "i18next": "^22.4.14",
         "javascript-time-ago": "^2.5.9",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-i18next": "^12.1.4",
-        "react-markdown": "^8.0.5",
-        "react-router-dom": "^6.8.0"
+        "react-i18next": "^12.2.0",
+        "react-markdown": "^8.0.6",
+        "react-router-dom": "^6.10.0"
     },
     "devDependencies": {
         "@types/jest": "^27",
@@ -23,8 +23,8 @@
         "react-scripts": "^5.0.1",
         "react-snap": "^1.23.0",
         "react-test-renderer": "^18.2.0",
-        "sass": "^1.58.0",
-        "typescript": "^4.9.5"
+        "sass": "^1.61.0",
+        "typescript": "^5.0.4"
     },
     "scripts": {
         "start": "react-scripts start",
