@@ -8,9 +8,14 @@ export const useUploadButtonStyles = makeStyles({
         order: -999999,
     },
     icon: {
-        cursor: "pointer",
         width: "100%",
         height: "100%",
+    },
+    iconDisabled: {
+        cursor: "not-allowed",
+    },
+    iconEnabled: {
+        cursor: "pointer",
         color: tokens.colorNeutralForeground2,
         ...shorthands.transition("scale", "0.3s"),
         ":hover": {

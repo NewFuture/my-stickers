@@ -3,6 +3,7 @@ export const enum TransKeys {
     // termsTitle = "termsTitle",
     // feedback = "feedback",
     uploadTips = "uploadTips",
+    uploadDisabled = "uploadDisabled",
     delete = "delete",
     title = "title",
     radio = "radio",

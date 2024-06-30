@@ -1,6 +1,7 @@
 {
     "feedback": "反馈",
     "uploadTips": "选择图片或拖拽至此",
+    "uploadDisabled": "不可上传",
     "delete": "删除",
     "loading": "加载中...",
     "title_user": "我所收藏的表情包",

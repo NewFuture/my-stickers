@@ -7,7 +7,7 @@ import { TransKeys } from "../../locales";
 
 export interface UploadButtonProps {
     onUploadChangeHandler: (file: File[]) => void;
-    disbaled?: boolean;
+    disabled?: boolean;
     className?: string;
 }
 
@@ -16,19 +16,21 @@ export interface UploadButtonProps {
 
  * @returns
  */
-export function UploadButton({ disbaled, onUploadChangeHandler, className }: UploadButtonProps) {
+export function UploadButton({ disabled, onUploadChangeHandler, className }: UploadButtonProps) {
     const styles = useUploadButtonStyles();
     const { t } = useTranslation();
     return (
         <div className={mergeClasses(styles.root, className)}>
-            <Tooltip content={t(TransKeys.uploadTips)} relationship="label">
+            <Tooltip content={t(disabled ? TransKeys.uploadDisabled : TransKeys.uploadTips)} relationship="label">
                 <label htmlFor="image-upload">
-                    <AddRegular className={styles.icon} />
+                    <AddRegular
+                        className={mergeClasses(styles.icon, disabled ? styles.iconDisabled : styles.iconEnabled)}
+                    />
                 </label>
             </Tooltip>
             <input
                 hidden
-                disabled={disbaled}
+                disabled={disabled}
                 type="file"
                 id="image-upload"
                 onChange={(e) => onUploadChangeHandler(Array.from(e.target.files!))}
