@@ -86,7 +86,7 @@ const ImageList: React.FC<ImageListProps> = ({
                 onDragOver={dragOverHandler}
             >
                 {enableUpload && (
-                    <UploadButton className={styles.item} onUploadChangeHandler={uploadHandler} disbaled={!enable} />
+                    <UploadButton className={styles.item} onUploadChangeHandler={uploadHandler} disabled={!enable} />
                 )}
                 {files?.map((item: File, index) => (
                     <UploadImageItem

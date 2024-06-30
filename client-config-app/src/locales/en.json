@@ -1,6 +1,7 @@
 {
     "feedback": "Feedback",
     "uploadTips": "Pick pictures or Drag and drop them",
+    "uploadDisabled": "Upload is blocked",
     "delete": "Delete",
     "loading": "Loading...",
     "radio": "stickers scope",
