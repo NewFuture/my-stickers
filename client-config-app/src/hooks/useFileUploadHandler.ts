@@ -1,9 +1,7 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MAX_NUM, MAX_SIZE } from "../common/env";
 import { TransKeys } from "../locales";
-import { getContext } from "../services/teams";
-import config from "../config.json";
 
 let weight = Date.now() - +new Date("2019-11-20 11:00:00Z");
 
@@ -19,15 +17,6 @@ export function useFileUploadHandler(maxNum: number) {
     const [files, setFiles] = useState<File[]>([]);
     const [errors, setErrors] = useState<ErrMsg[]>([]);
     const { t } = useTranslation();
-    const [tenantEnabled, setTenantEnable] = useState(true);
-    useEffect(() => {
-        getContext().then((c) => {
-            const tid = c.user?.tenant?.id?.toLowerCase();
-            if (config.UploadBlockedTenants.includes(tid!)) {
-                setTenantEnable(false);
-            }
-        });
-    });
     const remaining = maxNum - files.length;
     const uploadHandler = useCallback(
         (files: File[]) => {
@@ -68,7 +57,7 @@ export function useFileUploadHandler(maxNum: number) {
         files,
         errors,
         uploadHandler,
-        enable: tenantEnabled && remaining > 0,
+        enable: remaining > 0,
         removeFile: useCallback((file: File) => setFiles((fileList) => fileList.filter((f) => f !== file)), []),
     };
 }

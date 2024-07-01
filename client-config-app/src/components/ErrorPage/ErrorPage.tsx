@@ -1,15 +1,16 @@
 import { Text } from "@fluentui/react-components";
-import { ErrorCircleRegular, SignOutRegular, WifiWarningFilled } from "@fluentui/react-icons";
+import { ErrorCircleRegular, PresenceBlockedRegular, SignOutRegular, WifiWarningFilled } from "@fluentui/react-icons";
 import axios from "axios";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { TransKeys } from "../../locales";
 import { useLoginPageStyles } from "../LoginPage/LoginPage.styles";
 
-const enum Err {
+export enum Err {
     EXPIRE = "EXPIRE",
     NETWORK = "NETWORK",
     UNKOWN = "UNKOWN",
+    BLOCKED = "BLOCKED",
 }
 export function ErrorPage({ error }: { error: any }) {
     const styles = useLoginPageStyles();
@@ -22,7 +23,7 @@ export function ErrorPage({ error }: { error: any }) {
                 return Err.NETWORK;
             }
         }
-        return Err.UNKOWN;
+        return Err[error as keyof typeof Err] || Err.UNKOWN;
     }, [error]);
     console.log(errorType, error);
     return (
@@ -31,6 +32,8 @@ export function ErrorPage({ error }: { error: any }) {
                 <SignOutRegular className={styles.img} />
             ) : errorType === Err.NETWORK ? (
                 <WifiWarningFilled className={styles.img} />
+            ) : errorType === Err.BLOCKED ? (
+                <PresenceBlockedRegular className={styles.img} />
             ) : (
                 <ErrorCircleRegular className={styles.img} />
             )}
