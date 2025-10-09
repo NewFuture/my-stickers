@@ -6,6 +6,10 @@ const LanguageList = [
     { key: "zh-cn", content: "简体中文" },
     { key: "zh-tw", content: "繁體中文" },
     { key: "en", content: "English" },
+    { key: "es", content: "Español" },
+    { key: "pt", content: "Português" },
+    { key: "ja", content: "日本語" },
+    { key: "ko", content: "한국어" },
 ];
 const LanguageButton: React.FC<{ styles?: ICSSInJSStyle }> = (props) => {
     const { i18n } = useTranslation();
