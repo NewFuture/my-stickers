@@ -35,7 +35,7 @@ jobs:
             - name: DotNet Build
               run: dotnet publish image-functions --configuration Release --no-self-contained --runtime linux-x64 --output ./build
 
-            - uses: actions/upload-artifact@v3
+            - uses: actions/upload-artifact@v4
               with:
                   name: functionapp
                   path: ./build
