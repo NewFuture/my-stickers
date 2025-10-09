@@ -4,6 +4,10 @@ import { INIT_QUERY } from "./env";
 import zhCN from "../locales/zh-cn.json";
 import zhTW from "../locales/zh-tw.json";
 import en from "../locales/en.json";
+import es from "../locales/es.json";
+import pt from "../locales/pt.json";
+import ja from "../locales/ja.json";
+import ko from "../locales/ko.json";
 
 const lng = INIT_QUERY.get("lng") || navigator.language || navigator.languages?.[0];
 
@@ -27,6 +31,10 @@ i18n
             en: { translation: en },
             "zh-cn": { translation: zhCN },
             "zh-tw": { translation: zhTW },
+            es: { translation: es },
+            pt: { translation: pt },
+            ja: { translation: ja },
+            ko: { translation: ko },
         },
     });
 
