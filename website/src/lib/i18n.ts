@@ -36,7 +36,9 @@ i18n
             escapeValue: false, // not needed for react as it escapes by default
             format: (value, format, lng) => {
                 if (format === "time-ago") {
-                    return new TimeAgo(lng!).format(value);
+                    // Map zh-tw to zh-Hant for TimeAgo
+                    const timeAgoLocale = lng === "zh-tw" ? "zh-Hant" : lng;
+                    return new TimeAgo(timeAgoLocale!).format(value);
                 }
                 return value;
             },
