@@ -3,11 +3,14 @@ import { initReactI18next } from "react-i18next";
 import TimeAgo from "javascript-time-ago";
 import enTime from "javascript-time-ago/locale/en";
 import zhTime from "javascript-time-ago/locale/zh";
+import zhHantTime from "javascript-time-ago/locale/zh-Hant";
 import zhCN from "../locales/zh-cn.json";
+import zhTW from "../locales/zh-tw.json";
 import en from "../locales/en.json";
 
 TimeAgo.addLocale(enTime);
 TimeAgo.addLocale(zhTime);
+TimeAgo.addLocale(zhHantTime);
 
 i18n
     // load translation using xhr -> see /public/locales
@@ -27,6 +30,7 @@ i18n
         resources: {
             en: { translation: en },
             "zh-cn": { translation: zhCN },
+            "zh-tw": { translation: zhTW },
         },
         interpolation: {
             escapeValue: false, // not needed for react as it escapes by default
