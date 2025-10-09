@@ -34,7 +34,7 @@ jobs:
             - name: Publish
               run: dotnet publish server -c Release --runtime linux-x64 --no-self-contained -o webapp
 
-            - uses: actions/upload-artifact@v3
+            - uses: actions/upload-artifact@v4
               with:
                   name: package
                   path: webapp
