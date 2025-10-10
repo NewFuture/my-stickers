@@ -1,0 +1,16 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.14/MicrosoftTeams.Localization.schema.json",
+    "name.short": "${APP_PRE_FIX}表情",
+    "name.full": "${APP_PRE_FIX}我的表情包",
+    "description.short": "收藏和管理你的自訂表情包 ❤",
+    "description.full": "在Microsoft Teams 和 Outlook (部分支援) 中收藏、傳送和管理你的自訂表情。\n[#LI] 從電腦或手機相簿上傳自己的表情包;[/#LI]\n[#LI] 從訊息中收藏別人的表情或圖片;[/#LI]\n[#LI] 搜尋傳送自己的表情包;[/#LI]\n[#LI] 管理和修改表情包的名稱。[/#LI]\n[#LI] 企業管理員可為客製化管理公司範圍內的表情包。[/#LI]\n[#LI] 管理員可自訂此應用程式的圖示的名稱等。[/#LI]\n使用者可以選擇一個或多個儲存的表情包並選擇上傳。成功上傳後，可以透過點擊工具欄中的「♥」圖示以啟動「表情包」視窗來找到所有收藏的表情。\n為了更好地管理所有表情，該工具還使重新命名、刪除或搜尋GIF變得容易。使用者可以透過在「表情包」清單中選擇一個在聊天中傳送動圖。上述管理功能，通過瀏覽找到動態變得更加高效。\n如果其他人使用同一工具，則使用者還可以儲存其他人分享的表情。透過點擊訊息右上角的「…」，即可找到「收藏表情」按鈕。點擊按鈕，它將被新增到使用者清單中。\n企業管理員，在公司上傳介面，使用管理員帳號認證之後，可以為全公司範圍啟用「企業表情」。管理員可以管理和上傳「企業表情」，公司內所有員工可以使用「企業表情」。\n管理員可以在Teams管理後台自訂此應用的圖示和顯示名稱。",
+    "composeExtensions[0].commands[0].title": "表情包",
+    "composeExtensions[0].commands[0].description": "收藏的所有表情包",
+    "composeExtensions[0].commands[0].parameters[0].title": "搜尋",
+    "composeExtensions[0].commands[0].parameters[0].description": "輸入名稱搜尋表情",
+    "composeExtensions[0].commands[1].title": "${APP_PRE_FIX}收藏表情",
+    "composeExtensions[0].commands[1].description": "收藏訊息中的圖片作為表情",
+    "composeExtensions[0].commands[2].title": "上傳",
+    "composeExtensions[0].commands[2].description": "上傳和管理",
+    "composeExtensions[0].commands[2].taskInfo.title": "上傳修改刪除你的表情包"
+}

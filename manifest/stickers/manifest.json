@@ -85,6 +85,10 @@
             {
                 "languageTag": "zh-cn",
                 "file": "zh-cn.json"
+            },
+            {
+                "languageTag": "zh-tw",
+                "file": "zh-tw.json"
             }
         ]
     },
