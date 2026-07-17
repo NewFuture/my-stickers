@@ -7,6 +7,8 @@ const SYSTEM_CHROME_PATHS = [
     "/usr/bin/google-chrome",
     "/usr/bin/chromium-browser",
     "/usr/bin/chromium",
+    "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
 ];
 
 function findSystemChrome() {
