@@ -29,7 +29,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-app-rewired build && yarn snap",
-        "snap": "node -e \"require(require.resolve('puppeteer/install.js'))\" && yarn react-snap",
+        "snap": "node ensure-puppeteer.js && yarn react-snap",
         "test": "react-scripts test"
     },
     "repository": {
