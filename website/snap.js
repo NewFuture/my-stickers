@@ -15,4 +15,9 @@ const result = spawnSync(process.execPath, [reactSnapBin], {
     cwd: process.cwd(),
 });
 
-process.exit(result.status !== null ? result.status : 1);
+if (result.status !== null) {
+    process.exit(result.status);
+} else {
+    console.error(`react-snap process was terminated by signal: ${result.signal}`);
+    process.exit(1);
+}

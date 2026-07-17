@@ -24,8 +24,6 @@ function findSystemChrome() {
  */
 function ensurePuppeteer() {
     try {
-        const puppeteerPackage = require.resolve("puppeteer/package.json");
-        const pkgDir = path.dirname(puppeteerPackage);
         let executablePath = "";
 
         try {
@@ -43,7 +41,13 @@ function ensurePuppeteer() {
         }
 
         if (!executablePath || !fs.existsSync(executablePath)) {
-            fs.rmSync(path.join(pkgDir, ".local-chromium"), { recursive: true, force: true });
+            // Remove stale revision folder (derived from reported executable path, not hardcoded)
+            if (executablePath) {
+                // executablePath: <pkgDir>/.local-chromium/<revision>/chrome-linux/chrome
+                // Go up to the revision folder and remove it so install.js downloads fresh
+                const revisionFolder = path.dirname(path.dirname(executablePath));
+                fs.rmSync(revisionFolder, { recursive: true, force: true });
+            }
             // Remove any env vars that would cause the download to be skipped
             const env = Object.assign({}, process.env);
             for (const key of Object.keys(env)) {
