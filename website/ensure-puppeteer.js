@@ -30,10 +30,7 @@ function ensurePuppeteer() {
             const puppeteer = require("puppeteer");
             executablePath = typeof puppeteer.executablePath === "function" ? puppeteer.executablePath() : "";
         } catch (error) {
-            if (
-                error?.code === "MODULE_NOT_FOUND" ||
-                error?.message?.includes("Could not find expected browser")
-            ) {
+            if (error?.code === "MODULE_NOT_FOUND" || error?.message?.includes("Could not find expected browser")) {
                 executablePath = "";
             } else {
                 throw error;
@@ -79,7 +76,7 @@ function ensurePuppeteer() {
                 }
                 throw new Error(
                     `Chromium not found at ${executablePath || "(unknown)"} after installation attempt, ` +
-                        "and no system Chrome was found. Try running yarn install again."
+                        "and no system Chrome was found. Try running yarn install again.",
                 );
             }
         }
@@ -88,7 +85,7 @@ function ensurePuppeteer() {
     } catch (error) {
         console.error(
             `Failed to prepare Puppeteer Chromium: ${error.message}. ` +
-                "Try running yarn install or deleting Puppeteer's local browser cache."
+                "Try running yarn install or deleting Puppeteer's local browser cache.",
         );
         process.exit(1);
     }
