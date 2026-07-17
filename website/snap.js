@@ -8,7 +8,7 @@ if (chromePath) {
     env.PUPPETEER_EXECUTABLE_PATH = chromePath;
 }
 
-const reactSnapBin = require.resolve("react-snap/bin/reactSnap.js");
+const reactSnapBin = require.resolve("react-snap/run.js");
 const result = spawnSync(process.execPath, [reactSnapBin], {
     stdio: "inherit",
     env,
