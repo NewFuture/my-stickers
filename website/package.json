@@ -29,7 +29,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-app-rewired build && yarn snap",
-        "snap": "yarn react-snap",
+        "snap": "node snap.js",
         "test": "react-scripts test"
     },
     "repository": {
