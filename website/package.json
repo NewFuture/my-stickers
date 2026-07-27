@@ -29,7 +29,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-app-rewired build && yarn snap",
-        "snap": "node -e \"const fs=require('fs'),path=require('path'),ip=require.resolve('puppeteer/install.js'),d=path.join(ip,'../../.local-chromium');if(fs.existsSync(d)&&!fs.readdirSync(d).some(r=>{const p=path.join(d,r);return fs.existsSync(path.join(p,'chrome-linux','chrome'))||fs.existsSync(path.join(p,'chrome-win','chrome.exe'))})){fs.rmSync(d,{recursive:true,force:true})}require(ip)\" && yarn react-snap",
+        "snap": "node -e \"const fs=require('fs'),path=require('path'),ip=require.resolve('puppeteer/install.js'),d=path.join(ip,'../.local-chromium');if(fs.existsSync(d)&&!fs.readdirSync(d).some(r=>{const p=path.join(d,r);return fs.existsSync(path.join(p,'chrome-linux','chrome'))||fs.existsSync(path.join(p,'chrome-win','chrome.exe'))})){fs.rmSync(d,{recursive:true,force:true})}require(ip)\" && yarn react-snap",
         "test": "react-scripts test"
     },
     "repository": {
