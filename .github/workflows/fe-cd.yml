@@ -1,9 +1,9 @@
-# Front Build and Deploy (Release to blob)
+# Front Build and Deploy (Release to Blob and Static Web Apps)
 
 name: front-end-build-deploy
 on:
     push:
-        branches: ["v2", "main"]
+        branches: ["v2"]
         paths:
             - ".github/workflows/fe-cd.yml"
             - "client-config-app/**"
@@ -15,11 +15,10 @@ permissions:
     contents: read
 
 env:
-    # [INT_CONFIG, PROD_CONFIG]
-    WEBSITE: ${{ fromJSON('["stickers-test.azureedge.net","sticker.newfuture.cc"]')[ github.ref_name == 'v2'] }}
-    REACT_APP_API_ROOT: ${{ fromJSON('["https://stickers-test.azurewebsites.net","https://stickers-api.newfuture.cc"]')[ github.ref_name == 'v2'] }}
-    REACT_APP_AAD_ID: ${{ fromJSON('["eae0aa56-582c-40f7-8daa-b3eb8d1f0732","695d3f13-6131-4224-aacd-26c8aff039d2"]')[ github.ref_name == 'v2'] }}
-    APP_PRE_FIX: ${{ fromJSON('["[I]",""]')[ github.ref_name == 'v2'] }}
+    WEBSITE: sticker.newfuture.cc
+    REACT_APP_API_ROOT: https://stickers-api.newfuture.cc
+    REACT_APP_AAD_ID: 695d3f13-6131-4224-aacd-26c8aff039d2
+    APP_PRE_FIX: ""
 
 # This allows a subsequently queued workflow run to interrupt previous runs
 concurrency:
@@ -60,7 +59,7 @@ jobs:
     front-end-deploy:
         needs: [front-end-build]
         environment:
-            name: ${{ fromJSON('["Integration","Production"]')[ github.ref_name == 'v2'] }}
+            name: Production
             url: https://${{env.WEBSITE}}/
         runs-on: ubuntu-latest
         timeout-minutes: 10
@@ -77,7 +76,6 @@ jobs:
                   && mv official-stickers/build ./www/official-stickers
 
             - name: "Stage production video"
-              if: github.ref_name == 'v2'
               run: |
                   mkdir -p ./www/video \
                   && curl --fail --location --retry 3 \
@@ -100,7 +98,6 @@ jobs:
               with:
                   creds: ${{ secrets.AZURE_CREDENTIALS }}
             - name: "Get Static Web Apps deployment token"
-              if: github.ref_name == 'v2'
               uses: azure/CLI@v2
               with:
                   inlineScript: |
@@ -116,21 +113,12 @@ jobs:
                       echo "::add-mask::${SWA_TOKEN}"
                       echo "SWA_DEPLOYMENT_TOKEN=${SWA_TOKEN}" >> "${GITHUB_ENV}"
             - name: "Deploy to Static Web Apps"
-              if: github.ref_name == 'v2'
               uses: Azure/static-web-apps-deploy@v1
               with:
                   azure_static_web_apps_api_token: ${{ env.SWA_DEPLOYMENT_TOKEN }}
                   action: upload
                   app_location: www
                   skip_app_build: true
-            - name: "Purge CDN endpoint"
-              uses: azure/CLI@v1
-              with:
-                  inlineScript: |
-                      az cdn endpoint purge --content-paths "/" "/config/" --ids "${{secrets.CDN_RESOURCE_ID}}"
-
-            # - name: "Preload CDN"
-            #   run: az cdn endpoint load --ids "${{secrets.CDN_RESOURCE_ID}}" --content-paths "/index.html" "/config/index.html" $(find www/ -name "*.js" -type f -printf "/%P")
 
             - name: logout
               run: az logout

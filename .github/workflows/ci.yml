@@ -34,10 +34,10 @@ jobs:
 
     front-end-build:
         strategy:
-            # fail-fast: false
+            fail-fast: false
             matrix:
                 os: [windows, ubuntu]
-                node-version: [20, latest]
+                node-version: [20, 24]
         runs-on: ${{ matrix.os }}-latest
         timeout-minutes: 12
         steps:
