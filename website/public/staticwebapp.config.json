@@ -1,0 +1,53 @@
+{
+    "$schema": "https://json.schemastore.org/staticwebapp.config.json",
+    "routes": [
+        {
+            "route": "/",
+            "headers": {
+                "Cache-Control": "public, max-age=86400",
+                "Link": "</video/my-stickers-v2.mp4>; as=\"video\"; rel=\"preload\""
+            }
+        },
+        {
+            "route": "/config/",
+            "headers": {
+                "Cache-Control": "public, max-age=86400",
+                "Link": "<https://stickers-api.newfuture.cc>; rel=\"preconnect\"; crossorigin, <https://stickers.newfuture.cc>; rel=\"preconnect\""
+            }
+        },
+        {
+            "route": "/official-stickers/index.json",
+            "headers": {
+                "Cache-Control": "public, max-age=604800"
+            }
+        },
+        {
+            "route": "/video/*.mp4",
+            "headers": {
+                "Cache-Control": "public, max-age=63072000, immutable"
+            }
+        },
+        {
+            "route": "/*.{js,css,png,ico,jpeg,jpg,gif}",
+            "headers": {
+                "Cache-Control": "public, max-age=63072000, immutable"
+            }
+        },
+        {
+            "route": "/*.{html,json,webmanifest,zip}",
+            "headers": {
+                "Cache-Control": "public, max-age=604800"
+            }
+        }
+    ],
+    "responseOverrides": {
+        "404": {
+            "rewrite": "/404.html",
+            "statusCode": 404
+        }
+    },
+    "mimeTypes": {
+        ".mp4": "video/mp4",
+        ".webmanifest": "application/manifest+json"
+    }
+}
