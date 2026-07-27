@@ -75,6 +75,10 @@ jobs:
                   && mv manifest/build/* ./www/ \
                   && mv client-config-app/build ./www/config \
                   && mv official-stickers/build ./www/official-stickers \
+                  && mkdir -p ./www/video \
+                  && curl --fail --location --retry 3 \
+                      --output ./www/video/my-stickers-v2.mp4 \
+                      https://stickersblob.z11.web.core.windows.net/video/my-stickers-v2.mp4
 
             - name: "Upload to blob storage"
               uses: azure/CLI@v1
@@ -91,6 +95,30 @@ jobs:
               uses: azure/login@v1
               with:
                   creds: ${{ secrets.AZURE_CREDENTIALS }}
+            - name: "Get Static Web Apps deployment token"
+              if: github.ref_name == 'v2'
+              uses: azure/CLI@v2
+              with:
+                  inlineScript: |
+                      set -euo pipefail
+                      SWA_TOKEN="$(
+                        az staticwebapp secrets list \
+                          --name sticker \
+                          --resource-group custom-stickers \
+                          --query properties.apiKey \
+                          --output tsv
+                      )"
+                      test -n "${SWA_TOKEN}"
+                      echo "::add-mask::${SWA_TOKEN}"
+                      echo "SWA_DEPLOYMENT_TOKEN=${SWA_TOKEN}" >> "${GITHUB_ENV}"
+            - name: "Deploy to Static Web Apps"
+              if: github.ref_name == 'v2'
+              uses: Azure/static-web-apps-deploy@v1
+              with:
+                  azure_static_web_apps_api_token: ${{ env.SWA_DEPLOYMENT_TOKEN }}
+                  action: upload
+                  app_location: www
+                  skip_app_build: true
             - name: "Purge CDN endpoint"
               uses: azure/CLI@v1
               with:
