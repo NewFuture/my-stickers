@@ -74,8 +74,12 @@ jobs:
                   mv website/build ./www \
                   && mv manifest/build/* ./www/ \
                   && mv client-config-app/build ./www/config \
-                  && mv official-stickers/build ./www/official-stickers \
-                  && mkdir -p ./www/video \
+                  && mv official-stickers/build ./www/official-stickers
+
+            - name: "Stage production video"
+              if: github.ref_name == 'v2'
+              run: |
+                  mkdir -p ./www/video \
                   && curl --fail --location --retry 3 \
                       --output ./www/video/my-stickers-v2.mp4 \
                       https://stickersblob.z11.web.core.windows.net/video/my-stickers-v2.mp4
